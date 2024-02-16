@@ -1,4 +1,7 @@
-﻿@inject SignInManager<IdentityUser> SignInManager
+﻿@using sybring_project.Models.Db
+@using sybring_project.Models
+
+@inject SignInManager<User> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
