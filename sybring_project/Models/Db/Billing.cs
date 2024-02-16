@@ -9,6 +9,8 @@
         public string Description { get; set; } = string.Empty;
         
         public double Cost { get; set; }
+
+        public virtual ICollection<Project> ProjectId { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }
