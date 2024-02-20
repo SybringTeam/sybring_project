@@ -7,12 +7,11 @@ namespace sybring_project.Repos.Services
 {
     public class UserServices : IUserServices
     {
-        private ApplicationDbContext _db;
-        private IConfiguration _configuration;
-        public UserServices(ApplicationDbContext db, IConfiguration configuration)
+        private readonly ApplicationDbContext _db;
+
+        public UserServices(ApplicationDbContext db)
         {
             _db = db;
-            _configuration = configuration;
         }
 
         public async Task<User> AddUsersAsync(User newUser)
@@ -28,7 +27,7 @@ namespace sybring_project.Repos.Services
 
             if (user == null)
             {
-                return null;
+                return null; // or throw an exception or handle accordingly
             }
 
             _db.Users.Remove(user);
@@ -39,27 +38,32 @@ namespace sybring_project.Repos.Services
 
         public async Task<List<User>> GetAllUserAsync()
         {
-            var allUser = await _db.Users.Include(x =>x.ProjectId )             
-                .ToListAsync();
-            return allUser;
+            return await _db.Users.Include(x => x.ProjectId).ToListAsync();
         }
 
         public async Task<List<Project>> GetProjectsAsync()
         {
-            var projects = await _db.Projects.ToListAsync();
-            return projects;
+            return await _db.Projects.ToListAsync();
         }
 
-        public Task<User> GetUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _db.Users.FindAsync((object)id);
         }
 
         public async Task<bool> UpdateUserAsync(User user)
         {
-            _db.Entry(user).State = EntityState.Modified;
-            await _db.SaveChangesAsync();
-            return true;
+            try
+            {
+                _db.Entry(user).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Handle concurrency issues if necessary
+                return false;
+            }
         }
 
         public Task<string> UploadImageFileAsync(User user)

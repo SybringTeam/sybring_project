@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
 
@@ -9,16 +8,12 @@ namespace sybring_project.Controllers
     public class UserController : Controller
     {
         private readonly IUserServices _userServices;
-        private readonly ApplicationDbContext _applicationDbContext;
-        private readonly UserManager<User> _userManager;
 
-        public UserController(IUserServices userServices,
-            ApplicationDbContext applicationDbContext, UserManager<User> userManager)
+        public UserController(IUserServices userServices)
         {
             _userServices = userServices;
-            _applicationDbContext = applicationDbContext;
-            _userManager = userManager;
         }
+
         [Route("in")]
         public async Task<IActionResult> Index()
         {
@@ -33,14 +28,12 @@ namespace sybring_project.Controllers
 
             if (projects == null)
             {
-                
-                return RedirectToAction("Index"); 
+                return RedirectToAction(nameof(Index));
             }
 
             ViewBag.Projects = projects;
             return View();
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -55,7 +48,7 @@ namespace sybring_project.Controllers
             return View(user);
         }
 
-
+        [Route("ue")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +66,7 @@ namespace sybring_project.Controllers
             return View(user);
         }
 
-
+        [Route("ue")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, User user)
@@ -109,7 +102,6 @@ namespace sybring_project.Controllers
             return View(user);
         }
 
-
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,14 +119,14 @@ namespace sybring_project.Controllers
             return View(user);
         }
 
-
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var user = await _userServices.DeleteUserAsync(id);
+
+
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

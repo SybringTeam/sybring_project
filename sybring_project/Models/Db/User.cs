@@ -7,7 +7,7 @@ namespace sybring_project.Models.Db
 {
     public class User : IdentityUser
     {
-        [Key]
+        
         public int Id { get; set; }
 
         public string FirstName { get; set; } = string.Empty;

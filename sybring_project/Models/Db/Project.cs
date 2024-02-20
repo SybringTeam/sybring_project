@@ -4,7 +4,7 @@ namespace sybring_project.Models.Db
 {
     public class Project
     {
-        [Key]
+        
         public int Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
