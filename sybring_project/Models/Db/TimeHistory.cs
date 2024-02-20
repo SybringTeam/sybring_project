@@ -4,7 +4,7 @@ namespace sybring_project.Models.Db
 {
     public class TimeHistory
     {
-        [Key]
+        
         public int Id { get; set; }
 
         public DateTime DateTime { get; set; }
