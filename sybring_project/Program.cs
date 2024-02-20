@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Models.Seeding;
 using sybring_project.Repos.Interfaces;
 using sybring_project.Repos.Services;
 
@@ -53,6 +54,10 @@ builder.Services.AddScoped<IUserServices, UserServices>();
 
 
 var app = builder.Build();
+
+
+await SeedData.Initialize(app.Services);
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
