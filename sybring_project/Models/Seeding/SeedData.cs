@@ -45,12 +45,22 @@ namespace sybring_project.Models.Seeding
                     EmailConfirmed = true,
 
                 };
-                await userManager.CreateAsync(user, "Admin_2023");
+                await userManager.CreateAsync(user, "Admin_2024");
             }
-            await userManager.AddToRoleAsync(user, "admin");
             await userManager.AddToRoleAsync(user, "superadmin");
 
-
+            var user2 = await userManager.FindByEmailAsync("henrik.sorin@Sybring.com");
+            if (user2 is null)
+            {
+                user2 = new User
+                {
+                    UserName = "Henrik",
+                    Email = "henrik.sorin@Sybring.com",
+                    EmailConfirmed = true,
+                };
+                await userManager.CreateAsync(user2, "Admin_2024");
+            }
+            await userManager.AddToRoleAsync(user2, "admin");
         }
 
     }
