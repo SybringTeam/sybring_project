@@ -36,6 +36,44 @@ namespace sybring_project.Models.Seeding
         private async static Task SeedAdmin(UserManager<User> userManager)
         {
             var user = await userManager.FindByEmailAsync("admin@mail.com");
+            var useradmin = await userManager.FindByEmailAsync("henrik.sorin@Sybring.com");
+            var useradmin2 = await userManager.FindByEmailAsync("edan@mail.com");
+            var useradmin3 = await userManager.FindByEmailAsync("dawood@mail.com");
+            if (useradmin is null)
+            {
+                useradmin = new User
+                {
+                    UserName = "henrik.sorin@Sybring.com",
+                    Email = "henrik.sorin@Sybring.com",
+                    EmailConfirmed = true,
+                    FirstName = "Henrik",
+                    LastName = "Soring"
+                };
+                await userManager.CreateAsync(useradmin, "Admin_2024");
+            }
+
+            if (useradmin2 is null)
+            {
+                useradmin2 = new User
+                {
+                    UserName = "edan@mail.com",
+                    Email = "edan@mail.com",
+                    EmailConfirmed = true,
+
+                };
+                await userManager.CreateAsync(useradmin2, "Admin_2024");
+            }
+            if (useradmin3 is null)
+            {
+                useradmin3 = new User
+                {
+                    UserName = "dawood@mail.com",
+                    Email = "dawood@mail.com",
+                    EmailConfirmed = true,
+
+                };
+                await userManager.CreateAsync(useradmin3, "Admin_2024");
+            }
             if (user is null)
             {
                 user = new User
@@ -47,21 +85,11 @@ namespace sybring_project.Models.Seeding
                 };
                 await userManager.CreateAsync(user, "Admin_2024");
             }
+            await userManager.AddToRoleAsync(useradmin, "admin");
+            await userManager.AddToRoleAsync(useradmin2, "admin");
+            await userManager.AddToRoleAsync(useradmin3, "admin");
             await userManager.AddToRoleAsync(user, "superadmin");
 
-            var user2 = await userManager.FindByEmailAsync("henrik.sorin@Sybring.com");
-            if (user2 is null)
-            {
-                user2 = new User
-                {
-                    UserName = "Henrik",
-                    Email = "henrik.sorin@Sybring.com",
-                    EmailConfirmed = true,
-                };
-                await userManager.CreateAsync(user2, "Admin_2024");
-            }
-            await userManager.AddToRoleAsync(user2, "admin");
         }
-
     }
 }
