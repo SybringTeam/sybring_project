@@ -19,6 +19,7 @@ namespace sybring_project.Models.Db
 
         public string TaskDescription { get; set; } = string.Empty;
 
+        public double UserIncome { get; set; }
         public string ImageLink { get; set; } = string.Empty;
 
         [NotMapped]
@@ -32,6 +33,7 @@ namespace sybring_project.Models.Db
         public virtual ICollection<TimeHistory>? TimeId { get; set; }
 
         public virtual ICollection<Billing>? ReceiptId { get; set; }
+
 
 
     }
