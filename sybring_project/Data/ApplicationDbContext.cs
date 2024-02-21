@@ -17,7 +17,13 @@ namespace sybring_project.Data
 
         public DbSet<Project> Projects { get; set; }
 
-        public DbSet<TimeHistory> TimeHistories { get; set; } 
+        public DbSet<TimeHistory> TimeHistories { get; set; }
+
+        
+
+
+
+
 
     }
 }
