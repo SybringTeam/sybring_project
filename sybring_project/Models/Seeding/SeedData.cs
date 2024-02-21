@@ -47,7 +47,7 @@ namespace sybring_project.Models.Seeding
                     Email = "henrik.sorin@Sybring.com",
                     EmailConfirmed = true,
                     FirstName = "Henrik",
-                    LastName = "Soring"
+                    LastName = "Sorin"
                 };
                 await userManager.CreateAsync(useradmin, "Admin_2024");
             }
@@ -59,6 +59,8 @@ namespace sybring_project.Models.Seeding
                     UserName = "edan@mail.com",
                     Email = "edan@mail.com",
                     EmailConfirmed = true,
+                    FirstName = "Edan",
+                    LastName = "Beardan"
 
                 };
                 await userManager.CreateAsync(useradmin2, "Admin_2024");
@@ -70,6 +72,8 @@ namespace sybring_project.Models.Seeding
                     UserName = "dawood@mail.com",
                     Email = "dawood@mail.com",
                     EmailConfirmed = true,
+                    FirstName = "Dawood",
+                    LastName = "Rizwan"
 
                 };
                 await userManager.CreateAsync(useradmin3, "Admin_2024");
@@ -81,6 +85,8 @@ namespace sybring_project.Models.Seeding
                     UserName = "admin@mail.com",
                     Email = "admin@mail.com",
                     EmailConfirmed = true,
+                    FirstName = "Admin",
+                    LastName = "Adminsson"
 
                 };
                 await userManager.CreateAsync(user, "Admin_2024");
