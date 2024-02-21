@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/sybring_project.styles.css" asp-append-version="true" />
+    <link id="theme-link" rel="stylesheet" href="/css/light-theme.css" />
 
 </head>
 <body>
-    <header>
+    <header class="header">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img style="height: 50px;" src="/logo/Sybring_Logo-Black_1000px.png" />
+                    <img src="/logo/Sybring_Logo-Black_1000px.png" />
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +45,7 @@
                             </li>
                         }
                     </ul>
+                    <button id="theme-toggle">Toggle Theme</button>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -70,7 +72,45 @@
             </div>
         </div>
     </footer>
+    <script>
+        // Function to change the image source based on the theme
+        function changeLogoTheme(theme) {
+            const logoImg = document.getElementById('logo-img');
+            if (logoImg) {
+                if (theme === 'light') {
+                    logoImg.src = '/logo/Sybring_Logo-Black_1000px.png';
+                } else if (theme === 'dark') {
+                    logoImg.src = '/logo/Sybring_Logo-White_1000px.png';
+                } else {
+                    console.error('Invalid theme:', theme);
+                }
+            } else {
+                console.error('Logo image element not found.');
+            }
+        }
 
+        document.addEventListener("DOMContentLoaded", function () {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeLink = document.getElementById('theme-link');
+
+            if (themeToggleBtn && themeLink) {
+                themeToggleBtn.addEventListener('click', function () {
+                    // Toggle between light and dark themes
+                    if (themeLink.getAttribute('href') === '/css/light-theme.css') {
+                        themeLink.setAttribute('href', '/css/dark-theme.css');
+                        // Change logo to white for dark theme
+                        changeLogoTheme('dark');
+                    } else {
+                        themeLink.setAttribute('href', '/css/light-theme.css');
+                        // Change logo to black for light theme
+                        changeLogoTheme('light');
+                    }
+                });
+            } else {
+                console.error('One or more elements with the specified IDs were not found.');
+            }
+        });
+    </script>
 
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
