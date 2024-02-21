@@ -1,6 +1,5 @@
-﻿@model sybring_project.Models.Db.User
-
-
+﻿
+@model sybring_project.Models.Db.User
 
 <h1>User Details</h1>
 
@@ -55,17 +54,17 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ProjectId)
-           
+
         </dd>
 
-       
+
 
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ImageLink)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ImageLink)
-            
+
         </dd>
     </dl>
 </div>
@@ -73,16 +72,16 @@
 <div>
     <h4>Related Entities</h4>
     <hr />
-    
-        @foreach (var timeHistory in Model.TimeId)
-        {
-           
-        }
+
+    @foreach (var timeHistory in Model.TimeId)
+    {
+
+    }
     </p>
     <p>
         @foreach (var billing in Model.ReceiptId)
         {
-           
+
         }
     </p>
 </div>

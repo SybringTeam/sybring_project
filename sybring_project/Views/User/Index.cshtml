@@ -16,10 +16,10 @@
         @foreach (var item in Model)
         {
             <tr>
-                @* <td>@user.Id</td> *@
-                <td>@user.FirstName</td>
-                <td>@user.LastName</td>
-                <td>@user.Age</td>
+                <td>@item.Id</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                @* <td>@item.Age</td> *@
               
                 <td>
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

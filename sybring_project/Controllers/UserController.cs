@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
 
@@ -8,37 +8,30 @@ namespace sybring_project.Controllers
     public class UserController : Controller
     {
         private readonly IUserServices _userServices;
-        private readonly ILogger<UserController> _logger;
 
-        public UserController(IUserServices userServices, ILogger<UserController> logger)
+        public UserController(IUserServices userServices)
         {
             _userServices = userServices;
-            _logger = logger;
         }
 
+        [Route("in")]
         public async Task<IActionResult> Index()
         {
-            return View(await _userServices.GetAllUserAsync());
+            var users = await _userServices.GetAllUserAsync();
+            return View(users);
         }
 
-        public async Task<IActionResult> Details(string id)
+        [HttpGet]
+        public async Task<IActionResult> Create()
         {
-            if (id == null)
+            var projects = await _userServices.GetProjectsAsync();
+
+            if (projects == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
 
-            var user = await _userServices.GetUserByIdAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return View(user);
-        }
-
-        public IActionResult Create()
-        {
+            ViewBag.Projects = projects;
             return View();
         }
 
@@ -55,14 +48,16 @@ namespace sybring_project.Controllers
             return View(user);
         }
 
-        public async Task<IActionResult> Edit(string id)
+        [Route("ue")]
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _userServices.GetUserByIdAsync(id);
+            var user = await _userServices.GetUserByIdAsync(id.Value);
+
             if (user == null)
             {
                 return NotFound();
@@ -71,40 +66,31 @@ namespace sybring_project.Controllers
             return View(user);
         }
 
+        [Route("ue")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, User user)
+        public async Task<IActionResult> Edit(int id, User user)
         {
-            if (!string.Equals(id, user.Id))
-            {
-                return NotFound();
-            }
+           
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    await _userServices.UpdateUserAsync(user);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return BadRequest("Bad Request");
-                }
-
+                await _userServices.UpdateUserAsync(user);
                 return RedirectToAction(nameof(Index));
             }
 
             return View(user);
         }
 
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var user = await _userServices.GetUserByIdAsync(id);
+            var user = await _userServices.GetUserByIdAsync(id.Value);
+
             if (user == null)
             {
                 return NotFound();
@@ -113,6 +99,31 @@ namespace sybring_project.Controllers
             return View(user);
         }
 
-       
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _userServices.GetUserByIdAsync(id.Value);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var user = await _userServices.DeleteUserAsync(id);
+
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
