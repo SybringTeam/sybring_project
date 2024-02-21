@@ -73,37 +73,22 @@
         </div>
     </footer>
     <script>
-        // Function to change the image source based on the theme
-        function changeLogoTheme(theme) {
-            const logoImg = document.getElementById('logo-img');
-            if (logoImg) {
-                if (theme === 'light') {
-                    logoImg.src = '/logo/Sybring_Logo-Black_1000px.png';
-                } else if (theme === 'dark') {
-                    logoImg.src = '/logo/Sybring_Logo-White_1000px.png';
-                } else {
-                    console.error('Invalid theme:', theme);
-                }
-            } else {
-                console.error('Logo image element not found.');
-            }
-        }
-
         document.addEventListener("DOMContentLoaded", function () {
             const themeToggleBtn = document.getElementById('theme-toggle');
             const themeLink = document.getElementById('theme-link');
+            const logoImg = document.getElementById('logo-img');
 
-            if (themeToggleBtn && themeLink) {
+            if (themeToggleBtn && themeLink && logoImg) {
                 themeToggleBtn.addEventListener('click', function () {
                     // Toggle between light and dark themes
                     if (themeLink.getAttribute('href') === '/css/light-theme.css') {
                         themeLink.setAttribute('href', '/css/dark-theme.css');
                         // Change logo to white for dark theme
-                        changeLogoTheme('dark');
+                        logoImg.src = '/logo/Sybring_Logo-White_1000px.png';
                     } else {
                         themeLink.setAttribute('href', '/css/light-theme.css');
                         // Change logo to black for light theme
-                        changeLogoTheme('light');
+                        logoImg.src = '/logo/Sybring_Logo-Black_1000px.png';
                     }
                 });
             } else {
