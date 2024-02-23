@@ -44,8 +44,6 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
 });
 
-
-
 builder.Services.AddControllersWithViews();
 
 //Add Services:

@@ -38,7 +38,7 @@ namespace sybring_project.Controllers
         }
 
         [Route("pc")]
-       
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
             return View();
@@ -46,16 +46,13 @@ namespace sybring_project.Controllers
 
         [Route("pc")]
         [HttpPost]
-        
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Project project)
         {
-            if (ModelState.IsValid)
-            {
-                await _projectServices.AddProjectAsync(project);
-                return RedirectToAction("Index");
+            await _projectServices.AddProjectAsync(project);
+            return RedirectToAction("Index");
 
-            }
-            return View(project);
+
         }
 
     }
