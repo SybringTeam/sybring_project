@@ -39,6 +39,7 @@ namespace sybring_project.Models.Seeding
             var useradmin = await userManager.FindByEmailAsync("henrik.sorin@Sybring.com");
             var useradmin2 = await userManager.FindByEmailAsync("edan@mail.com");
             var useradmin3 = await userManager.FindByEmailAsync("dawood@mail.com");
+            var useradmin4 = await userManager.FindByEmailAsync("spurti@mail.com");
             if (useradmin is null)
             {
                 useradmin = new User
@@ -78,6 +79,19 @@ namespace sybring_project.Models.Seeding
                 };
                 await userManager.CreateAsync(useradmin3, "Admin_2024");
             }
+            if (useradmin4 is null)
+            {
+                useradmin4 = new User
+                {
+                    UserName = "spurti@mail.com",
+                    Email = "spurti@mail.com",
+                    EmailConfirmed = true,
+                    FirstName = "Spurti",
+                    LastName = "Salimath"
+
+                };
+                await userManager.CreateAsync(useradmin4, "Admin_2024");
+            }
             if (user is null)
             {
                 user = new User
@@ -94,6 +108,7 @@ namespace sybring_project.Models.Seeding
             await userManager.AddToRoleAsync(useradmin, "admin");
             await userManager.AddToRoleAsync(useradmin2, "admin");
             await userManager.AddToRoleAsync(useradmin3, "admin");
+            await userManager.AddToRoleAsync(useradmin4, "admin");
             await userManager.AddToRoleAsync(user, "superadmin");
 
         }
