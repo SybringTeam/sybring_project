@@ -49,7 +49,7 @@ namespace sybring_project.Controllers
         }
 
         [Route("ue")]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -82,7 +82,7 @@ namespace sybring_project.Controllers
             return View(user);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(string id)
         {
             var detail = await _userServices.GetUserByIdAsync(id);
             if (detail == null)
@@ -93,7 +93,7 @@ namespace sybring_project.Controllers
             return View(detail);
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
             await _userServices.DeleteUserAsync(id);
              return RedirectToAction("Index");
