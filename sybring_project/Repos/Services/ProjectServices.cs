@@ -14,19 +14,21 @@ namespace sybring_project.Repos.Services
             _db = db;
         }
 
-      
-        public async Task<List<Project>> GetAllProjectAsync()
+        public async Task AddProjectAsync(Project project)
+        {
+            _db.Projects.Add(project);
+            await _db.SaveChangesAsync();
+
+        }
+
+        public async Task<Project> GetProjectByIdAsync(int id)
+        {
+            return await _db.Projects.FindAsync(id);
+        }
+
+        public async Task<List<Project>> GetProjectsAsync()
         {
             return await _db.Projects.ToListAsync();
         }
-
-
-        public async Task<Project> AddProjectsAsync(Project newProject) 
-        {
-            _db.Projects.Add(newProject);
-            await _db.SaveChangesAsync();
-            return newProject;
-        }
-
     }
 }
