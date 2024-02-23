@@ -21,7 +21,7 @@ namespace sybring_project.Repos.Services
             return newUser;
         }
 
-        public async Task<User> DeleteUserAsync(int id)
+        public async Task<User> DeleteUserAsync(string id)
         {
             var user = await _db.Users.FindAsync(id);
 
@@ -46,7 +46,7 @@ namespace sybring_project.Repos.Services
             return await _db.Projects.ToListAsync();
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(string id)
         {
 
             return await _db.Users.FindAsync(id);

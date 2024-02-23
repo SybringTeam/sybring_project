@@ -76,24 +76,15 @@
         document.addEventListener("DOMContentLoaded", function () {
             const themeToggleBtn = document.getElementById('theme-toggle');
             const themeLink = document.getElementById('theme-link');
-            const logoImg = document.getElementById('logo-img');
 
-            if (themeToggleBtn && themeLink && logoImg) {
-                themeToggleBtn.addEventListener('click', function () {
-                    // Toggle between light and dark themes
-                    if (themeLink.getAttribute('href') === '/css/light-theme.css') {
-                        themeLink.setAttribute('href', '/css/dark-theme.css');
-                        // Change logo to white for dark theme
-                        logoImg.src = '/logo/Sybring_Logo-White_1000px.png';
-                    } else {
-                        themeLink.setAttribute('href', '/css/light-theme.css');
-                        // Change logo to black for light theme
-                        logoImg.src = '/logo/Sybring_Logo-Black_1000px.png';
-                    }
-                });
-            } else {
-                console.error('One or more elements with the specified IDs were not found.');
-            }
+            themeToggleBtn.addEventListener('click', function () {
+                // Toggle between light and dark themes
+                if (themeLink.getAttribute('href') === '/css/light-theme.css') {
+                    themeLink.setAttribute('href', '/css/dark-theme.css');
+                } else {
+                    themeLink.setAttribute('href', '/css/light-theme.css');
+                }
+            });
         });
     </script>
 

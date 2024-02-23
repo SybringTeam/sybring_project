@@ -9,9 +9,9 @@ namespace sybring_project.Repos.Interfaces
 
         Task<bool> UpdateUserAsync(User user);
 
-        Task<User> GetUserByIdAsync(int id);
+        Task<User> GetUserByIdAsync(string id);
 
-        Task<User> DeleteUserAsync(int id);
+        Task<User> DeleteUserAsync(string id);
 
         Task<List<Project>> GetProjectsAsync();
 
