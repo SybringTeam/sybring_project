@@ -4,9 +4,10 @@ namespace sybring_project.Repos.Interfaces
 {
     public interface IProjectServices
     {
-        Task<List<Project>> GetAllProjectAsync();
+        Task<List<Project>> GetProjectsAsync();
 
-        Task<Project> AddProjectsAsync(Project newProject);
+        Task AddProjectAsync(Project project);
+        Task<Project> GetProjectByIdAsync(int id);
 
     }
 }
