@@ -47,9 +47,16 @@
 
     <div class="form-group">
         <label asp-for="ProjectId"></label>
-        <select asp-for="ProjectId" asp-items="@(new SelectList(ViewBag.Projects, "Id", "Name", Model.ProjectId))" class="form-control">
-            <option value="">Select a Project</option>
-        </select>
+        @if (ViewBag.Projects != null && ViewBag.Projects.Count > 0)
+        {
+            <select asp-for="ProjectId" asp-items="@(new SelectList(ViewBag.Projects, "Id", "Name", Model.ProjectId))" class="form-control">
+                <option value="">Select a Project</option>
+            </select>
+        }
+        else
+        {
+            <p>No projects available.</p>
+        }
         <span asp-validation-for="ProjectId" class="text-danger"></span>
     </div>
 
@@ -63,6 +70,11 @@
 </form>
 
 <a asp-action="Index">Back to List</a>
+
+
+
+
+
 
 @section Scripts {
     <script>
