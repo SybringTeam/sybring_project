@@ -27,7 +27,7 @@ namespace sybring_project.Repos.Services
 
             if (user == null)
             {
-                return null; // or throw an exception or handle accordingly
+                return null; 
             }
 
             _db.Users.Remove(user);
@@ -48,6 +48,7 @@ namespace sybring_project.Repos.Services
 
         public async Task<User> GetUserByIdAsync(int id)
         {
+
             return await _db.Users.FindAsync(id);
         }
 
