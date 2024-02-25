@@ -41,13 +41,10 @@ namespace sybring_project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(User user)
         {
-            if (ModelState.IsValid)
-            {
+           
                 await _userServices.AddUsersAsync(user);
                 return RedirectToAction("Index");
-            }
-
-            return View(user);
+           
         }
 
         [Route("ue")]
@@ -74,14 +71,9 @@ namespace sybring_project.Controllers
         public async Task<IActionResult> Edit(User user)
         {
            
-
-            if (ModelState.IsValid)
-            {
                 await _userServices.UpdateUserAsync(user);
                 return RedirectToAction("Index");
-            }
-
-            return View(user);
+            
         }
 
         public async Task<IActionResult> Details(string id)
