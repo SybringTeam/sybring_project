@@ -14,7 +14,7 @@ namespace sybring_project.Controllers
             _userServices = userServices;
         }
 
-        [Route("in")]
+        [Route("ui")]
         public async Task<IActionResult> Index()
         {
             var list = await _userServices.GetAllUserAsync();
@@ -22,6 +22,7 @@ namespace sybring_project.Controllers
         }
 
         [HttpGet]
+        [Route("uc")]
         public async Task<IActionResult> Create()
         {
             var projects = await _userServices.GetProjectsAsync();
@@ -36,16 +37,14 @@ namespace sybring_project.Controllers
         }
 
         [HttpPost]
+        [Route("uc")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(User user)
         {
-            if (ModelState.IsValid)
-            {
+           
                 await _userServices.AddUsersAsync(user);
                 return RedirectToAction("Index");
-            }
-
-            return View(user);
+           
         }
 
         [Route("ue")]
@@ -72,14 +71,9 @@ namespace sybring_project.Controllers
         public async Task<IActionResult> Edit(User user)
         {
            
-
-            if (ModelState.IsValid)
-            {
                 await _userServices.UpdateUserAsync(user);
                 return RedirectToAction("Index");
-            }
-
-            return View(user);
+            
         }
 
         public async Task<IActionResult> Details(string id)
