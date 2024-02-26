@@ -2,16 +2,21 @@
 using Microsoft.AspNetCore.Mvc;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
+using System.Runtime.ConstrainedExecution;
 
 namespace sybring_project.Controllers
 {
     public class UserController : Controller
     {
         private readonly IUserServices _userServices;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public UserController(IUserServices userServices)
+        public UserController(IUserServices userServices, 
+            UserManager<User> userManager)
         {
             _userServices = userServices;
+            _userManager = userManager;
         }
 
         [Route("ui")]
@@ -93,6 +98,34 @@ namespace sybring_project.Controllers
              return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(User newUser, string password) 
+        {
+            var newUSer = new User
+            {
+
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName,
+                Email = newUser.Email,
+                PasswordHash = newUser.PasswordHash
+
+            };
+
+             var result = await _userServices.RegisterUserAsync(newUSer, password);
+
+            if (result != null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            ModelState.AddModelError(string.Empty, "Registration failed. Please check your information.");
+            return View(newUser);
+        }
      
         
     }

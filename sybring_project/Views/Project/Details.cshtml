@@ -1,0 +1,56 @@
+﻿@model sybring_project.Models.Db.Project
+
+<h1>Project Details</h1>
+
+<div>
+    <h4>Project Information</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+
+        @*  <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.TimeId)
+        </dt>
+        <dd class="col-sm-10">
+        
+        </div>
+        } *@
+
+        <dd class="col-sm-10">
+            @if (Model.TimeId == null || !Model.TimeId.Any())
+            {
+                <p>New user has no time to show.</p>
+
+            }
+            else
+            {
+                foreach (var timeHistory in Model.TimeId)
+                {
+                    <div>
+                       
+                        <p>User: @Html.DisplayFor(modelItem => timeHistory.Users)</p>
+                        <p>Project: @Html.DisplayFor(modelItem => timeHistory.ProjectId)</p>
+                       
+                    </div>
+                }
+            }
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

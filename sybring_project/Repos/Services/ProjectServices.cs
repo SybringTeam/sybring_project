@@ -21,6 +21,16 @@ namespace sybring_project.Repos.Services
 
         }
 
+        public async Task<Project> DeleteProjectAsync(int id)
+        {
+            var del = await _db.Projects.FindAsync(id);
+
+            _db.Projects.Remove(del);
+             await _db.SaveChangesAsync();
+
+            return del;
+        }
+
         public async Task<Project> GetProjectByIdAsync(int id)
         {
             return await _db.Projects.FindAsync(id);
@@ -29,6 +39,21 @@ namespace sybring_project.Repos.Services
         public async Task<List<Project>> GetProjectsAsync()
         {
             return await _db.Projects.ToListAsync();
+        }
+
+        public async Task<bool> UpdateProjectAsync(Project project)
+        {
+            try
+            {
+                _db.Entry(project).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+                return false;
+            }
         }
     }
 }
