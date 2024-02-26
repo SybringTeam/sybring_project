@@ -9,5 +9,9 @@ namespace sybring_project.Repos.Interfaces
         Task AddProjectAsync(Project project);
         Task<Project> GetProjectByIdAsync(int id);
 
+        Task<Project> DeleteProjectAsync(int id);
+
+        Task<bool> UpdateProjectAsync(Project project);
+
     }
 }

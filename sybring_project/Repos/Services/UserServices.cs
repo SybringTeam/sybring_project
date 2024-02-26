@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
@@ -8,10 +9,11 @@ namespace sybring_project.Repos.Services
     public class UserServices : IUserServices
     {
         private readonly ApplicationDbContext _db;
-
-        public UserServices(ApplicationDbContext db)
+        private readonly UserManager<User> _userManager;
+        public UserServices(ApplicationDbContext db, UserManager<User> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         public async Task<User> AddUsersAsync(User newUser)
@@ -27,7 +29,7 @@ namespace sybring_project.Repos.Services
 
             if (user == null)
             {
-                return null; 
+                return null;
             }
 
             _db.Users.Remove(user);
@@ -62,8 +64,23 @@ namespace sybring_project.Repos.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-                // Handle concurrency issues if necessary
+                
                 return false;
+            }
+        }
+
+
+        public async Task<User> RegisterUserAsync(User newUser, string password)
+        {
+            var regUser = await _userManager.CreateAsync(newUser, password);
+
+            if (regUser.Succeeded)
+            {
+                return newUser;
+            }
+            else
+            {
+                throw new ApplicationException("User registration failed. Check the provided information.");
             }
         }
 
