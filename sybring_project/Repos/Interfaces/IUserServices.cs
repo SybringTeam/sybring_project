@@ -15,6 +15,7 @@ namespace sybring_project.Repos.Interfaces
 
         Task<List<Project>> GetProjectsAsync();
 
+        Task<User> RegisterUserAsync(User newUser, string password);
         Task<string> UploadImageFileAsync(User user);
     }
 }
