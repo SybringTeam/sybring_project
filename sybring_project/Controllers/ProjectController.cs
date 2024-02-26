@@ -2,6 +2,7 @@
 using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
+using sybring_project.Repos.Services;
 
 namespace sybring_project.Controllers
 {
@@ -24,14 +25,15 @@ namespace sybring_project.Controllers
             var projectsList = await _projectServices.GetProjectsAsync();
             return View(projectsList);
         }
-
+        [Route("pd")]
         public async Task<IActionResult> Details(int id)
         {
             var project = await _projectServices.GetProjectByIdAsync(id);
 
-            if (project == null)
+         
+            if (project.TimeId == null || !project.TimeId.Any())
             {
-                return NotFound();
+                ViewBag.NoTimeHistoryMessage = "New user has no time to show.";
             }
 
             return View(project);
@@ -52,6 +54,38 @@ namespace sybring_project.Controllers
             await _projectServices.AddProjectAsync(project);
             return RedirectToAction("Index");
 
+
+        }
+                
+        public async Task<IActionResult> Delete(int id) 
+        {
+            await _projectServices.DeleteProjectAsync(id);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id) 
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var projectId = await _projectServices.GetProjectByIdAsync(id);
+
+            if (projectId == null)
+            {
+                return NotFound();
+            }
+
+            return View(projectId);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Project project) 
+        {
+            await _projectServices.UpdateProjectAsync(project);
+            return RedirectToAction("Index");
 
         }
 
