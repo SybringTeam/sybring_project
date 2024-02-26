@@ -51,6 +51,8 @@ builder.Services.AddControllersWithViews();
 //Add Services:
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IProjectServices, ProjectServices>();
+builder.Services.AddScoped<ITimeService, TimeService>();
+
 
 
 
