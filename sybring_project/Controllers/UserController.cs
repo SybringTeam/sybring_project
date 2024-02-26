@@ -34,6 +34,7 @@ namespace sybring_project.Controllers
 
             ViewBag.Projects = projects;
             return View();
+
         }
 
         [HttpPost]
