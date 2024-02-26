@@ -129,9 +129,34 @@ namespace sybring_project.Models.Seeding
             await userManager.AddToRoleAsync(user, "superadmin");
 
         }
-        private async  static Task SeedProject(ApplicationDbContext context)
+        private async  static Task SeedProject(ApplicationDbContext project)
         {
-            await context.SaveChangesAsync();
+            if(project.Projects.Any() == false) 
+            {
+                await project.Projects.AddRangeAsync(
+                    new Project
+                    {
+                        Name = "Siemens"
+                    },
+                    new Project
+                    {
+                        Name = "Väderstad"
+                    }, 
+                    new Project
+                    {
+                        Name = "Hydro"
+                    }, 
+                    new Project
+                    {
+                        Name = "Jordbruksverket"
+                    }, 
+                    new Project
+                    {
+                        Name = "Migrationsverket"
+                    }
+                    );
+                    await project.SaveChangesAsync();
+            }
         }
     }
 }
