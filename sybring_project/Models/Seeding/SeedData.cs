@@ -12,10 +12,12 @@ namespace sybring_project.Models.Seeding
             using var scope = serviceProvider.CreateScope();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var project = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
 
             await SeedRoles(roleManager);
             await SeedAdmin(userManager);
+            await SeedProject(project);
         }
 
         private async static Task SeedRoles(RoleManager<IdentityRole> roleManager)
@@ -40,6 +42,7 @@ namespace sybring_project.Models.Seeding
             var useradmin2 = await userManager.FindByEmailAsync("edan@mail.com");
             var useradmin3 = await userManager.FindByEmailAsync("dawood@mail.com");
             var useradmin4 = await userManager.FindByEmailAsync("spurti@mail.com");
+            var useradmin5 = await userManager.FindByEmailAsync("posh@mail.com");
             if (useradmin is null)
             {
                 useradmin = new User
@@ -92,6 +95,19 @@ namespace sybring_project.Models.Seeding
                 };
                 await userManager.CreateAsync(useradmin4, "Admin_2024");
             }
+            if (useradmin5 is null)
+            {
+                useradmin5 = new User
+                {
+                    UserName = "posh@mail.com",
+                    Email = "posh@mail.com",
+                    EmailConfirmed = true,
+                    FirstName = "Natalie",
+                    LastName = "Aktas"
+
+                };
+                await userManager.CreateAsync(useradmin5, "Admin_2024");
+            }
             if (user is null)
             {
                 user = new User
@@ -109,8 +125,13 @@ namespace sybring_project.Models.Seeding
             await userManager.AddToRoleAsync(useradmin2, "admin");
             await userManager.AddToRoleAsync(useradmin3, "admin");
             await userManager.AddToRoleAsync(useradmin4, "admin");
+            await userManager.AddToRoleAsync(useradmin5, "admin");
             await userManager.AddToRoleAsync(user, "superadmin");
 
+        }
+        private async  static Task SeedProject(ApplicationDbContext context)
+        {
+            await context.SaveChangesAsync();
         }
     }
 }
