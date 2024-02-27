@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
 
@@ -8,10 +9,12 @@ namespace sybring_project.Controllers
     public class UserController : Controller
     {
         private readonly IUserServices _userServices;
+        private readonly ApplicationDbContext _applicationDbContext;
 
-        public UserController(IUserServices userServices)
+        public UserController(IUserServices userServices, ApplicationDbContext applicationDbContext)
         {
             _userServices = userServices;
+            _applicationDbContext = applicationDbContext;
         }
 
         [Route("ui")]
@@ -23,6 +26,7 @@ namespace sybring_project.Controllers
 
         [HttpGet]
         [Route("uc")]
+        
         public async Task<IActionResult> Create()
         {
             var projects = await _userServices.GetProjectsAsync();

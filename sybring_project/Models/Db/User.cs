@@ -31,8 +31,8 @@ namespace sybring_project.Models.Db
         public virtual ICollection<TimeHistory>? TimeId { get; set; }
 
         public virtual ICollection<Billing>? ReceiptId { get; set; }
-
-
+        [NotMapped]
+        public string ProjectIds { get; set; }
 
     }
 }
