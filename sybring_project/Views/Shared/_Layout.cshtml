@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+   
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,8 +9,9 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/sybring_project.styles.css" asp-append-version="true" />
     <link id="theme-link" rel="stylesheet" href="/css/light-theme.css" />
-
 </head>
+
+
 <body>
     <header class="header">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -53,8 +55,20 @@
                 </div>
             </div>
         </nav>
-    </header>
+       @*   -----------------Sidbar---------------------  *@
+       @*  <span class="openbtn" onclick="toggleNav()">&#9776; Open</span> *@
+        <div id="mySidenav" class="sidenav">
+           
 
+            <a class="closebtn" onclick="toggleNav()">&#9776;</a> </br>
+            <a href="#"><i class="bi bi-person-plus-fill"></i>About</a>
+            <a href="#"><i class="bi bi-person-video2"></i>Services</a>
+            <a href="#"><i class="bi bi-person-vcard-fill"></i>Clients</a>
+            <a href="#"><i class="bi bi-ui-checks"></i>Contact</a>
+        </div>
+       @*    -----------------Sidbar--------------------- *@
+
+    </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -76,6 +90,17 @@
         </div>
     </footer>
     <script>
+
+        function toggleNav() {
+            var sidenav = document.getElementById("mySidenav");
+            if (sidenav.style.width === "250px") {
+                sidenav.style.width = "60px";
+            } else {
+                sidenav.style.width = "250px";
+            }
+        }
+
+
         document.addEventListener("DOMContentLoaded", function () {
             const themeToggleBtn = document.getElementById('theme-toggle');
             const themeLink = document.getElementById('theme-link');
@@ -89,8 +114,13 @@
                 }
             });
         });
-    </script>
 
+
+
+
+    </script>
+  
+     
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
