@@ -30,6 +30,7 @@ img {
     width: 100%;
 }
 
+
 @media (min-width: 768px) {
     .footer .container, .footer .container-md, .footer .container-sm {
         max-width: none !important;
@@ -40,4 +41,26 @@ img {
     .footer .container, .footer .container-sm {
         max-width: none !important;
     }
+}
+
+
+.containerlayout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust as needed */
+}
+
+.containerlayout form {
+    width: 100%; /* Ensure the form takes full width */
+    max-width: 400px; /* Adjust as needed */
+    padding: 20px; /* Adjust as needed */
+    border: 1px solid #ccc; /* Example border */
+    border-radius: 5px; /* Example border radius */
+    background-color: #f9f9f9; /* Example background color */
+    text-align: center; /* Center align form content */
+}
+.containerlayout h1 {
+    margin-bottom: 20px; /* Adjust as needed */
+    text-align:center
 }
