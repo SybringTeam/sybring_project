@@ -10,10 +10,13 @@ namespace sybring_project.Repos.Services
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<User> _userManager;
-        public UserServices(ApplicationDbContext db, UserManager<User> userManager)
+        private readonly IProjectServices _projectServices;
+        public UserServices(ApplicationDbContext db, 
+            UserManager<User> userManager, IProjectServices projectServices)
         {
             _db = db;
             _userManager = userManager;
+            _projectServices = projectServices;
         }
 
         public async Task<User> AddUsersAsync(User newUser)
@@ -87,6 +90,29 @@ namespace sybring_project.Repos.Services
         public Task<string> UploadImageFileAsync(User user)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Project> AssignTaskAsync(int projectId, string userId)
+        {
+            var project = await _db.Projects.FindAsync(projectId);
+
+            if (project == null)
+            {
+                return null;
+
+            }
+            var user = await _db.Users.FindAsync(userId);
+            if (user == null)
+            {
+               
+                return null;
+            }
+
+            project.Users.Add(user);
+
+            await _db.SaveChangesAsync();
+
+            return project;
         }
     }
 }

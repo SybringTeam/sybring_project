@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
 using System.Runtime.ConstrainedExecution;
@@ -96,6 +97,11 @@ namespace sybring_project.Controllers
         {
             await _userServices.DeleteUserAsync(id);
              return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> AssignUserTask(User user) 
+        {
+            return View(user);
         }
 
         

@@ -5,9 +5,10 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
+           @*  <th>ID</th> *@
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Projects</th>
            
             @* <th>Age</th> *@
             <th>Actions</th>
@@ -17,9 +18,10 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Id</td>
+               @*  <td>@item.Id</td> *@
                 <td>@item.FirstName</td>
                 <td>@item.LastName</td>
+                <td>@item.ProjectId</td>
                
                 @* <td>@item.Age</td> *@
               
