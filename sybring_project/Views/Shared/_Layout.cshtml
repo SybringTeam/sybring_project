@@ -37,13 +37,29 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
                             </li>
+                           
                         }
                         @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Dashboard</a>
                             </li>
-                        }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register as a new user</a>
+
+                            </li>
+                                                
+                            }
+                           
+
+                       
+                        
+
+                       
                     </ul>
                     <button id="theme-toggle">Toggle Theme</button>
                     <partial name="_LoginPartial" />
@@ -73,19 +89,7 @@
         </div>
     </footer>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            const themeLink = document.getElementById('theme-link');
-
-            themeToggleBtn.addEventListener('click', function () {
-                // Toggle between light and dark themes
-                if (themeLink.getAttribute('href') === '/css/light-theme.css') {
-                    themeLink.setAttribute('href', '/css/dark-theme.css');
-                } else {
-                    themeLink.setAttribute('href', '/css/light-theme.css');
-                }
-            });
-        });
+        
     </script>
 
 
