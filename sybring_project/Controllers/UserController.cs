@@ -98,35 +98,7 @@ namespace sybring_project.Controllers
              return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Register(User newUser, string password) 
-        {
-            var newUSer = new User
-            {
-
-                FirstName = newUser.FirstName,
-                LastName = newUser.LastName,
-                Email = newUser.Email,
-                PasswordHash = newUser.PasswordHash
-
-            };
-
-             var result = await _userServices.RegisterUserAsync(newUSer, password);
-
-            if (result != null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            ModelState.AddModelError(string.Empty, "Registration failed. Please check your information.");
-            return View(newUser);
-        }
-     
+        
         
     }
 }
