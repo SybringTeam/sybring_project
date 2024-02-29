@@ -11,7 +11,7 @@ namespace sybring_project.Repos.Services
         private readonly ApplicationDbContext _db;
         private readonly UserManager<User> _userManager;
         private readonly IProjectServices _projectServices;
-        public UserServices(ApplicationDbContext db, 
+        public UserServices(ApplicationDbContext db,
             UserManager<User> userManager, IProjectServices projectServices)
         {
             _db = db;
@@ -43,7 +43,8 @@ namespace sybring_project.Repos.Services
 
         public async Task<List<User>> GetAllUserAsync()
         {
-            return await _db.Users.Include(x => x.ProjectId).ToListAsync();
+            var list = await _db.Users.Include(x => x.ProjectId).ToListAsync();
+            return list;
         }
 
         public async Task<List<Project>> GetProjectsAsync()
@@ -67,52 +68,46 @@ namespace sybring_project.Repos.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-                
+
                 return false;
             }
         }
 
-
-        public async Task<User> RegisterUserAsync(User newUser, string password)
-        {
-            var regUser = await _userManager.CreateAsync(newUser, password);
-
-            if (regUser.Succeeded)
-            {
-                return newUser;
-            }
-            else
-            {
-                throw new ApplicationException("User registration failed. Check the provided information.");
-            }
-        }
 
         public Task<string> UploadImageFileAsync(User user)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Project> AssignTaskAsync(int projectId, string userId)
-        {
-            var project = await _db.Projects.FindAsync(projectId);
+        //public async Task<Project> AssignTaskAsync(int projectId, string userId)
+        //{
+        //    var user = await _userManager.FindByIdAsync(userId);
+        //    var project = await _db.Projects.FindAsync(projectId);
 
-            if (project == null)
-            {
-                return null;
+        //    if (user != null && project != null)
+        //    {
+        //        var projectUserVM = new ProjectUserVM
+        //        {
+        //            ProjectId = projectId,
+        //            UserId = userId
+        //        };
 
-            }
-            var user = await _db.Users.FindAsync(userId);
-            if (user == null)
-            {
-               
-                return null;
-            }
+        //        // Convert the view model to the entity
+        //        var projectUser = new ProjectUserVM
+        //        {
+        //            ProjectId = projectUserVM.ProjectId,
+        //            UserId = projectUserVM.UserId
+        //        };
 
-            project.Users.Add(user);
+        //        user.ProjectUsers.Add(projectUser);
+        //        project.UserProjects.Add(projectUser);
 
-            await _db.SaveChangesAsync();
+        //        await _db.SaveChangesAsync();
+        //        return project;
+        //    }
 
-            return project;
+
+
         }
     }
-}
+
