@@ -5,7 +5,7 @@ namespace sybring_project.Repos.Interfaces
     public interface IUserServices
     {
         Task<List<User>> GetAllUserAsync();
-        Task<User> AddUsersAsync(User newUser);
+        Task<User> AddUsersAsync(User newUser, int projectId);
 
         Task<bool> UpdateUserAsync(User user);
 
@@ -19,6 +19,6 @@ namespace sybring_project.Repos.Interfaces
         Task<string> UploadImageFileAsync(User user);
       
 
-        //Task<Project> AssignTaskAsync(int projectId, string userId);
+        
     }
 }

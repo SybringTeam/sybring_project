@@ -19,10 +19,21 @@ namespace sybring_project.Repos.Services
             _projectServices = projectServices;
         }
 
-        public async Task<User> AddUsersAsync(User newUser)
+        public async Task<User> AddUsersAsync(User newUser, int projectId)
         {
             _db.Users.Add(newUser);
             await _db.SaveChangesAsync();
+
+            if (projectId != 0)
+            {
+                var project = await _db.Projects.FindAsync(projectId);
+                if (project != null)
+                {
+                    newUser.ProjectId = new List<Project> { project };
+                    await _db.SaveChangesAsync();
+                }
+            }
+
             return newUser;
         }
 
@@ -79,32 +90,7 @@ namespace sybring_project.Repos.Services
             throw new NotImplementedException();
         }
 
-        //public async Task<Project> AssignTaskAsync(int projectId, string userId)
-        //{
-        //    var user = await _userManager.FindByIdAsync(userId);
-        //    var project = await _db.Projects.FindAsync(projectId);
-
-        //    if (user != null && project != null)
-        //    {
-        //        var projectUserVM = new ProjectUserVM
-        //        {
-        //            ProjectId = projectId,
-        //            UserId = userId
-        //        };
-
-        //        // Convert the view model to the entity
-        //        var projectUser = new ProjectUserVM
-        //        {
-        //            ProjectId = projectUserVM.ProjectId,
-        //            UserId = projectUserVM.UserId
-        //        };
-
-        //        user.ProjectUsers.Add(projectUser);
-        //        project.UserProjects.Add(projectUser);
-
-        //        await _db.SaveChangesAsync();
-        //        return project;
-        //    }
+        
 
 
 
