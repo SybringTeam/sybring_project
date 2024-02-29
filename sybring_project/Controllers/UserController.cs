@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using sybring_project.Models.Db;
@@ -45,10 +45,10 @@ namespace sybring_project.Controllers
         [HttpPost]
         [Route("uc")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(User user)
+        public async Task<IActionResult> Create(User user, int projectId)
         {
            
-                await _userServices.AddUsersAsync(user);
+                await _userServices.AddUsersAsync(user, projectId);
                 return RedirectToAction("Index");
            
         }
