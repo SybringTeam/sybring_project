@@ -55,11 +55,11 @@ body {
 }
 
 .sidenav {
-    height: calc(100% - 60px); 
-    width: 0;
+    height: calc(100% - 60px);
+    width: 250px;
     position: fixed;
-    z-index: 1;
-    top: 60px; 
+    /*z-index: 1;*/
+    top: 60px;
     left: 0;
     background-color: #fff;
     overflow-x: hidden;
@@ -67,7 +67,7 @@ body {
 }
 
     .sidenav a {
-        padding: 8px 8px 8px 32px;
+        padding: 8px 8px 8px 17px;
         text-decoration: none;
         font-size: 25px;
         color: #818181;
@@ -82,7 +82,7 @@ body {
     .sidenav .closebtn {
         position: absolute;
         top: 0;
-        right: 25px;
+        right: 9px;
         font-size: 36px;
         margin-left: 50px;
     }
@@ -92,5 +92,11 @@ body {
     color: #818181;
     padding: 8px;
     cursor: pointer;
-    margin-left: 15px; 
+    margin-left: 15px;
 }
+/*----logovit----*/
+.navbar-brand img {
+    filter: invert(100%);
+}
+
+        
