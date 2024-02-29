@@ -13,7 +13,7 @@ namespace sybring_project.Models.Db
 
         public string Address { get; set; } = string.Empty;
 
-        public string TaskDescription { get; set; } = string.Empty;
+        public string? TaskDescription { get; set; } = string.Empty;
 
         public double UserIncome { get; set; }
         public string ImageLink { get; set; } = string.Empty;
