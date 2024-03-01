@@ -30,10 +30,10 @@ namespace sybring_project.Data
                 .WithMany(u => u.Users)
                 .UsingEntity(j => j.ToTable("ProjectUsers"));
 
-            //builder.Entity<Project>()
-            //    .HasMany(p => p.Users)
-            //    .WithMany(p => p.ProjectId)
-            //    .UsingEntity(t => t.ToTable("ProjectUsers"));
+            builder.Entity<Project>()
+                .HasMany(p => p.Users)
+                .WithMany(p => p.ProjectId)
+                .UsingEntity(t => t.ToTable("ProjectUsers"));
 
 
 

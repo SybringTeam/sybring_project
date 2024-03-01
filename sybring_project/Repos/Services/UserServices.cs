@@ -66,7 +66,9 @@ namespace sybring_project.Repos.Services
         public async Task<User> GetUserByIdAsync(string id)
         {
 
-            return await _db.Users.FindAsync(id);
+            return await _db.Users
+         .Include(u => u.ProjectId)
+         .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<bool> UpdateUserAsync(User user)

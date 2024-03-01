@@ -53,10 +53,15 @@
             @Html.DisplayNameFor(model => model.ProjectId)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProjectId)
+            @foreach (var project in Model.ProjectId)
+            {
+                <div>@project.Name</div>
+            }
+
 
         </dd>
 
+           
 
 
         <dt class="col-sm-2">
