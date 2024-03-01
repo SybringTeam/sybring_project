@@ -1,6 +1,7 @@
 ﻿﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
 using System.Runtime.ConstrainedExecution;
@@ -12,12 +13,15 @@ namespace sybring_project.Controllers
         private readonly IUserServices _userServices;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ApplicationDbContext _applicationDbContext;
+
 
         public UserController(IUserServices userServices, 
-            UserManager<User> userManager)
+            UserManager<User> userManager, ApplicationDbContext applicationDbContext)
         {
             _userServices = userServices;
             _userManager = userManager;
+
         }
 
         [Route("ui")]
@@ -84,11 +88,17 @@ namespace sybring_project.Controllers
 
         public async Task<IActionResult> Details(string id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
             var detail = await _userServices.GetUserByIdAsync(id);
+
             if (detail == null)
             {
                 return NotFound();
             }
+
 
             return View(detail);
         }
