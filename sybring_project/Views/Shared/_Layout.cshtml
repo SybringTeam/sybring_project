@@ -13,7 +13,7 @@
 
 
 <body>
-    <header class="header" >
+    <header class="header">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color:#0B2247">
             <div class="container-fluid ">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
@@ -60,9 +60,9 @@
         <div id="mySidenav" class="sidenav">
             <a class="closebtn" onclick="toggleNav()">&#9776;</a>
             <a href="#" class="mt-5"><span class="icon-span"><i class="bi bi-person-plus-fill"></i></span><span class="nav-text">About</span></a>
-            <a href="#"><span class="icon-span"><i class="bi bi-person-video2"></i></span><span class="nav-text">Services</span></a>
-            <a href="#"><span class="icon-span"><i class="bi bi-person-vcard-fill"></i></span><span class="nav-text">Clients</span></a>
-            <a href="#"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Contact</span></a>
+            <a href="#"><span class="icon-span"><i class="bi bi-person-video2"></i></span><span class="nav-text">Dashboard</span></a>
+            <a href="#"><span class="icon-span"><i class="bi bi-person-vcard-fill"></i></span><span class="nav-text">Projects</span></a>
+            <a href="#"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">create user</span></a>
         </div>
 
         @*    -----------------Sidbar--------------------- *@
@@ -76,41 +76,71 @@
 
     <footer class="border-top footer text-muted">
         <div class="container" style="background-color:#0B2247; ">
-            <div class="row align-items-center pt-5">
-                <div class="col-3" >
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                        <img src="/logo/Sybring_Logo-Black_1000px.png"  />
-                    </a>
+            <div class="row pt-5 " style="color:white; ">
+                <div class="col-4">
+                    <div>
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                            <img src="/logo/Sybring_Logo-Black_1000px.png" style="width:150px; height: auto; align-items:center; " />
+                        </a>
+                    </div>
+                    <div>
+                        <p class="footer-links">
+                            <a href="#" class="link-1">Hem</a>
+
+                            <a href="#">Tjänster</a>
+
+                            <a href="#">karriär</a>
+
+                            <a href="#">Nyheter</a>
+
+                            <a href="#">Om oss</a>
+
+                            <a href="#">Contact</a>
+                        </p>
+                    </div>
                 </div>
-                <div class="col-3 ">
-                    <h5>Menu</h5>
-                    <ul  >
-                        <li>Hem</li>
-                        <li>Våra tjänster</li>
-                        <li>Karriär</li>
-                        <li>Nyheter</li>
-                    </ul>
+
+                <div class="col-4">
+                    <h5>Kontakt</h5>
+                    <span class="icon-span"><i class="fi fi-building"></i></span><span >Sybring AB</span></a> <br />
+                    <span class="icon-span"><i class="fa fa-map-marker"></i></span><span>
+                        (HQ) Vallonvägen 12, 612 30 Finspång, Sweden <br />
+                        Besöksadress: Trädgårdsgatan 6A, 4tr, 602 24 Norrköping, Sweden
+                    </span></a><br />
+                    <span class="icon-span"><i class="fa fa-phone"></i></span><span>+46 70-670 07 07</span></a> <br />
+                    <i class="fa fa-envelope"></i><p><a href="contact@sybring.com">contact@sybring.com</a></p>
                 </div>
-                <div class="col-3  ">
-                    <h5>Vart vi finns</h5>
-                    <ul>
-                        <li>Hem</li>
-                        <li>Våra tjänster</li>
-                        <li>Karriär</li>
-                        <li>Nyheter</li>
-                    </ul>
-               
+                <div class="col-4">
+                    <h5>Om vårt företag</h5>
+                    <p class="footer-company-about">
+                        <span>About the company</span>
+                        Lorem ipsum dolor sit amet, consectateur 
+                    </p>
+                    <div class="footer-icons">
+                        <i class="bi bi-facebook"></i>
+                        <i class="bi bi-envelope-at"></i>
+                        <i class="bi bi-linkedin"></i>
+                    </div>
                 </div>
-                <div class="col-3 ">
-                    <h5>Social Media</h5>
-                    <i class="bi bi-facebook"></i>
-                    <i class="bi bi-instagram"></i>
-                    <i class="bi bi-envelope-at"></i>
-                    <i class="bi bi-linkedin"></i>
+                <div class="col-12 text-center " style="background-color: lightsteelblue;">
+                    <div>
+                        &copy; 2024 - sybring_project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+ @*                       <p class="footer-links">
+                            <a href="#" class="link-1">Privacy</a>
+
+                            <a href="#">Tjänster</a>
+
+                            <a href="#">karriär</a>
+
+                            <a href="#">Nyheter</a>
+
+                            <a href="#">Om oss</a>
+
+                            <a href="#">Contact</a>
+                        </p> *@
+                    </div>
+
                 </div>
-                @*  <div class="col text-center text-md-left">
-                &copy; 2024 - sybring_project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </div> *@
             </div>
         </div>
     </footer>
