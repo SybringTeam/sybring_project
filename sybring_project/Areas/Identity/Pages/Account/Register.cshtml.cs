@@ -113,24 +113,29 @@ namespace sybring_project.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            var user = CreateUser();
-            var result = await _userManager.CreateAsync(user);
-
-            if (result.Succeeded)
+            if (ModelState.IsValid)
             {
-                _logger.LogInformation("User created by admin.");
+                var user = CreateUser();
 
-                if (!_userManager.Options.SignIn.RequireConfirmedAccount)
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                var result = await _userManager.CreateAsync(user, Input.Password);
+
+                if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                }
+                    _logger.LogInformation("User created a new account with password.");
 
-                return LocalRedirect(returnUrl);
-            }
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
+                    // Redirect to admin index page
+                    return Redirect("/Ui");
+                    
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
 
             // If we got this far, something failed, redisplay form
