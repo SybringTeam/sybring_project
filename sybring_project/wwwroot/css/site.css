@@ -29,6 +29,15 @@ img {
 .footer .container {
     width: 100%;
 }
+footer {
+    width: 100%;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
 
 
 @media (min-width: 768px) {
@@ -48,7 +57,7 @@ img {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Adjust as needed */
+    height: 70vh; /* Adjust as needed */
 }
 
 .containerlayout form {
