@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
 using System.Runtime.ConstrainedExecution;
@@ -11,12 +13,15 @@ namespace sybring_project.Controllers
         private readonly IUserServices _userServices;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ApplicationDbContext _applicationDbContext;
+
 
         public UserController(IUserServices userServices, 
-            UserManager<User> userManager)
+            UserManager<User> userManager, ApplicationDbContext applicationDbContext)
         {
             _userServices = userServices;
             _userManager = userManager;
+
         }
 
         [Route("ui")]
@@ -44,10 +49,10 @@ namespace sybring_project.Controllers
         [HttpPost]
         [Route("uc")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(User user)
+        public async Task<IActionResult> Create(User user, int projectId)
         {
            
-                await _userServices.AddUsersAsync(user);
+                await _userServices.AddUsersAsync(user, projectId);
                 return RedirectToAction("Index");
            
         }
@@ -83,11 +88,17 @@ namespace sybring_project.Controllers
 
         public async Task<IActionResult> Details(string id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
             var detail = await _userServices.GetUserByIdAsync(id);
+
             if (detail == null)
             {
                 return NotFound();
             }
+
 
             return View(detail);
         }
@@ -98,35 +109,12 @@ namespace sybring_project.Controllers
              return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        public IActionResult Register()
+        public async Task<IActionResult> AssignUserTask(User user) 
         {
-            return View();
+            return View(user);
         }
-        [HttpPost]
-        public async Task<IActionResult> Register(User newUser, string password) 
-        {
-            var newUSer = new User
-            {
 
-                FirstName = newUser.FirstName,
-                LastName = newUser.LastName,
-                Email = newUser.Email,
-                PasswordHash = newUser.PasswordHash
-
-            };
-
-             var result = await _userServices.RegisterUserAsync(newUSer, password);
-
-            if (result != null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            ModelState.AddModelError(string.Empty, "Registration failed. Please check your information.");
-            return View(newUser);
-        }
-     
+        
         
     }
 }

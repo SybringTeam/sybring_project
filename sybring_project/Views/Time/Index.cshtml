@@ -1,0 +1,38 @@
+﻿
+
+@model List<sybring_project.Models.Db.TimeHistory>
+
+@{
+    ViewData["Title"] = "Time History";
+}
+
+<h1>Time History Records</h1>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date Time</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var timeHistory in Model)
+            {
+                <tr>
+                    <td>@timeHistory.Id</td>
+                    <td>@timeHistory.DateTime</td>
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No time history records found.</p>
+}
+
+<a asp-action="Create">Create New</a>
