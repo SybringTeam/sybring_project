@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
-using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
+using System.Runtime.InteropServices;
 
 namespace sybring_project.Controllers
 {
@@ -35,7 +35,7 @@ namespace sybring_project.Controllers
         }
 
         [HttpGet]
-        [Route("uc")]
+
         public async Task<IActionResult> Create()
         {
             var projects = await _userServices.GetProjectsAsync();
@@ -50,7 +50,7 @@ namespace sybring_project.Controllers
         }
 
         [HttpPost]
-        [Route("uc")]
+
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(User user, int projectId)
         {
@@ -60,7 +60,7 @@ namespace sybring_project.Controllers
 
         }
 
-        [Route("ue")]
+
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -78,7 +78,7 @@ namespace sybring_project.Controllers
             return View(user);
         }
 
-        [Route("ue")]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(User user)
@@ -89,6 +89,7 @@ namespace sybring_project.Controllers
 
         }
 
+        [HttpGet]
 
         public async Task<IActionResult> Details(string id)
         {
@@ -105,11 +106,11 @@ namespace sybring_project.Controllers
 
             var allProjects = await _applicationDbContext.Projects.ToListAsync();
 
-            if (allProjects!= null) 
+            if (allProjects != null)
             {
                 ViewBag.AllProjects = allProjects;
             }
-           
+
 
 
             return View(detail);
@@ -130,16 +131,36 @@ namespace sybring_project.Controllers
                 return NotFound("User Not Found");
             }
 
-            var project = await _applicationDbContext.Projects.FindAsync(projectId);
+            var projectList = _projectServices.GetProjectsAsync();
+            var projects = await projectList ?? new List<Project>();
+            var pro = projects.FirstOrDefault(p => p.Id == projectId);
 
-            if (project != null)
+
+            var project = await _applicationDbContext.Projects.FindAsync(projectId);
+           
+            if (pro != null)
             {
-                user.ProjectId = new List<Project> { project };
+                user.ProjectId = user.ProjectId ?? new List<Project>();
+                user.ProjectId.Add(project);
+
+                var existingProj = _applicationDbContext.Users
+                    .Any(u => u.Id == user.Id && u.ProjectId
+                    .Any(uc => uc.Id == pro.Id));
+
+                if (existingProj)
+                {
+                    TempData["ErrorMessage"] = "This Project is Already Assigned";
+                    return RedirectToAction("Details", new { id = userId });
+                }
+                //user.ProjectId = new List<Project> { project };
                 await _applicationDbContext.SaveChangesAsync();
+                TempData["Added"] = "This Project has been assigned.";
             }
+            
 
             return RedirectToAction("Details", new { id = userId });
         }
+
 
 
 
@@ -152,6 +173,6 @@ namespace sybring_project.Controllers
 
 
 
-      
+
     }
 }

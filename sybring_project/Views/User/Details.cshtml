@@ -1,5 +1,9 @@
-﻿
-@model sybring_project.Models.Db.User
+﻿@model sybring_project.Models.Db.User
+
+@{
+    var error = TempData["ErrorMessage"];
+    var added = TempData["Added"];
+}
 
 <h1>User Details</h1>
 
@@ -107,6 +111,15 @@
 
         <button type="submit" class="btn btn-primary">Assign Project</button>
     </form>
+
+    @if (error != null)
+    {
+        <div>@error</div>
+    }
+    else
+    {
+        <div>@added</div>
+    }
 </div>
 
 
