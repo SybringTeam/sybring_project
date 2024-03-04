@@ -1,4 +1,6 @@
-﻿using sybring_project.Models.Db;
+﻿using Microsoft.AspNetCore.Identity;
+using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 
 namespace sybring_project.Repos.Interfaces
 {
@@ -17,8 +19,13 @@ namespace sybring_project.Repos.Interfaces
 
 
         Task<string> UploadImageFileAsync(User user);
-      
 
-        
+        //Task<Project> AssignProjectToUserAsync(string userId, int projectId);
+
+        Task<Project> GetProjectByIdAsync(int id);
+
+        //Task<User> GetUserWithProjectsAsync(string id);
+
+
     }
 }

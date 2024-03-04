@@ -49,7 +49,7 @@ namespace sybring_project.Areas.Identity.Pages.Account
         {
             if (email == null)
             {
-                return RedirectToPage("/Index");
+                return RedirectToPage("/User/Index");
             }
             returnUrl = returnUrl ?? Url.Content("~/");
 
