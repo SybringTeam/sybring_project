@@ -1,5 +1,9 @@
-﻿
-@model sybring_project.Models.Db.User
+﻿@model sybring_project.Models.Db.User
+
+@{
+    var error = TempData["ErrorMessage"];
+    var added = TempData["Added"];
+}
 
 <h1>User Details</h1>
 
@@ -50,13 +54,18 @@
         </dd>
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProjectId)
+            Working Projects
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProjectId)
+            @foreach (var project in Model.ProjectId)
+            {
+                <div>@project.Name</div>
+            }
+
 
         </dd>
 
+           
 
 
         <dt class="col-sm-2">
@@ -85,6 +94,35 @@
         }
     </p>
 </div> *@
+<div>
+    <h4>
+        Assign Project
+    </h4>
+    <form asp-controller="User" asp-action="Details" method="post">
+        <input type="hidden" name="userId" value="@Model.Id" />
+
+        <div class="form-group">
+            <label asp-for="ProjectId">Select Project:</label>
+            <select asp-for="ProjectId" asp-items="@(new SelectList(ViewBag.AllProjects, "Id", "Name"))" class="form-control">
+                <option value="">Select a Project</option>
+            </select>
+            <span asp-validation-for="ProjectId" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Assign Project</button>
+    </form>
+
+    @if (error != null)
+    {
+        <div>@error<br /></div>
+    }
+    else
+    {
+        <div>@added</div>
+    }
+</div>
+
+
 
 <div>
     <a asp-action="Index">Back to List</a>

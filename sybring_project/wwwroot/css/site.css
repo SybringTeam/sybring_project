@@ -29,6 +29,16 @@ img {
 .footer .container {
     width: 100%;
 }
+footer {
+    width: 100%;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
 
 @media (min-width: 768px) {
     .footer .container, .footer .container-md, .footer .container-sm {
@@ -41,6 +51,7 @@ img {
         max-width: none !important;
     }
 }
+
 
 body {
     font-family: "Lato", sans-serif;
@@ -272,5 +283,25 @@ img {
 		font-size: auto;
 	}
 	
- 
+
+.containerlayout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh; /* Adjust as needed */
+}
+
+.containerlayout form {
+    width: 100%; /* Ensure the form takes full width */
+    max-width: 400px; /* Adjust as needed */
+    padding: 20px; /* Adjust as needed */
+    border: 1px solid #ccc; /* Example border */
+    border-radius: 5px; /* Example border radius */
+    background-color: #f9f9f9; /* Example background color */
+    text-align: center; /* Center align form content */
+}
+.containerlayout h1 {
+    margin-bottom: 20px; /* Adjust as needed */
+    text-align:center
+
 }

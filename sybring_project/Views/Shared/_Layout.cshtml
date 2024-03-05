@@ -17,8 +17,10 @@
 
 <body>
     <header class="header">
+
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color:#0B2247; color:white;">
             <div class="container-fluid ">
+
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="/logo/Sybring_Logo-Black_1000px.png" />
                 </a>
@@ -42,6 +44,7 @@
                             <li class="nav-item">
                                 <a class="nav-link " asp-area="" asp-controller="Home" asp-action="AboutUs" style="color:white">About Us</a>
                             </li>
+                           
                         }
                         @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
                         {
@@ -51,7 +54,19 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
                             </li>
-                        }
+                            <li class="nav-item">
+
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register as a new user</a>
+
+                            </li>
+                                                
+                            }
+                           
+
+                       
+                        
+
+                       
                     </ul>
                     <button id="theme-toggle">Toggle Theme</button>
                     <partial name="_LoginPartial" />
@@ -150,6 +165,7 @@
 
     <script>
 
+
         // ------------------sidobaren-------------
         function toggleNav() {
             var sidenav = document.getElementById("mySidenav");
@@ -199,6 +215,7 @@
                 }
             });
         });
+
 
     </script>
 

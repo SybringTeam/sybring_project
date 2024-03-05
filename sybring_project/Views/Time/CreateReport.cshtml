@@ -1,0 +1,67 @@
+﻿@model sybring_project.ViewModels.TimeReportViewModel
+
+
+@{
+    ViewData["Title"] = "CreateReport";
+}
+
+
+
+<h1>Create Time Report</h1>
+
+@using (Html.BeginForm("CreateReport", "Time", FormMethod.Post))
+{
+    <hr />
+
+    <!-- validation  -->
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <h2>Week 1</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+              @*   <th>Total Work Hours</th> *@
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.WeekData != null)
+            {
+                
+                for (var i = 0; i < Model.WeekData.Count; i++)
+                {
+                    <tr>
+                        <td>@Html.TextBoxFor(m => m.WeekData[i].Day, new { @class = "form-control" })</td>
+                        <td>@Html.TextBoxFor(m => m.WeekData[i].StartTime, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => m.WeekData[i].EndTime, new { @class = "form-control", type = "time" })</td>
+                        @* <td>@Html.TextBoxFor(m => m.WeekData[i].PaidTimeOff, new { @class = "form-control", type = "number" })</td>
+                        <td>@Html.TextBoxFor(m => m.WeekData[i].TotalWorkHours, new { @class = "form-control", type = "number",@readonly = "readonly"  })</td>
+ *@
+@* 
+                        <td>@Html.TextBoxFor(m => m.WeekData[i].TotalWorkHours, new { @class = "form-control", type = "number" })</td>
+                       
+ *@
+                       
+
+
+
+                        <!-- validation error-->
+                        <td>@Html.ValidationMessageFor(m => m.WeekData[i].Day, "", new { @class = "text-danger" })</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7">No data available</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
+

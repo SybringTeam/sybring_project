@@ -1,11 +1,13 @@
-﻿using sybring_project.Models.Db;
+﻿using Microsoft.AspNetCore.Identity;
+using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 
 namespace sybring_project.Repos.Interfaces
 {
     public interface IUserServices
     {
         Task<List<User>> GetAllUserAsync();
-        Task<User> AddUsersAsync(User newUser);
+        Task<User> AddUsersAsync(User newUser, int projectId);
 
         Task<bool> UpdateUserAsync(User user);
 
@@ -15,6 +17,14 @@ namespace sybring_project.Repos.Interfaces
 
         Task<List<Project>> GetProjectsAsync();
 
+
         Task<string> UploadImageFileAsync(User user);
+
+       
+        Task<Project> GetProjectByIdAsync(int id);
+
+        //Task<User> GetUserWithProjectsAsync(string id);
+
+
     }
 }

@@ -1,0 +1,226 @@
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using sybring_project.Data;
+using sybring_project.Models;
+using sybring_project.Models.Db;
+using sybring_project.Repos.Interfaces;
+using sybring_project.ViewModels;
+
+namespace sybring_project.Controllers
+{
+    public class TimeController : Controller
+    {
+
+        private readonly ITimeService _timeService;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
+
+        public TimeController(ApplicationDbContext context, ITimeService timeService, UserManager<User> userManager)
+        {
+
+            _timeService = timeService;
+            _context = context;
+            _userManager = userManager;
+
+
+        }
+
+        public IActionResult Index()
+        {
+            // Retring time history  from the database
+            var timeHistories = _context.TimeHistories.ToList(); 
+
+            return View(timeHistories);
+        }
+
+
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        
+        [HttpPost]    
+        public async Task<IActionResult> Create([Bind("DateTime")] TimeHistory timeHistory)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                   
+                    await _timeService.AddTimeHistoryAsync(timeHistory);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception)
+                {
+                   
+                    ModelState.AddModelError("", "An error occurred while saving the time history record.");
+                }
+            }
+            
+            return View(timeHistory);
+        }
+
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var timeHistory = await _context.TimeHistories.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (timeHistory == null)
+            {
+                return NotFound();
+            }
+
+            return View(timeHistory);
+        }
+
+
+
+        [HttpGet]
+        public IActionResult CreateReport()
+        {
+            var model = new TimeReportViewModel
+            {
+                WeekData = new List<DayData>
+        {
+            new DayData(),
+            new DayData(),
+            new DayData(),
+            new DayData(),
+            new DayData(),
+            new DayData(),
+            new DayData()
+        }
+            };
+
+            return View(model);
+        }
+
+       
+
+
+     
+    [HttpPost]
+    [Route("/Time/CreateReport")]
+    public IActionResult CreateReport(TimeReportViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            try
+            {
+
+                    const decimal MaxRegularHoursPerDay = 8; // Maximum regular hours per day
+
+                    // Calculate total work hours for each day
+                    foreach (var dayData in model.WeekData)
+                {
+                    // Validate input data
+                    if (dayData.StartTime > dayData.EndTime)
+                    {
+                        ModelState.AddModelError("", "End time cannot be before start time.");
+                        return View(model);
+                    }
+
+                    // Calculate working hours
+                    dayData.TotalWorkHours = (decimal)(dayData.EndTime - dayData.StartTime).TotalHours;
+
+                        // Calculate overtime hours 
+                        dayData.OvertimeHours = dayData.TotalWorkHours > MaxRegularHoursPerDay ? dayData.TotalWorkHours - MaxRegularHoursPerDay : 0;
+
+                    }
+
+
+
+                    // Serialize and store the model data in TempData
+                    TempData["TimeReportModel"] = JsonConvert.SerializeObject(model);
+
+                    
+
+                    // Redirect to the ReportDetails action
+                    return RedirectToAction("ReportDetails");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred while processing the time report: {ex.Message}");
+            }
+        }
+
+        // If model state is not valid 
+        return View(model);
+    }
+
+
+
+        // ReportDetails action
+        public IActionResult ReportDetails()
+        {
+            // Retrieve the serialized model data from TempData
+            var serializedModel = TempData["TimeReportModel"] as string;
+
+            // Checking if serialized model data is null or empty
+            if (string.IsNullOrEmpty(serializedModel))
+            {
+                // model is null or empty
+
+                return RedirectToAction("CreateReport");
+            }
+
+            // Deserialize the model data from JSON
+            var timeReportModel = JsonConvert.DeserializeObject<TimeReportViewModel>(serializedModel);
+
+            // Calculate and store only the working hours in a new list
+            var workingHoursList = new List<decimal>();
+
+            var overtimeList = new List<decimal>();
+
+            foreach (var dayData in timeReportModel.WeekData)
+            {
+                // Calculate working hours and add to the list
+                var workingHours = CalculateWorkingHours(dayData.StartTime, dayData.EndTime);
+                workingHoursList.Add(workingHours);
+
+                // Calculate overtime (if applicable)
+                var overtime = Math.Max(workingHours - MaxRegularHoursPerDay, 0);
+                overtimeList.Add(overtime);
+            }
+
+
+          
+
+            // Passing the working hours and overtime lists to the view
+            ViewBag.WorkingHoursList = workingHoursList;
+            ViewBag.OvertimeList = overtimeList;
+
+
+       
+
+            return View();
+
+        }
+
+
+        // Constants
+        private const decimal MaxRegularHoursPerDay = 8;
+
+        // Method to calculate working hours
+        private decimal CalculateWorkingHours(TimeSpan startTime, TimeSpan endTime)
+    {
+        // Calculating working hours (total hours between start and end time)
+        return (decimal)(endTime - startTime).TotalHours;
+    }
+
+
+    }
+}

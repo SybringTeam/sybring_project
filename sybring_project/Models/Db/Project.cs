@@ -10,8 +10,8 @@ namespace sybring_project.Models.Db
         public string? Name { get; set; }
         public string? Description { get; set; }
 
-        public virtual ICollection<TimeHistory> TimeId { get; set; }
-        public virtual ICollection<User>? Users { get; set;}
+        public virtual ICollection<TimeHistory>? TimeId { get; set; }
+        public virtual ICollection<User>? Users { get; set; }
 
 
     }
