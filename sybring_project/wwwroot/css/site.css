@@ -110,6 +110,9 @@ body {
 	text-align: center;
 	line-height: 550px;
 }
+.container{
+	margin-left:260px;
+}
 footer{
 	position: fixed;
 	bottom: 0;
@@ -121,7 +124,7 @@ footer{
 	width: 100%;
 	text-align: left;
 	font: bold 16px sans-serif;
-	padding: 55px 50px;
+	padding: 30px 50px;
 	margin-top: 80px;
 }
  
@@ -136,6 +139,10 @@ footer{
 	width: 40%;
 }
 
+img {
+	height: 50px;
+	max-width: 100%;
+}
 
 	.footer-distributed .footer-links {
 		color: #ffffff;
@@ -264,6 +271,6 @@ footer{
 		line-height: normal;
 		font-size: auto;
 	}
-	.footer .footer-left
+	
  
 }
