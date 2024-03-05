@@ -26,7 +26,7 @@ namespace sybring_project.Controllers
             _projectServices = projectServices;
             _applicationDbContext = applicationDbContext;
         }
-        
+
         public async Task<IActionResult> Index()
         {
             var list = await _userServices.GetAllUserAsync();
