@@ -130,7 +130,7 @@ namespace sybring_project.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     // Redirect to admin index page
-                    return Redirect("/Ui");
+                    return Redirect("/User");
                     
                 }
                 foreach (var error in result.Errors)
