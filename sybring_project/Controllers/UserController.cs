@@ -152,7 +152,7 @@ namespace sybring_project.Controllers
                     TempData["ErrorMessage"] = "This Project is Already Assigned";
                     return RedirectToAction("Details", new { id = userId });
                 }
-                //user.ProjectId = new List<Project> { project };
+               
                 await _applicationDbContext.SaveChangesAsync();
                 TempData["Added"] = "This Project has been assigned.";
             }
@@ -161,6 +161,24 @@ namespace sybring_project.Controllers
             return RedirectToAction("Details", new { id = userId });
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveProject(string userId, int projectId)
+        {
+           
+            var user = await _userManager.FindByIdAsync(userId);
+            var project = await _applicationDbContext.Projects.FindAsync(projectId);
+
+            if (user != null && project != null)
+            {
+              
+                user.ProjectId?.Remove(project);
+                await _applicationDbContext.SaveChangesAsync();
+            }
+
+          
+            return RedirectToAction("Details");
+        }
 
 
 
