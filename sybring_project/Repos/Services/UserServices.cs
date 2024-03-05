@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 
 namespace sybring_project.Repos.Services
@@ -37,6 +39,7 @@ namespace sybring_project.Repos.Services
             return newUser;
         }
 
+
         public async Task<User> DeleteUserAsync(string id)
         {
             var user = await _db.Users.FindAsync(id);
@@ -65,11 +68,19 @@ namespace sybring_project.Repos.Services
 
         public async Task<User> GetUserByIdAsync(string id)
         {
+            var user = await _db.Users
+.Include(u => u.ProjectId)
+.FirstOrDefaultAsync(u => u.Id == id);
 
-            return await _db.Users
-         .Include(u => u.ProjectId)
-         .FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null)
+            {
+                throw new InvalidOperationException("User not found");
+            }
+            return user;
+
         }
+
+
 
         public async Task<bool> UpdateUserAsync(User user)
         {
@@ -87,15 +98,28 @@ namespace sybring_project.Repos.Services
         }
 
 
+
+        public async Task<Project> GetProjectByIdAsync(int id)
+        {
+            return await _db.Projects.FindAsync(id);
+        }
+
+       
+
+
+
         public Task<string> UploadImageFileAsync(User user)
         {
             throw new NotImplementedException();
         }
 
-        
 
 
 
-        }
+
+
+
+
     }
+}
 
