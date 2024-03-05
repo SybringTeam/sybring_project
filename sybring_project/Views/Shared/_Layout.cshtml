@@ -5,13 +5,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - sybring_project</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/sybring_project.styles.css" asp-append-version="true" />
     <link id="theme-link" rel="stylesheet" href="/css/light-theme.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
     <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/sybring_project.styles.css" asp-append-version="true" />
 </head>
 
 
@@ -74,9 +74,10 @@
             </div>
         </nav>
         @*   -----------------Sidbar---------------------  *@
-
-        <div id="mySidenav" class="sidenav" style="white-space: nowrap;">
-            <a class="closebtn" onclick="toggleNav()">&#9776;</a>
+          @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+        {
+            <div id="mySidenav" class="sidenav" style="white-space: nowrap;">
+                <a class="closebtn" onclick="toggleNav()">&#9776;</a>
             <a href="#" class="mt-5"><span class="icon-span"><i class="bi bi-search"></i></span><span class="nav-text">Search Tool</span></a>
             <a href="#"><span class="icon-span"><i class="bi bi-person-video2"></i></span><span class="nav-text">Users</span></a>
             <a href="#"><span class="icon-span"><i class="bi bi-card-heading"></i></span><span class="nav-text">Projects</span></a>
@@ -84,6 +85,7 @@
             <a href="#"><span class="icon-span"><i class="bi bi-file-earmark-plus"></i></span><span class="nav-text">Register Projects</span></a>
             <a href="#"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Task Manager</span></a>
         </div>
+        }
         @*    -----------------Sidbar--------------------- *@
 
     </header>

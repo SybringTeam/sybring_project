@@ -257,51 +257,51 @@ img {
 	margin-right: 3px;
 	margin-bottom: 5px;
 }
- 
- 
+
+
 @media (max-width: 880px) {
- 
-	.footer-distributed{
+
+	.footer-distributed {
 		font: bold 14px sans-serif;
-	
 	}
- 
-	.footer-distributed .footer-left,
-	.footer-distributed .footer-center,
-	.footer-distributed .footer-right{
-		display: block;
-		width: 100%;
-		margin-bottom: 40px;
-		text-align: center;
-	}
- 
-	.footer-distributed .footer-center i{
-		margin-left: 0;
-	}
+
+		.footer-distributed .footer-left,
+		.footer-distributed .footer-center,
+		.footer-distributed .footer-right {
+			display: block;
+			width: 100%;
+			margin-bottom: 40px;
+			text-align: center;
+		}
+
+			.footer-distributed .footer-center i {
+				margin-left: 0;
+			}
+
 	.main {
 		line-height: normal;
 		font-size: auto;
 	}
+}
+	.containerlayout {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 70vh; /* Adjust as needed */
+	}
+
+		.containerlayout form {
+			width: 100%;
+			max-width: 400px;
+			padding: 20px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: #f9f9f9;
+			text-align: center; /* Center align form content */
+		}
+
+		.containerlayout h1 {
+			margin-bottom: 20px; /* Adjust as needed */
+			text-align: center
+		}
 	
-
-.containerlayout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70vh; /* Adjust as needed */
-}
-
-.containerlayout form {
-    width: 100%; /* Ensure the form takes full width */
-    max-width: 400px; /* Adjust as needed */
-    padding: 20px; /* Adjust as needed */
-    border: 1px solid #ccc; /* Example border */
-    border-radius: 5px; /* Example border radius */
-    background-color: #f9f9f9; /* Example background color */
-    text-align: center; /* Center align form content */
-}
-.containerlayout h1 {
-    margin-bottom: 20px; /* Adjust as needed */
-    text-align:center
-
-}
