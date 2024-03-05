@@ -178,18 +178,10 @@ namespace sybring_project.Controllers
           
             return RedirectToAction("Details");
         }
-
-
-
-
         public async Task<IActionResult> Delete(string id)
         {
             await _userServices.DeleteUserAsync(id);
             return RedirectToAction("Index");
         }
-
-
-
-
     }
 }
