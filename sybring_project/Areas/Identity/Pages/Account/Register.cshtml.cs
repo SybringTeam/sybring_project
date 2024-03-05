@@ -5,6 +5,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using System.Timers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -116,22 +117,18 @@ namespace sybring_project.Areas.Identity.Pages.Account
 
             var user = CreateUser();
             var result = await _userManager.CreateAsync(user);
+if (result.Succeeded)
+{
+    _logger.LogInformation("User created a new account with password.");
 
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User created by admin.");
+    // Redirect to admin index page
+    return Redirect("/User/Index");
 
-                if (!_userManager.Options.SignIn.RequireConfirmedAccount)
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                }
-
-                return LocalRedirect(returnUrl);
-            }
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
+}
+foreach (var error in result.Errors)
+{
+    ModelState.AddModelError(string.Empty, error.Description);
+}
 
             // If we got this far, something failed, redisplay form
             return Page();
