@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using sybring_project.Models.Db;
-using sybring_project.Models.ViewModels;
+﻿using sybring_project.Models.Db;
+
 
 namespace sybring_project.Repos.Interfaces
 {
@@ -22,6 +21,11 @@ namespace sybring_project.Repos.Interfaces
 
        
         Task<Project> GetProjectByIdAsync(int id);
+
+        Task<bool> RemoveUserFromProjectAsync(int projectId, string userId);
+
+       
+        Task AssignProjectToUserAsync(string userId, int projectId);
 
         //Task<User> GetUserWithProjectsAsync(string id);
 

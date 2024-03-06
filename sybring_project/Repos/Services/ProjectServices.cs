@@ -38,7 +38,7 @@ namespace sybring_project.Repos.Services
 
         public async Task<List<Project>> GetProjectsAsync()
         {
-            return await _db.Projects.ToListAsync();
+            return await _db.Projects.Include(p => p.Users).ToListAsync();
         }
 
         public async Task<bool> UpdateProjectAsync(Project project)
