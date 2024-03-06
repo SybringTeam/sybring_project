@@ -126,8 +126,7 @@ namespace sybring_project.Controllers
             return RedirectToAction("Details", new { id = userId });
 
         }
-
-               
+                       
 
 
         [HttpPost]
