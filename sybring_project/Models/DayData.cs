@@ -15,6 +15,7 @@ namespace sybring_project.Models
         public decimal RegularHours { get; set; }
         public decimal OvertimeHours { get; set; }
         public decimal TotalWorkHours { get; set; }
+
         public decimal MaxRegularHoursPerDay { get; set; } // Add this property
     }
 
