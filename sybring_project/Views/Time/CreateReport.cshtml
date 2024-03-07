@@ -9,6 +9,9 @@
 
 <h1>Create Time Report</h1>
 
+
+
+
 @using (Html.BeginForm("CreateReport", "Time", FormMethod.Post))
 {
     <hr />
@@ -23,29 +26,29 @@
                 <th>Day</th>
                 <th>Start Time</th>
                 <th>End Time</th>
-              @*   <th>Total Work Hours</th> *@
+                <th>Lunch Start</th>
+                <th>Lunch End</th>
+               @*  <th>Enter Total Work Hours for a day</th> *@
             </tr>
         </thead>
         <tbody>
             @if (Model != null && Model.WeekData != null)
             {
-                
+
                 for (var i = 0; i < Model.WeekData.Count; i++)
                 {
                     <tr>
-                        <td>@Html.TextBoxFor(m => m.WeekData[i].Day, new { @class = "form-control" })</td>
+                        @*   <td>@Html.TextBoxFor(m => m.WeekData[i].Day, new { @class = "form-control" })</td> *@
+
+                        <td>@Enum.GetName(typeof(DayOfWeek), i)</td>
+
                         <td>@Html.TextBoxFor(m => m.WeekData[i].StartTime, new { @class = "form-control", type = "time" })</td>
                         <td>@Html.TextBoxFor(m => m.WeekData[i].EndTime, new { @class = "form-control", type = "time" })</td>
-                        @* <td>@Html.TextBoxFor(m => m.WeekData[i].PaidTimeOff, new { @class = "form-control", type = "number" })</td>
-                        <td>@Html.TextBoxFor(m => m.WeekData[i].TotalWorkHours, new { @class = "form-control", type = "number",@readonly = "readonly"  })</td>
- *@
-@* 
-                        <td>@Html.TextBoxFor(m => m.WeekData[i].TotalWorkHours, new { @class = "form-control", type = "number" })</td>
-                       
- *@
-                       
 
+                        <td>@Html.TextBoxFor(m => m.WeekData[i].LunchStart, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => m.WeekData[i].LunchEnd, new { @class = "form-control", type = "time" })</td>
 
+                     @*    <td>@Html.TextBoxFor(m => m.WeekData[i].TotalWorkHours, new { @class = "form-control", type = "number" })</td> *@
 
                         <!-- validation error-->
                         <td>@Html.ValidationMessageFor(m => m.WeekData[i].Day, "", new { @class = "text-danger" })</td>
@@ -60,6 +63,7 @@
             }
         </tbody>
     </table>
+
 
 
     <button type="submit" class="btn btn-primary">Submit</button>

@@ -69,10 +69,6 @@ namespace sybring_project.Controllers
 
             var user = await _userServices.GetUserByIdAsync(id);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
 
             return View(user);
         }
@@ -89,7 +85,6 @@ namespace sybring_project.Controllers
         }
 
         [HttpGet]
-
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -98,10 +93,6 @@ namespace sybring_project.Controllers
             }
             var detail = await _userServices.GetUserByIdAsync(id);
 
-            if (detail == null)
-            {
-                return NotFound();
-            }
 
             var allProjects = await _applicationDbContext.Projects.ToListAsync();
 
@@ -118,66 +109,43 @@ namespace sybring_project.Controllers
         [HttpPost]
         public async Task<IActionResult> Details(string userId, int projectId)
         {
-            if (userId == null || projectId == 0)
+            var getUser = await _userServices.GetUserByIdAsync(userId);
+            var project = await _userServices.GetProjectByIdAsync(projectId);
+
+            if (getUser == null || project == null)
             {
-                return NotFound();
+                return NotFound("User or Project Not Found");
+
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
-
-            if (user == null)
-            {
-                return NotFound("User Not Found");
-            }
-
-            var projectList = _projectServices.GetProjectsAsync();
-            var projects = await projectList ?? new List<Project>();
-            var pro = projects.FirstOrDefault(p => p.Id == projectId);
+            await _userServices.AssignProjectToUserAsync(userId, projectId);
 
 
-            var project = await _applicationDbContext.Projects.FindAsync(projectId);
-           
-            if (pro != null)
-            {
-                user.ProjectId = user.ProjectId ?? new List<Project>();
-                user.ProjectId.Add(project);
-
-                var existingProj = _applicationDbContext.Users
-                    .Any(u => u.Id == user.Id && u.ProjectId
-                    .Any(uc => uc.Id == pro.Id));
-
-                if (existingProj)
-                {
-                    TempData["ErrorMessage"] = "This Project is Already Assigned";
-                    return RedirectToAction("Details", new { id = userId });
-                }
-               
-                await _applicationDbContext.SaveChangesAsync();
-                TempData["Added"] = "This Project has been assigned.";
-            }
-            
+            TempData["Added"] = "This Project has been assigned.";
 
             return RedirectToAction("Details", new { id = userId });
+
         }
+                       
 
 
         [HttpPost]
         public async Task<IActionResult> RemoveProject(string userId, int projectId)
         {
-           
-            var user = await _userManager.FindByIdAsync(userId);
-            var project = await _applicationDbContext.Projects.FindAsync(projectId);
+            var result = await _userServices.RemoveUserFromProjectAsync(projectId, userId);
 
-            if (user != null && project != null)
+            if (result)
             {
-              
-                user.ProjectId?.Remove(project);
-                await _applicationDbContext.SaveChangesAsync();
+                TempData["Removed"] = "Project has been removed from the user.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Project removal failed. User or project not found.";
             }
 
-          
-            return RedirectToAction("Details");
+            return RedirectToAction("Details", new { id = userId });
         }
+
         public async Task<IActionResult> Delete(string id)
         {
             await _userServices.DeleteUserAsync(id);
