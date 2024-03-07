@@ -49,18 +49,18 @@
                         @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Dashboard</a>
+                                <a class="nav-link" asp-area="" asp-controller="User" asp-action="Index" style="color:white">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
+                                <a class="nav-link" asp-area="" asp-controller="Project" asp-action="Index" style="color:white">Projects</a>
                             </li>
                             <li class="nav-item">
 
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register as a new user</a>
+                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Register" style="color:white">Register as a new user</a>
 
                             </li>          
                             }
-                                               </ul>
+                              </ul>
                     <button id="theme-toggle">Toggle Theme</button>
                     <partial name="_LoginPartial" />
                 </div>
@@ -71,18 +71,18 @@
         {
             <div id="mySidenav" class="sidenav" style="white-space: nowrap;">
             <a class="closebtn" onclick="toggleNav()">&#9776;</a>
-            <a href="#" class="mt-5"><span class="icon-span"><i class="bi bi-search"></i></span><span class="nav-text">Search Tool</span></a>
-            <a href="#"><span class="icon-span"><i class="bi bi-person-video2"></i></span><span class="nav-text">Users</span></a>
-            <a href="#"><span class="icon-span"><i class="bi bi-card-heading"></i></span><span class="nav-text">Projects</span></a>
-            <a href="#"><span class="icon-span"><i class="bi bi-person-plus-fill"></i></span><span class="nav-text">Register User</span></a>
-            <a href="#"><span class="icon-span"><i class="bi bi-file-earmark-plus"></i></span><span class="nav-text">Register Projects</span></a>
-            <a href="#"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Task Manager</span></a>
+                <a href="@Url.Action("Index", "User")" class="mt-5"><span class="icon-span"><i class="bi bi-search"></i></span><span class="nav-text">Search Tool</span></a>
+                <a href="@Url.Action("Index", "User")"><span class="icon-span"><i class="bi bi-person-video2"></i></span><span class="nav-text">Users</span></a>
+                <a href="@Url.Action("Index", "Project")"><span class="icon-span"><i class="bi bi-card-heading"></i></span><span class="nav-text">Projects</span></a>
+                <a href="/Identity/Account/Register"><span class="icon-span"><i class="bi bi-person-plus-fill"></i></span><span class="nav-text">Register User</span></a>
+                <a href="@Url.Action("Create", "Project")"><span class="icon-span"><i class="bi bi-file-earmark-plus"></i></span><span class="nav-text">Register Projects</span></a>
+                <a href="@Url.Action("Index", "User")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Task Manager</span></a>
         </div>
         }
         @*    -----------------Sidbar--------------------- *@
 
     </header>
-    <div class="container">
+    <div class="container" style="margin-left: 260px;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -159,58 +159,6 @@
 		</footer>
 
     <script>
-
-
-        // ------------------sidobaren-------------
-        function toggleNav() {
-            var sidenav = document.getElementById("mySidenav");
-            var computedStyle = window.getComputedStyle(sidenav);
-
-            if (computedStyle.width === "60px") {
-                sidenav.style.width = "250px";
-                document.querySelectorAll('.nav-text').forEach(function (element) {
-                    element.style.display = 'inline';
-                });
-                document.querySelectorAll('.icon-span').forEach(function (element) {
-                    element.style.display = 'none';
-                });
-            } else {
-                sidenav.style.width = "60px";
-                document.querySelectorAll('.nav-text').forEach(function (element) {
-                    element.style.display = 'none';
-                });
-                document.querySelectorAll('.icon-span').forEach(function (element) {
-                    element.style.display = 'inline';
-                });
-            }
-        }
-        document.addEventListener("DOMContentLoaded", function () {
-            var sidenav = document.getElementById("mySidenav");
-            sidenav.style.width = "250px";
-
-
-            document.querySelectorAll('.nav-text').forEach(function (element) {
-                element.style.display = 'inline';
-            });
-            document.querySelectorAll('.icon-span').forEach(function (element) {
-                element.style.display = 'none';
-            });
-        });
-        // ------------------sidobaren---------------------
-        document.addEventListener("DOMContentLoaded", function () {
-            const themeToggleBtn = document.getElementById('theme-toggle');
-            const themeLink = document.getElementById('theme-link');
-
-            themeToggleBtn.addEventListener('click', function () {
-                // Toggle between light and dark themes
-                if (themeLink.getAttribute('href') === '/css/light-theme.css') {
-                    themeLink.setAttribute('href', '/css/dark-theme.css');
-                } else {
-                    themeLink.setAttribute('href', '/css/light-theme.css');
-                }
-            });
-        });
-
 
     </script>
 
