@@ -22,6 +22,7 @@ namespace sybring_project.ViewModels
         public TimeReportViewModel()
         {
             WeekData = new List<DayData>();
+
         }
 
     }
