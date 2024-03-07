@@ -12,6 +12,7 @@ namespace sybring_project.Controllers
 {
     public class TimeController : Controller
     {
+        private const decimal MaxRegularHoursPerDay = 8; // Declaration 
 
         private readonly ITimeService _timeService;
         private readonly ApplicationDbContext _context;
@@ -34,7 +35,6 @@ namespace sybring_project.Controllers
 
             return View(timeHistories);
         }
-
 
 
         [HttpGet]
@@ -64,9 +64,6 @@ namespace sybring_project.Controllers
             
             return View(timeHistory);
         }
-
-
-
 
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
@@ -108,58 +105,60 @@ namespace sybring_project.Controllers
             return View(model);
         }
 
-       
 
 
-     
-    [HttpPost]
-    [Route("/Time/CreateReport")]
-    public IActionResult CreateReport(TimeReportViewModel model)
-    {
-        if (!ModelState.IsValid)
+        
+
+        [HttpPost]
+        [Route("/Time/CreateReport")]
+        public IActionResult CreateReport(TimeReportViewModel model)
         {
-            try
+            if (!ModelState.IsValid)
             {
-
-                    const decimal MaxRegularHoursPerDay = 8; // Maximum regular hours per day
-
+                try
+                {
                     // Calculate total work hours for each day
                     foreach (var dayData in model.WeekData)
-                {
-                    // Validate input data
-                    if (dayData.StartTime > dayData.EndTime)
                     {
-                        ModelState.AddModelError("", "End time cannot be before start time.");
-                        return View(model);
-                    }
+                        // Validate input data
+                        if (dayData.StartTime > dayData.EndTime)
+                        {
+                            ModelState.AddModelError("", "End time cannot be before start time.");
+                            return View(model);
+                        }
 
-                    // Calculate working hours
-                    dayData.TotalWorkHours = (decimal)(dayData.EndTime - dayData.StartTime).TotalHours;
 
-                        // Calculate overtime hours 
+
+                        // Calculating total hours 
+                        var totalHoursWithLunch = (decimal)(dayData.EndTime - dayData.StartTime).TotalHours;
+
+                        // Subtracting lunch break duration
+                        totalHoursWithLunch -= CalculateWorkingHours(dayData.LunchStart, dayData.LunchEnd);
+
+                        
+                        dayData.TotalWorkHours = totalHoursWithLunch;
+
+                        // Calculating overtime hours 
                         dayData.OvertimeHours = dayData.TotalWorkHours > MaxRegularHoursPerDay ? dayData.TotalWorkHours - MaxRegularHoursPerDay : 0;
-
                     }
 
-
-
-                    // Serialize and store the model data in TempData
+                    // Serializing and store the model data in TempData
                     TempData["TimeReportModel"] = JsonConvert.SerializeObject(model);
 
-                    
 
-                    // Redirect to the ReportDetails action
+
+                    // Redirecting to the ReportDetails action
                     return RedirectToAction("ReportDetails");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"An error occurred while processing the time report: {ex.Message}");
+                }
             }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", $"An error occurred while processing the time report: {ex.Message}");
-            }
-        }
 
-        // If model state is not valid 
-        return View(model);
-    }
+            // If model state is not valid 
+            return View(model);
+        }
 
 
 
@@ -172,7 +171,7 @@ namespace sybring_project.Controllers
             // Checking if serialized model data is null or empty
             if (string.IsNullOrEmpty(serializedModel))
             {
-                // model is null or empty
+               
 
                 return RedirectToAction("CreateReport");
             }
@@ -185,34 +184,41 @@ namespace sybring_project.Controllers
 
             var overtimeList = new List<decimal>();
 
+            // Initialing total work hours for the week
+            decimal totalWorkHoursForWeek = 0;
+
             foreach (var dayData in timeReportModel.WeekData)
             {
-                // Calculate working hours and add to the list
+                // Calculate working hours considering lunch break
                 var workingHours = CalculateWorkingHours(dayData.StartTime, dayData.EndTime);
+                workingHours -= CalculateWorkingHours(dayData.LunchStart, dayData.LunchEnd);
+
+                // Add working hours to the list
                 workingHoursList.Add(workingHours);
 
                 // Calculate overtime (if applicable)
                 var overtime = Math.Max(workingHours - MaxRegularHoursPerDay, 0);
                 overtimeList.Add(overtime);
+
+                // Add working hours to total work hours for the week
+                totalWorkHoursForWeek += dayData.TotalWorkHours;
+
             }
 
 
-          
+
 
             // Passing the working hours and overtime lists to the view
             ViewBag.WorkingHoursList = workingHoursList;
             ViewBag.OvertimeList = overtimeList;
+         
+            ViewBag.TotalWorkHoursForWeek = totalWorkHoursForWeek;
 
-
-       
 
             return View();
 
         }
 
-
-        // Constants
-        private const decimal MaxRegularHoursPerDay = 8;
 
         // Method to calculate working hours
         private decimal CalculateWorkingHours(TimeSpan startTime, TimeSpan endTime)
@@ -220,6 +226,11 @@ namespace sybring_project.Controllers
         // Calculating working hours (total hours between start and end time)
         return (decimal)(endTime - startTime).TotalHours;
     }
+
+
+
+
+
 
 
     }
