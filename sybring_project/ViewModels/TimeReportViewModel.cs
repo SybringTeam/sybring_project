@@ -15,7 +15,7 @@ namespace sybring_project.ViewModels
 
 
         // Total work hours for the day
-        public decimal? TotalWorkHours { get; set; } // Nullable decimal to allow for cases where user enters total hours directly
+        public decimal? TotalWorkHours { get; set; } 
 
 
         // Constructor to initialize WeekData
