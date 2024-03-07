@@ -171,7 +171,7 @@ namespace sybring_project.Controllers
             // Checking if serialized model data is null or empty
             if (string.IsNullOrEmpty(serializedModel))
             {
-                // model is null or empty
+               
 
                 return RedirectToAction("CreateReport");
             }
@@ -226,6 +226,8 @@ namespace sybring_project.Controllers
         // Calculating working hours (total hours between start and end time)
         return (decimal)(endTime - startTime).TotalHours;
     }
+
+
 
 
 
