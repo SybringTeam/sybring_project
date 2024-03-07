@@ -22,8 +22,8 @@
         {
             <tr>
                 @* <td>@item.Id</td> *@
-                <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName</a></td>
-                <td><a asp-action="Details" asp-route-id="@item.Id">@item.LastName</a></td>
+                <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName @item.LastName</a></td>
+                @*<td><a asp-action="Details" asp-route-id="@item.Id">@item.LastName</a></td> *@
                 <td>
                     <ul>
                         @foreach (var project in item.ProjectId)
