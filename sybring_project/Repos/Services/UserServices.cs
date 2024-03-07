@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
@@ -14,14 +15,37 @@ namespace sybring_project.Repos.Services
         private readonly ApplicationDbContext _db;
         private readonly UserManager<User> _userManager;
         private readonly IProjectServices _projectServices;
+        private readonly BlobServiceClient _blobServiceClient;
+        private readonly IConfiguration _configuration;
+
         public UserServices(ApplicationDbContext db,
-            UserManager<User> userManager, IProjectServices projectServices)
+            UserManager<User> userManager, IProjectServices projectServices, IConfiguration configuration)
         {
             _db = db;
             _userManager = userManager;
             _projectServices = projectServices;
+            _configuration = configuration;
+            _blobServiceClient = new BlobServiceClient(_configuration["AzureWebJobsStorage"]);
         }
 
+        private BlobContainerClient InitBlobService(string blobContainer)
+        {
+            BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(blobContainer);
+            return containerClient;
+        }
+
+
+        public async Task<string> UploadImage(IFormFile File)
+        {
+            BlobClient blobClient = InitBlobService("sybringsstorage").GetBlobClient(File.FileName);
+
+            await using (var stream = File.OpenReadStream())
+            {
+                blobClient.Upload(stream);
+            }
+
+            return blobClient.Uri.AbsoluteUri;
+        }
         public async Task<User> AddUsersAsync(User newUser, int projectId)
         {
             _db.Users.Add(newUser);
