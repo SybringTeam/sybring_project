@@ -5,6 +5,7 @@ using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
+using System.Linq;
 
 namespace sybring_project.Repos.Services
 {
@@ -80,8 +81,6 @@ namespace sybring_project.Repos.Services
 
         }
 
-
-
         public async Task<bool> UpdateUserAsync(User user)
         {
             try
@@ -104,7 +103,31 @@ namespace sybring_project.Repos.Services
             return await _db.Projects.FindAsync(id);
         }
 
-       
+        public async Task<bool> RemoveUserFromProjectAsync(int projectId, string userId)
+        {
+            // Retrieve the project
+            var existingProject = await _db.Projects
+                 .Include(p => p.Users)
+                 .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            if (existingProject != null)
+            {
+                // Find the user entry for the specified user
+                var userToRemove = existingProject.Users
+                    .FirstOrDefault(u => u.Id == userId);
+
+                if (userToRemove != null)
+                {
+                    // Remove the user from the project
+                    existingProject.Users.Remove(userToRemove);
+                    await _db.SaveChangesAsync();
+                    return true; 
+                }
+            }
+
+            return false; 
+        }
+
 
 
 
@@ -113,13 +136,24 @@ namespace sybring_project.Repos.Services
             throw new NotImplementedException();
         }
 
+     
 
+        public async Task AssignProjectToUserAsync(string userId, int projectId)
+        {
+            var existingProject = await _db.Projects
+               .Include(p => p.Users)
+               .FirstOrDefaultAsync(p => p.Id == projectId);
 
+            if (existingProject != null)
+            {
+                var userToAdd = _db.Users.FirstOrDefault(u => u.Id == userId);
 
-
-
-
-
+               
+                    existingProject.Users.Add(userToAdd);
+                    await _db.SaveChangesAsync();
+                
+        }
+        }
     }
 }
 

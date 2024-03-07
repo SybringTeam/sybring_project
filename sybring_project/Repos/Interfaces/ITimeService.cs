@@ -10,8 +10,7 @@ namespace sybring_project.Repos.Interfaces
         Task UpdateTimeHistoryAsync(TimeHistory updatedTimeHistory);
         Task DeleteTimeHistoryAsync(int id);
 
-        Task<Dictionary<string, double>> GenerateTimeReportByDaysAsync(DateTime startDate, DateTime endDate);
-
+        //Task<Dictionary<string, double>> GenerateTimeReportByDaysAsync(DateTime startDate, DateTime endDate);
 
 
     }

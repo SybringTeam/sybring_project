@@ -22,24 +22,22 @@
         {
             <tr>
                 @* <td>@item.Id</td> *@
-                <td>@item.FirstName @item.LastName</td>
-                @* <td>@item.LastName</td> *@
+                <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName</a></td>
+                <td><a asp-action="Details" asp-route-id="@item.Id">@item.LastName</a></td>
                 <td>
                     <ul>
                         @foreach (var project in item.ProjectId)
                         {
                             <li>@project.Name</li>
-                            <a asp-action="RemoveProject" asp-route-id="@item.Id" class="btn btn-danger remove-project" data-user-id="@item.Id" data-project-id="@project.Id">Remove</a>
-
-                        }
+                         }
                     </ul>
                 </td>
-                <td>@item.TaskDescription</td>
-                <td>@item.UserName</td>
+                <td><a asp-action="Details" asp-route-id="@item.Id">@item.TaskDescription</a></td>
+                <td><a asp-action="Details" asp-route-id="@item.Id">@item.UserName</a></td>
 
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+@*                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+ *@                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
@@ -50,4 +48,12 @@
 <div>
     <a asp-action="Create" class="btn btn-primary">Create User</a>
 </div>
+
+
+<script>
+    function myFunction() 
+    {
+        alert('Link clicked');
+    }
+</script>
 
