@@ -9,9 +9,8 @@
 
             @* <th>ID</th> *@
 
-
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Name</th>
+            
             <th>Projects</th>
             <th>Task Description</th>
             <th>User Name</th>
@@ -26,10 +25,10 @@
                 @* <td>@item.Id</td> *@
 
 
-                <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName</a></td>
+                <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName @item.LastName</a></td>
 
 
-                <td><a asp-action="Details" asp-route-id="@item.Id">@item.LastName</a></td>
+               @*  <td><a asp-action="Details" asp-route-id="@item.Id">@item.LastName</a></td> *@
                 <td>
                     <ul>
                         @foreach (var project in item.ProjectId)
@@ -52,7 +51,7 @@
 </table>
 
 <div>
-    <a asp-action="Create" class="btn btn-primary">Create User</a>
+   @*  <a asp-action="Create" class="btn btn-primary">Create User</a> *@
 </div>
 
 <script>
