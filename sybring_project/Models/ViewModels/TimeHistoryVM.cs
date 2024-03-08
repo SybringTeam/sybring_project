@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using sybring_project.Models.Db;
+
+using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace sybring_project.Models.Db
+
+namespace sybring_project.Models.ViewModels
 {
-    public class TimeHistory
+    public class TimeHistoryVM
     {
-        [Key]
+      
         public int Id { get; set; }
 
         [Required]
@@ -54,4 +57,6 @@ namespace sybring_project.Models.Db
         // Represents many-to-many relationship with User
         public virtual ICollection<User> Users { get; set; }
     }
+
 }
+

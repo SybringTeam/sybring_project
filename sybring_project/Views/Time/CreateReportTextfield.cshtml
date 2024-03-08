@@ -1,4 +1,4 @@
-﻿@model sybring_project.ViewModels.TimeReportViewModel
+﻿@model sybring_project.Models.ViewModels.TimeReportViewModel
 
 @{
     ViewData["Title"] = "Create Text Field Report";
@@ -43,7 +43,7 @@
                         </td>
                       
                         <!-- validation error-->
-                        <td>@Html.ValidationMessageFor(m => m.WeekData[i].Day, "", new { @class = "text-danger" })</td>
+                        <td>@Html.ValidationMessageFor(m => m.WeekData[i], "", new { @class = "text-danger" })</td>
                     </tr>
                 }
             }
