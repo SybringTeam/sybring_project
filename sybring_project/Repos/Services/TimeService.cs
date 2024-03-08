@@ -20,29 +20,29 @@ namespace sybring_project.Repos.Services
         // Adding a new time history 
         public async Task AddTimeHistoryAsync(TimeHistoryVM timeHistoryVM, string userId)
         {
-            TimeHistory addTime = new TimeHistory() 
+            TimeHistory addTime = new TimeHistory()
             {
-                //Schedule = timeHistoryVM.Schedule,
-                //StartWork = timeHistoryVM.StartWork,
-                //EndWork = timeHistoryVM.EndWork,
-                //StartBreak = timeHistoryVM.StartBreak,
-                //EndBreak = timeHistoryVM.EndBreak,
-                //TotalWorkingHours = timeHistoryVM.TotalWorkingHours,
-                //WorkingHours = timeHistoryVM.WorkingHours,
-                //FlexiTime = timeHistoryVM.FlexiTime,
-                //MoreTime = timeHistoryVM.MoreTime,
-                //AttendanceTime = timeHistoryVM.AttendanceTime,
-                //AnnualLeave = timeHistoryVM.AnnualLeave,
-                //SickLeave = timeHistoryVM.SickLeave,
-                //LeaveOfAbsence = timeHistoryVM.LeaveOfAbsence,
-                //Childcare = timeHistoryVM.Childcare,
-                //Overtime = timeHistoryVM.Overtime,
-                //InconvenientHours = timeHistoryVM.InconvenientHours,
-                //ProjectId = _db.Projects.FirstOrDefault(p => p.Id == timeHistoryVM.Users)!,
-
-
-
+                Schedule = timeHistoryVM.Schedule,
+                StartWork = timeHistoryVM.StartWork,
+                EndWork = timeHistoryVM.EndWork,
+                StartBreak = timeHistoryVM.StartBreak,
+                EndBreak = timeHistoryVM.EndBreak,
+                TotalWorkingHours = timeHistoryVM.TotalWorkingHours,
+                WorkingHours = timeHistoryVM.WorkingHours,
+                FlexiTime = timeHistoryVM.FlexiTime,
+                MoreTime = timeHistoryVM.MoreTime,
+                AttendanceTime = timeHistoryVM.AttendanceTime,
+                AnnualLeave = timeHistoryVM.AnnualLeave,
+                SickLeave = timeHistoryVM.SickLeave,
+                LeaveOfAbsence = timeHistoryVM.LeaveOfAbsence,
+                Childcare = timeHistoryVM.Childcare,
+                Overtime = timeHistoryVM.Overtime,
+                InconvenientHours = timeHistoryVM.InconvenientHours,
+                ProjectId = timeHistoryVM.ProjectId,
+                Users = (ICollection<User>)timeHistoryVM.Users.FirstOrDefault(u => u.Id == userId)
             };
+            _db.TimeHistories.Add(addTime);
+            _db.SaveChanges();
         }
 
         public Task AddTimeHistoryAsync(TimeHistoryVM timeHistoryVM)
