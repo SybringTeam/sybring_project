@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<sybring_project.Models.Db.Project>
 
 
+
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -21,7 +23,7 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-               Users on Projects
+               Users on Project
             </th>
            
             <th></th>
@@ -45,7 +47,7 @@
                             @foreach (var user in item.Users)
                             {
                                 <li>
-                                    @user.UserName<br />
+                                <a asp-controller="User" asp-action="Details" asp-route-id="@user.Id">@user.UserName</a><br />
                                 </li>
                               
                             
@@ -57,9 +59,9 @@
 
 
                 <td>
-                    @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | *@
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+@*                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+ *@                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }

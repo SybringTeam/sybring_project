@@ -36,7 +36,10 @@ namespace sybring_project.Data
                 .WithMany(p => p.ProjectId)
                 .UsingEntity(t => t.ToTable("ProjectUsers"));
 
-
+            builder.Entity<TimeHistory>()
+             .HasMany(u => u.Users)
+             .WithMany(u => u.TimeId)
+             .UsingEntity(j => j.ToTable("TimeHistoryUser"));
 
             base.OnModelCreating(builder);
         }
