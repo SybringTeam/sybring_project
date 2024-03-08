@@ -1,5 +1,6 @@
-html {
-    font-size: 14px;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap') html {
+	font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -13,27 +14,36 @@ html {
 }
 
 html {
-    position: relative;
-    min-height: 100%;
+	position: relative;
+	height: 100%;
+	margin: 0; 
+	padding: 0;
 }
 
 body {
-    margin-bottom: 60px;
+	margin-bottom: 60px;
+	font-family: 'Raleway', 
+	"Open Sans", sans-serif;
+	font-size: 18px;
+	text-decoration: none;
 }
-
 img {
     height: 40px;
     max-width: 100%
 }
+.navbar {
+	background-color: #0B2247; !important;
+}
 
 .navbar-light .navbar-nav .nav-link {
-	color:white
+	color:white;
+	
 }
 .navbar-light .navbar-nav .nav-link:hover {
 	color: purple; 
 }
 
-.footer .container {
+/*.footer .container {
     width: 100%;
 }
 footer {
@@ -45,24 +55,9 @@ footer {
     bottom: 0;
     left: 0;
 }
+*/
 
 
-@media (min-width: 768px) {
-    .footer .container, .footer .container-md, .footer .container-sm {
-        max-width: none !important;
-    }
-}
-
-@media (min-width: 576px) {
-    .footer .container, .footer .container-sm {
-        max-width: none !important;
-    }
-}
-
-
-body {
-    font-family: "Lato", sans-serif;
-}
 
 .navbar {
 	height: 60px;
@@ -87,28 +82,36 @@ body {
     transition: 0.5s;
 	
 }
-	
 
-    .sidenav a {
-        padding: 8px 8px 8px 17px;
-        text-decoration: none;
-        font-size: 25px;
-        color: #818181;
-        display: block;
-        transition: 0.3s;
-    }
+
+	.sidenav a {
+		padding: 11px 0px 14px 20px;
+		text-decoration: none;
+		font-size: 25px;
+		color: #818181;
+		display: block;
+		transition: 0.3s;
+	}
 
         .sidenav a:hover {
             color: #f1f1f1;
         }
 
-    .sidenav .closebtn {
-        position: absolute;
-        top: 0;
-        right: 9px;
-        font-size: 36px;
-        margin-left: 50px;
-    }
+	.sidenav .closebtn {
+		position: absolute;
+		top: 0;
+		right: 0px;
+		font-size: 36px;
+		margin-left: 50px;
+		padding-right: 16px;
+	}
+
+
+	.sidenav a:hover {
+		border: 2px solid #ccc;
+		background-color: lightblue;
+		transition: 0.3s;
+	}
 
 .navbar .openbtn {
     font-size: 30px;
@@ -121,10 +124,10 @@ body {
 .navbar-brand img {
     filter: invert(100%);
 }
-body {
+/*body {
 	margin: 0;
 	padding: 0;
-}
+}*/
 .main {
 	/*max-height: 550px;;*/
 	background-color: #292c2f;
@@ -132,6 +135,7 @@ body {
 	font-size: 38pt;
 	text-align: center;
 	line-height: 550px;
+	font: Roboto;
 	
 }
 .container {
@@ -140,7 +144,7 @@ body {
 }
 
 footer{
-	position: fixed;
+	position: sticky;
 	bottom: 0;
 }
 .footer-distributed {
@@ -149,9 +153,8 @@ footer{
 	box-sizing: border-box;
 	width: 100%;
 	text-align: left;
-	font: bold 16px sans-serif;
 	padding: 30px 50px;
-	margin-top: 80px;
+	
 }
  
 .footer-distributed .footer-left,
@@ -274,36 +277,25 @@ img {
 }
 
 
-@media (max-width: 880px) {
 
-	.footer-distributed {
-		font: bold 14px sans-serif;
-	}
-
-		.footer-distributed .footer-left,
-		.footer-distributed .footer-center,
-		.footer-distributed .footer-right {
-			display: block;
-			width: 100%;
-			margin-bottom: 40px;
-			text-align: center;
-		}
-
-			.footer-distributed .footer-center i {
-				margin-left: 0;
-			}
-
-	.main {
-		line-height: normal;
-		font-size: auto;
-	}
-}
 	.containerlayout {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		height: 70vh; /* Adjust as needed */
+		height: 50%;
 	}
+
+
+
+.containerlayout {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+}
+
 
 		.containerlayout form {
 			width: 100%;
@@ -319,4 +311,9 @@ img {
 			margin-bottom: 20px; /* Adjust as needed */
 			text-align: center
 		}
-	
+
+
+
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:wdth,wght@97.4,350&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'){
+
+}
