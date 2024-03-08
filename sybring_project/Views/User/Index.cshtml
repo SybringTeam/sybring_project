@@ -32,8 +32,8 @@
                          }
                     </ul>
                 </td>
-                <td><a asp-action="Details" asp-route-id="@item.Id">@item.TaskDescription</a></td>
-                <td><a asp-action="Details" asp-route-id="@item.Id">@item.UserName</a></td>
+                <td>@item.TaskDescription</td>
+                <td>@item.UserName</td>
 
                 <td>
 @*                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
@@ -44,12 +44,6 @@
         }
     </tbody>
 </table>
-
-<div>
-    <a asp-action="Create" class="btn btn-primary">Create User</a>
-</div>
-
-
 <script>
     function myFunction() 
     {
