@@ -1,10 +1,18 @@
-﻿@model IEnumerable<sybring_project.Models.Db.User>
+@model IEnumerable<sybring_project.Models.Db.User>
 
 <h1>Users List</h1>
 
 <table class="table">
     <thead>
         <tr>
+
+            @* 
+            <th>ID</th> 
+            <th>First Name</th>
+            <th>Last Name</th>
+            *@
+            <th>Full Name</th>
+
             @* <th>ID</th> *@
 
 
@@ -13,6 +21,7 @@
 
             <th>First Name</th>
             <th>Last Name</th>
+
 
             <th>Projects</th>
             <th>Task Description</th>
@@ -26,6 +35,10 @@
             <tr>
                 @* <td>@item.Id</td> *@
 
+                <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName @item.LastName</a></td>
+                @*<td><a asp-action="Details" asp-route-id="@item.Id">@item.LastName</a></td> *@
+
+
 
 
                 <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName @item.LastName</a></td>
@@ -36,6 +49,7 @@
                 <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName</a></td>
                 <td><a asp-action="Details" asp-route-id="@item.Id">@item.LastName</a></td>
 
+
                 <td>
                     <ul>
                         @foreach (var project in item.ProjectId)
@@ -44,8 +58,8 @@
                          }
                     </ul>
                 </td>
-                <td><a asp-action="Details" asp-route-id="@item.Id">@item.TaskDescription</a></td>
-                <td><a asp-action="Details" asp-route-id="@item.Id">@item.UserName</a></td>
+                <td>@item.TaskDescription</td>
+                <td>@item.UserName</td>
 
                 <td>
 @*                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
@@ -57,9 +71,11 @@
     </tbody>
 </table>
 
+
 <div>
    @*  <a asp-action="Create" class="btn btn-primary">Create User</a> *@
 </div>
+
 
 
 <script>

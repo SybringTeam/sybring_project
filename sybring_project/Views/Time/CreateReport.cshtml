@@ -34,6 +34,35 @@
         <tbody>
             @if (Model != null && Model.WeekData != null)
             {
+                // Adjust index to start from Monday
+                var startDayIndex = (int)DayOfWeek.Monday;
+
+                // Loop through each day of the week (Monday to Sunday)
+                for (var i = startDayIndex; i < startDayIndex + 7; i++)
+                {
+                    // Adjust index to handle DayOfWeek enum starting from Monday
+                    int adjustedIndex = i % 7; // Ensure index wraps around correctly
+
+                    <tr>
+                        <td>@Enum.GetName(typeof(DayOfWeek), adjustedIndex)</td>
+                        <td>@Html.TextBoxFor(m => m.WeekData[adjustedIndex].StartTime, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => m.WeekData[adjustedIndex].EndTime, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => m.WeekData[adjustedIndex].LunchStart, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => m.WeekData[adjustedIndex].LunchEnd, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.ValidationMessageFor(m => m.WeekData[adjustedIndex].Day, "", new { @class = "text-danger" })</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">No data available</td>
+                </tr>
+            }
+
+
+            @if (Model != null && Model.WeekData != null)
+            {
 
                 for (var i = 0; i < Model.WeekData.Count; i++)
                 {
@@ -48,7 +77,7 @@
                         <td>@Html.TextBoxFor(m => m.WeekData[i].LunchStart, new { @class = "form-control", type = "time" })</td>
                         <td>@Html.TextBoxFor(m => m.WeekData[i].LunchEnd, new { @class = "form-control", type = "time" })</td>
 
-                     @*    <td>@Html.TextBoxFor(m => m.WeekData[i].TotalWorkHours, new { @class = "form-control", type = "number" })</td> *@
+                        @*    <td>@Html.TextBoxFor(m => m.WeekData[i].TotalWorkHours, new { @class = "form-control", type = "number" })</td> *@
 
                         <!-- validation error-->
                         <td>@Html.ValidationMessageFor(m => m.WeekData[i].Day, "", new { @class = "text-danger" })</td>
