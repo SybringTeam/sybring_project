@@ -23,14 +23,15 @@ namespace sybring_project.Controllers
         }
 
 
-     
         public async Task<IActionResult> Index()
         {
             var projectsList = await _projectServices.GetProjectsAsync();
             return View(projectsList);
         }
 
+
         [HttpGet]
+
         public async Task<IActionResult> Details(int id)
         {
             var project = await _projectServices.GetProjectByIdAsync(id);
@@ -50,6 +51,7 @@ namespace sybring_project.Controllers
 
             return View(project);
         }
+
 
         [HttpPost]
         
@@ -81,16 +83,17 @@ namespace sybring_project.Controllers
 
         }
 
-
-
       
+
+        
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
             return View();
         }
 
-        [Route("pc")]
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Project project)

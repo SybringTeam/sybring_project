@@ -5,12 +5,15 @@
 <table class="table">
     <thead>
         <tr>
-
-
             @* <th>ID</th> *@
+
 
             <th>Name</th>
             
+
+            <th>First Name</th>
+            <th>Last Name</th>
+
             <th>Projects</th>
             <th>Task Description</th>
             <th>User Name</th>
@@ -21,14 +24,18 @@
         @foreach (var item in Model)
         {
             <tr>
-
                 @* <td>@item.Id</td> *@
+
 
 
                 <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName @item.LastName</a></td>
 
 
                @*  <td><a asp-action="Details" asp-route-id="@item.Id">@item.LastName</a></td> *@
+
+                <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName</a></td>
+                <td><a asp-action="Details" asp-route-id="@item.Id">@item.LastName</a></td>
+
                 <td>
                     <ul>
                         @foreach (var project in item.ProjectId)
@@ -54,9 +61,11 @@
    @*  <a asp-action="Create" class="btn btn-primary">Create User</a> *@
 </div>
 
+
 <script>
     function myFunction() 
     {
         alert('Link clicked');
     }
 </script>
+
