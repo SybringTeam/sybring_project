@@ -29,7 +29,7 @@ namespace sybring_project.Models.ViewModels
         // Constructor to initialize WeekData
         public TimeReportViewModel()
         {
-            WeekData = new List<DayDataVM>();
+            WeekData = Enumerable.Range(0, 7).Select(_ => new DayDataVM()).ToList();
 
         }
     }

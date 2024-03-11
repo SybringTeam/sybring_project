@@ -1,14 +1,10 @@
-﻿using AspNetCore;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using sybring_project.Data;
-using sybring_project.Models;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
-using sybring_project.Repos.Services;
 
 
 namespace sybring_project.Controllers
@@ -31,12 +27,11 @@ namespace sybring_project.Controllers
 
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            // Retring time history  from the database
-            var timeHistories = _context.TimeHistories.ToList();
+            var list = await _timeService.GetTimeListAsync();
 
-            return View(timeHistories);
+            return View(list);
         }
 
 
@@ -89,10 +84,10 @@ namespace sybring_project.Controllers
 
 
         [HttpGet]
-        public IActionResult CreateReport()
+        public async Task<IActionResult> CreateReport()
         {
-            
-            return View();
+            TimeReportViewModel timeReportViewModel = new TimeReportViewModel();
+            return View(timeReportViewModel);
         }
 
         [HttpPost]

@@ -15,7 +15,11 @@ namespace sybring_project.Repos.Services
             _db = db;
         }
 
-
+        public Task<List<TimeHistory>> GetTimeListAsync()
+        {
+            return _db.TimeHistories.ToListAsync();
+        }
+       
 
         // Adding a new time history 
         public async Task AddTimeHistoryAsync(TimeHistory timeHistory)
@@ -89,6 +93,8 @@ namespace sybring_project.Repos.Services
             _db.Update(updatedTimeHistory);
             await _db.SaveChangesAsync();
         }
+
+      
 
 
 
