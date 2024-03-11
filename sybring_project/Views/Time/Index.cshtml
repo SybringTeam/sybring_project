@@ -1,12 +1,10 @@
-﻿
-
-@model List<sybring_project.Models.Db.TimeHistory>
+﻿@model List<sybring_project.Models.Db.TimeHistory>
 
 @{
     ViewData["Title"] = "Time History";
 }
 
-@* <h1>Time History Records</h1>
+<h1>Time History Records</h1>
 
 @if (Model.Any())
 {
@@ -14,7 +12,24 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Date Time</th>
+                <th>Schedule</th>
+                <th>StartWork</th>
+                <th>EndWork</th>
+                <th>StartBrea</th>
+                <th>EndBreak</th>
+                <th>TotalWork</th>
+                <th>WorkingHours</th>
+                <th>FlexiTime</th>
+                <th>MoreTime</th>
+                <th>Attendance</th>
+                <th>AnnualLea</th>
+                <th>SickLeave</th>
+                <th>LeaveOfAb</th>
+                <th>Childcare</th>
+                <th>Overtime</th>
+                <th>InconvenientHours</th>
+                    
+                
                 
             </tr>
         </thead>
@@ -23,8 +38,23 @@
             {
                 <tr>
                     <td>@timeHistory.Id</td>
-                    <td>@timeHistory.DateTime</td>
-                   
+                    <td>@timeHistory.Schedule</td>
+                    <td>@timeHistory.StartWork</td>
+                    <td>@timeHistory.EndWork</td>
+                    <td>@timeHistory.StartBreak</td>
+                    <td>@timeHistory.EndBreak</td>
+                    <td>@timeHistory.TotalWorkingHours</td>
+                    <td>@timeHistory.WorkingHours</td>
+                    <td>@timeHistory.FlexiTime</td>
+                    <td>@timeHistory.MoreTime</td>
+                    <td>@timeHistory.AttendanceTime</td>
+                    <td>@timeHistory.AnnualLeave</td>
+                    <td>@timeHistory.SickLeave</td>
+                    <td>@timeHistory.LeaveOfAbsence</td>
+                    <td>@timeHistory.Childcare</td>
+                    <td>@timeHistory.Overtime</td>
+                    <td>@timeHistory.InconvenientHours</td>
+
                 </tr>
             }
         </tbody>
@@ -36,4 +66,3 @@ else
 }
 
 <a asp-action="Create">Create New</a>
- *@

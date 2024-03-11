@@ -18,38 +18,55 @@ namespace sybring_project.Repos.Services
 
 
         // Adding a new time history 
-        public async Task AddTimeHistoryAsync(TimeHistoryVM timeHistoryVM, string userId)
+        public async Task AddTimeHistoryAsync(TimeHistory timeHistory)
         {
-            TimeHistory addTime = new TimeHistory()
+            _db.TimeHistories.Add(timeHistory);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task AddReportAsync(TimeReportViewModel model)
+        {
+            foreach (var dayData in model.WeekData)
             {
-                Schedule = timeHistoryVM.Schedule,
-                StartWork = timeHistoryVM.StartWork,
-                EndWork = timeHistoryVM.EndWork,
-                StartBreak = timeHistoryVM.StartBreak,
-                EndBreak = timeHistoryVM.EndBreak,
-                TotalWorkingHours = timeHistoryVM.TotalWorkingHours,
-                WorkingHours = timeHistoryVM.WorkingHours,
-                FlexiTime = timeHistoryVM.FlexiTime,
-                MoreTime = timeHistoryVM.MoreTime,
-                AttendanceTime = timeHistoryVM.AttendanceTime,
-                AnnualLeave = timeHistoryVM.AnnualLeave,
-                SickLeave = timeHistoryVM.SickLeave,
-                LeaveOfAbsence = timeHistoryVM.LeaveOfAbsence,
-                Childcare = timeHistoryVM.Childcare,
-                Overtime = timeHistoryVM.Overtime,
-                InconvenientHours = timeHistoryVM.InconvenientHours,
-                ProjectId = timeHistoryVM.ProjectId,
-                Users = (ICollection<User>)timeHistoryVM.Users.FirstOrDefault(u => u.Id == userId)
-            };
-            _db.TimeHistories.Add(addTime);
+                if (dayData.StartWork > dayData.EndWork)
+                {
+                    throw new InvalidOperationException("End time cannot be before start time.");
+                }
+
+                var totalHoursWithBreak = (decimal)(dayData.EndWork - dayData.StartWork).TotalHours;
+                totalHoursWithBreak -= CalculateWorkingHoursAsync(dayData.StartWork, dayData.EndWork);
+
+                TimeHistory addHistory = new TimeHistory
+                {
+                    Date = model.Date,
+                    Schedule = model.Schedule,
+                    StartWork = dayData.StartWork,
+                    EndWork = dayData.EndWork,
+                    StartBreak = dayData.StartBreak,
+                    EndBreak = dayData.EndBreak,
+                    TotalWorkingHours = dayData.TotalWorkingHours,
+                    WorkingHours = dayData.WorkingHours,
+                    FlexiTime = dayData.FlexiTime,
+                    MoreTime = dayData.MoreTime,
+                    AttendanceTime = dayData.AttendanceTime,
+                    SickLeave = dayData.SickLeave,
+                    LeaveOfAbsence = dayData.LeaveOfAbsence,
+                    Childcare = dayData.Childcare,
+                    Overtime = dayData.Overtime,
+                    InconvenientHours = dayData.InconvenientHours
+                  
+                };
+
+                _db.TimeHistories.Add(addHistory);
+            }
             _db.SaveChanges();
         }
 
-        public Task AddTimeHistoryAsync(TimeHistoryVM timeHistoryVM)
+        public decimal CalculateWorkingHoursAsync(TimeSpan startTime, TimeSpan endTime)
         {
-            throw new NotImplementedException();
+            // Calculating working hours (total hours between start and end time)
+            return (decimal)(endTime - startTime).TotalHours;
         }
-
 
 
         // Deleting a time history 
@@ -65,27 +82,12 @@ namespace sybring_project.Repos.Services
 
         }
 
-        public Task<Dictionary<string, double>> GenerateTimeReportByDaysAsync(DateTime startDate, DateTime endDate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TimeHistory> GetTimeByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
 
         // Updating an existing time history 
         public async Task UpdateTimeHistoryAsync(TimeHistory updatedTimeHistory)
         {
             _db.Update(updatedTimeHistory);
             await _db.SaveChangesAsync();
-        }
-
-        public Task UpdateTimeHistoryAsync(TimeHistoryVM timeHistoryVM)
-        {
-            throw new NotImplementedException();
         }
 
 
