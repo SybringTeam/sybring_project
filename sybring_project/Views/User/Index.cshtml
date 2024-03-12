@@ -5,9 +5,12 @@
 
 
 <div class="frame">
+    <div class="pagging1"> </div>
+    <div class="pagging2"> </div>
     <table class="table">
     <thead>
         <tr>
+            
             <th>Full Name</th>
             <th>Projects</th>
             <th>Task Description</th>
@@ -15,6 +18,7 @@
             <th>Actions</th>
         </tr>
     </thead>
+
     <tbody>
         @foreach (var item in Model)
         {
@@ -38,7 +42,9 @@
                 </td>
             </tr>
         }
+         
     </tbody>
+        
 </table>
 </div>
 
