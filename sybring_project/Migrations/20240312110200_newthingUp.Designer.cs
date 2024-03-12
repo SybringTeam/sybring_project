@@ -9,18 +9,18 @@ using sybring_project.Data;
 
 #nullable disable
 
-namespace sybring_project.Data.Migrations
+namespace sybring_project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240215104825_NewProps")]
-    partial class NewProps
+    [Migration("20240312110200_newthingUp")]
+    partial class newthingUp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.1")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -177,21 +177,6 @@ namespace sybring_project.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ProjectTimeHistory", b =>
-                {
-                    b.Property<int>("ProjectIdId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TimeIdId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProjectIdId", "TimeIdId");
-
-                    b.HasIndex("TimeIdId");
-
-                    b.ToTable("ProjectTimeHistory");
-                });
-
             modelBuilder.Entity("ProjectUser", b =>
                 {
                     b.Property<int>("ProjectIdId")
@@ -204,20 +189,20 @@ namespace sybring_project.Data.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("ProjectUser");
+                    b.ToTable("ProjectUsers", (string)null);
                 });
 
             modelBuilder.Entity("TimeHistoryUser", b =>
                 {
-                    b.Property<int>("TimeIdId")
+                    b.Property<int>("TimeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UsersId")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("TimeIdId", "UsersId");
+                    b.HasKey("TimeId", "UserId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("TimeHistoryUser");
                 });
@@ -261,6 +246,7 @@ namespace sybring_project.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -268,6 +254,35 @@ namespace sybring_project.Data.Migrations
                     b.HasIndex("BillingId");
 
                     b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("sybring_project.Models.Db.ProjectTimeReport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<TimeSpan>("ProjectHours")
+                        .HasColumnType("time");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeHistoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TimeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("TimeHistoryId");
+
+                    b.ToTable("ProjectTimeReport");
                 });
 
             modelBuilder.Entity("sybring_project.Models.Db.TimeHistory", b =>
@@ -278,8 +293,56 @@ namespace sybring_project.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateTime")
+                    b.Property<decimal>("AnnualLeave")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("AttendanceTime")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Childcare")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<TimeSpan>("EndBreak")
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan>("EndWork")
+                        .HasColumnType("time");
+
+                    b.Property<decimal>("FlexiTime")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("InconvenientHours")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("LeaveOfAbsence")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("MoreTime")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Overtime")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("Schedule")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("SickLeave")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<TimeSpan>("StartBreak")
+                        .HasColumnType("time");
+
+                    b.Property<TimeSpan>("StartWork")
+                        .HasColumnType("time");
+
+                    b.Property<decimal>("TotalWorkingHours")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("WorkingHours")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -316,6 +379,10 @@ namespace sybring_project.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageLink")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -347,11 +414,13 @@ namespace sybring_project.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TaskDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<double>("UserIncome")
+                        .HasColumnType("float");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -436,21 +505,6 @@ namespace sybring_project.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProjectTimeHistory", b =>
-                {
-                    b.HasOne("sybring_project.Models.Db.Project", null)
-                        .WithMany()
-                        .HasForeignKey("ProjectIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("sybring_project.Models.Db.TimeHistory", null)
-                        .WithMany()
-                        .HasForeignKey("TimeIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ProjectUser", b =>
                 {
                     b.HasOne("sybring_project.Models.Db.Project", null)
@@ -470,13 +524,13 @@ namespace sybring_project.Data.Migrations
                 {
                     b.HasOne("sybring_project.Models.Db.TimeHistory", null)
                         .WithMany()
-                        .HasForeignKey("TimeIdId")
+                        .HasForeignKey("TimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("sybring_project.Models.Db.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -488,9 +542,38 @@ namespace sybring_project.Data.Migrations
                         .HasForeignKey("BillingId");
                 });
 
+            modelBuilder.Entity("sybring_project.Models.Db.ProjectTimeReport", b =>
+                {
+                    b.HasOne("sybring_project.Models.Db.Project", "Projects")
+                        .WithMany("ProjectHistories")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("sybring_project.Models.Db.TimeHistory", "TimeHistory")
+                        .WithMany("ProjectHistories")
+                        .HasForeignKey("TimeHistoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Projects");
+
+                    b.Navigation("TimeHistory");
+                });
+
             modelBuilder.Entity("sybring_project.Models.Db.Billing", b =>
                 {
                     b.Navigation("ProjectId");
+                });
+
+            modelBuilder.Entity("sybring_project.Models.Db.Project", b =>
+                {
+                    b.Navigation("ProjectHistories");
+                });
+
+            modelBuilder.Entity("sybring_project.Models.Db.TimeHistory", b =>
+                {
+                    b.Navigation("ProjectHistories");
                 });
 #pragma warning restore 612, 618
         }
