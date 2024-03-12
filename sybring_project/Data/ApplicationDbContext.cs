@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
+using System.Reflection.Emit;
 
 namespace sybring_project.Data
 {
@@ -20,6 +21,8 @@ namespace sybring_project.Data
         public DbSet<Project> Projects { get; set; }
 
         public DbSet<TimeHistory> TimeHistories { get; set; }
+
+        public DbSet<ProjectTimeReport> ProjectTimeReport { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -46,14 +49,7 @@ namespace sybring_project.Data
      );
 
 
-            builder.Entity<TimeHistory>()
-    .HasMany(t => t.ProjectId)
-    .WithMany(p => p.TimeId)
-    .UsingEntity<Dictionary<string, object>>(
-        "ProjectTimeHistory",
-        j => j.HasOne<Project>().WithMany().HasForeignKey("ProjectId"),
-        j => j.HasOne<TimeHistory>().WithMany().HasForeignKey("TimeId")
-    );
+          
 
 
             base.OnModelCreating(builder);
