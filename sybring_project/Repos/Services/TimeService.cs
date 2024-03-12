@@ -64,6 +64,8 @@ namespace sybring_project.Repos.Services
                 _db.TimeHistories.Add(addHistory);
             }
             _db.SaveChanges();
+
+
         }
 
         public decimal CalculateWorkingHoursAsync(TimeSpan startTime, TimeSpan endTime)
