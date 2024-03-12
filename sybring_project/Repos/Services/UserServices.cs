@@ -94,8 +94,8 @@ namespace sybring_project.Repos.Services
         public async Task<User> GetUserByIdAsync(string id)
         {
             var user = await _db.Users
-.Include(u => u.ProjectId)
-.FirstOrDefaultAsync(u => u.Id == id);
+            .Include(u => u.ProjectId)
+    .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
             {
@@ -129,20 +129,20 @@ namespace sybring_project.Repos.Services
 
         public async Task<bool> RemoveUserFromProjectAsync(int projectId, string userId)
         {
-            // Retrieve the project
+        
             var existingProject = await _db.Projects
                  .Include(p => p.Users)
                  .FirstOrDefaultAsync(p => p.Id == projectId);
 
             if (existingProject != null)
             {
-                // Find the user entry for the specified user
+              
                 var userToRemove = existingProject.Users
                     .FirstOrDefault(u => u.Id == userId);
 
                 if (userToRemove != null)
                 {
-                    // Remove the user from the project
+                  
                     existingProject.Users.Remove(userToRemove);
                     await _db.SaveChangesAsync();
                     return true; 

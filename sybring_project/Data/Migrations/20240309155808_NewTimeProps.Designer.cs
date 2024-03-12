@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sybring_project.Data;
 
@@ -11,9 +12,11 @@ using sybring_project.Data;
 namespace sybring_project.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240309155808_NewTimeProps")]
+    partial class NewTimeProps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -285,9 +288,6 @@ namespace sybring_project.Data.Migrations
                     b.Property<decimal>("Childcare")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<TimeSpan>("EndBreak")
                         .HasColumnType("time");
 
@@ -321,7 +321,7 @@ namespace sybring_project.Data.Migrations
                     b.Property<TimeSpan>("StartWork")
                         .HasColumnType("time");
 
-                    b.Property<decimal>("TotalWorkingHours")
+                    b.Property<decimal?>("TotalWorkingHours")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("WorkingHours")

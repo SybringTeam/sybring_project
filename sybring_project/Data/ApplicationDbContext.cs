@@ -36,6 +36,24 @@ namespace sybring_project.Data
                 .WithMany(p => p.ProjectId)
                 .UsingEntity(t => t.ToTable("ProjectUsers"));
 
+            builder.Entity<TimeHistory>()
+     .HasMany(t => t.Users)
+     .WithMany(u => u.TimeId)
+     .UsingEntity<Dictionary<string, object>>(
+         "TimeHistoryUser",
+         j => j.HasOne<User>().WithMany().HasForeignKey("UserId"),
+         j => j.HasOne<TimeHistory>().WithMany().HasForeignKey("TimeId")
+     );
+
+
+            builder.Entity<TimeHistory>()
+    .HasMany(t => t.ProjectId)
+    .WithMany(p => p.TimeId)
+    .UsingEntity<Dictionary<string, object>>(
+        "ProjectTimeHistory",
+        j => j.HasOne<Project>().WithMany().HasForeignKey("ProjectId"),
+        j => j.HasOne<TimeHistory>().WithMany().HasForeignKey("TimeId")
+    );
 
 
             base.OnModelCreating(builder);
