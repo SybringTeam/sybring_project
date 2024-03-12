@@ -37,7 +37,7 @@ namespace sybring_project.Controllers
             var project = await _projectServices.GetProjectByIdAsync(id);
 
 
-            if (project.TimeId == null || !project.TimeId.Any())
+            if (project.ProjectHistories == null || !project.ProjectHistories.Any())
             {
                 ViewBag.NoTimeHistoryMessage = "New user has no time to show.";
             }

@@ -35,19 +35,19 @@
         } *@
 
         <dd class="col-sm-10">
-            @if (Model.TimeId == null || !Model.TimeId.Any())
+            @if (Model.ProjectHistories == null || !Model.ProjectHistories.Any())
             {
                 <p>New user has no time to show.</p>
 
             }
             else
             {
-                foreach (var timeHistory in Model.TimeId)
+                foreach (var item in Model.ProjectHistories)
                 {
                     <div>
-                       
-                        <p>User: @Html.DisplayFor(modelItem => timeHistory.Users)</p>
-                        <p>Project: @Html.DisplayFor(modelItem => timeHistory.ProjectId)</p>
+
+                        <p>User: @Html.DisplayFor(modelItem => item.TimeHistory.Users)</p>
+                        <p>Project: @Html.DisplayFor(modelItem => item.ProjectId)</p>
                        
                     </div>
                 }
