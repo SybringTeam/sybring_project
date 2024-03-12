@@ -32,56 +32,56 @@ namespace sybring_project.Controllers
 
         [HttpGet]
 
-        public async Task<IActionResult> Details(int id)
-        {
-            var project = await _projectServices.GetProjectByIdAsync(id);
+        //public async Task<IActionResult> Details(int id)
+        //{
+        //    var project = await _projectServices.GetProjectByIdAsync(id);
 
 
-            if (project.ProjectHistories == null || !project.ProjectHistories.Any())
-            {
-                ViewBag.NoTimeHistoryMessage = "New user has no time to show.";
-            }
+        //    if (project.ProjectHistories == null || !project.ProjectHistories.Any())
+        //    {
+        //        ViewBag.NoTimeHistoryMessage = "New user has no time to show.";
+        //    }
 
-            var allUsers = await _applicationDbContext.Users.ToListAsync();
+        //    var allUsers = await _applicationDbContext.Users.ToListAsync();
 
-            if (allUsers != null)
-            {
-                ViewBag.AllUsers = allUsers;
-            }
+        //    if (allUsers != null)
+        //    {
+        //        ViewBag.AllUsers = allUsers;
+        //    }
 
-            return View(project);
-        }
+        //    return View(project);
+        //}
 
 
         [HttpPost]
         
-        public async Task<IActionResult> Details(string userId, int projectId)
-        {
+        //public async Task<IActionResult> Details(string userId, int projectId)
+        //{
 
-            try
-            {
-                var getProject = await _projectServices.GetProjectByIdAsync(projectId);
-                var getUser = await _userServices.GetUserByIdAsync(userId);
+        //    try
+        //    {
+        //        var getProject = await _projectServices.GetProjectByIdAsync(projectId);
+        //        var getUser = await _userServices.GetUserByIdAsync(userId);
 
-                if (getUser == null || getProject == null)
-                {
-                    return NotFound("User or Project Not Found");
-                }
+        //        if (getUser == null || getProject == null)
+        //        {
+        //            return NotFound("User or Project Not Found");
+        //        }
 
-                await _projectServices.AssigUserToProjectAsync(userId, projectId);
+        //        await _projectServices.AssigUserToProjectAsync(userId, projectId);
 
-                TempData["Added"] = "This User has been assigned to the project.";
+        //        TempData["Added"] = "This User has been assigned to the project.";
 
-                return RedirectToAction("Details", new { id = projectId });
-            }
-            catch (InvalidOperationException ex)
-            {
-                // Log the exception or handle it as needed
-                return NotFound(ex.Message);
-            }
+        //        return RedirectToAction("Details", new { id = projectId });
+        //    }
+        //    catch (InvalidOperationException ex)
+        //    {
+        //        // Log the exception or handle it as needed
+        //        return NotFound(ex.Message);
+        //    }
 
 
-        }
+        //}
 
       
 
