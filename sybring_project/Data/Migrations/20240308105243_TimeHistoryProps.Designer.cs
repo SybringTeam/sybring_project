@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using sybring_project.Data;
 
@@ -11,9 +12,11 @@ using sybring_project.Data;
 namespace sybring_project.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240308105243_TimeHistoryProps")]
+    partial class TimeHistoryProps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,15 +179,15 @@ namespace sybring_project.Data.Migrations
 
             modelBuilder.Entity("ProjectTimeHistory", b =>
                 {
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("ProjectIdId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TimeId")
+                    b.Property<int>("TimeIdId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProjectId", "TimeId");
+                    b.HasKey("ProjectIdId", "TimeIdId");
 
-                    b.HasIndex("TimeId");
+                    b.HasIndex("TimeIdId");
 
                     b.ToTable("ProjectTimeHistory");
                 });
@@ -206,17 +209,17 @@ namespace sybring_project.Data.Migrations
 
             modelBuilder.Entity("TimeHistoryUser", b =>
                 {
-                    b.Property<int>("TimeId")
+                    b.Property<int>("TimeIdId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UsersId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("TimeId", "UserId");
+                    b.HasKey("TimeIdId", "UsersId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UsersId");
 
-                    b.ToTable("TimeHistoryUser");
+                    b.ToTable("TimeHistoryUser", (string)null);
                 });
 
             modelBuilder.Entity("sybring_project.Models.Db.Billing", b =>
@@ -285,9 +288,6 @@ namespace sybring_project.Data.Migrations
                     b.Property<decimal>("Childcare")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<TimeSpan>("EndBreak")
                         .HasColumnType("time");
 
@@ -321,7 +321,7 @@ namespace sybring_project.Data.Migrations
                     b.Property<TimeSpan>("StartWork")
                         .HasColumnType("time");
 
-                    b.Property<decimal>("TotalWorkingHours")
+                    b.Property<decimal?>("TotalWorkingHours")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("WorkingHours")
@@ -492,13 +492,13 @@ namespace sybring_project.Data.Migrations
                 {
                     b.HasOne("sybring_project.Models.Db.Project", null)
                         .WithMany()
-                        .HasForeignKey("ProjectId")
+                        .HasForeignKey("ProjectIdId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("sybring_project.Models.Db.TimeHistory", null)
                         .WithMany()
-                        .HasForeignKey("TimeId")
+                        .HasForeignKey("TimeIdId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -522,13 +522,13 @@ namespace sybring_project.Data.Migrations
                 {
                     b.HasOne("sybring_project.Models.Db.TimeHistory", null)
                         .WithMany()
-                        .HasForeignKey("TimeId")
+                        .HasForeignKey("TimeIdId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("sybring_project.Models.Db.User", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
