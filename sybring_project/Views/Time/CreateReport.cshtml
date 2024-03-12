@@ -1,16 +1,10 @@
-﻿@model sybring_project.ViewModels.TimeReportViewModel
-
+﻿@model sybring_project.Models.ViewModels.TimeReportViewModel
 
 @{
     ViewData["Title"] = "CreateReport";
 }
 
-
-
 <h1>Create Time Report</h1>
-
-
-
 
 @using (Html.BeginForm("CreateReport", "Time", FormMethod.Post))
 {
@@ -28,28 +22,23 @@
                 <th>End Time</th>
                 <th>Lunch Start</th>
                 <th>Lunch End</th>
-               @*  <th>Enter Total Work Hours for a day</th> *@
+                <!-- Add a new column for validation messages -->
+                <th>Validation Message</th>
             </tr>
         </thead>
         <tbody>
             @if (Model != null && Model.WeekData != null)
             {
-                // Adjust index to start from Monday
-                var startDayIndex = (int)DayOfWeek.Monday;
-
-                // Loop through each day of the week (Monday to Sunday)
-                for (var i = startDayIndex; i < startDayIndex + 7; i++)
+                // Loop through each day of the week
+                for (var i = 0; i < Model.WeekData.Count; i++)
                 {
-                    // Adjust index to handle DayOfWeek enum starting from Monday
-                    int adjustedIndex = i % 7; // Ensure index wraps around correctly
-
                     <tr>
-                        <td>@Enum.GetName(typeof(DayOfWeek), adjustedIndex)</td>
-                        <td>@Html.TextBoxFor(m => m.WeekData[adjustedIndex].StartTime, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => m.WeekData[adjustedIndex].EndTime, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => m.WeekData[adjustedIndex].LunchStart, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => m.WeekData[adjustedIndex].LunchEnd, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.ValidationMessageFor(m => m.WeekData[adjustedIndex].Day, "", new { @class = "text-danger" })</td>
+                        <td>@Enum.GetName(typeof(DayOfWeek), i)</td>
+                        <td>@Html.TextBoxFor(m => m.WeekData[i].StartWork, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => m.WeekData[i].EndWork, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => m.WeekData[i].StartBreak, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => m.WeekData[i].EndBreak, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.ValidationMessageFor(m => m.WeekData[i].Day, "", new { @class = "text-danger" })</td>
                     </tr>
                 }
             }
@@ -59,42 +48,8 @@
                     <td colspan="6">No data available</td>
                 </tr>
             }
-
-
-            @if (Model != null && Model.WeekData != null)
-            {
-
-                for (var i = 0; i < Model.WeekData.Count; i++)
-                {
-                    <tr>
-                        @*   <td>@Html.TextBoxFor(m => m.WeekData[i].Day, new { @class = "form-control" })</td> *@
-
-                        <td>@Enum.GetName(typeof(DayOfWeek), i)</td>
-
-                        <td>@Html.TextBoxFor(m => m.WeekData[i].StartTime, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => m.WeekData[i].EndTime, new { @class = "form-control", type = "time" })</td>
-
-                        <td>@Html.TextBoxFor(m => m.WeekData[i].LunchStart, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => m.WeekData[i].LunchEnd, new { @class = "form-control", type = "time" })</td>
-
-                        @*    <td>@Html.TextBoxFor(m => m.WeekData[i].TotalWorkHours, new { @class = "form-control", type = "number" })</td> *@
-
-                        <!-- validation error-->
-                        <td>@Html.ValidationMessageFor(m => m.WeekData[i].Day, "", new { @class = "text-danger" })</td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="7">No data available</td>
-                </tr>
-            }
         </tbody>
     </table>
 
-
-
     <button type="submit" class="btn btn-primary">Submit</button>
 }
-
