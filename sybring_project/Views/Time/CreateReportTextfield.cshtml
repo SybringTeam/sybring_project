@@ -1,4 +1,4 @@
-﻿@model sybring_project.Models.ViewModels.TimeReportViewModel
+﻿@* @model sybring_project.Models.ViewModels.TimeReportViewModel
 
 @{
     ViewData["Title"] = "Create Text Field Report";
@@ -6,7 +6,11 @@
 
 <h1>Create Text Field Report</h1>
 
-@using (Html.BeginForm("CreateReport", "Time", FormMethod.Post))
+
+@using (Html.BeginForm("CreateReportTextfield", "Time", FormMethod.Post))
+
+@using (Html.BeginForm("Create", "Time", FormMethod.Post))
+
 {
     <hr />
 
@@ -17,7 +21,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Day</th>             
+                <th>Day</th>
                 <th>Lunch Start</th>
                 <th>Lunch End</th>
                 <th>Enter Total Work Hours for a day</th>
@@ -31,29 +35,37 @@
                     <tr>
                         <td>@Enum.GetName(typeof(DayOfWeek), i)</td>
                         <td>
+
                             <input type="text" class="form-control" name="WeekData[@i].BreakStart" value="12:00" />
                         </td>
                         <td>
                             <input type="text" class="form-control" name="WeekData[@i].BreakEnd" value="13:00" />
-                        </td>
 
+                        </td>
                         <td>
                             <input type="text" class="form-control" name="WeekData[@i].TotalWorkHours" />
-                            
+                            @Html.ValidationMessageFor(m => m.WeekData[i].TotalWorkHours, "", new { @class = "text-danger" })
                         </td>
+
                       
                         <!-- validation error-->
                         <td>@Html.ValidationMessageFor(m => m.WeekData[i], "", new { @class = "text-danger" })</td>
+
                     </tr>
                 }
             }
             else
             {
                 <tr>
-                    <td colspan="7">No data available</td>
+                    <td colspan="4">No data available</td>
                 </tr>
             }
         </tbody>
     </table>
+
+    
+    <p>Total Work Hours for the Week: @Model.WeekData.Sum(d => d.TotalWorkHours)</p>
+
     <button type="submit" class="btn btn-primary">Submit</button>
 }
+ *@
