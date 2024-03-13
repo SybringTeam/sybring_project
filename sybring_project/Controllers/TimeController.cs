@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
@@ -82,7 +83,7 @@ namespace sybring_project.Controllers
         }
 
 
-
+       
         [HttpGet]
         public async Task<IActionResult> CreateReport()
         {
