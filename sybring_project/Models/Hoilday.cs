@@ -5,19 +5,19 @@ namespace sybring_project.Models
     public class Hoilday
     {
         [JsonProperty("datum")]
-        public string ? Datum { get; set; }
+        public DateTime Datum { get; set; }
 
         [JsonProperty("veckodag")]
-        public string Veckodag { get; set; }
+        public DateTime Veckodag { get; set; }
 
         [JsonProperty("arbetsfridag")]
-        public string Arbetsfridag { get; set; }
+        public DateTime Arbetsfridag { get; set; }
 
         [JsonProperty("röddag")]
-        public string Röddag { get; set; }
+        public DateTime Röddag { get; set; }
 
         [JsonProperty("vecka")]
-        public string Vecka { get; set; }
+        public DateTime Vecka { get; set; }
 
         [JsonProperty("agivecka")]
         public string Dagivecka { get; set; }

@@ -26,7 +26,7 @@ namespace sybring_project.Repos.Services
             using var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<Hoilday>(content) ?? new Hoilday() { Datum = "No data available" };
+            return JsonConvert.DeserializeObject<Hoilday>(content) ;
         }
 
 
