@@ -32,6 +32,7 @@ namespace sybring_project.Controllers
 
         [HttpGet]
 
+
         //public async Task<IActionResult> Details(int id)
         //{
         //    var project = await _projectServices.GetProjectByIdAsync(id);
@@ -54,9 +55,11 @@ namespace sybring_project.Controllers
 
 
         [HttpPost]
+
         
         //public async Task<IActionResult> Details(string userId, int projectId)
         //{
+
 
         //    try
         //    {
@@ -83,17 +86,14 @@ namespace sybring_project.Controllers
 
         //}
 
-      
-
-        
-
+       
         [HttpGet]
         public async Task<IActionResult> Create()
         {
             return View();
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Project project)
