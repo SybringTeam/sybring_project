@@ -48,13 +48,13 @@
                            
                            
                         }
-                       @*  @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Time" asp-action="CreateReport">TimeReport</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="ReportDetails">TR Details</a>
+                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Details">TR Details</a>
                             </li>
                             <li class="nav-item">
 
@@ -63,7 +63,7 @@
                             </li>          
 
 
-                            } *@
+                            }
                               </ul>
                    
 
