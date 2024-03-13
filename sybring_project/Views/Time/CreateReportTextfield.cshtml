@@ -1,4 +1,4 @@
-﻿@model sybring_project.ViewModels.TimeReportViewModel
+﻿@model sybring_project.Models.ViewModels.TimeReportViewModel
 
 @{
     ViewData["Title"] = "Create Text Field Report";
@@ -31,17 +31,22 @@
                     <tr>
                         <td>@Enum.GetName(typeof(DayOfWeek), i)</td>
                         <td>
-                            <input type="text" class="form-control" name="WeekData[@i].LunchStart" value="12:00" />
-                            @Html.ValidationMessageFor(m => m.WeekData[i].LunchStart, "", new { @class = "text-danger" })
+
+                            <input type="text" class="form-control" name="WeekData[@i].BreakStart" value="12:00" />
                         </td>
                         <td>
-                            <input type="text" class="form-control" name="WeekData[@i].LunchEnd" value="13:00" />
-                            @Html.ValidationMessageFor(m => m.WeekData[i].LunchEnd, "", new { @class = "text-danger" })
+                            <input type="text" class="form-control" name="WeekData[@i].BreakEnd" value="13:00" />
+
                         </td>
                         <td>
                             <input type="text" class="form-control" name="WeekData[@i].TotalWorkHours" />
                             @Html.ValidationMessageFor(m => m.WeekData[i].TotalWorkHours, "", new { @class = "text-danger" })
                         </td>
+
+                      
+                        <!-- validation error-->
+                        <td>@Html.ValidationMessageFor(m => m.WeekData[i], "", new { @class = "text-danger" })</td>
+
                     </tr>
                 }
             }

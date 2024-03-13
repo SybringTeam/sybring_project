@@ -1,9 +1,8 @@
-﻿
-  @model sybring_project.ViewModels.TimeReportViewModel
+﻿@model sybring_project.Models.ViewModels.TimeReportViewModel
 
 @{
     ViewData["Title"] = "ReportDetails";
-    decimal totalWorkHoursForWeek = ViewBag.TotalWorkHoursForWeek; 
+    decimal totalWorkHoursForWeek = ViewBag.TotalWorkHoursForWeek;
 }
 
 <h1>Report Details</h1>
@@ -15,23 +14,23 @@
             <th>Day</th>
             <th>Working Hours</th>
             <th>Overtime</th>
-            
+
         </tr>
     </thead>
     <tbody>
-   
+
 
         @for (var i = 0; i < ViewBag.WorkingHoursList.Count; i++)
         {
             <tr>
-               @*  <td>@DateTime.Today.AddDays(i).ToString("dddd")</td> *@
+                @*  <td>@DateTime.Today.AddDays(i).ToString("dddd")</td> *@
                 <td>@Enum.GetName(typeof(DayOfWeek), i)</td>
                 <td>@ViewBag.WorkingHoursList[i]</td>
                 <td>@ViewBag.OvertimeList[i]</td>
             </tr>
         }
 
-        
+
     </tbody>
 </table>
 

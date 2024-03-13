@@ -4,7 +4,7 @@ namespace sybring_project.Models.Db
 {
     public class Billing
     {
-        
+        [Key]
         public int Id { get; set; }
 
         public string Image { get; set; }
