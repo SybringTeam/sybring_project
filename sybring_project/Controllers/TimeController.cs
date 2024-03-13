@@ -128,25 +128,104 @@ namespace sybring_project.Controllers
 
 
 
+
             // Passing the working hours and overtime lists to the view
         //    ViewBag.WorkingHoursList = workingHoursList;
         //    ViewBag.OvertimeList = overtimeList;
 
-        //    ViewBag.TotalWorkHoursForWeek = totalWorkHoursForWeek;
+
+ 
 
 
-        //    return View();
+    
 
-        //}
+        // Method to calculate working hours
+        private decimal CalculateWorkingHours(TimeSpan startTime, TimeSpan endTime)
+        {
+            // Calculating working hours (total hours between start and end time)
+            return (decimal)(endTime - startTime).TotalHours;
+        }
 
 
-        //// Method to calculate working hours
-        //private decimal CalculateWorkingHours(TimeSpan startTime, TimeSpan endTime)
-        //{
-        //    // Calculating working hours (total hours between start and end time)
-        //    return (decimal)(endTime - startTime).TotalHours;
-        //}
 
+        //second version
+
+
+
+        [NonAction]
+        //[HttpGet]
+        public IActionResult CreateReportTextfield()
+        {
+            var model = new TimeReportViewModel
+            {
+                WeekData = new List<DayData>
+        {
+            new DayData(),
+            new DayData(),
+            new DayData(),
+            new DayData(),
+            new DayData(),
+            new DayData(),
+            new DayData()
+        }
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Route("/Time/CreateReportTextfield")]
+        public IActionResult CreateReportTextfield(TimeReportViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+              
+                return View(model);
+            }
+
+            try
+            {
+                
+                decimal totalWeekWorkHours = 0;
+
+              
+                foreach (var dayData in model.WeekData)
+                {
+                   
+                    if (dayData.StartTime > dayData.EndTime)
+                    {
+                        ModelState.AddModelError("", "End time cannot be before start time.");
+                        return View(model);
+                    }
+                  
+                    var totalHoursWithLunch = (decimal)(dayData.EndTime - dayData.StartTime).TotalHours;
+               
+                    totalHoursWithLunch -= CalculateWorkingHours(dayData.LunchStart, dayData.LunchEnd);
+
+                    dayData.TotalWorkHours = totalHoursWithLunch;
+
+                  
+                    totalWeekWorkHours += dayData.TotalWorkHours;
+
+
+                }
+
+                model.TotalWorkHours = totalWeekWorkHours;
+
+
+                // Serialize and store the model data in TempData
+                TempData["TimeReportModel"] = JsonConvert.SerializeObject(model);
+
+               
+                    return View();
+            }
+            catch (Exception ex)
+            {
+                
+                ModelState.AddModelError("", $"An error occurred while processing the time report: {ex.Message}");
+                return View(model);
+            }
+        }
 
 
 
