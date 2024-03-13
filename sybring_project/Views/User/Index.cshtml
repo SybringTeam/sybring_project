@@ -22,10 +22,8 @@
             <tr>
                 
 
-               <td> <a  class="showDetails" asp-controller="User" asp-action="Details" asp-route-id="@item.Id">@item.FirstName @item.LastName</a>
-                        <div class="userInfoContainer">
-                           
-                        </div>
+               <td> <a href="#" onclick="showuser('@item.Id');" class="showDetails">@item.FirstName @item.LastName</a>
+                       
                </td>
 
                 <td>
@@ -54,19 +52,28 @@
     @*  <a asp-action="Create" class="btn btn-primary">Create User</a> *@
 </div>
 
+<div id="userInfoContainer" >
 
+</div>
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
 
-    $(document).ready(function () {
-        $('.showDetails').click(function (e) {
-            e.preventDefault();
+    // $(document).ready(function () {
+    //     $('.showDetails').click(function () {
+            
 
            
-            $('.userInfoContainer').html('<partial name="~/Views/shared/_UserDetailsPartial.cshtml" />');
-        });
-    });
+            
+    //     });
+    // });
 
+    function showuser(userId) {
+        let partialString = "<vc name='_UserDetailsPartial.cshtml' parametername =" + userId +" /vc>";
+        console.log(partialString);
+        let ele = document.getElementById("userInfoContainer");
+        ele.innerText = partialString;
+    }
 
     function myFunction() {
         alert('Link clicked');

@@ -124,6 +124,7 @@ namespace sybring_project.Controllers
             TempData["Added"] = "This Project has been assigned.";
 
             return RedirectToAction("Details", new { id = userId });
+            //return PartialView("~/Views/Shared/_UserDetailsPartial.cshtml");
 
         }
                        

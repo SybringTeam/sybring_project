@@ -85,53 +85,53 @@ namespace sybring_project.Controllers
 
 
         ////ReportDetails action
-        public IActionResult ReportDetails()
-        {
-            // Retrieve the serialized model data from TempData
-            var serializedModel = TempData["TimeReportModel"] as string;
+        //public IActionResult ReportDetails()
+        //{
+        //    // Retrieve the serialized model data from TempData
+        //    var serializedModel = TempData["TimeReportModel"] as string;
 
-            // Checking if serialized model data is null or empty
-            if (string.IsNullOrEmpty(serializedModel))
-            {
+        //    // Checking if serialized model data is null or empty
+        //    if (string.IsNullOrEmpty(serializedModel))
+        //    {
 
 
-                return RedirectToAction("Create");
-            }
+        //        return RedirectToAction("Create");
+        //    }
 
            
 
-            // Calculate and store only the working hours in a new list
-            var workingHoursList = new List<decimal>();
+        //    // Calculate and store only the working hours in a new list
+        //    var workingHoursList = new List<decimal>();
 
-            var overtimeList = new List<decimal>();
+        //    var overtimeList = new List<decimal>();
 
-            // Initialing total work hours for the week
-            decimal totalWorkHoursForWeek = 0;
+        //    // Initialing total work hours for the week
+        //    decimal totalWorkHoursForWeek = 0;
 
-            foreach (var dayData in timeReportModel.WeekData)
-            {
-                // Calculate working hours considering lunch break
-                var workingHours = CalculateWorkingHoursAsync(dayData.StartTime, dayData.EndTime);
-                workingHours -= CalculateWorkingHours(dayData.LunchStart, dayData.LunchEnd);
+        //    foreach (var dayData in timeReportModel.WeekData)
+        //    {
+        //        // Calculate working hours considering lunch break
+        //        var workingHours = CalculateWorkingHoursAsync(dayData.StartTime, dayData.EndTime);
+        //        workingHours -= CalculateWorkingHours(dayData.LunchStart, dayData.LunchEnd);
 
-                // Add working hours to the list
-                workingHoursList.Add(workingHours);
+        //        // Add working hours to the list
+        //        workingHoursList.Add(workingHours);
 
-                // Calculate overtime (if applicable)
-                var overtime = Math.Max(workingHours - MaxRegularHoursPerDay, 0);
-                overtimeList.Add(overtime);
+        //        // Calculate overtime (if applicable)
+        //        var overtime = Math.Max(workingHours - MaxRegularHoursPerDay, 0);
+        //        overtimeList.Add(overtime);
 
-                // Add working hours to total work hours for the week
-                totalWorkHoursForWeek += dayData.TotalWorkHours;
+        //        // Add working hours to total work hours for the week
+        //        totalWorkHoursForWeek += dayData.TotalWorkHours;
 
-            }
+        //    }
 
             
-            //Passing the working hours and overtime lists to the view
-            ViewBag.WorkingHoursList = workingHoursList;
-            ViewBag.OvertimeList = overtimeList;
+        //    //Passing the working hours and overtime lists to the view
+        //    ViewBag.WorkingHoursList = workingHoursList;
+        //    ViewBag.OvertimeList = overtimeList;
 
-        }
+        //}
 
         ////Method to calculate working hours
         //private decimal CalculateWorkingHours(TimeSpan startTime, TimeSpan endTime)
