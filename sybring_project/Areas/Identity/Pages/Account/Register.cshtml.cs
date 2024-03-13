@@ -129,6 +129,10 @@ namespace sybring_project.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+
+                    //Assigning user a role
+                    await _userManager.AddToRoleAsync(user, "underconsult");
+
                     // Redirect to admin index page
                     return Redirect("/User");
                     
