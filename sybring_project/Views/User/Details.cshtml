@@ -1,79 +1,8 @@
 ﻿@model sybring_project.Models.Db.User
 
 @{
-    var error = TempData["ErrorMessage"];
-    var added = TempData["Added"];
+    ViewData["Title"] = "User Details";
 }
 
-<div>
-    <h4>User Information</h4>
-    <hr />
-    <div class="container">
-        
-       
-        <dl class="row">
+<partial name="~/Views/shared/_UserDetailsPartial.cshtml" />
 
-            <dt class="col-sm-3 mt-2">First Name:</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(model => model.FirstName)</dd>
-
-            <dt class="col-sm-3 mt-2">Last Name:</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(model => model.LastName)</dd>
-
-            @* <dt class="col-sm-3 mt-2">Age:</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(model => model.Age)</dd>
-
-            <dt class="col-sm-3 mt-2">Address:</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(model => model.Address)</dd> *@
-
-            <dt class="col-sm-3 mt-2">Task Description:</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(model => model.TaskDescription)</dd>
-
-            <dt class="col-sm-3 mt-2">Income:</dt>
-            <dd class="col-sm-9">@Html.DisplayFor(model => model.UserIncome)</dd>
-        </dl>
-    </div>
-
-</div>
-
-
-<div>
-    <h4>
-        Assign Project
-    </h4>
-    <form asp-controller="User" asp-action="Details" method="post">
-        <input type="hidden" name="userId" value="@Model.Id" />
-
-        <div class="form-group">
-            <label asp-for="ProjectId">Select Project:</label>
-            <select asp-for="ProjectId" asp-items="@(new SelectList(ViewBag.AllProjects, "Id", "Name"))" class="form-control">
-                <option value="">Select a Project</option>
-            </select>
-            <span asp-validation-for="ProjectId" class="text-danger"></span>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Assign Project</button>
-    </form>
-
-    @if (error != null)
-    {
-        <div>@error<br /></div>
-    }
-    else
-
-    {
-        <div>@added</div>
-    }
-</div>
-
-
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-<script>
-    function alertFunction() 
-    {
-        alert("Project has been removed from the user.");
-    }
-</script>

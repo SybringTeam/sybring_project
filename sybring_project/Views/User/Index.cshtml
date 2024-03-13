@@ -1,12 +1,9 @@
 @model IEnumerable<sybring_project.Models.Db.User>
 
-<h1>Users List</h1>
-
 
 
 <div class="frame">
-    <div class="pagging1"> </div>
-    <div class="pagging2"> </div>
+    
     <table class="table">
     <thead>
         <tr>
@@ -25,7 +22,12 @@
             <tr>
                 
 
-                <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName @item.LastName</a></td>
+               <td> <a  class="showDetails" asp-controller="User" asp-action="Details" asp-route-id="@item.Id">@item.FirstName @item.LastName</a>
+                        <div class="userInfoContainer">
+                           
+                        </div>
+               </td>
+
                 <td>
                         @foreach (var project in item.ProjectId)
                         {
@@ -55,6 +57,17 @@
 
 
 <script>
+
+    $(document).ready(function () {
+        $('.showDetails').click(function (e) {
+            e.preventDefault();
+
+           
+            $('.userInfoContainer').html('<partial name="~/Views/shared/_UserDetailsPartial.cshtml" />');
+        });
+    });
+
+
     function myFunction() {
         alert('Link clicked');
     }
