@@ -1,96 +1,79 @@
-﻿
-@model sybring_project.Models.Db.User
+﻿@model sybring_project.Models.Db.User
 
-<h1>User Details</h1>
+@{
+    var error = TempData["ErrorMessage"];
+    var added = TempData["Added"];
+}
 
 <div>
     <h4>User Information</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+    <div class="container">
+        
+       
+        <dl class="row">
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+            <dt class="col-sm-3 mt-2">First Name:</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.FirstName)</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Age)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Age)
-        </dd>
+            <dt class="col-sm-3 mt-2">Last Name:</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.LastName)</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+            @* <dt class="col-sm-3 mt-2">Age:</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Age)</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskDescription)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskDescription)
-        </dd>
+            <dt class="col-sm-3 mt-2">Address:</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Address)</dd> *@
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UserIncome)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserIncome)
-        </dd>
+            <dt class="col-sm-3 mt-2">Task Description:</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.TaskDescription)</dd>
 
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ProjectId)
-        </dt>
-        <dd class="col-sm-10">
-            @foreach (var project in Model.ProjectId)
-            {
-                <div>@project.Name</div>
-            }
+            <dt class="col-sm-3 mt-2">Income:</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.UserIncome)</dd>
+        </dl>
+    </div>
 
-
-        </dd>
-
-           
-
-
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageLink)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImageLink)
-
-        </dd>
-    </dl>
 </div>
 
-@* <div>
-    <h4>Related Entities</h4>
-    <hr />
 
-    @foreach (var timeHistory in Model.TimeId)
+<div>
+    <h4>
+        Assign Project
+    </h4>
+    <form asp-controller="User" asp-action="Details" method="post">
+        <input type="hidden" name="userId" value="@Model.Id" />
+
+        <div class="form-group">
+            <label asp-for="ProjectId">Select Project:</label>
+            <select asp-for="ProjectId" asp-items="@(new SelectList(ViewBag.AllProjects, "Id", "Name"))" class="form-control">
+                <option value="">Select a Project</option>
+            </select>
+            <span asp-validation-for="ProjectId" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Assign Project</button>
+    </form>
+
+    @if (error != null)
     {
-
+        <div>@error<br /></div>
     }
-    </p>
-    <p>
-        @foreach (var billing in Model.ReceiptId)
-        {
+    else
 
-        }
-    </p>
-</div> *@
+    {
+        <div>@added</div>
+    }
+</div>
+
+
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+<script>
+    function alertFunction() 
+    {
+        alert("Project has been removed from the user.");
+    }
+</script>

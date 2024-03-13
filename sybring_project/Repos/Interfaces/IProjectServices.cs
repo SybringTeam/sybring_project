@@ -13,5 +13,7 @@ namespace sybring_project.Repos.Interfaces
 
         Task<bool> UpdateProjectAsync(Project project);
 
+        Task AssigUserToProjectAsync(string userId, int projectId);
+
     }
 }

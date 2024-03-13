@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
+using System.Linq;
 
 namespace sybring_project.Repos.Services
 {
@@ -11,14 +15,37 @@ namespace sybring_project.Repos.Services
         private readonly ApplicationDbContext _db;
         private readonly UserManager<User> _userManager;
         private readonly IProjectServices _projectServices;
+        private readonly BlobServiceClient _blobServiceClient;
+        private readonly IConfiguration _configuration;
+
         public UserServices(ApplicationDbContext db,
-            UserManager<User> userManager, IProjectServices projectServices)
+            UserManager<User> userManager, IProjectServices projectServices, IConfiguration configuration)
         {
             _db = db;
             _userManager = userManager;
             _projectServices = projectServices;
+            _configuration = configuration;
+            _blobServiceClient = new BlobServiceClient(_configuration["AzureWebJobsStorage"]);
         }
 
+        private BlobContainerClient InitBlobService(string blobContainer)
+        {
+            BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(blobContainer);
+            return containerClient;
+        }
+
+
+        public async Task<string> UploadImage(IFormFile File)
+        {
+            BlobClient blobClient = InitBlobService("sybringsstorage").GetBlobClient(File.FileName);
+
+            await using (var stream = File.OpenReadStream())
+            {
+                blobClient.Upload(stream);
+            }
+
+            return blobClient.Uri.AbsoluteUri;
+        }
         public async Task<User> AddUsersAsync(User newUser, int projectId)
         {
             _db.Users.Add(newUser);
@@ -36,6 +63,7 @@ namespace sybring_project.Repos.Services
 
             return newUser;
         }
+
 
         public async Task<User> DeleteUserAsync(string id)
         {
@@ -65,10 +93,16 @@ namespace sybring_project.Repos.Services
 
         public async Task<User> GetUserByIdAsync(string id)
         {
+            var user = await _db.Users
+            .Include(u => u.ProjectId)
+    .FirstOrDefaultAsync(u => u.Id == id);
 
-            return await _db.Users
-         .Include(u => u.ProjectId)
-         .FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null)
+            {
+                throw new InvalidOperationException("User not found");
+            }
+            return user;
+
         }
 
         public async Task<bool> UpdateUserAsync(User user)
@@ -87,15 +121,63 @@ namespace sybring_project.Repos.Services
         }
 
 
+
+        public async Task<Project> GetProjectByIdAsync(int id)
+        {
+            return await _db.Projects.FindAsync(id);
+        }
+
+        public async Task<bool> RemoveUserFromProjectAsync(int projectId, string userId)
+        {
+        
+            var existingProject = await _db.Projects
+                 .Include(p => p.Users)
+                 .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            if (existingProject != null)
+            {
+              
+                var userToRemove = existingProject.Users
+                    .FirstOrDefault(u => u.Id == userId);
+
+                if (userToRemove != null)
+                {
+                  
+                    existingProject.Users.Remove(userToRemove);
+                    await _db.SaveChangesAsync();
+                    return true; 
+                }
+            }
+
+            return false; 
+        }
+
+
+
+
         public Task<string> UploadImageFileAsync(User user)
         {
             throw new NotImplementedException();
         }
 
-        
+     
 
+        public async Task AssignProjectToUserAsync(string userId, int projectId)
+        {
+            var existingProject = await _db.Projects
+               .Include(p => p.Users)
+               .FirstOrDefaultAsync(p => p.Id == projectId);
 
+            if (existingProject != null)
+            {
+                var userToAdd = _db.Users.FirstOrDefault(u => u.Id == userId);
 
+               
+                    existingProject.Users.Add(userToAdd);
+                    await _db.SaveChangesAsync();
+                
+        }
         }
     }
+}
 

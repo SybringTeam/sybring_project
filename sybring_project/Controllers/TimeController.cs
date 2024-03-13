@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using sybring_project.Data;
-using sybring_project.Models;
 using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
-using sybring_project.ViewModels;
+
 
 namespace sybring_project.Controllers
 {
@@ -28,42 +28,15 @@ namespace sybring_project.Controllers
 
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            // Retring time history  from the database
-            var timeHistories = _context.TimeHistories.ToList(); 
+            var list = await _timeService.GetTimeListAsync();
 
-            return View(timeHistories);
+            return View(list);
         }
 
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        
-        [HttpPost]    
-        public async Task<IActionResult> Create([Bind("DateTime")] TimeHistory timeHistory)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                   
-                    await _timeService.AddTimeHistoryAsync(timeHistory);
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception)
-                {
-                   
-                    ModelState.AddModelError("", "An error occurred while saving the time history record.");
-                }
-            }
-            
-            return View(timeHistory);
-        }
+       
 
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
@@ -84,136 +57,87 @@ namespace sybring_project.Controllers
         }
 
 
-
+        [Authorize(Roles = "Admin, underconsult")]
         [HttpGet]
-        public IActionResult CreateReport()
+        public async Task<IActionResult> Create()
         {
-            var model = new TimeReportViewModel
-            {
-                WeekData = new List<DayData>
-        {
-            new DayData(),
-            new DayData(),
-            new DayData(),
-            new DayData(),
-            new DayData(),
-            new DayData(),
-            new DayData()
-        }
-            };
-
-            return View(model);
+            TimeReportViewModel timeReportViewModel = new TimeReportViewModel();
+            return View(timeReportViewModel);
         }
 
-
+        [Authorize(Roles = "Admin,underconsult")]
         [HttpPost]
-        [Route("/Time/CreateReport")]
-        public IActionResult CreateReport(TimeReportViewModel model)
+        public async Task<IActionResult> Create(TimeReportViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                try
-                {
-                    // Calculate total work hours for each day
-                    foreach (var dayData in model.WeekData)
-                    {
-                        // Validate input data
-                        if (dayData.StartTime > dayData.EndTime)
-                        {
-                            ModelState.AddModelError("", "End time cannot be before start time.");
-                            return View(model);
-                        }
-
-
-
-                        // Calculating total hours 
-                        var totalHoursWithLunch = (decimal)(dayData.EndTime - dayData.StartTime).TotalHours;
-
-                        // Subtracting lunch break duration
-                        totalHoursWithLunch -= CalculateWorkingHours(dayData.LunchStart, dayData.LunchEnd);
-
-                        
-                        dayData.TotalWorkHours = totalHoursWithLunch;
-
-                        // Calculating overtime hours 
-                        dayData.OvertimeHours = dayData.TotalWorkHours > MaxRegularHoursPerDay ? dayData.TotalWorkHours - MaxRegularHoursPerDay : 0;
-                    }
-
-                    // Serializing and store the model data in TempData
-                    TempData["TimeReportModel"] = JsonConvert.SerializeObject(model);
-
-
-
-                    // Redirecting to the ReportDetails action
-                    return RedirectToAction("ReportDetails");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", $"An error occurred while processing the time report: {ex.Message}");
-                }
+                await _timeService.AddReportAsync(model);
+                return RedirectToAction("Index");
             }
-
-            // If model state is not valid 
-            return View(model);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"An error occurred while processing the time report: {ex.Message}");
+                return View(model);
+            }
         }
-
 
 
         // ReportDetails action
-        public IActionResult ReportDetails()
-        {
-            // Retrieve the serialized model data from TempData
-            var serializedModel = TempData["TimeReportModel"] as string;
+        //public IActionResult ReportDetails()
+        //{
+        //    // Retrieve the serialized model data from TempData
+        //    var serializedModel = TempData["TimeReportModel"] as string;
 
-            // Checking if serialized model data is null or empty
-            if (string.IsNullOrEmpty(serializedModel))
-            {
-               
+        //    // Checking if serialized model data is null or empty
+        //    if (string.IsNullOrEmpty(serializedModel))
+        //    {
 
-                return RedirectToAction("CreateReport");
-            }
 
-            // Deserialize the model data from JSON
-            var timeReportModel = JsonConvert.DeserializeObject<TimeReportViewModel>(serializedModel);
+        //        return RedirectToAction("Create");
+        //    }
 
-            // Calculate and store only the working hours in a new list
-            var workingHoursList = new List<decimal>();
+        //    // Deserialize the model data from JSON
+        //    var timeReportModel = JsonConvert.DeserializeObject<TimeReportViewModel>(serializedModel);
 
-            var overtimeList = new List<decimal>();
+        //    // Calculate and store only the working hours in a new list
+        //    var workingHoursList = new List<decimal>();
 
-            // Initialing total work hours for the week
-            decimal totalWorkHoursForWeek = 0;
+        //    var overtimeList = new List<decimal>();
 
-            foreach (var dayData in timeReportModel.WeekData)
-            {
-                // Calculate working hours considering lunch break
-                var workingHours = CalculateWorkingHours(dayData.StartTime, dayData.EndTime);
-                workingHours -= CalculateWorkingHours(dayData.LunchStart, dayData.LunchEnd);
+        //    // Initialing total work hours for the week
+        //    decimal totalWorkHoursForWeek = 0;
 
-                // Add working hours to the list
-                workingHoursList.Add(workingHours);
+        //    foreach (var dayData in timeReportModel.WeekData)
+        //    {
+        //        // Calculate working hours considering lunch break
+        //        var workingHours = CalculateWorkingHoursAsync(dayData.StartTime, dayData.EndTime);
+        //        workingHours -= CalculateWorkingHours(dayData.LunchStart, dayData.LunchEnd);
 
-                // Calculate overtime (if applicable)
-                var overtime = Math.Max(workingHours - MaxRegularHoursPerDay, 0);
-                overtimeList.Add(overtime);
+        //        // Add working hours to the list
+        //        workingHoursList.Add(workingHours);
 
-                // Add working hours to total work hours for the week
-                totalWorkHoursForWeek += dayData.TotalWorkHours;
+        //        // Calculate overtime (if applicable)
+        //        var overtime = Math.Max(workingHours - MaxRegularHoursPerDay, 0);
+        //        overtimeList.Add(overtime);
 
-            }
+        //        // Add working hours to total work hours for the week
+        //        totalWorkHoursForWeek += dayData.TotalWorkHours;
+
+        //    }
+
+
+
 
 
             // Passing the working hours and overtime lists to the view
-            ViewBag.WorkingHoursList = workingHoursList;
-            ViewBag.OvertimeList = overtimeList;
-         
-            ViewBag.TotalWorkHoursForWeek = totalWorkHoursForWeek;
+        //    ViewBag.WorkingHoursList = workingHoursList;
+        //    ViewBag.OvertimeList = overtimeList;
 
 
-            return View();
+ 
 
-        }
 
+    
 
         // Method to calculate working hours
         private decimal CalculateWorkingHours(TimeSpan startTime, TimeSpan endTime)
@@ -273,7 +197,6 @@ namespace sybring_project.Controllers
                         ModelState.AddModelError("", "End time cannot be before start time.");
                         return View(model);
                     }
-
                   
                     var totalHoursWithLunch = (decimal)(dayData.EndTime - dayData.StartTime).TotalHours;
                

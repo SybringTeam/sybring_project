@@ -1,10 +1,10 @@
-﻿﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
+using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
-using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
 
 namespace sybring_project.Controllers
 {
@@ -14,17 +14,19 @@ namespace sybring_project.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ApplicationDbContext _applicationDbContext;
+        private readonly IProjectServices _projectServices;
 
 
-        public UserController(IUserServices userServices, 
-            UserManager<User> userManager, ApplicationDbContext applicationDbContext)
+        public UserController(IUserServices userServices,
+            UserManager<User> userManager, ApplicationDbContext applicationDbContext,
+            IProjectServices projectServices)
         {
             _userServices = userServices;
             _userManager = userManager;
-
+            _projectServices = projectServices;
+            _applicationDbContext = applicationDbContext;
         }
 
-        [Route("ui")]
         public async Task<IActionResult> Index()
         {
             var list = await _userServices.GetAllUserAsync();
@@ -32,7 +34,7 @@ namespace sybring_project.Controllers
         }
 
         [HttpGet]
-        [Route("uc")]
+
         public async Task<IActionResult> Create()
         {
             var projects = await _userServices.GetProjectsAsync();
@@ -47,17 +49,17 @@ namespace sybring_project.Controllers
         }
 
         [HttpPost]
-        [Route("uc")]
+
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(User user, int projectId)
         {
-           
-                await _userServices.AddUsersAsync(user, projectId);
-                return RedirectToAction("Index");
-           
+
+            await _userServices.AddUsersAsync(user, projectId);
+            return RedirectToAction("Index");
+
         }
 
-        [Route("ue")]
+
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -67,25 +69,22 @@ namespace sybring_project.Controllers
 
             var user = await _userServices.GetUserByIdAsync(id);
 
-            if (user == null)
-            {
-                return NotFound();
-            }
 
             return View(user);
         }
 
-        [Route("ue")]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(User user)
         {
-           
-                await _userServices.UpdateUserAsync(user);
-                return RedirectToAction("Index");
-            
+
+            await _userServices.UpdateUserAsync(user);
+            return RedirectToAction("Index");
+
         }
 
+        [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -94,27 +93,63 @@ namespace sybring_project.Controllers
             }
             var detail = await _userServices.GetUserByIdAsync(id);
 
-            if (detail == null)
+
+            var allProjects = await _applicationDbContext.Projects.ToListAsync();
+
+            if (allProjects != null)
             {
-                return NotFound();
+                ViewBag.AllProjects = allProjects;
             }
+
 
 
             return View(detail);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Details(string userId, int projectId)
+        {
+            var getUser = await _userServices.GetUserByIdAsync(userId);
+            var project = await _userServices.GetProjectByIdAsync(projectId);
+
+            if (getUser == null || project == null)
+            {
+                return NotFound("User or Project Not Found");
+
+            }
+
+            await _userServices.AssignProjectToUserAsync(userId, projectId);
+
+
+            TempData["Added"] = "This Project has been assigned.";
+
+            return RedirectToAction("Details", new { id = userId });
+
+        }
+                       
+
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveProject(string userId, int projectId)
+        {
+            var result = await _userServices.RemoveUserFromProjectAsync(projectId, userId);
+
+            if (result)
+            {
+                TempData["Removed"] = "Project has been removed from the user.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Project removal failed. User or project not found.";
+            }
+
+            return RedirectToAction("Details", new { id = userId });
+        }
+
         public async Task<IActionResult> Delete(string id)
         {
             await _userServices.DeleteUserAsync(id);
-             return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
-
-        public async Task<IActionResult> AssignUserTask(User user) 
-        {
-            return View(user);
-        }
-
-        
-        
     }
 }

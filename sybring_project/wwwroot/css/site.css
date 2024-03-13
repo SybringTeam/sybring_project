@@ -1,5 +1,6 @@
-html {
-    font-size: 14px;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap') html {
+	font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -13,63 +14,277 @@ html {
 }
 
 html {
-    position: relative;
-    min-height: 100%;
+	position: relative;
+	height: 100%;
+	margin: 0; 
+	padding: 0;
 }
 
 body {
-    margin-bottom: 60px;
+	margin-bottom: 60px;
+	font-family: 'Raleway', 
+	"Open Sans", sans-serif;
+	font-size: 18px;
+	width:100%;
 }
-
 img {
     height: 40px;
     max-width: 100%
 }
-
-.footer .container {
-    width: 100%;
+.navbar {
+	background-color: #0B2247; 
+	color:white;
 }
-footer {
-    width: 100%;
-    color: #fff;
-    padding: 10px;
-    text-align: center;
+
+.sidenav {
+    height: 100%;
     position: absolute;
-    bottom: 0;
     left: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+	
 }
 
 
-@media (min-width: 768px) {
-    .footer .container, .footer .container-md, .footer .container-sm {
-        max-width: none !important;
-    }
+	.sidenav a {
+		padding: 11px 0px 14px 20px;
+		text-decoration: none;
+		font-size: 25px;
+		color: #818181;
+		display: block;
+		transition: 0.3s;
+	}
+
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+	.sidenav .closebtn {
+		position: absolute;
+		top: 0;
+		right: 0px;
+		font-size: 36px;
+		margin-left: 50px;
+		padding-right: 16px;
+	}
+
+
+	.sidenav a:hover {
+		border: 2px solid #ccc;
+		background-color: lightblue;
+		transition: 0.3s;
+	}
+
+.navbar .openbtn {
+    font-size: 30px;
+    color: #818181;
+    padding: 8px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+/*----logovit----*/
+.navbar-brand img {
+    filter: invert(100%);
 }
 
-@media (min-width: 576px) {
-    .footer .container, .footer .container-sm {
-        max-width: none !important;
-    }
+.main {
+	
+	background-color: #292c2f;
+	color: white;
+	font-size: 38pt;
+	text-align: center;
+	line-height: 550px;
+	font: Roboto;
+	
 }
+.container {
+	min-height: 100vh;
+	
+}
+
+footer{
+	position: sticky;
+	bottom: 0;
+}
+.footer-distributed {
+	background-color: #0B2247;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+	width: 100%;
+	text-align: left;
+	padding: 30px 50px;
+	
+}
+ 
+.footer-distributed .footer-left,
+.footer-distributed .footer-center,
+.footer-distributed .footer-right{
+	display: inline-block;
+	vertical-align: top;
+}
+ 
+.footer-distributed .footer-left{
+	width: 40%;
+}
+
+img {
+	height: 50px;
+	max-width: 100%;
+}
+
+	.footer-distributed .footer-links {
+		color: #ffffff;
+		margin: 20px 0 12px;
+		padding: 0;
+	}
+ 
+.footer-distributed .footer-links a{
+	display:inline-block;
+	line-height: 1.8;
+	text-decoration: none;
+	color:  inherit;
+}
+ 
+.footer-distributed .footer-company-name{
+	color:  #8f9296;
+	font-size: 14px;
+	font-weight: normal;
+	margin: 0;
+}
+ 
+ 
+.footer-distributed .footer-center{
+	width: 35%;
+}
+ 
+.footer-distributed .footer-center i{
+	background-color:  #33383b;
+	color: #ffffff;
+	font-size: 25px;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 42px;
+	margin: 10px 15px;
+	vertical-align: middle;
+}
+ 
+.footer-distributed .footer-center i.fa-envelope{
+	font-size: 17px;
+	line-height: 38px;
+}
+ 
+.footer-distributed .footer-center p{
+	display: inline-block;
+	color: #ffffff;
+	vertical-align: middle;
+	margin:0;
+}
+ 
+.footer-distributed .footer-center p span{
+	display:block;
+	font-weight: normal;
+	font-size:14px;
+	line-height:2;
+}
+ 
+.footer-distributed .footer-center p a{
+	color:  #5383d3;
+	text-decoration: none;;
+}
+ 
+.footer-distributed .footer-right{
+	width: 20%;
+}
+ 
+.footer-distributed .footer-company-about{
+	line-height: 20px;
+	color:  #92999f;
+	font-size: 13px;
+	font-weight: normal;
+	margin: 0;
+}
+ 
+.footer-distributed .footer-company-about span{
+	display: block;
+	color:  #ffffff;
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+ 
+.footer-distributed .footer-icons{
+	margin-top: 25px;
+}
+ 
+.footer-distributed .footer-icons a{
+	display: inline-block;
+	width: 35px;
+	height: 35px;
+	cursor: pointer;
+	background-color:  #33383b;
+	border-radius: 2px;
+ 
+	font-size: 20px;
+	color: #ffffff;
+	text-align: center;
+	line-height: 35px;
+ 
+	margin-right: 3px;
+	margin-bottom: 5px;
+}
+
+
+
+	.containerlayout {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 50%;
+	}
 
 
 .containerlayout {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70vh; /* Adjust as needed */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
 }
 
-.containerlayout form {
-    width: 100%; /* Ensure the form takes full width */
-    max-width: 400px; /* Adjust as needed */
-    padding: 20px; /* Adjust as needed */
-    border: 1px solid #ccc; /* Example border */
-    border-radius: 5px; /* Example border radius */
-    background-color: #f9f9f9; /* Example background color */
-    text-align: center; /* Center align form content */
+@media (max-width: 880px) {
+
+	
+
+		.footer-distributed .footer-left,
+		.footer-distributed .footer-center,
+		.footer-distributed .footer-right {
+			display: block;
+			width: 100%;
+			margin-bottom: 40px;
+			text-align: center;
+		}
+
 }
-.containerlayout h1 {
-    margin-bottom: 20px; /* Adjust as needed */
-    text-align:center
+
+		.containerlayout form {
+			width: 100%;
+			max-width: 400px;
+			padding: 20px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: #f9f9f9;
+			text-align: center; /* Center align form content */
+		}
+
+		.containerlayout h1 {
+			margin-bottom: 20px; /* Adjust as needed */
+			text-align: center
+		}
+
+
+
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:wdth,wght@97.4,350&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'){
+
 }

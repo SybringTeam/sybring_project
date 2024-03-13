@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
+using System.Reflection.Emit;
 
 namespace sybring_project.Data
 {
@@ -21,6 +22,8 @@ namespace sybring_project.Data
 
         public DbSet<TimeHistory> TimeHistories { get; set; }
 
+        public DbSet<ProjectTimeReport> ProjectTimeReport { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,10 +33,35 @@ namespace sybring_project.Data
                 .WithMany(u => u.Users)
                 .UsingEntity(j => j.ToTable("ProjectUsers"));
 
+
             builder.Entity<Project>()
                 .HasMany(p => p.Users)
                 .WithMany(p => p.ProjectId)
                 .UsingEntity(t => t.ToTable("ProjectUsers"));
+
+            builder.Entity<TimeHistory>()
+     .HasMany(t => t.Users)
+     .WithMany(u => u.TimeId)
+     .UsingEntity<Dictionary<string, object>>(
+         "TimeHistoryUser",
+         j => j.HasOne<User>().WithMany().HasForeignKey("UserId"),
+         j => j.HasOne<TimeHistory>().WithMany().HasForeignKey("TimeId")
+     );
+
+            builder.Entity<ProjectTimeReport>()
+                     .HasKey(ptr => ptr.Id);
+
+            builder.Entity<ProjectTimeReport>()
+                .HasOne(ptr => ptr.Projects)
+                .WithMany(p => p.ProjectHistories)
+                .HasForeignKey(ptr => ptr.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ProjectTimeReport>()
+                .HasOne(ptr => ptr.TimeHistory)
+                .WithMany(th => th.ProjectHistories)
+                .HasForeignKey(ptr => ptr.TimeId)
+                .OnDelete(DeleteBehavior.Cascade);
 
 
 

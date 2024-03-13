@@ -1,24 +1,60 @@
-﻿@model sybring_project.Models.Db.TimeHistory
-
+﻿@model sybring_project.Models.ViewModels.TimeReportViewModel
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create Time History</h1>
+<h1>Create Time Report</h1>
 
-<form asp-action="Create">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@using (Html.BeginForm("Create", "Time", FormMethod.Post))
+{
+    <hr />
 
-    <div class="form-group">
-        <label asp-for="DateTime" class="control-label"></label>
-        <input asp-for="DateTime" class="form-control" />
-        <span asp-validation-for="DateTime" class="text-danger"></span>
-    </div>
+    <!-- validation  -->
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+    <h2>Week 1</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Lunch Start</th>
+                <th>Lunch End</th>
+                <!-- Add a new column for validation messages -->
+                <th>Validation Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.WeekData != null)
+            {
+                // Array of day names starting from Monday
+                var dayNames = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
-    <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-    </div>
-</form>
+                // Loop through each day of the week
+                for (var i = 0; i < 7; i++)
+                {
+                    var dayData = Model.WeekData.ElementAtOrDefault(i); // Retrieve WeekData for the current day
+
+                    <tr>
+                        <td>@dayNames[i]</td>
+                        <td>@Html.TextBoxFor(m => dayData.StartWork, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => dayData.EndWork, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => dayData.StartBreak, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => dayData.EndBreak, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.ValidationMessageFor(m => dayData.StartWork, "", new { @class = "text-danger" })</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">No data available</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
