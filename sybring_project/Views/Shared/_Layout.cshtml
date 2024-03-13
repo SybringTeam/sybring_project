@@ -18,16 +18,16 @@
 <body>
     <header class="header">
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color:#0B2247; color:white;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow">
             <div class="container-fluid ">
 
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="/logo/Sybring_Logo-Black_1000px.png" />
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+             @*    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
-                </button>
+                </button> *@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
 
@@ -48,7 +48,7 @@
                            
                            
                         }
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                       @*  @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Time" asp-action="CreateReport">TimeReport</a>
@@ -61,8 +61,12 @@
                                 <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register as a new user</a>
 
                             </li>          
-                            }
-                    </ul>
+
+
+                            } *@
+                              </ul>
+                   
+
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -71,8 +75,8 @@
           @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
         {
             <div id="mySidenav" class="sidenav" style="white-space: nowrap;">
-            <a class="closebtn" onclick="toggleNav()">&#9776;</a>
-                <a href="@Url.Action("Index", "User")" class="mt-5"><span class="icon-span"><i class="bi bi-search"></i></span><span class="nav-text">Search Tool</span></a>
+            <a class="closebtn" onclick="toggleNav()" ">&#9776;</a>
+                <a href="@Url.Action("Index", "User")" style="margin-top:75px;"><span class="icon-span"><i class="bi bi-search"></i></span><span class="nav-text">Search Tool</span></a>
                 <a href="@Url.Action("Index", "User")"><span class="icon-span"><i class="bi bi-person-video2"></i></span><span class="nav-text">Users</span></a>
                 <a href="@Url.Action("Index", "Project")"><span class="icon-span"><i class="bi bi-card-heading"></i></span><span class="nav-text">Projects</span></a>
                 <a href="/Identity/Account/Register"><span class="icon-span"><i class="bi bi-person-plus-fill"></i></span><span class="nav-text">Register User</span></a>
@@ -88,8 +92,8 @@
             @RenderBody()
         </main>
     </div>
-
-   <footer class="footer-distributed">
+    <div class="col-lg  col-md col-sm">
+   <footer class="footer-distributed ">
  
 			<div class="footer-left">
 
@@ -158,7 +162,7 @@
 			</div>
  
 		</footer>
-
+        </div>
     <script>
 
     </script>
