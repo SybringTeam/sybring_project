@@ -47,7 +47,7 @@
                             </li>
 
                         }
-                       @*  @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                       
 
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin, underconsult"))
                         {
@@ -64,11 +64,9 @@
                             </li>          
 
 
-                            } *@
-                              </ul>
-                   
-
                             }
+                                       
+                                                      
                         else 
                         {
                             <li class="nav-item">
