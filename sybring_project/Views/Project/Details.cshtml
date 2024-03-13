@@ -24,7 +24,15 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
+       
 
+        @*  <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.TimeId)
+        </dt>
+        <dd class="col-sm-10">
+        
+        </div>
+        } *@
 
         <dd class="col-sm-10">
             @if (Model.ProjectHistories == null || !Model.ProjectHistories.Any())
@@ -34,28 +42,13 @@
             }
             else
             {
-                @for (int i = 0; i < 7; i++)
+                foreach (var item in Model.ProjectHistories)
                 {
-                    var currentDayOfWeek = (DayOfWeek)(((int)DayOfWeek.Monday + i) % 7);
-                    var projectTimeReportsForDay = Model.ProjectHistories.Where(ptr => ptr.ProjectHours > TimeSpan.Zero && ptr.TimeHistory.Date.DayOfWeek == currentDayOfWeek).ToList();
-
                     <div>
-                        <h4>@currentDayOfWeek</h4>
-                        @if (projectTimeReportsForDay.Any())
-                        {
-                            foreach (var projectTimeReport in projectTimeReportsForDay)
-                            {
-                                <div>
-                                    <p>User: @Html.DisplayFor(modelItem => projectTimeReport.TimeHistory.Users)</p>
-                                    <p>Project: @Html.DisplayFor(modelItem => projectTimeReport.ProjectId)</p>
-                                    <!-- Display other project time report properties as needed -->
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <p>No time reports for @currentDayOfWeek.</p>
-                        }
+
+                        <p>User: @Html.DisplayFor(modelItem => item.TimeHistory.Users)</p>
+                        <p>Project: @Html.DisplayFor(modelItem => item.ProjectId)</p>
+                       
                     </div>
                 }
             }
