@@ -47,15 +47,13 @@
                             </li>
 
                         }
-                       
-
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin, underconsult"))
+                       @*  @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="ReportDetails">TR Details</a>
+                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Details">TR Details</a>
                             </li>
                             <li class="nav-item">
 
@@ -64,20 +62,10 @@
                             </li>          
 
 
-                            }
-                                       
-                                                      
-                        else 
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
-                            </li>
-                          
+                            } *@
+                              </ul>
+                   
 
-                        }
-                        
-                       
-                    </ul>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
