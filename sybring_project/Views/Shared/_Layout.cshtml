@@ -45,13 +45,14 @@
                             <li class="nav-item">
                                 <a class="nav-link " asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
                             </li>
-                           
-                           
+
                         }
                        @*  @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin, underconsult"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="CreateReport">TimeReport</a>
+                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Time" asp-action="ReportDetails">TR Details</a>
@@ -67,6 +68,18 @@
                               </ul>
                    
 
+                            }
+                        else 
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
+                            </li>
+                          
+
+                        }
+                        
+                       
+                    </ul>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
