@@ -2,10 +2,10 @@
 
 namespace sybring_project.Models
 {
-    public class Hoilday
+    public class Holiday
     {
         [JsonProperty("datum")]
-        public string ? Datum { get; set; }
+        public DateTime Datum { get; set; } = DateTime.Now;
 
         [JsonProperty("veckodag")]
         public string Veckodag { get; set; }
