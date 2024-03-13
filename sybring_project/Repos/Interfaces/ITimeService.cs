@@ -18,6 +18,7 @@ namespace sybring_project.Repos.Interfaces
 
         decimal CalculateWorkingHoursAsync(TimeSpan startTime, TimeSpan endTime);
 
+        //Task<ProjectTimeReport> ProjectWorkingHoursAsync();
 
         //Task<Dictionary<string, double>> GenerateTimeReportByDaysAsync(DateTime startDate, DateTime endDate);
 

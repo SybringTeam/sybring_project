@@ -46,10 +46,24 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 builder.Services.AddControllersWithViews();
 
+
+
+builder.Services.AddHttpClient("hoilday", config =>
+{
+    config.BaseAddress = new Uri(builder.Configuration["MyHoildayAPIAddress"]);
+});
+
+
+
+
+
+
+
 //Add Services:
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IProjectServices, ProjectServices>();
 builder.Services.AddScoped<ITimeService, TimeService>();
+builder.Services.AddScoped<IHolidayService, HolidayService>();
 
 
 
