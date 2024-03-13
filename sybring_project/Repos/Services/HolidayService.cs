@@ -5,16 +5,18 @@ using System.Net.Http;
 
 namespace sybring_project.Repos.Services
 {
-    public class HoildayService : IHoildayService
+    public class HolidayService : IHolidayService
     {
         private readonly HttpClient _httpClient;
-        public HoildayService(IHttpClientFactory httpClientFactory)
+
+        public HolidayService(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient("hoilday");
+            _httpClient = httpClientFactory.CreateClient("holiday");
         }
 
 
-        public async Task<Hoilday> GetHoildayReport()
+
+        public async Task<Holiday> GetHolidayReportAsync()
         {
             var client = new HttpClient();
 
@@ -26,11 +28,17 @@ namespace sybring_project.Repos.Services
             using var response = await client.SendAsync(request);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<Hoilday>(content) ?? new Hoilday() { Datum = "No data available" };
+            return JsonConvert.DeserializeObject<Holiday>(content) ?? new Holiday();
         }
 
+        public async Task<Holiday> GetHolidayDetails()
+        {
+            var response = await _httpClient.GetStringAsync("http://sholiday.faboul.se/dagar/v2.1/2024");
 
+            return JsonConvert.DeserializeObject<Holiday>(response);
+        }
 
+       
     }
 }
 

@@ -4,20 +4,20 @@ using sybring_project.Repos.Interfaces;
 namespace sybring_project.ViewComponents
 {
    
-    public class HoildayViewComponent : ViewComponent
+    public class HolidayViewComponent : ViewComponent
     {
 
-        private readonly IHoildayService _hoildayService;
+        private readonly IHolidayService _holidayService;
 
-        public HoildayViewComponent(IHoildayService hoildayService)
+        public HolidayViewComponent(IHolidayService holidayService)
         {
-            _hoildayService = hoildayService;
+            _holidayService = holidayService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var hoildayData = await _hoildayService.GetHoildayReport();
-            return View("Index", hoildayData);
+            var holidayData = await _holidayService.GetHolidayReportAsync();
+            return View("Index", holidayData);
         }
 
 

@@ -63,7 +63,7 @@ builder.Services.AddHttpClient("hoilday", config =>
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IProjectServices, ProjectServices>();
 builder.Services.AddScoped<ITimeService, TimeService>();
-builder.Services.AddScoped<IHoildayService, HoildayService>();
+builder.Services.AddScoped<IHolidayService, HolidayService>();
 
 
 
