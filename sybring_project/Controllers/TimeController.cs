@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
@@ -35,33 +36,7 @@ namespace sybring_project.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-
-        [HttpPost]
-        public async Task<IActionResult> Create(TimeHistory timeHistory)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-
-                    await _timeService.AddTimeHistoryAsync(timeHistory);
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception)
-                {
-
-                    ModelState.AddModelError("", "An error occurred while saving the time history record.");
-                }
-            }
-
-            return View(timeHistory);
-        }
+       
 
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
@@ -82,16 +57,17 @@ namespace sybring_project.Controllers
         }
 
 
-
+        [Authorize(Roles = "Admin, underconsult")]
         [HttpGet]
-        public async Task<IActionResult> CreateReport()
+        public async Task<IActionResult> Create()
         {
             TimeReportViewModel timeReportViewModel = new TimeReportViewModel();
             return View(timeReportViewModel);
         }
 
+        [Authorize(Roles = "Admin,underconsult")]
         [HttpPost]
-        public async Task<IActionResult> CreateReport(TimeReportViewModel model)
+        public async Task<IActionResult> Create(TimeReportViewModel model)
         {
             try
             {
@@ -106,11 +82,6 @@ namespace sybring_project.Controllers
         }
 
 
-
-
-
-
-
         // ReportDetails action
         //public IActionResult ReportDetails()
         //{
@@ -122,7 +93,7 @@ namespace sybring_project.Controllers
         //    {
 
 
-        //        return RedirectToAction("CreateReport");
+        //        return RedirectToAction("Create");
         //    }
 
         //    // Deserialize the model data from JSON
@@ -156,6 +127,11 @@ namespace sybring_project.Controllers
 
 
 
+
+
+            // Passing the working hours and overtime lists to the view
+        //    ViewBag.WorkingHoursList = workingHoursList;
+        //    ViewBag.OvertimeList = overtimeList;
 
 
  

@@ -48,8 +48,21 @@ namespace sybring_project.Data
          j => j.HasOne<TimeHistory>().WithMany().HasForeignKey("TimeId")
      );
 
+            builder.Entity<ProjectTimeReport>()
+                     .HasKey(ptr => ptr.Id);
 
-          
+            builder.Entity<ProjectTimeReport>()
+                .HasOne(ptr => ptr.Projects)
+                .WithMany(p => p.ProjectHistories)
+                .HasForeignKey(ptr => ptr.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ProjectTimeReport>()
+                .HasOne(ptr => ptr.TimeHistory)
+                .WithMany(th => th.ProjectHistories)
+                .HasForeignKey(ptr => ptr.TimeId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
 
             base.OnModelCreating(builder);

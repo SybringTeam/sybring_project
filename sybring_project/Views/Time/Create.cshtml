@@ -1,12 +1,12 @@
 ﻿@model sybring_project.Models.ViewModels.TimeReportViewModel
 
 @{
-    ViewData["Title"] = "CreateReport";
+    ViewData["Title"] = "Create";
 }
 
 <h1>Create Time Report</h1>
 
-@using (Html.BeginForm("CreateReport", "Time", FormMethod.Post))
+@using (Html.BeginForm("Create", "Time", FormMethod.Post))
 {
     <hr />
 
@@ -29,16 +29,21 @@
         <tbody>
             @if (Model != null && Model.WeekData != null)
             {
+                // Array of day names starting from Monday
+                var dayNames = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+
                 // Loop through each day of the week
-                for (var i = 0; i < Model.WeekData.Count; i++)
+                for (var i = 0; i < 7; i++)
                 {
+                    var dayData = Model.WeekData.ElementAtOrDefault(i); // Retrieve WeekData for the current day
+
                     <tr>
-                        <td>@Enum.GetName(typeof(DayOfWeek), i)</td>
-                        <td>@Html.TextBoxFor(m => m.WeekData[i].StartWork, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => m.WeekData[i].EndWork, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => m.WeekData[i].StartBreak, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => m.WeekData[i].EndBreak, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.ValidationMessageFor(m => m.WeekData[i].Day, "", new { @class = "text-danger" })</td>
+                        <td>@dayNames[i]</td>
+                        <td>@Html.TextBoxFor(m => dayData.StartWork, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => dayData.EndWork, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => dayData.StartBreak, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => dayData.EndBreak, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.ValidationMessageFor(m => dayData.StartWork, "", new { @class = "text-danger" })</td>
                     </tr>
                 }
             }
