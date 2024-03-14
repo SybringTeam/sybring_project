@@ -29,6 +29,7 @@ namespace sybring_project.Repos.Services
             await _db.SaveChangesAsync();
         }
 
+
         public async Task AddReportAsync(TimeReportViewModel model)
         {
             foreach (var dayData in model.WeekData)
@@ -69,14 +70,77 @@ namespace sybring_project.Repos.Services
 
         }
 
+        public async Task<List<decimal>> CalculateWeekDataAsync(TimeReportViewModel timeReportViewModel)
+        {
+            
+            var workingHoursList = new List<decimal>();
+            var overtimeList = new List<decimal>();
+
+            foreach (var dayData in timeReportViewModel.WeekData)
+            {
+                var workingHours = CalculateWorkingHoursAsync(dayData.StartWork, dayData.EndWork);
+                workingHours -= CalculateWorkingHoursAsync(dayData.StartBreak, dayData.EndBreak);
+                workingHoursList.Add(workingHours);
+
+                // Calculate overtime
+                var overtime = CalculateOvertime(workingHours, dayData.MaxRegularHoursPerDay);
+                overtimeList.Add(overtime);
+
+                if (overtime <= 0) // If there is no overtime
+                {
+                    workingHoursList.Add(workingHours);
+                }
+            }
+
+            return workingHoursList;
+        }
 
 
+        public decimal CalculateOvertime(decimal workingHours, decimal maxRegularHoursPerDay)
+        {
+            return Math.Max(workingHours - maxRegularHoursPerDay, 0);
+        }
 
         public decimal CalculateWorkingHoursAsync(TimeSpan startTime, TimeSpan endTime)
         {
             // Calculating working hours (total hours between start and end time)
             return (decimal)(endTime - startTime).TotalHours;
         }
+
+        public async Task<TimeHistory> GetTimeHistoryByIdAsync(int id) 
+        {
+            var time = await _db.TimeHistories
+                .Include(t => t.Users)
+                .FirstOrDefaultAsync(t => t.Id == id);
+            
+            if (time == null)
+            {
+                throw new InvalidOperationException($"Time with ID {id} not found.");
+            }
+            return time;
+        }
+
+        public async Task AssigUserToTimeAsync(string userId, int timeId) 
+        {
+            var existingUser = await _db.Users
+                .Include(u => u.TimeId)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            var timeToAdd = await _db.TimeHistories
+                .FirstOrDefaultAsync(t => t.Id == timeId);
+
+            if (existingUser != null && timeToAdd != null) 
+            {
+                existingUser.TimeId.Add(timeToAdd);
+                await _db.SaveChangesAsync();   
+            }
+        }
+
+
+
+
+
+
 
 
         // Deleting a time history 

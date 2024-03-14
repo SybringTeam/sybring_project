@@ -14,8 +14,14 @@ namespace sybring_project.Repos.Interfaces
         Task UpdateTimeHistoryAsync(TimeHistory updatedTimeHistory);
         Task DeleteTimeHistoryAsync(int id);
 
+        Task<TimeHistory> GetTimeHistoryByIdAsync(int id);
+
         Task AddReportAsync(TimeReportViewModel model);
 
+        Task<List<decimal>> CalculateWeekDataAsync(TimeReportViewModel timeReportViewModel);
+
+        Task AssigUserToTimeAsync(string userId, int timeID);
+        decimal CalculateOvertime(decimal workingHours, decimal maxRegularHoursPerDay);
         decimal CalculateWorkingHoursAsync(TimeSpan startTime, TimeSpan endTime);
 
         //Task<ProjectTimeReport> ProjectWorkingHoursAsync();

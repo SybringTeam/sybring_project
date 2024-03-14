@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
@@ -18,14 +19,18 @@ namespace sybring_project.Controllers
         private readonly ITimeService _timeService;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly IUserServices _userServices;
 
-        public TimeController(ApplicationDbContext context, 
-            ITimeService timeService, UserManager<User> userManager)
+
+        public TimeController(ApplicationDbContext context,
+            ITimeService timeService, UserManager<User> userManager,
+            IUserServices userServices)
         {
 
             _timeService = timeService;
             _context = context;
             _userManager = userManager;
+            _userServices = userServices;
 
 
         }
@@ -37,7 +42,49 @@ namespace sybring_project.Controllers
             return View(list);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> TimeToUser(int id)
+        {
+            var time = await _timeService.GetTimeHistoryByIdAsync(id);
 
+            if (time.ProjectHistories == null || !time.ProjectHistories.Any())
+            {
+                ViewBag.NoTimeHistoryMessage = "New user has no time to show.";
+            }
+
+            var allTime = await _context.Users.ToListAsync();
+
+            if (allTime != null)
+            {
+                ViewBag.AllTime = allTime;
+            }
+
+            return View(time);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TimeToUser(string userId, int timeId)
+        {
+            try
+            {
+                var getTime = await _timeService.GetTimeHistoryByIdAsync(timeId);
+                var getUser = await _userServices.GetUserByIdAsync(userId);
+
+                if (getTime == null || getUser == null)
+                {
+                    return NotFound("User or TimeHistory Not Found");
+                }
+
+                await _timeService.AssigUserToTimeAsync(userId, timeId);
+                TempData["Added"] = "This User has been assigned to the time.";
+                return RedirectToAction("Details", new { id = timeId });
+            }
+            catch (Exception ex)
+            {
+
+                return NotFound(ex.Message);
+            }
+        }
 
 
         [HttpGet]
@@ -84,62 +131,40 @@ namespace sybring_project.Controllers
         }
 
 
-
-
         ////ReportDetails action
-        //public IActionResult ReportDetails()
-        //{
-        //    // Retrieve the serialized model data from TempData
-        //    var serializedModel = TempData["TimeReportModel"] as string;
+        public async Task<IActionResult> ReportDetails(TimeReportViewModel timeReportViewModel)
+        {
+            try
+            {
+                // Calculate week data including working hours and overtime
+                var workingHoursList = await _timeService.CalculateWeekDataAsync(timeReportViewModel);
+                var overtimeList = await _timeService.CalculateWeekDataAsync(timeReportViewModel);
 
-        //    // Checking if serialized model data is null or empty
-        //    if (string.IsNullOrEmpty(serializedModel))
-        //    {
+                // Check if any overtime hours exist
+                var hasOvertime = overtimeList.Any(overtime => overtime > 0);
 
+                // Pass the appropriate data to the view
+                if (hasOvertime)
+                {
+                    ViewBag.OvertimeList = overtimeList;
+                }
+                else
+                {
+                    ViewBag.WorkingHoursList = workingHoursList;
+                }
 
-        //        return RedirectToAction("Create");
-        //    }
+                return View(timeReportViewModel);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
 
+        }
 
-        //    // Calculate and store only the working hours in a new list
-        //    var workingHoursList = new List<decimal>();
-
-        //    var overtimeList = new List<decimal>();
-
-        //    // Initialing total work hours for the week
-        //    decimal totalWorkHoursForWeek = 0;
-
-        //    foreach (var dayData in timeReportModel.WeekData)
-        //    {
-        //        // Calculate working hours considering lunch break
-        //        var workingHours = CalculateWorkingHoursAsync(dayData.StartTime, dayData.EndTime);
-        //        workingHours -= CalculateWorkingHours(dayData.LunchStart, dayData.LunchEnd);
-
-        //        // Add working hours to the list
-        //        workingHoursList.Add(workingHours);
-
-        //        // Calculate overtime (if applicable)
-        //        var overtime = Math.Max(workingHours - MaxRegularHoursPerDay, 0);
-        //        overtimeList.Add(overtime);
-
-        //        // Add working hours to total work hours for the week
-        //        totalWorkHoursForWeek += dayData.TotalWorkHours;
-
-        //    }
-
-
-        //    //Passing the working hours and overtime lists to the view
-        //    ViewBag.WorkingHoursList = workingHoursList;
-        //    ViewBag.OvertimeList = overtimeList;
-
-        //}
-
-        ////Method to calculate working hours
-        //private decimal CalculateWorkingHours(TimeSpan startTime, TimeSpan endTime)
-        //{
-        //    // Calculating working hours (total hours between start and end time)
-        //    return (decimal)(endTime - startTime).TotalHours;
-        //}
+    
+     
 
 
 

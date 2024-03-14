@@ -18,7 +18,7 @@
         <thead>
             <tr>
                 <th>Day</th>
-                <th>Date</th>
+                <th>Schedule</th>
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Lunch Start</th>
@@ -35,25 +35,37 @@
                 // Array of day names starting from Monday
                 var dayNames = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
+                // Calculate the start date of the current week (Sunday)
+                DateTime startOfWeek = currentDate.AddDays(-(int)currentDate.DayOfWeek);
+
                 // Loop through each day of the week
                 for (var i = 0; i < 7; i++)
                 {
                     var dayData = Model.WeekData.ElementAtOrDefault(i); // Retrieve WeekData for the current day
-                    dayData.Schedule = currentDate.AddDays(i);
+
+                    // Calculate the date for the current day in the loop
+                    DateTime currentDay = startOfWeek.AddDays(i);
+
+                    // Retrieve the DayDataVM for the current day
+                    var current = Model.WeekData.ElementAtOrDefault(i);
+
+                    // Set the Schedule property to the current day
+                    dayData.Schedule = currentDay;
+
 
                     // Set default values for time properties
-                    dayData.StartWork = TimeSpan.FromHours(8); 
-                    dayData.EndWork = TimeSpan.FromHours(17); 
-                    dayData.StartBreak = TimeSpan.FromHours(12); 
-                    dayData.EndBreak = TimeSpan.FromHours(13); 
+                    @* dayData.StartWork = TimeSpan.FromHours(8);
+        dayData.EndWork = TimeSpan.FromHours(17);
+        dayData.StartBreak = TimeSpan.FromHours(12);
+        dayData.EndBreak = TimeSpan.FromHours(13) *@;
 
                     <tr>
                         <td>@dayNames[i]</td>
-                        <td>@dayData.Schedule.ToShortDateString()</td>
+                        <td>@dayData.Schedule.ToString("yyyy-MM-dd")</td>
                         <td>@Html.TextBoxFor(m => dayData.StartWork, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => dayData.EndWork,  new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => dayData.StartBreak,  new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => dayData.EndBreak,  new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => dayData.EndWork, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => dayData.StartBreak, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => dayData.EndBreak, new { @class = "form-control", type = "time" })</td>
                         <td>@Html.ValidationMessageFor(m => dayData.StartWork, "", new { @class = "text-danger" })</td>
                     </tr>
                 }

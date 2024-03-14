@@ -5,6 +5,7 @@
         public string Day { get; set; }
 
         public DateTime Schedule { get; set; } 
+
         public TimeSpan StartWork { get; set; }
 
 
