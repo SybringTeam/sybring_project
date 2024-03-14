@@ -178,6 +178,11 @@ namespace sybring_project.Repos.Services
                 
         }
         }
+
+        internal object GetUserById(string userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
