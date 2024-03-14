@@ -3,6 +3,7 @@ using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
+using System.Threading.Tasks;
 
 namespace sybring_project.Repos.Services
 {
@@ -15,9 +16,9 @@ namespace sybring_project.Repos.Services
             _db = db;
         }
 
-        public Task<List<TimeHistory>> GetTimeListAsync()
+        public async Task<List<TimeHistory>> GetTimeListAsync()
         {
-            return _db.TimeHistories.ToListAsync();
+            return await _db.TimeHistories.ToListAsync();
         }
        
 
@@ -58,15 +59,18 @@ namespace sybring_project.Repos.Services
                     Childcare = dayData.Childcare,
                     Overtime = dayData.Overtime,
                     InconvenientHours = dayData.InconvenientHours
-                  
+
                 };
 
                 _db.TimeHistories.Add(addHistory);
             }
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
 
 
         }
+
+
+
 
         public decimal CalculateWorkingHoursAsync(TimeSpan startTime, TimeSpan endTime)
         {
@@ -97,8 +101,6 @@ namespace sybring_project.Repos.Services
         }
 
       
-
-
 
 
         ////  // Generate time report by days of the week

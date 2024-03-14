@@ -3,6 +3,8 @@
     public class DayDataVM
     {
         public string Day { get; set; }
+
+        public DateTime Schedule { get; set; } 
         public TimeSpan StartWork { get; set; }
 
 
@@ -39,6 +41,22 @@
 
         public decimal InconvenientHours { get; set; }
         public decimal MaxRegularHoursPerDay { get; set; }
+
+        public DayDataVM()
+        {
+            // Set default start time to 08:00 AM
+            StartWork = TimeSpan.FromHours(8);
+
+            // Set default end time to 17:00 PM
+            EndWork = TimeSpan.FromHours(17);
+
+            // Set default start break time to 12:00 PM
+            StartBreak = TimeSpan.FromHours(12);
+
+            // Set default end break time to 13:00 PM
+            EndBreak = TimeSpan.FromHours(13);
+        }
+
 
 
     }

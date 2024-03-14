@@ -8,9 +8,7 @@ namespace sybring_project.Models.ViewModels
 
 
         public DateTime Schedule { get; set; }
-
-
-     
+             
 
         // Represents many-to-many relationship with Project
         public virtual ICollection<Project> ProjectId { get; set; }
@@ -29,7 +27,14 @@ namespace sybring_project.Models.ViewModels
         // Constructor to initialize WeekData
         public TimeReportViewModel()
         {
-            WeekData = Enumerable.Range(0, 7).Select(_ => new DayDataVM()).ToList();
+            Date = DateTime.Today;
+            Schedule = DateTime.Today;
+
+            WeekData = Enumerable.Range(0, 7)
+                .Select(i => new DayDataVM 
+                {
+                    Schedule = Date.AddDays(i)
+                }).ToList();
 
         }
     }

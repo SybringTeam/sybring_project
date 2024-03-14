@@ -18,6 +18,7 @@
         <thead>
             <tr>
                 <th>Day</th>
+                <th>Date</th>
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Lunch Start</th>
@@ -29,6 +30,8 @@
         <tbody>
             @if (Model != null && Model.WeekData != null)
             {
+                DateTime currentDate = DateTime.Today;
+
                 // Array of day names starting from Monday
                 var dayNames = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
@@ -36,13 +39,21 @@
                 for (var i = 0; i < 7; i++)
                 {
                     var dayData = Model.WeekData.ElementAtOrDefault(i); // Retrieve WeekData for the current day
+                    dayData.Schedule = currentDate.AddDays(i);
+
+                    // Set default values for time properties
+                    dayData.StartWork = TimeSpan.FromHours(8); 
+                    dayData.EndWork = TimeSpan.FromHours(17); 
+                    dayData.StartBreak = TimeSpan.FromHours(12); 
+                    dayData.EndBreak = TimeSpan.FromHours(13); 
 
                     <tr>
                         <td>@dayNames[i]</td>
+                        <td>@dayData.Schedule.ToShortDateString()</td>
                         <td>@Html.TextBoxFor(m => dayData.StartWork, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => dayData.EndWork, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => dayData.StartBreak, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => dayData.EndBreak, new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => dayData.EndWork,  new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => dayData.StartBreak,  new { @class = "form-control", type = "time" })</td>
+                        <td>@Html.TextBoxFor(m => dayData.EndBreak,  new { @class = "form-control", type = "time" })</td>
                         <td>@Html.ValidationMessageFor(m => dayData.StartWork, "", new { @class = "text-danger" })</td>
                     </tr>
                 }
@@ -55,6 +66,17 @@
             }
         </tbody>
     </table>
+
+    <div>
+        @if (TempData.ContainsKey("TotalWorkedHours"))
+        {
+            <p>Total Worked Hours: @TempData["TotalWorkedHours"]</p>
+        }
+        @if (TempData.ContainsKey("TotalBreakHours"))
+        {
+            <p>Total Break Hours: @TempData["TotalBreakHours"]</p>
+        }
+    </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 }
