@@ -1,0 +1,18 @@
+﻿@model sybring_project.Models.Db.User
+
+
+<div id="userEle">
+    @if (Model is not null)
+    {
+        <div>
+            <p><strong>User ID:</strong> @Model.Id</p>
+            <p><strong>Name:</strong> @Model.FirstName</p>
+        </div>
+    }
+    else
+    {
+        <h5>Choose user for details</h5>
+    }
+
+
+</div>

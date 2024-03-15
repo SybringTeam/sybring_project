@@ -47,27 +47,35 @@
 </table>
 </div>
 
-<div>s
+<div>
     @*  <a asp-action="Create" class="btn btn-primary">Create User</a> *@
 </div>
 
 <div id="userInfoContainer">
 
     
-    <vc:show-user user-id=""></vc>
+    <vc:show-user user-id=""> </vc:show-user>
 
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
 
-    function showuser(userId) {
-        let partialString = "<vc name='_UserDetailsPartial.cshtml' parametername =" + userId +" /vc>";
-        console.log(partialString);
-        let ele = document.getElementById("userInfoContainer");
-        ele.innerText = partialString;
-    }
+        function showUser(id) {
+            $.ajax({
+                type: "GET",
+            url: "/User/UserVc",
+                data: { userId: id },
+                success: function (response) {
 
+                    $('#userEle').html(response);
+                    
+                },
+                error: function (error) {
+                    alert("operation failed...", error);
+                }
+            });
+  
     function myFunction() {
         alert('Link clicked');
     }

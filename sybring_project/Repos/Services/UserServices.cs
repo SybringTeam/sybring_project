@@ -179,9 +179,9 @@ namespace sybring_project.Repos.Services
         }
         }
 
-        internal object GetUserById(string userId)
+        public User GetUserById(string userId)
         {
-            throw new NotImplementedException();
+            return _db.Users.FirstOrDefault(u => u.Id == userId);
         }
     }
 }

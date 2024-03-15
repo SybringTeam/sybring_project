@@ -9,17 +9,17 @@ namespace sybring_project.ViewComponents
     public class ShowUserViewComponent:ViewComponent
     {
 
-        private readonly UserServices _userServices;
+        private readonly IUserServices _userServices;
 
-        public ShowUserViewComponent(UserServices userServices)
+        public ShowUserViewComponent(IUserServices userServices)
         {
             _userServices = userServices;
         }
 
         public IViewComponentResult Invoke(string userId)
         {
-            var user = _userServices.GetUserByIdAsync(userId);
-            return View("Index", user);
+            var user = _userServices.GetUserById(userId);
+            return View("Default", user);
         }
 
     }

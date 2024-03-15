@@ -152,5 +152,15 @@ namespace sybring_project.Controllers
             await _userServices.DeleteUserAsync(id);
             return RedirectToAction("Index");
         }
+
+        public IActionResult UserVc(string id)
+        {
+
+            return ViewComponent("ShowUser", new { userId = id});
+
+
+        }
     }
+
+
 }
