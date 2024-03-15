@@ -1,7 +1,6 @@
 @model IEnumerable<sybring_project.Models.Db.User>
 
 
-
 <div class="frame">
     
     <table class="table">
@@ -22,7 +21,7 @@
             <tr>
                 
 
-               <td> <a href="#" onclick="showuser('@item.Id');" class="showDetails">@item.FirstName @item.LastName</a>
+               <td> <a href="#" onclick="showUser('@item.Id');" class="showDetails">@item.FirstName @item.LastName</a>
                        
                </td>
 
@@ -48,25 +47,19 @@
 </table>
 </div>
 
-<div>
+<div>s
     @*  <a asp-action="Create" class="btn btn-primary">Create User</a> *@
 </div>
 
-<div id="userInfoContainer" >
+<div id="userInfoContainer">
+
+    
+    <vc:show-user user-id=""></vc>
 
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
-
-    // $(document).ready(function () {
-    //     $('.showDetails').click(function () {
-            
-
-           
-            
-    //     });
-    // });
 
     function showuser(userId) {
         let partialString = "<vc name='_UserDetailsPartial.cshtml' parametername =" + userId +" /vc>";
@@ -78,6 +71,7 @@
     function myFunction() {
         alert('Link clicked');
     }
+
 </script>
 
  
