@@ -1,4 +1,5 @@
-﻿@model sybring_project.Models.ViewModels.TimeReportViewModel
+﻿@model List<sybring_project.Models.ViewModels.DayDataVM>
+
 
 @{
     ViewData["Title"] = "Create";
@@ -18,6 +19,7 @@
         <thead>
             <tr>
                 <th>Day</th>
+                <th>Date</th>
                 <th>Start Time</th>
                 <th>End Time</th>
                 <th>Lunch Start</th>
@@ -27,34 +29,38 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model != null && Model.WeekData != null)
+            @for (int i = 0; i < Model.Count; i++)
             {
-                // Array of day names starting from Monday
-                var dayNames = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+                <tr>
+                    <td>@Model[i].Date.DayOfWeek</td>
 
-                // Loop through each day of the week
-                for (var i = 0; i < 7; i++)
-                {
-                    var dayData = Model.WeekData.ElementAtOrDefault(i); // Retrieve WeekData for the current day
-
-                    <tr>
-                        <td>@dayNames[i]</td>
-                        <td>@Html.TextBoxFor(m => dayData.StartWork, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => dayData.EndWork, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => dayData.StartBreak, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => dayData.EndBreak, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.ValidationMessageFor(m => dayData.StartWork, "", new { @class = "text-danger" })</td>
-                    </tr>
-                }
+                    <td>@Html.HiddenFor(m => m[i].Date) @Model[i].Date.ToShortDateString()</td>
+                    <td>@Html.TextBoxFor(m => m[i].StartWork, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].EndWork, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].StartBreak, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].EndBreak, new { type = "time" })</td>
+                    <td>@Html.ValidationMessageFor(m => m[i].StartWork, "", new { @class = "text-danger" })</td>
+                </tr>
             }
             else
             {
-                <tr>
-                    <td colspan="6">No data available</td>
-                </tr>
+            <tr>
+                <td colspan="7">No data available</td>
+            </tr>
             }
         </tbody>
     </table>
+
+    <div>
+        @if (TempData.ContainsKey("TotalWorkedHours"))
+        {
+            <p>Total Worked Hours: @TempData["TotalWorkedHours"]</p>
+        }
+        @if (TempData.ContainsKey("TotalBreakHours"))
+        {
+            <p>Total Break Hours: @TempData["TotalBreakHours"]</p>
+        }
+    </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 }
