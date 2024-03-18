@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Models.Seeding;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 using System.Security.Claims;
@@ -110,24 +111,51 @@ namespace sybring_project.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            TimeReportViewModel timeReportViewModel = new TimeReportViewModel();
-            return View(timeReportViewModel);
+            List<DayDataVM> model = new List<DayDataVM>();
+
+            // Calculate the start date of the current week (Monday)
+            DateTime currentDate = DateTime.Today;
+            DateTime startDate = currentDate;
+
+            while (startDate.DayOfWeek != DayOfWeek.Monday)
+            {
+                startDate = startDate.AddDays(-1);
+            }
+
+            // Generate data for the week
+            for (int i = 0; i < 7; i++)
+            {
+                DateTime currentDateInLoop = startDate.AddDays(i);
+                var dayData = new DayDataVM
+                {
+                    Date = currentDateInLoop,
+                    StartWork = TimeSpan.FromHours(8), // Set default values for StartWork, EndWork, etc.
+                    EndWork = TimeSpan.FromHours(17),
+                    StartBreak = TimeSpan.FromHours(12),
+                    EndBreak = TimeSpan.FromHours(13)
+                };
+                model.Add(dayData);
+            }
+
+            return View(model);
         }
+
 
         [Authorize(Roles = "Admin,underconsult")]
         [HttpPost]
-        public async Task<IActionResult> Create(TimeReportViewModel model)
+        public async Task<IActionResult> Create(List<DayDataVM> weekData)
         {
-            try
+            if (weekData == null || weekData.Count == 0)
             {
-                await _timeService.AddReportAsync(model);
-                return RedirectToAction("Index");
+                return BadRequest("No data provided.");
             }
-            catch (Exception ex)
+
+            foreach (var dayData in weekData)
             {
-                ModelState.AddModelError("", $"An error occurred while processing the time report: {ex.Message}");
-                return View(model);
+                await _timeService.AddReportAsync(dayData);
             }
+
+            return RedirectToAction("Index");
         }
 
 
@@ -163,8 +191,8 @@ namespace sybring_project.Controllers
 
         }
 
-    
-     
+
+
 
 
 

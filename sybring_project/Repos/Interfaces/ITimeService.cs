@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
+
+
+
 
 namespace sybring_project.Repos.Interfaces
 {
@@ -16,13 +19,15 @@ namespace sybring_project.Repos.Interfaces
 
         Task<TimeHistory> GetTimeHistoryByIdAsync(int id);
 
-        Task AddReportAsync(TimeReportViewModel model);
+        Task AddReportAsync(DayDataVM dayDataVM);
+
 
         Task<List<decimal>> CalculateWeekDataAsync(TimeReportViewModel timeReportViewModel);
 
         Task AssigUserToTimeAsync(string userId, int timeID);
         decimal CalculateOvertime(decimal workingHours, decimal maxRegularHoursPerDay);
         decimal CalculateWorkingHoursAsync(TimeSpan startTime, TimeSpan endTime);
+
 
         //Task<ProjectTimeReport> ProjectWorkingHoursAsync();
 
