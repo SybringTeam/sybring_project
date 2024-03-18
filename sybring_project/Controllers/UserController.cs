@@ -153,10 +153,10 @@ namespace sybring_project.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult UserVc(string id)
+        public IActionResult UserVc(string userId)
         {
 
-            return ViewComponent("ShowUser", new { userId = id});
+            return ViewComponent("ShowUser", new { userId = userId });
 
 
         }
