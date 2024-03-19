@@ -43,49 +43,6 @@ namespace sybring_project.Controllers
             return View(list);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> TimeToUser(int id)
-        {
-            var time = await _timeService.GetTimeHistoryByIdAsync(id);
-
-            if (time.ProjectHistories == null || !time.ProjectHistories.Any())
-            {
-                ViewBag.NoTimeHistoryMessage = "New user has no time to show.";
-            }
-
-            var allTime = await _context.Users.ToListAsync();
-
-            if (allTime != null)
-            {
-                ViewBag.AllTime = allTime;
-            }
-
-            return View(time);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> TimeToUser(string userId, int timeId)
-        {
-            try
-            {
-                var getTime = await _timeService.GetTimeHistoryByIdAsync(timeId);
-                var getUser = await _userServices.GetUserByIdAsync(userId);
-
-                if (getTime == null || getUser == null)
-                {
-                    return NotFound("User or TimeHistory Not Found");
-                }
-
-                await _timeService.AssigUserToTimeAsync(userId, timeId);
-                TempData["Added"] = "This User has been assigned to the time.";
-                return RedirectToAction("Details", new { id = timeId });
-            }
-            catch (Exception ex)
-            {
-
-                return NotFound(ex.Message);
-            }
-        }
 
 
         [HttpGet]
@@ -149,47 +106,52 @@ namespace sybring_project.Controllers
             {
                 return BadRequest("No data provided.");
             }
-
+            var userId = _userManager.GetUserId(User);
             foreach (var dayData in weekData)
             {
-                await _timeService.AddReportAsync(dayData);
+                // Calculate working hours for the day
+                dayData.WorkingHours = _timeService.CalculateWorkingHoursAsync(dayData);
+                // Add the report
+                await _timeService.AddReportAsync(dayData, userId);
+               
             }
+           
 
             return RedirectToAction("Index");
         }
 
 
         ////ReportDetails action
-        public async Task<IActionResult> ReportDetails(TimeReportViewModel timeReportViewModel)
-        {
-            try
-            {
-                // Calculate week data including working hours and overtime
-                var workingHoursList = await _timeService.CalculateWeekDataAsync(timeReportViewModel);
-                var overtimeList = await _timeService.CalculateWeekDataAsync(timeReportViewModel);
+        //public async Task<IActionResult> ReportDetails(DayDataVM dayData)
+        //{
+        //    try
+        //    {
+        //        // Calculate week data including working hours and overtime
+        //        var workingHoursList = await _timeService.CalculateWeekDataAsync(dayData);
+        //        var overtimeList = await _timeService.CalculateWeekDataAsync(dayData);
 
-                // Check if any overtime hours exist
-                var hasOvertime = overtimeList.Any(overtime => overtime > 0);
+        //        // Check if any overtime hours exist
+        //        var hasOvertime = overtimeList.Any(overtime => overtime > 0);
 
-                // Pass the appropriate data to the view
-                if (hasOvertime)
-                {
-                    ViewBag.OvertimeList = overtimeList;
-                }
-                else
-                {
-                    ViewBag.WorkingHoursList = workingHoursList;
-                }
+        //        // Pass the appropriate data to the view
+        //        if (hasOvertime)
+        //        {
+        //            ViewBag.OvertimeList = overtimeList;
+        //        }
+        //        else
+        //        {
+        //            ViewBag.WorkingHoursList = workingHoursList;
+        //        }
 
-                return View(timeReportViewModel);
-            }
-            catch (Exception ex)
-            {
-                ViewBag.ErrorMessage = ex.Message;
-                return View("Error");
-            }
+        //        return View(timeReportViewModel);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ViewBag.ErrorMessage = ex.Message;
+        //        return View("Error");
+        //    }
 
-        }
+        //}
 
 
 

@@ -30,8 +30,29 @@ namespace sybring_project.Repos.Services
         }
 
 
-        public async Task AddReportAsync(DayDataVM dayDataVM)
+        public async Task AddReportAsync(DayDataVM dayDataVM, string userId)
         {
+            decimal totalWorkingHours = 0;
+
+            decimal workingHoursWithoutBreak = (dayDataVM.EndBreak -  dayDataVM.StartBreak).Hours -1;
+            if (workingHoursWithoutBreak < 0) workingHoursWithoutBreak = 0;
+            
+            decimal overtime = 0;
+
+            // Check if the working hours exceed the weekly limit (40 hours)
+            if (totalWorkingHours > 40)
+            {
+                overtime = workingHoursWithoutBreak - 40; // overtime calculate
+                totalWorkingHours = 40; // Set total working hours to the weekly limit
+
+               
+            }
+            else
+            { // Set total working hours to the actual working hours
+              // without overtime
+                totalWorkingHours = workingHoursWithoutBreak;
+            }
+
             var timeReport = new TimeHistory
             {
                 Date = dayDataVM.Date,
@@ -55,49 +76,59 @@ namespace sybring_project.Repos.Services
                 //Users = _db.Users.Include(u => u.UserName).ToList()
 
             };
+            totalWorkingHours += dayDataVM.WorkingHours;
 
-            _db.TimeHistories.Add(timeReport);
+            
+
+            
+            var user = _db.Users.Find(userId);
+            if (user != null) 
+            {
+                timeReport.Users = new List<User> {user};// Assign the user to the Users collection
+
+                _db.TimeHistories.Add(timeReport);
+                _db.SaveChanges();
+            }
+           
 
 
-            _db.SaveChanges();
-
+            
         }
 
 
         // Helper method to get the previous Monday from a given date
-        public DateTime GetPreviousMonday(DateTime date)
-        {
-            int daysUntilPrevMonday = ((int)date.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
-            return date.AddDays(-daysUntilPrevMonday).Date;
-        }
+        //public DateTime GetPreviousMonday(DateTime date)
+        //{
+        //    int daysUntilPrevMonday = ((int)date.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+        //    return date.AddDays(-daysUntilPrevMonday).Date;
+        //}
 
 
 
+        //public async Task<List<decimal>> CalculateWeekDataAsync(TimeReportViewModel timeReportViewModel)
+        //{
 
-        public async Task<List<decimal>> CalculateWeekDataAsync(TimeReportViewModel timeReportViewModel)
-        {
+        //    var workingHoursList = new List<decimal>();
+        //    var overtimeList = new List<decimal>();
 
-            var workingHoursList = new List<decimal>();
-            var overtimeList = new List<decimal>();
+        //    foreach (var dayData in timeReportViewModel.WeekData)
+        //    {
+        //        var workingHours = CalculateWorkingHoursAsync(dayData.StartWork, dayData.EndWork);
+        //        workingHours -= CalculateWorkingHoursAsync(dayData.StartBreak, dayData.EndBreak);
+        //        workingHoursList.Add(workingHours);
 
-            foreach (var dayData in timeReportViewModel.WeekData)
-            {
-                var workingHours = CalculateWorkingHoursAsync(dayData.StartWork, dayData.EndWork);
-                workingHours -= CalculateWorkingHoursAsync(dayData.StartBreak, dayData.EndBreak);
-                workingHoursList.Add(workingHours);
+        //        // Calculate overtime
+        //        var overtime = CalculateOvertime(workingHours, dayData.WorkingHours);
+        //        overtimeList.Add(overtime);
 
-                // Calculate overtime
-                var overtime = CalculateOvertime(workingHours, dayData.WorkingHours);
-                overtimeList.Add(overtime);
+        //        if (overtime <= 0) // If there is no overtime
+        //        {
+        //            workingHoursList.Add(workingHours);
+        //        }
+        //    }
 
-                if (overtime <= 0) // If there is no overtime
-                {
-                    workingHoursList.Add(workingHours);
-                }
-            }
-
-            return workingHoursList;
-        }
+        //    return workingHoursList;
+        //}
 
 
         public decimal CalculateOvertime(decimal workingHours, decimal maxRegularHoursPerDay)
@@ -105,10 +136,19 @@ namespace sybring_project.Repos.Services
             return Math.Max(workingHours - maxRegularHoursPerDay, 0);
         }
 
-        public decimal CalculateWorkingHoursAsync(TimeSpan startTime, TimeSpan endTime)
+        public decimal CalculateWorkingHoursAsync(DayDataVM dayDataVM)
         {
-            // Calculating working hours (total hours between start and end time)
-            return (decimal)(endTime - startTime).TotalHours;
+            TimeSpan workDuration = dayDataVM.EndWork - dayDataVM.StartWork;
+            TimeSpan breakDuration = dayDataVM.EndBreak - dayDataVM.StartBreak;
+            decimal workingHours = (decimal)workDuration.TotalDays - (decimal)breakDuration.TotalHours;
+
+            const decimal standardWorkingHoursPerDay = 8;
+            if (workingHours > standardWorkingHoursPerDay)
+            {
+                workingHours = standardWorkingHoursPerDay; // Limit to standard working hours
+            }
+
+            return workingHours;
         }
 
         public async Task<TimeHistory> GetTimeHistoryByIdAsync(int id)
@@ -124,27 +164,7 @@ namespace sybring_project.Repos.Services
             return time;
         }
 
-        public async Task AssigUserToTimeAsync(string userId, int timeId)
-        {
-            var existingUser = await _db.Users
-                .Include(u => u.TimeId)
-                .FirstOrDefaultAsync(u => u.Id == userId);
-
-            var timeToAdd = await _db.TimeHistories
-                .FirstOrDefaultAsync(t => t.Id == timeId);
-
-            if (existingUser != null && timeToAdd != null)
-            {
-                existingUser.TimeId.Add(timeToAdd);
-                await _db.SaveChangesAsync();
-            }
-        }
-
-
-
-
-
-
+      
 
 
         // Deleting a time history 

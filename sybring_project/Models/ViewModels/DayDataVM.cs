@@ -2,13 +2,7 @@
 
 namespace sybring_project.Models.ViewModels
 {
-    //public class WeekDataVM
-    //{
-    //    public List<DayDataVM> WeekData { get; set; }
-
-
-    //}
-
+    
     public class DayDataVM
     {
         public DateTime Date { get; set; }
