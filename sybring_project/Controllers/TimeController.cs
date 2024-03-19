@@ -100,23 +100,22 @@ namespace sybring_project.Controllers
 
         [Authorize(Roles = "Admin,underconsult")]
         [HttpPost]
-        public async Task<IActionResult> Create(List<DayDataVM> weekData)
+        public async Task<IActionResult> Create(List<DayDataVM> weekData, decimal scheduledHoursPerWeek)
         {
             if (weekData == null || weekData.Count == 0)
             {
                 return BadRequest("No data provided.");
             }
             var userId = _userManager.GetUserId(User);
+
             foreach (var dayData in weekData)
             {
-                // Calculate working hours for the day
-                dayData.WorkingHours = _timeService.CalculateWorkingHoursAsync(dayData);
+               
                 // Add the report
-                await _timeService.AddReportAsync(dayData, userId);
+                await _timeService.AddReportAsync(dayData, userId, scheduledHoursPerWeek);
                
             }
            
-
             return RedirectToAction("Index");
         }
 

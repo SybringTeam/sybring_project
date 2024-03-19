@@ -50,10 +50,10 @@
                     <td>@Html.TextBoxFor(m => m[i].EndWork, new { type = "time" })</td>
                     <td>@Html.TextBoxFor(m => m[i].StartBreak, new { type = "time" })</td>
                     <td>@Html.TextBoxFor(m => m[i].EndBreak, new { type = "time" })</td>
-                    <td>@Html.TextBoxFor(m => m[i].WorkingHours,new {type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].WorkingHours, new { type = "time" })</td>
                     <td id="workingHours">@Model[i].WorkingHours</td>
                     <td id="totalWorkingHours">@Model[i].TotalWorkingHours</td>
-                  
+                    <td>@Html.TextBoxFor(m => m[i].Overtime, new { type = "time" })</td>
                     <td>@Html.TextBoxFor(m => m[i].MoreTime, new { type = "time" })</td>
 
                     <td>@Html.ValidationMessageFor(m => m[i].StartWork, "", new { @class = "text-danger" })</td>
@@ -68,7 +68,7 @@
         </tbody>
     </table>
 
-   
+
 
     <input type="hidden" name="userId" value="user_id_here" /> <!-- Replace "user_id_here" with the actual user ID -->
     <button type="submit" class="btn btn-primary">Submit</button>
@@ -77,33 +77,5 @@
 }
 <script>
 
-    // Calculate and display working hours dynamically
-    $(document).ready(function() {
-        $('input[type="time"]').change(function() {
-            var startTime = $(this).closest('tr').find('input[name$=".StartWork"]').val();
-            var endTime = $(this).closest('tr').find('input[name$=".EndWork"]').val();
-            var startBreak = $(this).closest('tr').find('input[name$=".StartBreak"]').val();
-            var endBreak = $(this).closest('tr').find('input[name$=".EndBreak"]').val();
 
-            var workingHours = calculateWorkingHours(startTime, endTime, startBreak, endBreak);
-            $(this).closest('tr').find('#workingHours').text(workingHours);
-        });
-
-        function calculateWorkingHours(startTime, endTime, startBreak, endBreak) {
-            // Your calculation logic for working hours
-            // Convert times to DateTime objects and calculate the difference
-            var startDateTime = new Date("1970-01-01T" + startTime + "Z");
-            var endDateTime = new Date("1970-01-01T" + endTime + "Z");
-            var startBreakDateTime = new Date("1970-01-01T" + startBreak + "Z");
-            var endBreakDateTime = new Date("1970-01-01T" + endBreak + "Z");
-
-            var totalHours = (endDateTime - startDateTime) / (1000 * 60 * 60); // Convert milliseconds to hours
-            var breakHours = (endBreakDateTime - startBreakDateTime) / (1000 * 60 * 60); // Convert milliseconds to hours
-
-            // Subtract break hours from total hours
-            var workingHours = totalHours - breakHours;
-
-            return workingHours.toFixed(2); // Round to two decimal places
-        }
-    });
 </script>

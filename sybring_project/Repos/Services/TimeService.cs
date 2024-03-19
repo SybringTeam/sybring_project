@@ -30,28 +30,10 @@ namespace sybring_project.Repos.Services
         }
 
 
-        public async Task AddReportAsync(DayDataVM dayDataVM, string userId)
+        public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal scheduledHoursPerWeek)
         {
-            decimal totalWorkingHours = 0;
-
-            decimal workingHoursWithoutBreak = (dayDataVM.EndBreak -  dayDataVM.StartBreak).Hours -1;
-            if (workingHoursWithoutBreak < 0) workingHoursWithoutBreak = 0;
-            
-            decimal overtime = 0;
-
-            // Check if the working hours exceed the weekly limit (40 hours)
-            if (totalWorkingHours > 40)
-            {
-                overtime = workingHoursWithoutBreak - 40; // overtime calculate
-                totalWorkingHours = 40; // Set total working hours to the weekly limit
-
-               
-            }
-            else
-            { // Set total working hours to the actual working hours
-              // without overtime
-                totalWorkingHours = workingHoursWithoutBreak;
-            }
+            // Calculate working hours for the day (including overtime)
+            decimal totalWorkingHours = CalculateWorkingHoursAsync(dayDataVM, scheduledHoursPerWeek);
 
             var timeReport = new TimeHistory
             {
@@ -61,8 +43,8 @@ namespace sybring_project.Repos.Services
                 EndWork = dayDataVM.EndWork,
                 StartBreak = dayDataVM.StartBreak,
                 EndBreak = dayDataVM.EndBreak,
-                TotalWorkingHours = dayDataVM.TotalWorkingHours,
-                WorkingHours = dayDataVM.WorkingHours,
+                TotalWorkingHours = totalWorkingHours,
+                WorkingHours = dayDataVM.WorkingHours=8,
                 FlexiTime = dayDataVM.FlexiTime,
                 MoreTime = dayDataVM.MoreTime,
                 AttendanceTime = dayDataVM.AttendanceTime,
@@ -76,11 +58,14 @@ namespace sybring_project.Repos.Services
                 //Users = _db.Users.Include(u => u.UserName).ToList()
 
             };
-            totalWorkingHours += dayDataVM.WorkingHours;
+            decimal overtime = totalWorkingHours - 8;
 
-            
+            if (overtime > 0)
+            {
+                timeReport.Overtime = overtime;
+                totalWorkingHours = 8; // Set total working hours to regular 8 hours
+            }
 
-            
             var user = _db.Users.Find(userId);
             if (user != null) 
             {
@@ -90,11 +75,45 @@ namespace sybring_project.Repos.Services
                 _db.SaveChanges();
             }
            
-
-
             
         }
 
+
+        public decimal CalculateWorkingHoursAsync(DayDataVM dayDataVM, decimal scheduledHoursPerWeek)
+        {
+            TimeSpan workDuration = dayDataVM.EndWork - dayDataVM.StartWork;
+            TimeSpan breakDuration = dayDataVM.EndBreak - dayDataVM.StartBreak;
+
+            // Calculate the total break duration in hours
+            decimal totalBreakHours = (decimal)breakDuration.TotalHours;
+
+            // Subtract the break duration from the total work duration
+            decimal workingHours = (decimal)workDuration.TotalHours - totalBreakHours;
+
+            if (workingHours > scheduledHoursPerWeek)
+            {
+                decimal excessHours = workingHours - scheduledHoursPerWeek;
+
+                dayDataVM.MoreTime = excessHours;
+
+                workingHours = scheduledHoursPerWeek;
+            }
+
+            const decimal standardWorkingHoursPerDay = 8;
+            if (workingHours > standardWorkingHoursPerDay)
+            {
+                // Calculate overtime
+                decimal overtime = workingHours - standardWorkingHoursPerDay;
+
+                // Limit to standard working hours
+                workingHours = standardWorkingHoursPerDay;
+
+                // Add overtime to total working hours
+                workingHours += overtime;
+            }
+
+            return workingHours;
+        }
 
         // Helper method to get the previous Monday from a given date
         //public DateTime GetPreviousMonday(DateTime date)
@@ -136,20 +155,7 @@ namespace sybring_project.Repos.Services
             return Math.Max(workingHours - maxRegularHoursPerDay, 0);
         }
 
-        public decimal CalculateWorkingHoursAsync(DayDataVM dayDataVM)
-        {
-            TimeSpan workDuration = dayDataVM.EndWork - dayDataVM.StartWork;
-            TimeSpan breakDuration = dayDataVM.EndBreak - dayDataVM.StartBreak;
-            decimal workingHours = (decimal)workDuration.TotalDays - (decimal)breakDuration.TotalHours;
-
-            const decimal standardWorkingHoursPerDay = 8;
-            if (workingHours > standardWorkingHoursPerDay)
-            {
-                workingHours = standardWorkingHoursPerDay; // Limit to standard working hours
-            }
-
-            return workingHours;
-        }
+      
 
         public async Task<TimeHistory> GetTimeHistoryByIdAsync(int id)
         {
