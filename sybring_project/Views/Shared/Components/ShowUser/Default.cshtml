@@ -2,14 +2,22 @@
 
 
 <div id="userEle">
+
     @if (Model is not null)
     {
         <div>
-            <p><strong>User ID:</strong> @Model.Id</p>
-            <p><strong>Name:</strong> @Model.FirstName</p>
-            <p><strong>Projects:</strong> @Model.TaskDescription</p>
+            <p>information</p>
+           
+            <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
+@* 
+            <p><strong>Projects:</strong>   @project.Name </p> *@
+          @*   @foreach (var project in Model.ProjectId)
+            {
+                <p>@project.Name</p>
+            }
+ *@
             <p><strong>Income:</strong> @Model.UserIncome</p>
-            <p><strong>projects:</strong> @Model.</p>
+            <p><strong>Email:</strong> @Model.Email</p>
         </div>
     }
   @*   else

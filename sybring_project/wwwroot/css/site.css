@@ -48,9 +48,10 @@ body {
     height: 100%;
     position: absolute;
     left: 0;
-    background-color: #fff;
+    background-color: #F7F7F9;
     overflow-x: hidden;
     transition: 0.5s;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
 
@@ -286,8 +287,6 @@ img {
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:wdth,wght@97.4,350&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-{
-}
 
 /*------------Index User-----------------*/
 .frame {
@@ -296,33 +295,18 @@ img {
     border-radius: 10px;
     box-shadow: 0px 0px 10px 0px #dcd4d4;
     padding: 15px;
+    
+
 }
 a {
-    color: #0d6efd;
+    color: dimgrey;
     text-decoration: none;
+    display: inline-flex
 }
 a :hover{
     color: #a5a3ae;
     
 }
-
-
-.pagging1 {
-  width:auto;
-  background-color:wheat;
-  height:30px;
-}
-.pagging2 {
-    width: auto;
-    background-color: aquamarine;
-    height: 30px;
-    
-}
-
-td:hover {
-    background-color: lightgray;
-}
-
 .userInfoContainer {
     border: 1px solid #ccc;
     width:100%;
@@ -332,6 +316,65 @@ td:hover {
     margin-top: 10px;
     background-color: #f9f9f9;
 }
+
+.table thead{
+    background-color: #F7F7F9;
+    width:auto;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background-color: #f1f1f1;
+    
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 250px;
+}
+
+    .search-container input[type="text"] {
+        flex: 1;
+        border: none;
+        padding: 8px;
+        background-color: transparent;
+        font-size: 16px;
+        outline: none;
+    }
+
+        .search-container input[type="text"]::placeholder {
+            color: #aaa;
+        }
+
+
+        .adduser{
+
+            width:100px;
+            background-color:pink;
+            height:30px;
+        }
+/*.table tr:hover {
+    background-color: #ddd;
+}*/
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+
 /*------------Index User-----------------*/
 /*------------login-----------------*/
 .login {
@@ -344,8 +387,6 @@ td:hover {
 /*-----------------------------*/
 /*---------partial-----------*/
 
-.containerdetails{
 
-
-}
 /*-----------------------------*/
+

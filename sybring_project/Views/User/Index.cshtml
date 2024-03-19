@@ -3,41 +3,7 @@
 
 <div class="frame">
 
-    <table class="table">
-        <thead>
-            <tr>
 
-                <th>Full Name</th>
-                <th>Projects</th>
-                <th>Task Description</th>
-                <th>User Name</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-
-
-                    <td>
-                        <a href="#" onclick="showUser('@item.Id');" class="showDetails">@item.FirstName @item.LastName</a>
-
-                    </td>
-                    <div>
-                    <td>
-                            @foreach (var project in item.ProjectId)
-                            {
-
-                                @project.Name
-
-                            }
-                    </td>
-                    <td>@item.TaskDescription</td>
-                    <td>@item.UserName</td>
-
-    </div>
     <div id="userInfoContainer">
 
 
@@ -45,11 +11,67 @@
 
     </div>
 
-    <td>
-        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-    </td>
-                        </tr>
+    <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search user..">
+
+       
+    </div>
+    <div class="adduser"> </div>
+    <table class="table" >
+        <thead>
+            <tr>
+                <th>checkbox  </th>
+                <th>User  </th>
+                <th>Projects  </th>
+                <th>Task Description  </th>
+                <th>User Name</th>
+                <th>Role</th>
+                <th>status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody >
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    
+                    <td>
+                       
+
+                        <a href="#" onclick="showUser('@item.Id');" class="showDetails">@item.FirstName @item.LastName</a>
+
+                    </td>
+
+                    <td>
+                        @foreach (var project in item.ProjectId)
+                        {
+
+                            @project.Name
+
+                        }
+                    </td>
+                    <td> </td>
+                    
+                    <td>@item.TaskDescription</td>
+                    <td>@item.UserName</td>
+                    <td> </td>
+                    <td> </td>
+
+                 
+
+                    <td class="dropdown">
+                        <span><i class="bi bi-three-dots-vertical"></i></span>
+                        <div class="dropdown-content">
+                            <a asp-action="Edit" asp-route-id="@item.Id"> <i class="bi bi-pencil"></i>Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a>
+                        </div>
+                       
+                    </td>
+                </tr>
+
+
             }
 
     </tbody>
@@ -69,5 +91,4 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
 
