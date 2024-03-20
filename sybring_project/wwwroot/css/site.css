@@ -327,12 +327,10 @@ a :hover{
 }
 
 .search-container {
-    display: flex;
-    align-items: center;
+   
     background-color: #f1f1f1;
-    
     border-radius: 5px;
-    margin-bottom: 10px;
+  
     width: 250px;
 }
 
@@ -350,12 +348,7 @@ a :hover{
         }
 
 
-        .adduser{
-
-            width:100px;
-            background-color:pink;
-            height:30px;
-        }
+        
 /*.table tr:hover {
     background-color: #ddd;
 }*/
@@ -374,12 +367,57 @@ a :hover{
 }
 
 
+.adduser {
+    display: flex;
+    align-items: center;
+    justify-items: end;
+    align-self: flex-end;
+    justify-content: flex-end;
+    width: 100%;
+   
+    height: 80px;
+}
 
+input[type=text], select {
+    width: 150px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 /*------------Index User-----------------*/
+
 /*------------login-----------------*/
 .login {
     display: flex;
 }
+
+
+.heading {
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+select {
+    width: 200px;
+    
+}
+
+.select.trigger
+{
+    display: inline-flex;
+    flex-direction: column;
+    position: relative;
+    min-width: 0px;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    vertical-align: top;
+    width: 100%;
+}
+
 
 /*------------login-----------------*/
 

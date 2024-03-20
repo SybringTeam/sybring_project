@@ -3,8 +3,16 @@
 // ------------------sidobaren-------------
 //$(document).ready(function () {
 
+$(document).ready(function () {
+    $('#myTable').DataTable({
+        "scrollY": "100px",
+        "scrollCollapse": true,
+        "paging": true,
+        "order": [[0, "desc"]],
+        "searching": false
 
-
+    });
+});
 
     function toggleNav() {
         var sidenav = document.getElementById("mySidenav");

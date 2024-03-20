@@ -1,6 +1,7 @@
 @model IEnumerable<sybring_project.Models.Db.User>
 
 
+   
 <div class="frame">
 
 
@@ -10,35 +11,70 @@
         <vc:show-user user-id=""> </vc:show-user>
 
     </div>
+    <div class="adduser">
 
-    <div class="search-container">
+        <div class="heading">name:</div>
+        <select name="selectList" id="selectList">
+            <option value="option1">Alternativ 1</option>
+            <option value="option2">Alternativ 2</option>
+            <option value="option3">Alternativ 3</option>
+            
+        </select>
+
+        <div class="heading">project:</div>
+        <select name="selectList" id="selectList">
+            <option value="option1">Alternativ 1</option>
+            <option value="option2">Alternativ 2</option>
+            <option value="option3">Alternativ 3</option>
+
+        </select>
+
+        <div class="heading">date:</div>
+        <select name="selectList" id="selectList">
+            <option value="option1">Alternativ 1</option>
+            <option value="option2">Alternativ 2</option>
+            <option value="option3">Alternativ 3</option>
+
+        </select>
+    </div>
+
+
+    <div class="adduser">
+        <div class="search-container">
+
         <input type="text" id="search-bar" placeholder="Search user..">
 
        
+         </div>
+ 
+      <a asp-action="Create" class="btn btn-primary">Create User</a>
     </div>
-    <div class="adduser"> </div>
-    <table class="table" >
+
+
+<div class="table">
+    <table id="myTable" class="table">
         <thead>
             <tr>
-                <th>checkbox  </th>
-                <th>User  </th>
-                <th>Projects  </th>
-                <th>Task Description  </th>
-                <th>User Name</th>
-                <th>Role</th>
-                <th>status</th>
-                <th>Actions</th>
+                <th > checkbox  </th>
+                <th >User  </th>
+                <th > Projects </th>
+                <th > Task Description  </th>
+                <th > User Name</th>
+                <th > Role</th>
+                <th > status</th>
+                <th > Actions</th>
             </tr>
         </thead>
 
-        <tbody >
+        <tbody>
             @foreach (var item in Model)
             {
                 <tr>
-
-                    
                     <td>
-                       
+
+                    </td>
+
+                    <td >
 
                         <a href="#" onclick="showUser('@item.Id');" class="showDetails">@item.FirstName @item.LastName</a>
 
@@ -53,13 +89,10 @@
                         }
                     </td>
                     <td> </td>
-                    
                     <td>@item.TaskDescription</td>
                     <td>@item.UserName</td>
+                    
                     <td> </td>
-                    <td> </td>
-
-                 
 
                     <td class="dropdown">
                         <span><i class="bi bi-three-dots-vertical"></i></span>
@@ -70,25 +103,13 @@
                        
                     </td>
                 </tr>
-
-
             }
 
     </tbody>
-
-</table>
+    </table>
 </div>
 
-<div>
-    @*  <a asp-action="Create" class="btn btn-primary">Create User</a> *@
-</div>
-
-<div id="userInfoContainer">
-
-
-    <vc:show-user user-id=""> </vc:show-user>
-
-</div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
+@* 
+    https://www.youtube.com/watch?v=8SL_hM1a0yo *@
