@@ -2,40 +2,41 @@
 
 @{
     ViewData["Title"] = "ReportDetails";
-    decimal totalWorkHoursForWeek = ViewBag.TotalWorkHoursForWeek;
 }
 
 <h1>Report Details</h1>
 
-<!-- Display the working hours -->
+<!-- Display the working hours or overtime -->
 <table class="table">
     <thead>
         <tr>
             <th>Day</th>
-            <th>Working Hours</th>
-            <th>Overtime</th>
-
+            @if (ViewBag.OvertimeList != null && ViewBag.OvertimeList.Any())
+            {
+                <th>Overtime</th>
+            }
+            else
+            {
+                <th>Working Hours</th>
+            }
         </tr>
     </thead>
     <tbody>
-
-
-        @for (var i = 0; i < ViewBag.WorkingHoursList.Count; i++)
+        @for (var i = 0; i < ViewBag.WorkingHours.Count; i++)
         {
             <tr>
-                @*  <td>@DateTime.Today.AddDays(i).ToString("dddd")</td> *@
                 <td>@Enum.GetName(typeof(DayOfWeek), i)</td>
-                <td>@ViewBag.WorkingHoursList[i]</td>
-                <td>@ViewBag.OvertimeList[i]</td>
+                @if (ViewBag.OvertimeList != null && ViewBag.OvertimeList.Count > i && (decimal)ViewBag.OvertimeList[i] > 0)
+                {
+                    <td>@ViewBag.OvertimeList[i]</td>
+                }
+                else
+                {
+                    <td>@ViewBag.WorkingHoursList[i]</td>
+                }
             </tr>
         }
-
-
     </tbody>
 </table>
 
-<div>Total Work Hours for the Week: @totalWorkHoursForWeek</div>
-
-
 <a asp-action="CreateReport" asp-controller="Time" class="btn btn-primary">Go Back</a>
-

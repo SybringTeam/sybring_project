@@ -15,6 +15,7 @@ namespace sybring_project.Models.Db
         public DateTime Schedule { get; set; }
 
         [Required]
+
         public TimeSpan StartWork { get; set; }
 
         [Required]
