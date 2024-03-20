@@ -5,11 +5,14 @@
 
 $(document).ready(function () {
     $('#myTable').DataTable({
-        "scrollY": "100px",
-        "scrollCollapse": true,
+        "scrollY": "500px",
+        "scrollCollapse": false,
         "paging": true,
         "order": [[0, "desc"]],
-        "searching": false
+        "searching": true,
+        responsive: true,
+        
+
 
     });
 });
