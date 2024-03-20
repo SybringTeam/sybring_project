@@ -98,6 +98,7 @@ namespace sybring_project.Controllers
         }
 
 
+
         [Authorize(Roles = "Admin,underconsult")]
         [HttpPost]
         public async Task<IActionResult> Create(List<DayDataVM> weekData, decimal scheduledHoursPerWeek)
@@ -107,6 +108,7 @@ namespace sybring_project.Controllers
                 return BadRequest("No data provided.");
             }
             var userId = _userManager.GetUserId(User);
+
 
             foreach (var dayData in weekData)
             {
@@ -118,6 +120,11 @@ namespace sybring_project.Controllers
            
             return RedirectToAction("Index");
         }
+
+
+        
+
+       
 
 
         ////ReportDetails action
