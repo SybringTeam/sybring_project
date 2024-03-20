@@ -2,14 +2,15 @@
 
 <h1>Users List</h1>
 
-<table class="table">
+
+
+<div class="frame">
+    <div class="pagging1"> </div>
+    <div class="pagging2"> </div>
+    <table class="table">
     <thead>
         <tr>
-
-            @*
-            <th>ID</th>
-
-            *@
+            
             <th>Full Name</th>
             <th>Projects</th>
             <th>Task Description</th>
@@ -17,40 +18,35 @@
             <th>Actions</th>
         </tr>
     </thead>
+
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                @* <td>@item.Id</td> *@
+                
 
                 <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName @item.LastName</a></td>
-         
-                           
-                            
-
-             
-
                 <td>
-                    <ul>
                         @foreach (var project in item.ProjectId)
                         {
-                            <li>@project.Name</li>
+
+                            @project.Name
+                            
                         }
-                    </ul>
                 </td>
                 <td>@item.TaskDescription</td>
-                <td>@item.UserName</td>
-
+                    <td>@item.UserName</td>
                 <td>
-                    @*                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                *@                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }
+         
     </tbody>
+        
 </table>
-
+</div>
 
 <div>
     @*  <a asp-action="Create" class="btn btn-primary">Create User</a> *@
