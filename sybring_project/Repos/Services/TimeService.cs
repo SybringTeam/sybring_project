@@ -44,7 +44,7 @@ namespace sybring_project.Repos.Services
                 StartBreak = dayDataVM.StartBreak,
                 EndBreak = dayDataVM.EndBreak,
                 TotalWorkingHours = totalWorkingHours,
-                WorkingHours = dayDataVM.WorkingHours=8,
+                WorkingHours = dayDataVM.WorkingHours,
                 FlexiTime = dayDataVM.FlexiTime,
                 MoreTime = dayDataVM.MoreTime,
                 AttendanceTime = dayDataVM.AttendanceTime,
@@ -54,17 +54,9 @@ namespace sybring_project.Repos.Services
                 Childcare = dayDataVM.Childcare,
                 Overtime = dayDataVM.Overtime,
                 InconvenientHours = dayDataVM.InconvenientHours,
-                //ProjectHistories = dayData.ProjectHistories,
-                //Users = _db.Users.Include(u => u.UserName).ToList()
-
+                              
             };
-            decimal overtime = totalWorkingHours - 8;
-
-            if (overtime > 0)
-            {
-                timeReport.Overtime = overtime;
-                totalWorkingHours = 8; // Set total working hours to regular 8 hours
-            }
+           
 
             var user = _db.Users.Find(userId);
             if (user != null) 
@@ -94,10 +86,11 @@ namespace sybring_project.Repos.Services
             {
                 decimal excessHours = workingHours - scheduledHoursPerWeek;
 
-                dayDataVM.MoreTime = excessHours;
+                dayDataVM.Overtime = excessHours;
 
                 workingHours = scheduledHoursPerWeek;
             }
+
 
             const decimal standardWorkingHoursPerDay = 8;
             if (workingHours > standardWorkingHoursPerDay)
@@ -150,12 +143,7 @@ namespace sybring_project.Repos.Services
         //}
 
 
-        public decimal CalculateOvertime(decimal workingHours, decimal maxRegularHoursPerDay)
-        {
-            return Math.Max(workingHours - maxRegularHoursPerDay, 0);
-        }
-
-      
+            
 
         public async Task<TimeHistory> GetTimeHistoryByIdAsync(int id)
         {
@@ -182,9 +170,7 @@ namespace sybring_project.Repos.Services
                 _db.TimeHistories.Remove(timeHistoryToDelete);
                 await _db.SaveChangesAsync();
             }
-
-
-        }
+                    }
 
 
         // Updating an existing time history 
