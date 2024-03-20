@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 using System.Runtime.InteropServices;
 
@@ -126,7 +127,7 @@ namespace sybring_project.Controllers
             return RedirectToAction("Details", new { id = userId });
 
         }
-                       
+
 
 
         [HttpPost]
@@ -150,6 +151,43 @@ namespace sybring_project.Controllers
         {
             await _userServices.DeleteUserAsync(id);
             return RedirectToAction("Index");
+        }
+
+        // GET: UserController/AssignProjects
+        [HttpGet]
+        public async Task<IActionResult> AssignProjects()
+        {
+            var users = await _userServices.GetAllUserAsync();
+            var projects = await _userServices.GetProjectsAsync();
+            var viewModel = new AssignProjectsViewModel
+            {
+                Users = users,
+                Projects = projects
+            };
+            return View(viewModel);
+        }
+
+        // POST: UserController/AssignProjects
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignProjects(AssignProjectsViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var userId in viewModel.SelectedUserIds)
+                {
+                    foreach (var projectId in viewModel.SelectedProjectIds)
+                    {
+                        await _userServices.TaskManager(userId, projectId);
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            // If model state is not valid, reload the view with validation errors
+            viewModel.Users = await _userServices.GetAllUserAsync();
+            viewModel.Projects = await _userServices.GetProjectsAsync();
+            return View(viewModel);
         }
     }
 }
