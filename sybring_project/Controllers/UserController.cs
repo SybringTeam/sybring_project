@@ -101,8 +101,6 @@ namespace sybring_project.Controllers
                 ViewBag.AllProjects = allProjects;
             }
 
-
-
             return View(detail);
         }
 
