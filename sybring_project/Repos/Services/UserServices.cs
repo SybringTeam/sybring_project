@@ -129,27 +129,27 @@ namespace sybring_project.Repos.Services
 
         public async Task<bool> RemoveUserFromProjectAsync(int projectId, string userId)
         {
-        
+
             var existingProject = await _db.Projects
                  .Include(p => p.Users)
                  .FirstOrDefaultAsync(p => p.Id == projectId);
 
             if (existingProject != null)
             {
-              
+
                 var userToRemove = existingProject.Users
                     .FirstOrDefault(u => u.Id == userId);
 
                 if (userToRemove != null)
                 {
-                  
+
                     existingProject.Users.Remove(userToRemove);
                     await _db.SaveChangesAsync();
-                    return true; 
+                    return true;
                 }
             }
 
-            return false; 
+            return false;
         }
 
 
@@ -160,7 +160,7 @@ namespace sybring_project.Repos.Services
             throw new NotImplementedException();
         }
 
-     
+
 
         public async Task AssignProjectToUserAsync(string userId, int projectId)
         {
@@ -172,12 +172,29 @@ namespace sybring_project.Repos.Services
             {
                 var userToAdd = _db.Users.FirstOrDefault(u => u.Id == userId);
 
-               
-                    existingProject.Users.Add(userToAdd);
-                    await _db.SaveChangesAsync();
-                
+
+                existingProject.Users.Add(userToAdd);
+                await _db.SaveChangesAsync();
+
+            }
         }
+        public async Task TaskManager(string userId, int projectId)
+        {
+            var user = await GetUserByIdAsync(userId);
+            if (user == null)
+            {
+                return;
+            }
+
+            var project = await _projectServices.GetProjectByIdAsync(projectId);
+            if (project != null)
+            {
+                // Assign project to user
+                user.ProjectId.Add(project);
+                await _db.SaveChangesAsync();
+            }
         }
+
     }
 }
 

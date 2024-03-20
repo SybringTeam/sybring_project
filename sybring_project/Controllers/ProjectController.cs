@@ -31,55 +31,60 @@ namespace sybring_project.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
-        {
-            var project = await _projectServices.GetProjectByIdAsync(id);
 
 
-            if (project.ProjectHistories == null || !project.ProjectHistories.Any())
-            {
-                ViewBag.NoTimeHistoryMessage = "New user has no time to show.";
-            }
+        //public async Task<IActionResult> Details(int id)
+        //{
+        //    var project = await _projectServices.GetProjectByIdAsync(id);
 
-            var allUsers = await _applicationDbContext.Users.ToListAsync();
 
-            if (allUsers != null)
-            {
-                ViewBag.AllUsers = allUsers;
-            }
+        //    if (project.ProjectHistories == null || !project.ProjectHistories.Any())
+        //    {
+        //        ViewBag.NoTimeHistoryMessage = "New user has no time to show.";
+        //    }
 
-            return View(project);
-        }
+        //    var allUsers = await _applicationDbContext.Users.ToListAsync();
+
+        //    if (allUsers != null)
+        //    {
+        //        ViewBag.AllUsers = allUsers;
+        //    }
+
+        //    return View(project);
+        //}
 
 
         [HttpPost]
-        public async Task<IActionResult> Details(string userId, int projectId)
-        {
 
-            try
-            {
-                var getProject = await _projectServices.GetProjectByIdAsync(projectId);
-                var getUser = await _userServices.GetUserByIdAsync(userId);
-
-                if (getUser == null || getProject == null)
-                {
-                    return NotFound("User or Project Not Found");
-                }
-
-                await _projectServices.AssigUserToProjectAsync(userId, projectId);
-
-                TempData["Added"] = "This User has been assigned to the project.";
-
-                return RedirectToAction("Details", new { id = projectId });
-            }
-            catch (InvalidOperationException ex)
-            {
-                // Log the exception or handle it as needed
-                return NotFound(ex.Message);
-            }
+        
+        //public async Task<IActionResult> Details(string userId, int projectId)
+        //{
 
 
-        }
+        //    try
+        //    {
+        //        var getProject = await _projectServices.GetProjectByIdAsync(projectId);
+        //        var getUser = await _userServices.GetUserByIdAsync(userId);
+
+        //        if (getUser == null || getProject == null)
+        //        {
+        //            return NotFound("User or Project Not Found");
+        //        }
+
+        //        await _projectServices.AssigUserToProjectAsync(userId, projectId);
+
+        //        TempData["Added"] = "This User has been assigned to the project.";
+
+        //        return RedirectToAction("Details", new { id = projectId });
+        //    }
+        //    catch (InvalidOperationException ex)
+        //    {
+        //        // Log the exception or handle it as needed
+        //        return NotFound(ex.Message);
+        //    }
+
+
+        //}
 
        
         [HttpGet]
