@@ -171,28 +171,54 @@ namespace sybring_project.Repos.Services
             if (existingProject != null)
             {
                 var userToAdd = _db.Users.FirstOrDefault(u => u.Id == userId);
-
-
-                existingProject.Users.Add(userToAdd);
+                             existingProject.Users.Add(userToAdd);
+                                existingProject.Users.Add(userToAdd);
                 await _db.SaveChangesAsync();
 
             }
         }
         public async Task TaskManager(string userId, int projectId)
         {
-            var user = await GetUserByIdAsync(userId);
-            if (user == null)
-            {
-                return;
-            }
+            //var user = await GetUserByIdAsync(userId);
+            //if (user == null)
+            //{
+            //    return;
+            //}
 
-            var project = await _projectServices.GetProjectByIdAsync(projectId);
-            if (project != null)
+            var existingUsers = await _db.Projects
+              .Include(p => p.Users)
+              .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            if (existingUsers != null)
             {
-                // Assign project to user
-                user.ProjectId.Add(project);
+                var userToAdd = _db.Users.FirstOrDefault(u => u.Id == userId);
+                existingUsers.Users.Add(userToAdd);
+                existingUsers.Users.Add(userToAdd);
+                await _db.SaveChangesAsync();
+
+            }
+            var existingProject = await _db.Users
+                .Include(u => u.ProjectId)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            var projectToAdd = _db.Projects.FirstOrDefault(p => p.Id == projectId);
+
+
+            if (existingProject != null && projectToAdd != null)
+            {
+                existingProject.ProjectId.Add(projectToAdd);
                 await _db.SaveChangesAsync();
             }
+
+
+
+            //var project = await _projectServices.GetProjectByIdAsync(projectId);
+            //if (project != null)
+            //{
+            //    // Assign project to user
+            //    user.ProjectId.Add(project);
+            //    await _db.SaveChangesAsync();
+            //}
         }
 
     }

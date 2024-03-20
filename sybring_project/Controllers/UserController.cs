@@ -151,6 +151,8 @@ namespace sybring_project.Controllers
             return RedirectToAction("Index");
         }
 
+
+
         // GET: UserController/AssignProjects
         [HttpGet]
         public async Task<IActionResult> AssignProjects()
@@ -165,27 +167,24 @@ namespace sybring_project.Controllers
             return View(viewModel);
         }
 
+        
         // POST: UserController/AssignProjects
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignProjects(AssignProjectsViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            foreach (var userId in viewModel.SelectedUserIds)
             {
-                foreach (var userId in viewModel.SelectedUserIds)
-                {
-                    foreach (var projectId in viewModel.SelectedProjectIds)
-                    {
-                        await _userServices.TaskManager(userId, projectId);
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
 
-            // If model state is not valid, reload the view with validation errors
-            viewModel.Users = await _userServices.GetAllUserAsync();
-            viewModel.Projects = await _userServices.GetProjectsAsync();
-            return View(viewModel);
+                foreach (var projectId in viewModel.SelectedProjectIds)
+                {
+                    await _userServices.TaskManager(userId, projectId);
+                   
+                }
+                TempData["Added"] = "This Project has been assigned.";
+
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
