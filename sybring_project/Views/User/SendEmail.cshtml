@@ -1,0 +1,46 @@
+﻿@model IEnumerable<sybring_project.Models.Db.User>
+
+@{
+    ViewData["Title"] = "Send Email";
+    var noreply = TempData["email"];
+}
+
+<div>
+<h1>Send Email</h1>
+
+<form asp-controller="User" asp-action="SendEmail" method="post">
+    <div class="form-group">
+        <label for="userId">Select User:</label>
+        <select id="userId" name="userId" class="form-control" required>
+            <option value="">-- Select User --</option>
+            @foreach (var user in Model)
+            {
+                <option value="@user.Id">@user.Email</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" class="form-control" required />
+    </div>
+    <div class="form-group">
+        <label for="htmlMessage">Message:</label>
+            <textarea id="htmlMessage" name="htmlMessage" class="form-control" required placeholder="Your message here">
+                
+            </textarea>
+    </div>
+    <!-- hidden input field to include the userId -->
+    <input type="hidden" id="userId" name="userId" value="" />
+    <button type="submit" class="btn btn-primary">Send Email</button>
+</form>
+</div>
+@section Scripts {
+    <script>
+        // jQuery code to update the hidden input field with the selected userId
+        $(function () {
+            $('#userId').change(function () {
+                $('#userId').val($(this).val());
+            });
+        });
+    </script>
+}

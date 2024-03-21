@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
@@ -16,16 +17,18 @@ namespace sybring_project.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IProjectServices _projectServices;
+        private readonly IEmailSender _emailSender;
 
 
         public UserController(IUserServices userServices,
             UserManager<User> userManager, ApplicationDbContext applicationDbContext,
-            IProjectServices projectServices)
+            IProjectServices projectServices, IEmailSender emailSender)
         {
             _userServices = userServices;
             _userManager = userManager;
             _projectServices = projectServices;
             _applicationDbContext = applicationDbContext;
+            _emailSender = emailSender;
         }
 
         public async Task<IActionResult> Index()
@@ -186,5 +189,31 @@ namespace sybring_project.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SendEmail()
+        {
+
+            var users = await _userServices.GetAllUserAsync();
+            return View(users);
+
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendEmail(string userId, string subject, string htmlMessage)
+        {
+            var user = await _applicationDbContext.Users.FindAsync(userId);
+            if (user == null)
+            {
+               
+                return NotFound();
+            }
+            await _emailSender.SendEmailAsync(user.Email, subject, htmlMessage);
+            TempData["email"] = "Please note that this email is sent from a no-reply address. Replies to this email will not be monitored or received. If you have any questions or concerns, please contact us through other means.\r\n";
+
+            return RedirectToAction("SendEmail");
+        }
+
     }
 }
