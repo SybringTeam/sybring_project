@@ -8,8 +8,14 @@
 
     <div id="userInfoContainer">
 
-
-        <vc:show-user user-id=""> </vc:show-user>
+       
+            @foreach (var item in Model)
+            {
+                <div id="showUserContainer_@item.Id" style="display: none;">
+                    <vc:show-user user-id="@item.Id"> </vc:show-user>
+                </div>
+            }
+            
 
     </div>
     @* <div class="adduser">

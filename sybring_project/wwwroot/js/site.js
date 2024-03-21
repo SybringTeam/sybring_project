@@ -10,7 +10,7 @@ $(document).ready(function () {
         "paging": true,
         "order": [[0, "desc"]],
         "searching": true,
-        responsive: true,
+        
         
 
 
@@ -73,21 +73,41 @@ $(document).ready(function () {
     // ------------------sidobaren---------------------
 
 
-    function showUser(id) {
-        $.ajax({
-            type: "GET",
-            url: "/User/UserVc",
-            data: { userId: id },
-            success: function (response) {
+    //function showUser(id) {
+    //    $.ajax({
+    //        type: "GET",
+    //        url: "/User/UserVc",
+    //        data: { userId: id },
+    //        success: function (response) {
 
-                $('#userEle').html(response);
+    //            $('#userEle').html(response);
 
-            },
-            error: function (error) {
-                alert("operation failed...", error);
+    //        },
+    //        error: function (error) {
+    //            alert("operation failed...", error);
+    //        }
+    //    });
+    //}
+
+function showUser(userId) {
+    fetch(`/User/UserVc?userId=${userId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        });
-    }
+            return response.text();
+        })
+        .then(html => {
+            document.getElementById('showUserContainer').innerHTML = html;
+        })
+        .catch(error => console.error('Error fetching user view component:', error));
+}
+function showUser(userId) {
+    hideAllUsers();
+    $('#showUserContainer_' + userId).show();
+}
 
-
+function hideAllUsers() {
+    $('[id^=showUserContainer_]').hide();
+}
 /*});*/
