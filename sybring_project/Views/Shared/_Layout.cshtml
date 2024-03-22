@@ -48,7 +48,7 @@
                             <li class="nav-item">
                                 <a class="nav-link " asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
                             </li>
-
+                           
                         }
                         @if (User.Identity.IsAuthenticated && User.IsInRole("admin, underconsult"))
                         {
@@ -64,13 +64,14 @@
 
                             </li>          
 
-                            } 
-                            else
+                         }
+                         else
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
                             </li>
                         }
+                           
                               </ul>
                    
 
@@ -88,7 +89,7 @@
                 <a href="@Url.Action("Index", "Project")"><span class="icon-span"><i class="bi bi-card-heading"></i></span><span class="nav-text">Projects</span></a>
                 <a href="/Identity/Account/Register"><span class="icon-span"><i class="bi bi-person-plus-fill"></i></span><span class="nav-text">Register User</span></a>
                 <a href="@Url.Action("Create", "Project")"><span class="icon-span"><i class="bi bi-file-earmark-plus"></i></span><span class="nav-text">Register Projects</span></a>
-                <a href="@Url.Action("Index", "User")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Task Manager</span></a>
+                <a href="@Url.Action("AssignProjects", "User")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Task Manager</span></a>
         </div>
         }
         @*    -----------------Sidbar--------------------- *@
