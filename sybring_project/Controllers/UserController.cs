@@ -126,6 +126,7 @@ namespace sybring_project.Controllers
             TempData["Added"] = "This Project has been assigned.";
 
             return RedirectToAction("Details", new { id = userId });
+            //return PartialView("~/Views/Shared/_UserDetailsPartial.cshtml");
 
         }
 
@@ -152,6 +153,15 @@ namespace sybring_project.Controllers
         {
             await _userServices.DeleteUserAsync(id);
             return RedirectToAction("Index");
+        }
+
+
+        public IActionResult UserVc(string userId)
+        {
+
+            return ViewComponent("ShowUser", new { userId = userId });
+
+
         }
 
 
@@ -214,5 +224,8 @@ namespace sybring_project.Controllers
             return RedirectToAction("SendEmail");
         }
 
+
     }
+
+
 }

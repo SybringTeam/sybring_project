@@ -1,62 +1,123 @@
 @model IEnumerable<sybring_project.Models.Db.User>
 
-<h1>Users List</h1>
-
-
-
+    
+@* let table = new DataTable('#myTable'); *@
+   
 <div class="frame">
-    <div class="pagging1"> </div>
-    <div class="pagging2"> </div>
-    <table class="table">
-    <thead>
-        <tr>
+
+
+    <div id="userInfoContainer">
+
+       
+            @foreach (var item in Model)
+            {
+                <div id="showUserContainer_@item.Id" style="display: none;">
+                    <vc:show-user user-id="@item.Id"> </vc:show-user>
+                </div>
+            }
             
-            <th>Full Name</th>
-            <th>Projects</th>
-            <th>Task Description</th>
-            <th>User Name</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
 
-    <tbody>
-        @foreach (var item in Model)
-        {
+    </div>
+    @* <div class="adduser">
+
+        <div class="heading">name:</div>
+        <select name="selectList" id="selectList">
+            <option value="option1">Alternativ 1</option>
+            <option value="option2">Alternativ 2</option>
+            <option value="option3">Alternativ 3</option>
+            
+        </select>
+
+        <div class="heading">project:</div>
+        <select name="selectList" id="selectList">
+            <option value="option1">Alternativ 1</option>
+            <option value="option2">Alternativ 2</option>
+            <option value="option3">Alternativ 3</option>
+
+        </select>
+
+        <div class="heading">date:</div>
+        <select name="selectList" id="selectList">
+            <option value="option1">Alternativ 1</option>
+            <option value="option2">Alternativ 2</option>
+            <option value="option3">Alternativ 3</option>
+
+        </select>
+    </div> *@
+
+
+    <div class="adduser">
+        @* <div class="search-container">
+
+        <input type="text" id="search-bar" placeholder="Search user..">
+
+       
+         </div> *@
+ 
+      <a asp-action="Create" class="btn">Create User</a>
+    </div>
+
+
+<div class="table">
+    <table id="myTable" class="table">
+        <thead>
             <tr>
-                
+                <th > checkbox  </th>
+                <th > User  </th>
+                <th > Projects </th>
+                <th > Task Description  </th>
+                <th > User Name</th>
+                <th > Role</th>
+                <th > status</th>
+                <th > Actions</th>
+            </tr>
+        </thead>
 
-                <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName @item.LastName</a></td>
-                <td>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+
+                    </td>
+
+                    <td >
+
+                        <a href="#" onclick="showUser('@item.Id');" class="showDetails">@item.FirstName @item.LastName</a>
+
+                    </td>
+
+                    <td>
                         @foreach (var project in item.ProjectId)
                         {
 
-                            @project.Name
-                            
+                            @project.Name</br>
+
                         }
-                </td>
-                <td>@item.TaskDescription</td>
+                    </td>
+                    <td> </td>
+                    <td>@item.TaskDescription</td>
                     <td>@item.UserName</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-         
+                    
+                    <td> </td>
+
+                    <td class="dropdown">
+                        <span><i class="bi bi-three-dots-vertical"></i></span>
+                        <div class="dropdown-content">
+                            <a asp-action="Edit" asp-route-id="@item.Id"> <i class="bi bi-pencil"></i>Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a>
+                        </div>
+                       
+                    </td>
+                </tr>
+            }
+
     </tbody>
-        
-</table>
-</div>
-
-<div>
-    @*  <a asp-action="Create" class="btn btn-primary">Create User</a> *@
+    </table>
 </div>
 
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-<script>
-    function myFunction() {
-        alert('Link clicked');
-    }
-</script>
 
+@*https://www.youtube.com/watch?v=8SL_hM1a0yo *@

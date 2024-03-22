@@ -221,6 +221,12 @@ namespace sybring_project.Repos.Services
             //}
         }
 
+
+        public User GetUserById(string userId)
+        {
+            return _db.Users.FirstOrDefault(u => u.Id == userId);
+        }
+
     }
 }
 
