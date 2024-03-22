@@ -86,6 +86,13 @@ namespace sybring_project.Repos.Services
             return list;
         }
 
+
+        public async Task<List<User>> GetAllUsersInRoleAsync(string roleName)
+        {
+            var usersInRole = await _userManager.GetUsersInRoleAsync(roleName);
+            return usersInRole.ToList();
+        }
+
         public async Task<List<Project>> GetProjectsAsync()
         {
             return await _db.Projects.ToListAsync();

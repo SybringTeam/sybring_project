@@ -34,8 +34,13 @@ namespace sybring_project.Controllers
             return View(list);
         }
 
-        [HttpGet]
+        public async Task<IActionResult> RoleView(string roleName)
+        {
+            var list = await _userServices.GetAllUsersInRoleAsync(roleName);
+            return View(list);
+        }
 
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
             var projects = await _userServices.GetProjectsAsync();
