@@ -210,7 +210,6 @@ namespace sybring_project.Controllers
                 return NotFound();
             }
             await _emailSender.SendEmailAsync(user.Email, subject, htmlMessage);
-            TempData["email"] = "Please note that this email is sent from a no-reply address. Replies to this email will not be monitored or received. If you have any questions or concerns, please contact us through other means.\r\n";
 
             return RedirectToAction("SendEmail");
         }

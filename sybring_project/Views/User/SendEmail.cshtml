@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Send Email";
-    var noreply = TempData["email"];
 }
 
 <div>
@@ -15,7 +14,7 @@
             <option value="">-- Select User --</option>
             @foreach (var user in Model)
             {
-                <option value="@user.Id">@user.Email</option>
+                    <option value="@user.Id">@user.FirstName  </option>
             }
         </select>
     </div>
@@ -42,5 +41,20 @@
                 $('#userId').val($(this).val());
             });
         });
+
+        // jQuery code to update the message content based on the selected user
+        $(function () {
+            $('#userId').change(function () {
+                var selectedUserId = $(this).val();
+                var selectedUserFirstName = $('#userId option:selected').text().split('-')[0].trim();
+
+                // Construct the message with the selected user's first name
+                var message = "Hi " + selectedUserFirstName + ", Please update your Time Report.";
+
+                // Set the constructed message in the textarea
+                $('#htmlMessage').val(message);
+            });
+        });
     </script>
 }
+
