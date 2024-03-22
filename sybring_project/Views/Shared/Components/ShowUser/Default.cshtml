@@ -5,12 +5,14 @@
 
     @if (Model is not null)
     {
-        <div>
-            <p>information</p>
-           
+        <div class="userInfo">
+            <div class="InfoUser">
             <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
-
-          
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+            </div>
+            <div class="InfoUser">
+            <p><strong>Task Description:</strong> @Model.TaskDescription</p>
             @foreach (var project in Model.ProjectId)
             {
                 <div>
@@ -24,7 +26,7 @@
             }
 
             <p><strong>Income:</strong> @Model.UserIncome</p>
-            <p><strong>Email:</strong> @Model.Email</p>
+            </div>
         </div>
     }
      else
