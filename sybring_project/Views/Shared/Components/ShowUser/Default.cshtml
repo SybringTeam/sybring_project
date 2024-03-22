@@ -10,9 +10,14 @@
             <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
             <p><strong>Email:</strong> @Model.Email</p>
             <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+            <p><strong>citizenship:</strong> </p>
+            <p><strong>User ICE:</strong> </p>
             </div>
+
             <div class="InfoUser">
+
             <p><strong>Task Description:</strong> @Model.TaskDescription</p>
+
             @foreach (var project in Model.ProjectId)
             {
                 <div>
@@ -25,7 +30,19 @@
                 </div>
             }
 
-            <p><strong>Income:</strong> @Model.UserIncome</p>
+            <p><strong>company:</strong></p>
+            <p><strong>Addres:</strong></p>
+            <p><strong>OrgNr:</strong></p>
+            <p><strong>Webbsite:</strong></p>
+            <p><strong>Contract:</strong></p>
+
+            </div>
+
+            <div class="InfoUser">
+                <p><strong>Contact:</strong></p>
+                <p><strong>Phone:</strong></p>
+                <p><strong>Email:</strong></p>
+
             </div>
         </div>
     }
