@@ -5,19 +5,19 @@ using Microsoft.Extensions.Logging;
 
 namespace Isolate
 {
-    public class EmailSender
+    public class SmtpEmail
     {
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
 
-        public EmailSender(ILoggerFactory loggerFactory, IConfiguration configuration)
+        public SmtpEmail(ILoggerFactory loggerFactory, IConfiguration configuration)
         {
-            _logger = loggerFactory.CreateLogger<EmailSender>();
+            _logger = loggerFactory.CreateLogger<SmtpEmail>();
             _configuration = configuration;
         }
 
-        [Function("Function1")]
-        public void Run([TimerTrigger("0 */5 * * * *")] MyInfo myTimer)
+        [Function("SmtpEmail")]
+        public void Run([TimerTrigger("0 */5 * * * *", RunOnStartup = true)] MyInfo myTimer)
         {
             _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             _logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");

@@ -10,6 +10,10 @@ namespace sybring_project.Models.Db
         public string? Name { get; set; }
         public string? Description { get; set; }
 
+                        
+
+
+        public IFormFile Contracts { get; set; }
         public virtual ICollection<ProjectTimeReport>? ProjectHistories { get; set; }
         public virtual ICollection<User>? Users { get; set; }
 

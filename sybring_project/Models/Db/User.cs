@@ -9,6 +9,7 @@ namespace sybring_project.Models.Db
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
 
+        public string? CitizenMembership { get; set; }
         public int Age { get; set; }
 
         public string Address { get; set; } = string.Empty;
@@ -16,6 +17,9 @@ namespace sybring_project.Models.Db
         public string? TaskDescription { get; set; } = string.Empty;
 
         public double UserIncome { get; set; }
+
+        
+        public string? UserICE { get; set; }
         public string ImageLink { get; set; } = string.Empty;
 
         [NotMapped]
