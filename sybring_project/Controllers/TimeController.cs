@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Models.Seeding;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
+using System.Security.Claims;
 
 
 namespace sybring_project.Controllers
@@ -17,14 +20,18 @@ namespace sybring_project.Controllers
         private readonly ITimeService _timeService;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly IUserServices _userServices;
 
-        public TimeController(ApplicationDbContext context, 
-            ITimeService timeService, UserManager<User> userManager)
+
+        public TimeController(ApplicationDbContext context,
+            ITimeService timeService, UserManager<User> userManager,
+            IUserServices userServices)
         {
 
             _timeService = timeService;
             _context = context;
             _userManager = userManager;
+            _userServices = userServices;
 
 
         }
@@ -35,7 +42,6 @@ namespace sybring_project.Controllers
 
             return View(list);
         }
-
 
 
 
@@ -62,168 +68,63 @@ namespace sybring_project.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            TimeReportViewModel timeReportViewModel = new TimeReportViewModel();
-            return View(timeReportViewModel);
+            List<DayDataVM> model = new List<DayDataVM>();
+
+            // Calculate the start date of the current week (Monday)
+            DateTime currentDate = DateTime.Today;
+            DateTime startDate = currentDate;
+
+            while (startDate.DayOfWeek != DayOfWeek.Monday)
+            {
+                startDate = startDate.AddDays(-1);
+            }
+
+            // Generate data for the week
+            for (int i = 0; i < 7; i++)
+            {
+                DateTime currentDateInLoop = startDate.AddDays(i);
+                var dayData = new DayDataVM
+                {
+                    Date = currentDateInLoop,
+                    StartWork = TimeSpan.FromHours(8), // Set default values for StartWork, EndWork, etc.
+                    EndWork = TimeSpan.FromHours(17),
+                    StartBreak = TimeSpan.FromHours(12),
+                    EndBreak = TimeSpan.FromHours(13)
+                };
+                model.Add(dayData);
+            }
+
+            return View(model);
         }
+
+
+     
 
         [Authorize(Roles = "Admin,underconsult")]
         [HttpPost]
-        public async Task<IActionResult> Create(TimeReportViewModel model)
+        public async Task<IActionResult> Create(List<DayDataVM> weekData, decimal scheduledHoursPerWeek)
         {
-            try
+            if (weekData == null || weekData.Count == 0)
             {
-                await _timeService.AddReportAsync(model);
-                return RedirectToAction("Index");
+                return BadRequest("No data provided.");
             }
-            catch (Exception ex)
+            var userId = _userManager.GetUserId(User);
+
+
+            foreach (var dayData in weekData)
             {
-                ModelState.AddModelError("", $"An error occurred while processing the time report: {ex.Message}");
-                return View(model);
+               
+                // Add the report
+                await _timeService.AddReportAsync(dayData, userId, scheduledHoursPerWeek);
+               
             }
+           
+            return RedirectToAction("Index");
         }
 
 
-
-        ////ReportDetails action
-        //public IActionResult ReportDetails()
-        //{
-        //    // Retrieve the serialized model data from TempData
-        //    var serializedModel = TempData["TimeReportModel"] as string;
-
-        //    // Checking if serialized model data is null or empty
-        //    if (string.IsNullOrEmpty(serializedModel))
-        //    {
-
-
-        //        return RedirectToAction("Create");
-        //    }
-
            
 
-        //    // Calculate and store only the working hours in a new list
-        //    var workingHoursList = new List<decimal>();
-
-        //    var overtimeList = new List<decimal>();
-
-        //    // Initialing total work hours for the week
-        //    decimal totalWorkHoursForWeek = 0;
-
-        //    foreach (var dayData in timeReportModel.WeekData)
-        //    {
-        //        // Calculate working hours considering lunch break
-        //        var workingHours = CalculateWorkingHoursAsync(dayData.StartTime, dayData.EndTime);
-        //        workingHours -= CalculateWorkingHours(dayData.LunchStart, dayData.LunchEnd);
-
-        //        // Add working hours to the list
-        //        workingHoursList.Add(workingHours);
-
-        //        // Calculate overtime (if applicable)
-        //        var overtime = Math.Max(workingHours - MaxRegularHoursPerDay, 0);
-        //        overtimeList.Add(overtime);
-
-        //        // Add working hours to total work hours for the week
-        //        totalWorkHoursForWeek += dayData.TotalWorkHours;
-
-        //    }
-
-            
-        //    //Passing the working hours and overtime lists to the view
-        //    ViewBag.WorkingHoursList = workingHoursList;
-        //    ViewBag.OvertimeList = overtimeList;
-
-        //}
-
-        ////Method to calculate working hours
-        //private decimal CalculateWorkingHours(TimeSpan startTime, TimeSpan endTime)
-        //{
-        //    // Calculating working hours (total hours between start and end time)
-        //    return (decimal)(endTime - startTime).TotalHours;
-        //}
-
-
-
-        ////second version
-
-
-
-
-        ////[HttpGet]
-        //public IActionResult CreateReportTextfield()
-        //{
-        //    var model = new TimeReportViewModel();
-
-
-        //    WeekData = new List<DayData>
-        //        {
-        //            new DayData(),
-        //            new DayData(),
-        //            new DayData(),
-        //            new DayData(),
-        //            new DayData(),
-        //            new DayData(),
-        //            new DayData()
-        //        };
-
-
-        //    return View(model);
-        //}
-
-        //[HttpPost]
-        //[Route("/Time/CreateReportTextfield")]
-        //public IActionResult CreateReportTextfield(TimeReportViewModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-
-        //        return View(model);
-        //    }
-
-        //    try
-        //    {
-
-        //        decimal totalWeekWorkHours = 0;
-
-
-        //        foreach (var dayData in model.WeekData)
-        //        {
-
-        //            if (dayData.StartTime > dayData.EndTime)
-        //            {
-        //                ModelState.AddModelError("", "End time cannot be before start time.");
-        //                return View(model);
-        //            }
-
-        //            var totalHoursWithLunch = (decimal)(dayData.EndTime - dayData.StartTime).TotalHours;
-
-        //            totalHoursWithLunch -= CalculateWorkingHours(dayData.LunchStart, dayData.LunchEnd);
-
-        //            dayData.TotalWorkHours = totalHoursWithLunch;
-
-
-        //            totalWeekWorkHours += dayData.TotalWorkHours;
-
-
-        //        }
-
-        //        model.TotalWorkHours = totalWeekWorkHours;
-
-
-        //        // Serialize and store the model data in TempData
-        //        TempData["TimeReportModel"] = JsonConvert.SerializeObject(model);
-
-
-        //        return View();
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        ModelState.AddModelError("", $"An error occurred while processing the time report: {ex.Message}");
-        //        return View(model);
-        //    }
-        //}
-
-
-
-
+        
     }
 }

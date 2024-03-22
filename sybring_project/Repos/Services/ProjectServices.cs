@@ -32,11 +32,11 @@ namespace sybring_project.Repos.Services
 
 
             if (existingUser != null && projectToAdd != null)
-    {
-        existingUser.ProjectId.Add(projectToAdd);
-        await _db.SaveChangesAsync();
-    }
-           
+            {
+                existingUser.ProjectId.Add(projectToAdd);
+                await _db.SaveChangesAsync();
+            }
+
         }
 
         public async Task<Project> DeleteProjectAsync(int id)
