@@ -17,7 +17,7 @@ namespace sybring_project.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -228,6 +228,37 @@ namespace sybring_project.Migrations
                     b.ToTable("Billings");
                 });
 
+            modelBuilder.Entity("sybring_project.Models.Db.Company", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CompanyAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyWeb")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("OrgNumber")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SupervisorEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SupervisorName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SupervisorPhone")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Companies");
+                });
+
             modelBuilder.Entity("sybring_project.Models.Db.Project", b =>
                 {
                     b.Property<int>("Id")
@@ -267,9 +298,6 @@ namespace sybring_project.Migrations
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TimeHistoryId")
-                        .HasColumnType("int");
-
                     b.Property<int>("TimeId")
                         .HasColumnType("int");
 
@@ -277,7 +305,7 @@ namespace sybring_project.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.HasIndex("TimeHistoryId");
+                    b.HasIndex("TimeId");
 
                     b.ToTable("ProjectTimeReport");
                 });
@@ -361,6 +389,9 @@ namespace sybring_project.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<string>("CitizenMembership")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -415,6 +446,9 @@ namespace sybring_project.Migrations
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
+
+                    b.Property<string>("UserICE")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("UserIncome")
                         .HasColumnType("float");
@@ -532,6 +566,17 @@ namespace sybring_project.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("sybring_project.Models.Db.Company", b =>
+                {
+                    b.HasOne("sybring_project.Models.Db.Project", "Project")
+                        .WithOne("Company")
+                        .HasForeignKey("sybring_project.Models.Db.Company", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+                });
+
             modelBuilder.Entity("sybring_project.Models.Db.Project", b =>
                 {
                     b.HasOne("sybring_project.Models.Db.Billing", null)
@@ -549,7 +594,7 @@ namespace sybring_project.Migrations
 
                     b.HasOne("sybring_project.Models.Db.TimeHistory", "TimeHistory")
                         .WithMany("ProjectHistories")
-                        .HasForeignKey("TimeHistoryId")
+                        .HasForeignKey("TimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -565,6 +610,9 @@ namespace sybring_project.Migrations
 
             modelBuilder.Entity("sybring_project.Models.Db.Project", b =>
                 {
+                    b.Navigation("Company")
+                        .IsRequired();
+
                     b.Navigation("ProjectHistories");
                 });
 
