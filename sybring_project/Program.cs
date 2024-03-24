@@ -66,6 +66,7 @@ builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IProjectServices, ProjectServices>();
 builder.Services.AddScoped<ITimeService, TimeService>();
 builder.Services.AddScoped<IHolidayService, HolidayService>();
+builder.Services.AddScoped<ICompanyServices, CompanyServices>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
