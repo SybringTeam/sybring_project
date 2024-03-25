@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Models.Db.Email;
 using sybring_project.Models.Seeding;
 using sybring_project.Repos.Interfaces;
 using sybring_project.Repos.Services;
@@ -64,7 +66,9 @@ builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IProjectServices, ProjectServices>();
 builder.Services.AddScoped<ITimeService, TimeService>();
 builder.Services.AddScoped<IHolidayService, HolidayService>();
+builder.Services.AddScoped<ICompanyServices, CompanyServices>();
 
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 
 

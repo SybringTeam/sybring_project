@@ -34,6 +34,10 @@ namespace sybring_project.Models.Seeding
             {
                 await roleManager.CreateAsync(new IdentityRole { Name = "underconsult" });
             }
+            if (await roleManager.RoleExistsAsync("archive") is not true)
+            {
+                await roleManager.CreateAsync(new IdentityRole { Name = "archive" });
+            }
         }
         private async static Task SeedAdmin(UserManager<User> userManager)
         {

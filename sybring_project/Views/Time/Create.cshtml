@@ -1,4 +1,5 @@
-﻿@model sybring_project.Models.ViewModels.TimeReportViewModel
+﻿@model List<sybring_project.Models.ViewModels.DayDataVM>
+
 
 @{
     ViewData["Title"] = "Create";
@@ -14,47 +15,63 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <h2>Week 1</h2>
+
     <table class="table">
         <thead>
             <tr>
-                <th>Day</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Lunch Start</th>
-                <th>Lunch End</th>
+                <th>ID</th>
+                <th>Date</th>
+                <th>StartWork</th>
+                <th>EndWork</th>
+                <th>StartBrea</th>
+                <th>EndBreak</th>
+                <th>Total Working Hours </th>
+                <th>WorkingHours</th>
+                <th>FlexiTime</th>
+                <th>MoreTime</th>
+                <th>Attendance</th>
+                <th>AnnualLea</th>
+                <th>SickLeave</th>
+                <th>Absence </th>
+                <th>Childcare</th>
+                <th>Overtime</th>
+                <th>InconvenientHours</th>
                 <!-- Add a new column for validation messages -->
                 <th>Validation Message</th>
             </tr>
         </thead>
         <tbody>
-            @if (Model != null && Model.WeekData != null)
-            {
-                // Array of day names starting from Monday
-                var dayNames = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-
-                // Loop through each day of the week
-                for (var i = 0; i < 7; i++)
-                {
-                    var dayData = Model.WeekData.ElementAtOrDefault(i); // Retrieve WeekData for the current day
-
-                    <tr>
-                        <td>@dayNames[i]</td>
-                        <td>@Html.TextBoxFor(m => dayData.StartWork, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => dayData.EndWork, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => dayData.StartBreak, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.TextBoxFor(m => dayData.EndBreak, new { @class = "form-control", type = "time" })</td>
-                        <td>@Html.ValidationMessageFor(m => dayData.StartWork, "", new { @class = "text-danger" })</td>
-                    </tr>
-                }
-            }
-            else
+            @for (int i = 0; i < Model.Count; i++)
             {
                 <tr>
-                    <td colspan="6">No data available</td>
+                    <td>@Model[i].Date.DayOfWeek</td>
+
+                    <td>@Html.HiddenFor(m => m[i].Date) @Model[i].Date.ToShortDateString()</td>
+                    <td>@Html.TextBoxFor(m => m[i].StartWork, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].EndWork, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].StartBreak, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].EndBreak, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].WorkingHours, new { type = "time" })</td>
+                    <td id="workingHours">@Model[i].WorkingHours</td>
+                    <td id="totalWorkingHours">@Model[i].TotalWorkingHours</td>
+                    <td>@Html.TextBoxFor(m => m[i].Overtime, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].MoreTime, new { type = "time" })</td>
+
+                    <td>@Html.ValidationMessageFor(m => m[i].StartWork, "", new { @class = "text-danger" })</td>
                 </tr>
             }
+           
         </tbody>
     </table>
 
+
+
+    <input type="hidden" name="userId" value="user_id_here" /> <!-- Replace "user_id_here" with the actual user ID -->
     <button type="submit" class="btn btn-primary">Submit</button>
+
+    <a asp-action="Index">Back to List</a>
 }
+<script>
+
+
+</script>

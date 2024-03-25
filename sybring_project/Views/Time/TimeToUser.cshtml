@@ -1,0 +1,23 @@
+﻿@model sybring_project.Models.Db.TimeHistory
+
+@{
+    ViewData["Title"] = "Assign User to Time";
+}
+
+<h1>Assign User to Time</h1>
+
+<p>@Model.Schedule - @Model.StartWork to @Model.EndWork</p>
+
+<form asp-action="TimeToUser" method="post">
+    <div class="form-group">
+        <label for="userId">Select User:</label>
+        <select class="form-control" id="userId" name="userId">
+            @foreach (var user in ViewBag.AllUsers)
+            {
+                <option value="@user.Id">@user.UserName</option>
+            }
+        </select>
+    </div>
+    <input type="hidden" name="timeId" value="@Model.Id" />
+    <button type="submit" class="btn btn-primary">Assign User</button>
+</form>

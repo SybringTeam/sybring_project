@@ -1,0 +1,74 @@
+﻿@model sybring_project.Models.Db.Company
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<h2>Add Company</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.Project.Name" class="control-label">Company Name</label>
+                <input asp-for="@Model.Project.Name" class="form-control" style="width: 300px" />
+                <span asp-validation-for="@Model.Project.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CompanyWeb" class="control-label">Company's Website</label>
+                <input asp-for="CompanyWeb" class="form-control" style="width: 300px" />
+                <span asp-validation-for="CompanyWeb" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupervisorName" class="control-label">Supervisor Name</label>
+                <input asp-for="SupervisorName" class="form-control" style="width: 300px" />
+                <span asp-validation-for="SupervisorName" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <label asp-for="SupervisorPhone" class="control-label">Supervisor Phone</label>
+                <input asp-for="SupervisorPhone" class="form-control" style="width: 300px"
+                       pattern="[0-9\- ]+  />
+                <span asp-validation-for="SupervisorPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SupervisorEmail" class="control-label">Supervisor Email</label>
+                <input asp-for="SupervisorEmail" class="form-control" style="width: 300px" />
+                <span asp-validation-for="SupervisorEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrgNumber" class="control-label">Org Number</label>
+                <input asp-for="OrgNumber" class="form-control" style="width: 300px"
+                       pattern="[0-9\- ]+ />
+                <span asp-validation-for="OrgNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompanyAddress" class="control-label">Company Address</label>
+                <input asp-for="CompanyAddress" class="form-control" style="width: 300px" />
+                <span asp-validation-for="CompanyAddress" class="text-danger"></span>
+            </div>
+          @*   <div class="form-group">
+                <label asp-for="ProjectId" class="control-label">Project</label>
+                <input asp-for="ProjectId" class="form-control" style="width: 300px" />
+                <span asp-validation-for="ProjectId" class="text-danger"></span>
+            </div> *@
+            <div class="form-group mt-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

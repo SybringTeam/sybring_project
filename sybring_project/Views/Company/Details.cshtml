@@ -1,0 +1,45 @@
+﻿@model sybring_project.Models.Db.Company
+
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<h2>Company Details</h2>
+
+<table class="table">
+    <tr>
+        <th>ID:</th>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <th>Supervisor Name:</th>
+        <td>@Model.SupervisorName</td>
+    </tr>
+    <tr>
+        <th>Company Web:</th>
+        <td>@Model.CompanyWeb</td>
+    </tr>
+    <tr>
+        <th>Supervisor Phone:</th>
+        <td>@Model.SupervisorPhone</td>
+    </tr>
+    <tr>
+        <th>Supervisor Email:</th>
+        <td>@Model.SupervisorEmail</td>
+    </tr>
+    <tr>
+        <th>Organization Number:</th>
+        <td>@Model.OrgNumber</td>
+    </tr>
+    <tr>
+        <th>Company Address:</th>
+        <td>@Model.CompanyAddress</td>
+    </tr>
+    <tr>
+        <th>Project:</th>
+        <td>@Model.Project.Name</td>
+    </tr>
+    <tr>
+        </table>
+
+<a asp-action="Index">Back to List</a>
