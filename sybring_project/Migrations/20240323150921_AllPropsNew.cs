@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace sybring_project.Migrations
 {
     /// <inheritdoc />
-    public partial class newthingUp : Migration
+    public partial class AllPropsNew : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,10 +32,12 @@ namespace sybring_project.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CitizenMembership = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TaskDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserIncome = table.Column<double>(type: "float", nullable: false),
+                    UserICE = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -276,6 +278,30 @@ namespace sybring_project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Companies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    SupervisorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyWeb = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SupervisorPhone = table.Column<int>(type: "int", nullable: false),
+                    SupervisorEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OrgNumber = table.Column<double>(type: "float", nullable: true),
+                    CompanyAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProjectId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Companies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Companies_Projects_Id",
+                        column: x => x.Id,
+                        principalTable: "Projects",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProjectTimeReport",
                 columns: table => new
                 {
@@ -283,7 +309,6 @@ namespace sybring_project.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProjectId = table.Column<int>(type: "int", nullable: false),
                     TimeId = table.Column<int>(type: "int", nullable: false),
-                    TimeHistoryId = table.Column<int>(type: "int", nullable: false),
                     ProjectHours = table.Column<TimeSpan>(type: "time", nullable: false)
                 },
                 constraints: table =>
@@ -296,8 +321,8 @@ namespace sybring_project.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProjectTimeReport_TimeHistories_TimeHistoryId",
-                        column: x => x.TimeHistoryId,
+                        name: "FK_ProjectTimeReport_TimeHistories_TimeId",
+                        column: x => x.TimeId,
                         principalTable: "TimeHistories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -382,9 +407,9 @@ namespace sybring_project.Migrations
                 column: "ProjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProjectTimeReport_TimeHistoryId",
+                name: "IX_ProjectTimeReport_TimeId",
                 table: "ProjectTimeReport",
-                column: "TimeHistoryId");
+                column: "TimeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectUsers_UsersId",
@@ -417,6 +442,9 @@ namespace sybring_project.Migrations
 
             migrationBuilder.DropTable(
                 name: "BillingUser");
+
+            migrationBuilder.DropTable(
+                name: "Companies");
 
             migrationBuilder.DropTable(
                 name: "ProjectTimeReport");

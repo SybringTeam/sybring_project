@@ -1,0 +1,40 @@
+﻿@model sybring_project.Models.Db.User
+
+
+<div id="userEle">
+
+    @if (Model is not null)
+    {
+        <div class="userInfo">
+            <div class="InfoUser">
+            <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Phone:</strong> @Model.PhoneNumber</p>
+                <p><strong>ICE Contact:</strong> @Model.UserICE</p>
+                <p><strong>ICE Contact Name:</strong> @Model.ICEContactName</p>
+            </div>
+            <div class="InfoUser">
+            <p><strong>Task Description:</strong> @Model.TaskDescription</p>
+            @foreach (var project in Model.ProjectId)
+            {
+                <div>
+                    @project.Name
+                    <form asp-action="RemoveProject" method="post" style="display:inline;">
+                        <input type="hidden" name="userId" value="@Model.Id" />
+                        <input type="hidden" name="projectId" value="@project.Id" />
+                        <button type="submit" class="btn btn-danger remove-project" onclick="alertFunction()">Remove</button>
+                    </form>
+                </div>
+            }
+
+            <p><strong>Income:</strong> @Model.UserIncome</p>
+            </div>
+        </div>
+    }
+     else
+    {
+        <h5>Choose user for details</h5>
+    }
+
+
+</div>

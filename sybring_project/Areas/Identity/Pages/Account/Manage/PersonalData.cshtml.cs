@@ -22,7 +22,8 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
             _userManager = userManager;
             _logger = logger;
         }
-
+        [BindProperty]
+        public List<User> Users { get; set; }
         public async Task<IActionResult> OnGet()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -32,6 +33,33 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
             }
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPost(string iceContactName, string iceContactNumber)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserAsync(User)}'.");
+            }
+
+            user.ICEContactName = iceContactName;
+            user.UserICE = iceContactNumber;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User updated their ICE contact information successfully.");
+                return RedirectToPage();
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return Page();
+            }
         }
     }
 }

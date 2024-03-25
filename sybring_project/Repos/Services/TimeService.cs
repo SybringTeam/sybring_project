@@ -30,8 +30,11 @@ namespace sybring_project.Repos.Services
         }
 
 
-        public async Task AddReportAsync(DayDataVM dayDataVM)
+        public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal scheduledHoursPerWeek)
         {
+            // Calculate working hours for the day (including overtime)
+            decimal totalWorkingHours = CalculateWorkingHoursAsync(dayDataVM, scheduledHoursPerWeek);
+
             var timeReport = new TimeHistory
             {
                 Date = dayDataVM.Date,
@@ -40,7 +43,7 @@ namespace sybring_project.Repos.Services
                 EndWork = dayDataVM.EndWork,
                 StartBreak = dayDataVM.StartBreak,
                 EndBreak = dayDataVM.EndBreak,
-                TotalWorkingHours = dayDataVM.TotalWorkingHours,
+                TotalWorkingHours = totalWorkingHours,
                 WorkingHours = dayDataVM.WorkingHours,
                 FlexiTime = dayDataVM.FlexiTime,
                 MoreTime = dayDataVM.MoreTime,
@@ -51,65 +54,96 @@ namespace sybring_project.Repos.Services
                 Childcare = dayDataVM.Childcare,
                 Overtime = dayDataVM.Overtime,
                 InconvenientHours = dayDataVM.InconvenientHours,
-                //ProjectHistories = dayData.ProjectHistories,
-                //Users = _db.Users.Include(u => u.UserName).ToList()
-
+                              
             };
+           
 
-            _db.TimeHistories.Add(timeReport);
-
-
-            _db.SaveChanges();
-
-        }
-
-
-        // Helper method to get the previous Monday from a given date
-        public DateTime GetPreviousMonday(DateTime date)
-        {
-            int daysUntilPrevMonday = ((int)date.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
-            return date.AddDays(-daysUntilPrevMonday).Date;
-        }
-
-
-
-
-        public async Task<List<decimal>> CalculateWeekDataAsync(TimeReportViewModel timeReportViewModel)
-        {
-
-            var workingHoursList = new List<decimal>();
-            var overtimeList = new List<decimal>();
-
-            foreach (var dayData in timeReportViewModel.WeekData)
+            var user = _db.Users.Find(userId);
+            if (user != null) 
             {
-                var workingHours = CalculateWorkingHoursAsync(dayData.StartWork, dayData.EndWork);
-                workingHours -= CalculateWorkingHoursAsync(dayData.StartBreak, dayData.EndBreak);
-                workingHoursList.Add(workingHours);
+                timeReport.Users = new List<User> {user};// Assign the user to the Users collection
 
-                // Calculate overtime
-                var overtime = CalculateOvertime(workingHours, dayData.WorkingHours);
-                overtimeList.Add(overtime);
+                _db.TimeHistories.Add(timeReport);
+                _db.SaveChanges();
+            }
+           
+            
+        }
 
-                if (overtime <= 0) // If there is no overtime
-                {
-                    workingHoursList.Add(workingHours);
-                }
+
+        public decimal CalculateWorkingHoursAsync(DayDataVM dayDataVM, decimal scheduledHoursPerWeek)
+        {
+            TimeSpan workDuration = dayDataVM.EndWork - dayDataVM.StartWork;
+            TimeSpan breakDuration = dayDataVM.EndBreak - dayDataVM.StartBreak;
+
+            // Calculate the total break duration in hours
+            decimal totalBreakHours = (decimal)breakDuration.TotalHours;
+
+            // Subtract the break duration from the total work duration
+            decimal workingHours = (decimal)workDuration.TotalHours - totalBreakHours;
+
+            if (workingHours > scheduledHoursPerWeek)
+            {
+                decimal excessHours = workingHours - scheduledHoursPerWeek;
+
+                dayDataVM.Overtime = excessHours;
+
+                workingHours = scheduledHoursPerWeek;
             }
 
-            return workingHoursList;
+
+            const decimal standardWorkingHoursPerDay = 8;
+            if (workingHours > standardWorkingHoursPerDay)
+            {
+                // Calculate overtime
+                decimal overtime = workingHours - standardWorkingHoursPerDay;
+
+                // Limit to standard working hours
+                workingHours = standardWorkingHoursPerDay;
+
+                // Add overtime to total working hours
+                workingHours += overtime;
+            }
+
+            return workingHours;
         }
 
+        // Helper method to get the previous Monday from a given date
+        //public DateTime GetPreviousMonday(DateTime date)
+        //{
+        //    int daysUntilPrevMonday = ((int)date.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+        //    return date.AddDays(-daysUntilPrevMonday).Date;
+        //}
 
-        public decimal CalculateOvertime(decimal workingHours, decimal maxRegularHoursPerDay)
-        {
-            return Math.Max(workingHours - maxRegularHoursPerDay, 0);
-        }
 
-        public decimal CalculateWorkingHoursAsync(TimeSpan startTime, TimeSpan endTime)
-        {
-            // Calculating working hours (total hours between start and end time)
-            return (decimal)(endTime - startTime).TotalHours;
-        }
+
+        //public async Task<List<decimal>> CalculateWeekDataAsync(TimeReportViewModel timeReportViewModel)
+        //{
+
+        //    var workingHoursList = new List<decimal>();
+        //    var overtimeList = new List<decimal>();
+
+        //    foreach (var dayData in timeReportViewModel.WeekData)
+        //    {
+        //        var workingHours = CalculateWorkingHoursAsync(dayData.StartWork, dayData.EndWork);
+        //        workingHours -= CalculateWorkingHoursAsync(dayData.StartBreak, dayData.EndBreak);
+        //        workingHoursList.Add(workingHours);
+
+        //        // Calculate overtime
+        //        var overtime = CalculateOvertime(workingHours, dayData.WorkingHours);
+        //        overtimeList.Add(overtime);
+
+        //        if (overtime <= 0) // If there is no overtime
+        //        {
+        //            workingHoursList.Add(workingHours);
+        //        }
+        //    }
+
+        //    return workingHoursList;
+        //}
+
+
+            
 
         public async Task<TimeHistory> GetTimeHistoryByIdAsync(int id)
         {
@@ -124,27 +158,7 @@ namespace sybring_project.Repos.Services
             return time;
         }
 
-        public async Task AssigUserToTimeAsync(string userId, int timeId)
-        {
-            var existingUser = await _db.Users
-                .Include(u => u.TimeId)
-                .FirstOrDefaultAsync(u => u.Id == userId);
-
-            var timeToAdd = await _db.TimeHistories
-                .FirstOrDefaultAsync(t => t.Id == timeId);
-
-            if (existingUser != null && timeToAdd != null)
-            {
-                existingUser.TimeId.Add(timeToAdd);
-                await _db.SaveChangesAsync();
-            }
-        }
-
-
-
-
-
-
+      
 
 
         // Deleting a time history 
@@ -156,9 +170,7 @@ namespace sybring_project.Repos.Services
                 _db.TimeHistories.Remove(timeHistoryToDelete);
                 await _db.SaveChangesAsync();
             }
-
-
-        }
+                    }
 
 
         // Updating an existing time history 
