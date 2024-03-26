@@ -5,47 +5,14 @@
    
 <div class="frame">
 
-
     <div id="userInfoContainer">
-
-       
             @foreach (var item in Model)
             {
                 <div id="showUserContainer_@item.Id" style="display: none;">
                     <vc:show-user user-id="@item.Id"> </vc:show-user>
                 </div>
-            }
-            
-
+            }    
     </div>
-    @* <div class="adduser">
-
-        <div class="heading">name:</div>
-        <select name="selectList" id="selectList">
-            <option value="option1">Alternativ 1</option>
-            <option value="option2">Alternativ 2</option>
-            <option value="option3">Alternativ 3</option>
-            
-        </select>
-
-        <div class="heading">project:</div>
-        <select name="selectList" id="selectList">
-            <option value="option1">Alternativ 1</option>
-            <option value="option2">Alternativ 2</option>
-            <option value="option3">Alternativ 3</option>
-
-        </select>
-
-        <div class="heading">date:</div>
-        <select name="selectList" id="selectList">
-            <option value="option1">Alternativ 1</option>
-            <option value="option2">Alternativ 2</option>
-            <option value="option3">Alternativ 3</option>
-
-        </select>
-    </div> *@
-
-
     <div class="adduser">
         @* <div class="search-container">
 
@@ -53,8 +20,8 @@
 
        
          </div> *@
- 
-      <a asp-action="Create" class="btn">Create User</a>
+
+        <a asp-area="Identity" asp-page="/Account/Register" class="btn">Create User</a>
     </div>
 
 
@@ -62,18 +29,16 @@
     <table id="myTable" class="table">
         <thead>
             <tr>
-                <th > checkbox  </th>
-                <th > User  </th>
-                <th > Projects </th>
-                <th > Task Description  </th>
+                <th > checkbox </th>
+                <th > User</th>
+                <th > Projects</th>
                 <th > User Name</th>
-                <th > Role</th>
                 <th > status</th>
                 <th > Actions</th>
             </tr>
         </thead>
 
-        <tbody>
+        @* <tbody> *@
             @foreach (var item in Model)
             {
                 <tr>
@@ -95,11 +60,12 @@
 
                         }
                     </td>
-                    <td> </td>
-                    <td>@item.TaskDescription</td>
+
+                 
+                   
                     <td>@item.UserName</td>
                     
-                    <td> </td>
+                      <td> </td>
 
                     <td class="dropdown">
                         <span><i class="bi bi-three-dots-vertical"></i></span>
@@ -109,10 +75,11 @@
                         </div>
                        
                     </td>
+                       
                 </tr>
+                
             }
-
-    </tbody>
+    @* </tbody> *@
     </table>
 </div>
 
