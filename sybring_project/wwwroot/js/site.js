@@ -1,68 +1,4 @@
-﻿//var editor = new DataTable.Editor({
-//    ajax: '../php/staff.php',
-//    fields: [
-//        {
-//            label: 'First name:',
-//            name: 'first_name'
-//        },
-//        {
-//            label: 'Last name:',
-//            name: 'last_name'
-//        },
-//        {
-//            label: 'Position:',
-//            name: 'position'
-//        },
-//        {
-//            label: 'Office:',
-//            name: 'office'
-//        },
-//        {
-//            label: 'Extension:',
-//            name: 'extn',
-//            multiEditable: false
-//        },
-//        {
-//            label: 'Start date:',
-//            name: 'start_date',
-//            type: 'datetime'
-//        },
-//        {
-//            label: 'Salary:',
-//            name: 'salary'
-//        }
-//    ],
-//    table: '#example'
-//});
-
-//new DataTable('#example', {
-//    ajax: '../php/staff.php',
-//    columns: [
-//        {
-//            data: null,
-//            render: (data) => data.first_name + ' ' + data.last_name
-//        },
-//        { data: 'position' },
-//        { data: 'office' },
-//        { data: 'extn' },
-//        { data: 'start_date' },
-//        { data: 'salary', render: DataTable.render.number(null, null, 0, '$') }
-//    ],
-//    layout: {
-//        topStart: {
-//            buttons: [
-//                { extend: 'create', editor: editor },
-//                { extend: 'edit', editor: editor },
-//                { extend: 'remove', editor: editor }
-//            ]
-//        }
-//    },
-//    select: true
-//});
-
-// ------------------sidobaren-------------
-//$(document).ready(function () {
-
+﻿
 $(document).ready(function () {
     $('#myTable').DataTable({
         "scrollY": "500px",
@@ -78,7 +14,9 @@ $(document).ready(function () {
     });
 });
 
-
+window.onload = function () {
+    document.getElementById("closebtn").addEventListener("click", toggleNav);
+};
 
     function toggleNav() {
         var sidenav = document.getElementById("mySidenav");
@@ -94,6 +32,8 @@ $(document).ready(function () {
 
 
     }
+
+
     function openNav() {
         var sidenav = document.getElementById("mySidenav");
         sidenav.style.width = "250px";
@@ -128,6 +68,7 @@ $(document).ready(function () {
             closeNav();
         }
     });
+
 
     // ------------------sidobaren---------------------
     //function showUser(id) {

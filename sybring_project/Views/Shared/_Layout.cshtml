@@ -86,7 +86,7 @@
         @*   -----------------Sidbar---------------------  *@
           @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
         {
-            <div id="mySidenav" class="sidenav" style="white-space: nowrap;">
+            <div id="mySidenav" class="sidenav" >
                 <a class="closebtn" onclick="toggleNav()"><span>&#9776;</span></a>
                 <a href="@Url.Action("Index", "User")" style="margin-top:75px;"><span class="icon-span"><i class="bi bi-search"></i></span><span class="nav-text">Search Tool</span></a>
                 <a href="@Url.Action("Index", "User")"><span class="icon-span"><i class="bi bi-person-video2"></i></span><span class="nav-text">Users</span></a>

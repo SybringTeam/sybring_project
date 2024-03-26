@@ -5,53 +5,66 @@
 
     @if (Model is not null)
     {
-        <div class="userInfo">
-            <div class="InfoUser">
-            <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
-            <p><strong>Email:</strong> @Model.Email</p>
-            <p><strong>Phone:</strong> @Model.PhoneNumber</p>
-
+        <div class="userDetails">
+            <div class="InfoUser col-md-4">
+                <p><strong>User information</strong></p>
+                <p> @Model.FirstName @Model.LastName</p>
+                <p> @Model.Email</p>
+                <p>@Model.PhoneNumber</p>  
+                <p> @Model.CitizenMembership</p>
+                <p>@Model.Address </p>
                 <p><strong>ICE Contact:</strong> @Model.UserICE</p>
                 <p><strong>ICE Contact Name:</strong> @Model.ICEContactName</p>
-                <p><strong>Citizenship:</strong> @Model.CitizenMembership</p>
-            <p><strong>Adress:</strong>@Model.Address </p>
-            <p><strong></strong></p>
+             
+            
 
             </div>
 
-            <div class="InfoUser">
+            <div class="InfoCompany col-md-4">
 
-            <p><strong>Task Description:</strong> @Model.TaskDescription</p>
+                <p><strong>Company Information</strong> </p>
 
-            @foreach (var project in Model.ProjectId)
-            {
-                <div>
-                    @project.Name
-                    <form asp-action="RemoveProject" method="post" style="display:inline;">
-                        <input type="hidden" name="userId" value="@Model.Id" />
-                        <input type="hidden" name="projectId" value="@project.Id" />
-                        <button type="submit" class="btn btn-danger remove-project" onclick="alertFunction()">Remove</button>
-                    </form>
+                @foreach (var project in Model.ProjectId)
+                {
+                    <div>
+                        @project.Name
+                        <form asp-action="RemoveProject" method="post" style="display:inline;">
+                            <input type="hidden" name="userId" value="@Model.Id" />
+                            <input type="hidden" name="projectId" value="@project.Id" />
+                            <button type="submit" class="btn btn-danger remove-project" onclick="alertFunction()">Remove</button>
+                        </form>
+                    </div>
+                }
+
+              @*   <p>@Model.ProjectId.Company</p>
+                <p>@Model.ProjectId.Adress</p>
+                <p>@Model.ProjectId.BoD</p>
+                <p>@Model.ProjectId.Webbsite</p>
+                <p>@Model.ProjectId.Contract</p> *@
+                <p><strong>Addres:</strong></p>
+                <p><strong>OrgNr:</strong></p>
+                <p><strong>Webbsite:</strong></p>
+                <p><strong>Contract:</strong></p>
+
+            </div>
+
+            <div class="frame2 col-md-4 ">
+                <div class="infoDescription  ">
+                    <p><strong>Task Description</strong></p>
+                    <p>@Model.TaskDescription sadksljdklsajdklsajdmjslakdnmlksajdmlsakdjmlwsajdnlkjansdjsdsadsadsalkawnduikwsahfndckjabndjhdnawskdna dfsdafsdafsdasadsadsadsad</p>
                 </div>
-            }
+                <div class="InfoContact ">
 
-            <p><strong>company:</strong>@Model.ProjectId.</p>
-            <p><strong>Addres:</strong></p>
-            <p><strong>OrgNr:</strong></p>
-            <p><strong>Webbsite:</strong></p>
-            <p><strong>Contract:</strong></p>
+                    <p><strong>Supervisor Information</strong></p>
+                    <p><strong>Contact:</strong></p>
+                    <p><strong>Phone:</strong></p>
+                    <p><strong>Email:</strong></p>
 
-            </div>
-
-            <div class="InfoUser">
-                <p><strong>Contact:</strong></p>
-                <p><strong>Phone:</strong></p>
-                <p><strong>Email:</strong></p>
-
+                </div>
             </div>
         </div>
     }
-     else
+    else
     {
         <h5>Choose user for details</h5>
     }

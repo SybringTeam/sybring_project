@@ -45,13 +45,15 @@ body {
 }
 /*-------------navbar--------------*/
 .sidenav {
+    width: 250px;
     height: 100%;
     position: absolute;
     left: 0;
     background-color: #F7F7F9;
     overflow-x: hidden;
-    transition: 0.5s;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    display:block;
 }
 
 
@@ -84,13 +86,13 @@ body {
         transition: 0.1s;
     }
 
-.navbar .openbtn {
+/*.navbar .openbtn {
     font-size: 30px;
     color: #818181;
     padding: 8px;
     cursor: pointer;
     margin-left: 15px;
-}
+}*/
 
 
 .main {
@@ -288,7 +290,7 @@ img {
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:wdth,wght@97.4,350&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 
-/*------------Index User-----------------*/
+/*Userlistan neråt*/
 .frame {
     
     background-color: white;
@@ -387,7 +389,6 @@ input[type=text], select {
     border-radius: 4px;
     box-sizing: border-box;
 }
-/*------------Index User-----------------*/
 
 
 .adduser {
@@ -409,21 +410,55 @@ input[type=text], select {
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     }
 
-
+/* Userinformation neråt*/
     .userEle{
         padding:20px;
         
     }
-.userInfo {
+.userDetails {
     display: flex;
-   
+    color: dimgrey;
 }
 
 .InfoUser {
-    margin-right: 30px;
+    background-color: lightblue;
+    padding: 10px;
+    display: grid;
+    /*  justify-items: center;*/
+    border-radius: 12px;
+    margin: 10px
 }
-
-/*------------login-----------------*/
+.InfoCompany {
+    background-color: lightpink;
+    padding: 10px;
+    display: grid;
+    border-radius: 12px;
+    /*justify-items: center;*/
+    margin: 10px
+}
+.frame2 {
+    display: flex;
+    flex-direction: column;
+    background-color: lightslategrey;
+    /*  overflow:hidden;*/
+    word-wrap: break-word;
+    border-radius: 12px;
+}
+.infoDescription {
+    background-color: cornsilk;
+    padding: 10px;
+    border-radius: 12px;
+    margin: 10px
+}
+.InfoContact {
+    background-color: cadetblue;
+    padding: 10px;
+    display: grid;
+    border-radius: 12px;
+    margin: 10px
+    /* justify-items: center;*/
+}
+/*login neråt*/
 .login {
     display: flex;
 }
