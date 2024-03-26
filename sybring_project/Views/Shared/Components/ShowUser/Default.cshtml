@@ -10,13 +10,11 @@
             <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
             <p><strong>Email:</strong> @Model.Email</p>
             <p><strong>Phone:</strong> @Model.PhoneNumber</p>
-
-                <p><strong>ICE Contact:</strong> @Model.UserICE</p>
-                <p><strong>ICE Contact Name:</strong> @Model.ICEContactName</p>
-
-            <p><strong>citizenship:</strong> </p>
-            <p><strong>User ICE:</strong> </p>
-
+            <p><strong>ICE Contact:</strong> @Model.UserICE</p>
+            <p><strong>ICE Contact Name:</strong> @Model.ICEContactName</p>
+            <p><strong>citizenship:</strong>@Model.CitizenMembership </p>
+            <p><strong>Adress:</strong>@Model.Address </p>
+            <p><strong></strong></p>
             </div>
 
             <div class="InfoUser">
@@ -35,7 +33,7 @@
                 </div>
             }
 
-            <p><strong>company:</strong></p>
+            <p><strong>company:</strong>@Model.ProjectId.</p>
             <p><strong>Addres:</strong></p>
             <p><strong>OrgNr:</strong></p>
             <p><strong>Webbsite:</strong></p>
