@@ -71,8 +71,6 @@ $(document).ready(function () {
     });
 
     // ------------------sidobaren---------------------
-
-
     //function showUser(id) {
     //    $.ajax({
     //        type: "GET",
@@ -110,4 +108,3 @@ function showUser(userId) {
 function hideAllUsers() {
     $('[id^=showUserContainer_]').hide();
 }
-/*});*/
