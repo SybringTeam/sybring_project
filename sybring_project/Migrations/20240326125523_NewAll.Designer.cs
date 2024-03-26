@@ -12,8 +12,8 @@ using sybring_project.Data;
 namespace sybring_project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240323150921_AllPropsNew")]
-    partial class AllPropsNew
+    [Migration("20240326125523_NewAll")]
+    partial class NewAll
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,7 +234,10 @@ namespace sybring_project.Migrations
             modelBuilder.Entity("sybring_project.Models.Db.Company", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CompanyAddress")
                         .HasColumnType("nvarchar(max)");
@@ -259,6 +262,8 @@ namespace sybring_project.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProjectId");
+
                     b.ToTable("Companies");
                 });
 
@@ -271,6 +276,9 @@ namespace sybring_project.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("BillingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -410,6 +418,9 @@ namespace sybring_project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ICEContactName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageLink")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -444,6 +455,9 @@ namespace sybring_project.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Seller")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TaskDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -459,6 +473,9 @@ namespace sybring_project.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<double>("UserPersonalNumber")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -572,8 +589,8 @@ namespace sybring_project.Migrations
             modelBuilder.Entity("sybring_project.Models.Db.Company", b =>
                 {
                     b.HasOne("sybring_project.Models.Db.Project", "Project")
-                        .WithOne("Company")
-                        .HasForeignKey("sybring_project.Models.Db.Company", "Id")
+                        .WithMany("Companies")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -613,8 +630,7 @@ namespace sybring_project.Migrations
 
             modelBuilder.Entity("sybring_project.Models.Db.Project", b =>
                 {
-                    b.Navigation("Company")
-                        .IsRequired();
+                    b.Navigation("Companies");
 
                     b.Navigation("ProjectHistories");
                 });
