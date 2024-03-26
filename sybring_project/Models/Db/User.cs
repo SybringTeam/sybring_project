@@ -18,8 +18,11 @@ namespace sybring_project.Models.Db
 
         public double UserIncome { get; set; }
 
+        public double UserPersonalNumber { get; set; }
         public string? ICEContactName { get; set; }
         public string? UserICE { get; set; }
+
+        public string? Seller { get; set; }
         public string ImageLink { get; set; } = string.Empty;
 
         [NotMapped]
