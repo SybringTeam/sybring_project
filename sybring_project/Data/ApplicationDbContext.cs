@@ -24,6 +24,7 @@ namespace sybring_project.Data
 
         public DbSet<ProjectTimeReport> ProjectTimeReport { get; set; }
 
+        public DbSet<Company> Companies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -62,6 +63,9 @@ namespace sybring_project.Data
                 .WithMany(th => th.ProjectHistories)
                 .HasForeignKey(ptr => ptr.TimeId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+
+           
 
 
 

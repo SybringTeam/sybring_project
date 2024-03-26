@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
@@ -16,16 +17,18 @@ namespace sybring_project.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IProjectServices _projectServices;
+        private readonly IEmailSender _emailSender;
 
 
         public UserController(IUserServices userServices,
             UserManager<User> userManager, ApplicationDbContext applicationDbContext,
-            IProjectServices projectServices)
+            IProjectServices projectServices, IEmailSender emailSender)
         {
             _userServices = userServices;
             _userManager = userManager;
             _projectServices = projectServices;
             _applicationDbContext = applicationDbContext;
+            _emailSender = emailSender;
         }
 
         public async Task<IActionResult> Index()
@@ -107,8 +110,6 @@ namespace sybring_project.Controllers
                 ViewBag.AllProjects = allProjects;
             }
 
-
-
             return View(detail);
         }
 
@@ -130,6 +131,7 @@ namespace sybring_project.Controllers
             TempData["Added"] = "This Project has been assigned.";
 
             return RedirectToAction("Details", new { id = userId });
+            //return PartialView("~/Views/Shared/_UserDetailsPartial.cshtml");
 
         }
 
@@ -158,6 +160,17 @@ namespace sybring_project.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public IActionResult UserVc(string userId)
+        {
+
+            return ViewComponent("ShowUser", new { userId = userId });
+
+
+        }
+
+
+
         // GET: UserController/AssignProjects
         [HttpGet]
         public async Task<IActionResult> AssignProjects()
@@ -172,27 +185,52 @@ namespace sybring_project.Controllers
             return View(viewModel);
         }
 
+        
         // POST: UserController/AssignProjects
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignProjects(AssignProjectsViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            foreach (var userId in viewModel.SelectedUserIds)
             {
-                foreach (var userId in viewModel.SelectedUserIds)
-                {
-                    foreach (var projectId in viewModel.SelectedProjectIds)
-                    {
-                        await _userServices.TaskManager(userId, projectId);
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
 
-            // If model state is not valid, reload the view with validation errors
-            viewModel.Users = await _userServices.GetAllUserAsync();
-            viewModel.Projects = await _userServices.GetProjectsAsync();
-            return View(viewModel);
+                foreach (var projectId in viewModel.SelectedProjectIds)
+                {
+                    await _userServices.TaskManager(userId, projectId);
+                   
+                }
+                TempData["Added"] = "This Project has been assigned.";
+
+            }
+            return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SendEmail()
+        {
+
+            var users = await _userServices.GetAllUserAsync();
+            return View(users);
+
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendEmail(string userId, string subject, string htmlMessage)
+        {
+            var user = await _applicationDbContext.Users.FindAsync(userId);
+            if (user == null)
+            {
+               
+                return NotFound();
+            }
+            await _emailSender.SendEmailAsync(user.Email, subject, htmlMessage);
+
+            return RedirectToAction("SendEmail");
+        }
+
+
     }
+
+
 }
