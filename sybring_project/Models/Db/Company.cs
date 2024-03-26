@@ -5,7 +5,7 @@ namespace sybring_project.Models.Db
 {
     public class Company
     {
-        [ForeignKey("Project")]
+        
         [Key]
         public int Id { get; set; }
 
@@ -19,8 +19,9 @@ namespace sybring_project.Models.Db
         public double? OrgNumber { get; set; }
 
         public string? CompanyAddress { get; set; } = null;
-        [ForeignKey("Company")]
+       
         public int ProjectId { get; set; }
+        [ForeignKey("ProjectId")]
         public Project Project { get; set; }
 
        

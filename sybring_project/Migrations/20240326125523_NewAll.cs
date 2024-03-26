@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace sybring_project.Migrations
 {
     /// <inheritdoc />
-    public partial class AllPropsNew : Migration
+    public partial class NewAll : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,7 +37,10 @@ namespace sybring_project.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TaskDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserIncome = table.Column<double>(type: "float", nullable: false),
+                    UserPersonalNumber = table.Column<double>(type: "float", nullable: false),
+                    ICEContactName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserICE = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Seller = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -241,6 +244,7 @@ namespace sybring_project.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CompanyId = table.Column<int>(type: "int", nullable: false),
                     BillingId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -281,7 +285,8 @@ namespace sybring_project.Migrations
                 name: "Companies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SupervisorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CompanyWeb = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SupervisorPhone = table.Column<int>(type: "int", nullable: false),
@@ -294,8 +299,8 @@ namespace sybring_project.Migrations
                 {
                     table.PrimaryKey("PK_Companies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Companies_Projects_Id",
-                        column: x => x.Id,
+                        name: "FK_Companies_Projects_ProjectId",
+                        column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -395,6 +400,11 @@ namespace sybring_project.Migrations
                 name: "IX_BillingUser_UsersId",
                 table: "BillingUser",
                 column: "UsersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Companies_ProjectId",
+                table: "Companies",
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_BillingId",

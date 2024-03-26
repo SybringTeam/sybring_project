@@ -11,12 +11,14 @@ namespace sybring_project.Models.Db
         [Required]
         public string? Name { get; set; }
         public string? Description { get; set; }
-       
-        public Company Company { get; set; }
 
-      
+        [ForeignKey("Project")]
+        public int CompanyId { get; set; }
+       
+              
         [NotMapped]
         public IFormFile Contracts { get; set; }
+        public virtual ICollection<Company> Companies { get; set; }
         public virtual ICollection<ProjectTimeReport>? ProjectHistories { get; set; }
         public virtual ICollection<User>? Users { get; set; }
 
