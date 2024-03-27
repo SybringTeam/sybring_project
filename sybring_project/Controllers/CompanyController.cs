@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 
 namespace sybring_project.Controllers
@@ -21,13 +22,17 @@ namespace sybring_project.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var  companyList = await _companyServices.GetCompanyAsync();
+            var companyList = await _companyServices.GetCompanyAsync();
+
             return View(companyList);
         }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            var projects = await _projectServices.GetProjectsAsync();
+            ViewBag.Projects = projects;
+
             return View();
         }
 
