@@ -7,5 +7,7 @@ namespace sybring_project.Models.ViewModels
         public List<Project> ProjectVM { get; set; }
 
         public List<Company> CompanyVM { get; set; }
+
+
     }
 }

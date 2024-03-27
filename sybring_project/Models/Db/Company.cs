@@ -12,7 +12,7 @@ namespace sybring_project.Models.Db
         public string? SupervisorName { get; set; }
         public string? CompanyWeb { get; set; }
 
-        public int SupervisorPhone { get; set; }
+        public string? SupervisorPhone { get; set; }
 
         public string? SupervisorEmail { get; set; }
 
