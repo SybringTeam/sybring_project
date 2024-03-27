@@ -479,8 +479,8 @@ select {
     justify-content: center;
 }
     
-}
-#registerForm {
+
+.registerForm1 {
     padding: 10px;
     margin: 7px;
 }
