@@ -82,8 +82,9 @@ body {
 
 
     .sidenav a:hover {
-        background-color: rgb(227, 232, 244);
+        background-color: #b3b3ff;
         transition: 0.1s;
+        color:white;
     }
 
 /*.navbar .openbtn {
@@ -346,18 +347,6 @@ a :hover{
     width: 250px;
 }
 
-    .search-container input[type="text"] {
-        flex: 1;
-        border: none;
-        padding: 8px;
-        background-color: transparent;
-        font-size: 16px;
-        outline: none;
-    }
-
-        .search-container input[type="text"]::placeholder {
-            color: #aaa;
-        }
 
 
         
@@ -380,15 +369,6 @@ a :hover{
 
 
 
-input[type=text], select {
-    width: 150px;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
 
 
 .adduser {
@@ -402,13 +382,12 @@ input[type=text], select {
  
 }
     .adduser a {
-        background-color: plum;
+        background-color: #b3b3ff;
         color: white;
-       
     }
-    .adduser a:hover {
+   /* .adduser a:hover {
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    }
+    }*/
 
 /* Userinformation neråt*/
     .userEle{
@@ -421,41 +400,43 @@ input[type=text], select {
 }
 
 .InfoUser {
-    background-color: lightblue;
+    /* background-color: floralwhite;*/
     padding: 10px;
     display: grid;
     /*  justify-items: center;*/
     border-radius: 12px;
-    margin: 10px
+    
 }
+
+
 .InfoCompany {
-    background-color: lightpink;
+   /* background-color: lightpink;*/
     padding: 10px;
     display: grid;
     border-radius: 12px;
     /*justify-items: center;*/
-    margin: 10px
+   
 }
 .frame2 {
     display: flex;
     flex-direction: column;
-    background-color: lightslategrey;
+  /*  background-color: lightslategrey;*/
     /*  overflow:hidden;*/
     word-wrap: break-word;
     border-radius: 12px;
 }
 .infoDescription {
-    background-color: cornsilk;
+    /*background-color: cornsilk;*/
     padding: 10px;
     border-radius: 12px;
-    margin: 10px
+   
 }
-.InfoContact {
-    background-color: cadetblue;
+.InfoContact {/*
+    background-color: cadetblue;*/
     padding: 10px;
     display: grid;
     border-radius: 12px;
-    margin: 10px
+   
     /* justify-items: center;*/
 }
 /*login neråt*/
@@ -484,13 +465,65 @@ select {
     vertical-align: top;
     width: 100%;
 }
+/*create a user vyn*/
+.frame3 {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.buttn {
+    display: flex;
+    flex-direction: row;
+    background-color: #E8E8E8;
+    border-radius: 0px 0px 6px 6px;
+    justify-content: center;
+}
+    
+}
+#registerForm {
+    padding: 10px;
+    margin: 7px;
+}
+
 
 /*------------login-----------------*/
 
-/*--------------index project---------------*/
-/*-----------------------------*/
-/*---------partial-----------*/
+/*.search-container input[type="text"] {
+    flex: 1;
+    border: none;
+    padding: 8px;
+    background-color: transparent;
+    font-size: 16px;
+    outline: none;
+}
 
+    .search-container input[type="text"]::placeholder {
+        color: #aaa;
+    }
+*/
 
-/*-----------------------------*/
+/*input[type=text], select {
+    width: 150px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+*/
+/*.form-group {
+    position: relative;
+    padding: 20px;
+    border: 2px solid #000;
+}
 
+    .form-group::before {
+        content: attr(data-label);
+        position: absolute;
+        top: -20px;*/ /* Justera beroende på hur stor tom yta du vill ha */
+        /*left: 50%;
+        transform: translateX(-50%);
+        background-color: white;
+        padding: 0 10px;
+    }*/
