@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.ObjectModelRemoting;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Build.ObjectModelRemoting;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
@@ -44,7 +45,7 @@ namespace sybring_project.Repos.Services
             var del = await _db.Projects.FindAsync(id);
 
             _db.Projects.Remove(del);
-             await _db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
 
             return del;
         }
@@ -52,6 +53,8 @@ namespace sybring_project.Repos.Services
         public async Task<Project> GetProjectByIdAsync(int id)
         {
             var project = await _db.Projects.Include(p => p.Users)
+                                               .Include(p => p.Companies)
+
                                              .FirstOrDefaultAsync(p => p.Id == id);
 
             if (project == null)
@@ -61,6 +64,7 @@ namespace sybring_project.Repos.Services
 
             return project;
         }
+
 
 
         public async Task<List<Project>> GetProjectsAsync()
@@ -82,6 +86,47 @@ namespace sybring_project.Repos.Services
                 return false;
             }
         }
-        
+
+
+
+        public async Task<List<string>> GetAllSupervisorsAsync(Company company)
+        {
+            var companyWithSupervisorNames = await _db.Companies
+                .Where(c => c.Id == company.Id)
+                .Select(c => c.SupervisorName)
+                .FirstOrDefaultAsync();
+
+            var supervisors = companyWithSupervisorNames.Split(',').ToList();
+            return supervisors;
+
+
+        }
+
+        public async Task<List<Project>> GetProjectsByCompanyIdAsync(int companyId)
+        {
+            var project = await _db.Projects
+                    .Where(p => p.CompanyId == companyId)
+                    .ToListAsync();
+
+            return project;
+        }
+
+
+        public async Task<User> GetAssignedUserForProjectAsync(int projectId)
+        {
+            var user = await _db.Users
+                  .Include(u => u.ProjectId)
+                  .FirstOrDefaultAsync(u => u.ProjectId.Any(p => p.Id == projectId));
+
+            if (user == null)
+            {
+                throw new InvalidOperationException($"User assigned to project with ID {projectId} not found.");
+            }
+
+            return user;
+        }
     }
+
+
+
 }

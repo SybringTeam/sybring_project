@@ -37,7 +37,8 @@ namespace sybring_project.Repos.Services
 
         public async Task<Company> GetCompanyByIdAsync(int id)
         {
-           var company = await _db.Companies.Include(c => c.Project)
+           var company = await _db.Companies
+                .Include(c => c.Project)
                 .FirstOrDefaultAsync(c => c.Id == id);
             if (company == null)
             {
@@ -61,8 +62,25 @@ namespace sybring_project.Repos.Services
             }
         }
 
+        public async Task<Project> GetProjectByIdAsync(int id) 
+        {
+            var project = await _db.Projects.Include(p => p.Companies)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-     
+            return project;
+        }
 
+
+
+        public async Task<Company> GetCompanyByProjectIdAsync(int projectId)
+        {
+            var company = await _db.Companies
+                                   .Include(c => c.Project)
+                                   .FirstOrDefaultAsync(c => c.Project.Id == projectId);
+
+            return company;
+        }
+
+       
     }
 }
