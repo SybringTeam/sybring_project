@@ -54,7 +54,7 @@ namespace sybring_project.Repos.Services
         {
             var project = await _db.Projects.Include(p => p.Users)
                                                .Include(p => p.Companies)
-                                               
+
                                              .FirstOrDefaultAsync(p => p.Id == id);
 
             if (project == null)
@@ -65,7 +65,7 @@ namespace sybring_project.Repos.Services
             return project;
         }
 
-       
+
 
         public async Task<List<Project>> GetProjectsAsync()
         {
@@ -102,13 +102,31 @@ namespace sybring_project.Repos.Services
 
         }
 
-        public async Task<Project> GetProjectByCompanyIdAsync(int companyId)
+        public async Task<List<Project>> GetProjectsByCompanyIdAsync(int companyId)
         {
             var project = await _db.Projects
-                .Include(p => p.Companies)
-                .FirstOrDefaultAsync(p => p.CompanyId == companyId);
+                    .Where(p => p.CompanyId == companyId)
+                    .ToListAsync();
 
             return project;
         }
+
+
+        public async Task<User> GetAssignedUserForProjectAsync(int projectId)
+        {
+            var user = await _db.Users
+                  .Include(u => u.ProjectId)
+                  .FirstOrDefaultAsync(u => u.ProjectId.Any(p => p.Id == projectId));
+
+            if (user == null)
+            {
+                throw new InvalidOperationException($"User assigned to project with ID {projectId} not found.");
+            }
+
+            return user;
+        }
     }
+
+
+
 }

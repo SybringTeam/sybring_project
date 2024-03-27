@@ -8,6 +8,8 @@ namespace sybring_project.Models.ViewModels
 
         public List<Company> CompanyVM { get; set; }
 
+        public List<User> UserVM { get; set; }
+
 
     }
 }
