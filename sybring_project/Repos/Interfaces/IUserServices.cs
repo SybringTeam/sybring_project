@@ -29,6 +29,8 @@ namespace sybring_project.Repos.Interfaces
 
         Task TaskManager(string userId, int projectId);
 
+        Task<List<User>> GetAllUsersInRoleAsync(string roleName);
+
         //Task<User> GetUserWithProjectsAsync(string id);
         User GetUserById(string userId);
 
