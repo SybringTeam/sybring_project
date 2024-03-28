@@ -11,6 +11,15 @@
     <a asp-action="Create">Create New</a>
 </p>
 <div class="frame">
+
+    <div id="ProjectContainer">
+        @foreach (var item in Model)
+        {
+            <div id="ProjectContainer_@item.Id" style="display: none;">
+                <vc:show-project project-id="@item.Id"> </vc:show-project>
+            </div>
+        }
+    </div>
 <table class="table">
     <thead>
         <tr>

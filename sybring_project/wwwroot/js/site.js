@@ -100,6 +100,7 @@ function showUser(userId) {
         })
         .catch(error => console.error('Error fetching user view component:', error));
 }
+
 function showUser(userId) {
     hideAllUsers();
     $('#showUserContainer_' + userId).show();
@@ -108,3 +109,28 @@ function showUser(userId) {
 function hideAllUsers() {
     $('[id^=showUserContainer_]').hide();
 }
+
+
+function showProject(projectId) {
+    fetch(`/Project/projectVc?projectId=${projectId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(html => {
+            document.getElementById('ProjectContainer').innerHTML = html;
+        })
+        .catch(error => console.error('Error fetching project view component:', error));
+}
+
+function showProjectDetails(projectId) {
+    hideAllProjects();
+    $('#ProjectContainer_' + projectId).show();
+}
+
+function hideAllProjects() {
+    $('[id^=ProjectContainer_]').hide();
+}
+
