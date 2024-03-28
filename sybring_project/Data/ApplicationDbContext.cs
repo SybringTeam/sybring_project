@@ -26,6 +26,7 @@ namespace sybring_project.Data
 
         public DbSet<Company> Companies { get; set; }
 
+        public DbSet<HistoryHoliday> Holidays { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
 

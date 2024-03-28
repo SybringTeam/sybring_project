@@ -9,11 +9,14 @@ namespace sybring_project.Repos.Interfaces
         Task<Holiday> GetHolidayDetails();
 
 
-        Task<IEnumerable<Holiday>> GetRedDaysAsync();
+        Task<List<Holiday>> GetRedDaysAsync();
 
-      
+        Task<HistoryHoliday> ConvertToHistoricalHolidayAsync(Holiday holiday);
 
-        
+
+
+
+
     }
 
 

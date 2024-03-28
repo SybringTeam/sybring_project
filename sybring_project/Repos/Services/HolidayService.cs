@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
 using System.Net.Http;
@@ -8,13 +10,16 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace sybring_project.Repos.Services
 {
+   
     public class HolidayService : IHolidayService
     {
+        private readonly ApplicationDbContext _db;
         private readonly HttpClient _httpClient;
 
-        public HolidayService(IHttpClientFactory httpClientFactory)
+        public HolidayService(IHttpClientFactory httpClientFactory, ApplicationDbContext db)
         {
             _httpClient = httpClientFactory.CreateClient("holiday");
+            _db = db;
         }
 
 
@@ -46,7 +51,7 @@ namespace sybring_project.Repos.Services
 
 
         //get list of reddays from api
-        public async Task<IEnumerable<Holiday>> GetRedDaysAsync()
+        public async Task<List<Holiday>> GetRedDaysAsync()
         {
             var response = await _httpClient.GetAsync("http://sholiday.faboul.se/dagar/v2.1/2024");
             response.EnsureSuccessStatusCode();
@@ -65,7 +70,11 @@ namespace sybring_project.Repos.Services
                         {
                             Datum = DateTime.Parse(day["datum"].ToString()),
                             Veckodag = day["veckodag"],
-                            Röddag = day["röddag"]
+                            Röddag = day["röddag"],
+                            Vecka = day["vecka"]
+
+
+                            
 
                         });
                     }
@@ -78,9 +87,9 @@ namespace sybring_project.Repos.Services
 
 
 
-        public HistoryHoliday ConvertToHistoricalHoliday(Holiday holiday)
+        public async Task<HistoryHoliday> ConvertToHistoricalHolidayAsync(Holiday holiday)
         {
-            return new HistoryHoliday
+           var history = new HistoryHoliday
             {
                 Röddag = holiday.Röddag,
                 Vecka = holiday.Vecka,
@@ -92,11 +101,16 @@ namespace sybring_project.Repos.Services
                 Namnsdag = holiday.Namnsdag,
                 Flaggdag = holiday.Flaggdag,
 
-
-
+               
             };
+
+            _db.SaveChanges();
+            return history;
+           
         }
 
+
+       
 
 
 
