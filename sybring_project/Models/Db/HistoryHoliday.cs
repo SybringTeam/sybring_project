@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-namespace sybring_project.Models
+namespace sybring_project.Models.Db
 {
-    public class Holiday
+    public class HistoryHoliday
     {
-
         [JsonProperty("datum")]
         public DateTime Datum { get; set; } = DateTime.Now;
 
@@ -25,7 +24,7 @@ namespace sybring_project.Models
 
 
         [JsonProperty("dag i vecka")]
-        public int DagIVecka { get; set; } 
+        public int DagIVecka { get; set; }
 
         [JsonProperty("helgdag")]
         public string Helgdag { get; set; } = string.Empty;
@@ -33,21 +32,14 @@ namespace sybring_project.Models
         [JsonProperty("namnsdag")]
         //public object[] Namnsdag { get; set; }
 
-        public List<object> Namnsdag { get; set; } 
+        public List<object> Namnsdag { get; set; }
 
         [JsonProperty("flaggdag")]
-        public string Flaggdag { get; set; } 
+        public string Flaggdag { get; set; }
 
 
         // Custom property to determine if it's a red day
         public bool IsRedDay => Röddag.ToLower() == "ja";
 
-
     }
-
-
-
-
-
 }
-

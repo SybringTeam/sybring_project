@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
-using sybring_project.Models;
 using sybring_project.Models.Db;
 using sybring_project.Models.Seeding;
 using sybring_project.Models.ViewModels;

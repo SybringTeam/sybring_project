@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using sybring_project.Models;
+using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
 using System.Net.Http;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace sybring_project.Repos.Services
@@ -53,12 +54,12 @@ namespace sybring_project.Repos.Services
 
             var jsonResponse = JsonConvert.DeserializeObject<dynamic>(content);
             var redDays = new List<Holiday>();
-
+          
             if (jsonResponse != null && jsonResponse["dagar"] != null)
             {
                 foreach (var day in jsonResponse["dagar"])
                 {
-                    if (day["röddag"] == "Ja")
+                    if (day["röd dag"] == "Ja")
                     {
                         redDays.Add(new Holiday
                         {
@@ -77,7 +78,24 @@ namespace sybring_project.Repos.Services
 
 
 
+        public HistoryHoliday ConvertToHistoricalHoliday(Holiday holiday)
+        {
+            return new HistoryHoliday
+            {
+                Röddag = holiday.Röddag,
+                Vecka = holiday.Vecka,
+                Veckodag = holiday.Veckodag,
+                Datum = holiday.Datum,
+                Arbetsfridag = holiday.Arbetsfridag,
+                DagIVecka = holiday.DagIVecka,
+                Helgdag = holiday.Helgdag,
+                Namnsdag = holiday.Namnsdag,
+                Flaggdag = holiday.Flaggdag,
 
+
+
+            };
+        }
 
 
 
