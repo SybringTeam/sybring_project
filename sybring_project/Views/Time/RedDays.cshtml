@@ -1,0 +1,26 @@
+﻿@model IEnumerable<sybring_project.Models.Holiday>
+
+
+@{
+    ViewData["Title"] = "RedDays";
+}
+
+<h1>List of Red Days</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Day of the Week</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var holiday in Model)
+        {
+            <tr>
+                <td>@holiday.Datum.ToString("yyyy-MM-dd")</td>
+                <td>@holiday.Veckodag</td>
+            </tr>
+        }
+    </tbody>
+</table>

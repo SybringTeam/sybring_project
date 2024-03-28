@@ -6,12 +6,77 @@
 
 <h1>Index</h1>
 
+
+
 <div>
     <h2>Holiday Information</h2>
-
     <p>Date: @Model.Datum</p>
     <p>Day of the Week: @Model.Veckodag</p>
-    <p>Is a Working Day: @Model.Arbetsfridag</p>
-    <p>Is a Red Day: @Model.Röddag</p>
+   @*  <p>Day of the Week: @Model.Veckodag.ToString("dddd")</p> *@
+    <p>Working day off: @(Model.Arbetsfridag == "Ja" ? "Yes" : "No")</p>
+    <p>Is a Red Day: @(Model.Röddag == "Ja" ? "Yes" : "No")</p>
+   @*  @*  <p>Week: @Model.Vecka</p> *@
+    @*    <p>Week: @(Model.Vecka ?? "N/A")</p> *@
+@* 
+    <p>Week Debug: @Model.Vecka</p>
+
+
+    <p>Week: @(Model.Vecka?.ToString() ?? "N/A")</p>  *@
+
+
+    <p>Week: @(Model.Vecka != null ? Model.Vecka : "N/A")</p>
+
+    <p>Day of the Week: @Model.DagIVecka</p>
+
+
+
+
+    <p>Name Day: @(Model.Namnsdag != null ? string.Join(", ", Model.Namnsdag) : "None")</p>
+
+    <p>Flag Day: @(string.IsNullOrWhiteSpace(Model.Flaggdag) ? "None" : Model.Flaggdag)</p>
 
 </div>
+
+
+
+
+@* 
+@model sybring_project.Models.Holiday
+
+<h1>Holiday Information</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Day of the Week</th>
+            <th>Working day off</th>
+            <th>Is a Red Day</th>
+            <th>Week</th>
+            <th>Day in Week</th>
+            <th>Name Day</th>
+            <th>Flag Day</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Datum</td>
+            <td>@Model.Veckodag</td>
+            <td>@(Model.Arbetsfridag == "Ja" ? "Yes" : "No")</td>
+            <td>@(Model.Röddag == "Ja" ? "Yes" : "No")</td>
+            <td>@(Model.Vecka != null ? Model.Vecka.ToString() : "N/A")</td>
+            <td>@(Model.DagIVecka != null ? Model.DagIVecka: "N/A")</td>
+            <td>
+                @if (Model.Namnsdag != null && Model.Namnsdag.Any())
+                {
+                    @string.Join(", ", Model.Namnsdag)
+                }
+                else
+                {
+                    @:"None"
+                }
+            </td>
+            <td>@Model.Flaggdag</td>
+        </tr>
+    </tbody>
+</table> *@

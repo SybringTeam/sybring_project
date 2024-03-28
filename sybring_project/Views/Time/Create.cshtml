@@ -45,7 +45,6 @@
             {
                 <tr>
                     <td>@Model[i].Date.DayOfWeek</td>
-
                     <td>@Html.HiddenFor(m => m[i].Date) @Model[i].Date.ToShortDateString()</td>
                     <td>@Html.TextBoxFor(m => m[i].StartWork, new { type = "time" })</td>
                     <td>@Html.TextBoxFor(m => m[i].EndWork, new { type = "time" })</td>
@@ -71,7 +70,18 @@
 
     <a asp-action="Index">Back to List</a>
 }
+
 <script>
 
 
 </script>
+
+
+
+
+
+
+
+
+
+

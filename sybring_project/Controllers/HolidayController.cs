@@ -36,5 +36,26 @@ namespace sybring_project.Controllers
 
 
 
+
+        //public IActionResult CheckIsWorkingDay()
+        //{
+        //    // Get the current date
+        //    DateTime currentDate = DateTime.Today;
+
+        //    // Call the IsWorkingDay method to check if it's a working day
+        //    bool isWorkingDay = _holidayService.IsWorkingDay(currentDate);
+
+        //    // Return the result
+        //    return Content($"Is today a working day? {isWorkingDay}");
+        //}
+
+
+
+
+
+
+
+
+
     }
 }

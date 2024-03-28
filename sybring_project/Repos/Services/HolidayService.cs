@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using sybring_project.Models;
 using sybring_project.Repos.Interfaces;
 using System.Net.Http;
+
 
 namespace sybring_project.Repos.Services
 {
@@ -16,6 +18,7 @@ namespace sybring_project.Repos.Services
 
 
 
+        //good work
         public async Task<Holiday> GetHolidayReportAsync()
         {
             var client = new HttpClient();
@@ -31,6 +34,7 @@ namespace sybring_project.Repos.Services
             return JsonConvert.DeserializeObject<Holiday>(content) ?? new Holiday();
         }
 
+
         public async Task<Holiday> GetHolidayDetails()
         {
             var response = await _httpClient.GetStringAsync("http://sholiday.faboul.se/dagar/v2.1/2024");
@@ -38,7 +42,144 @@ namespace sybring_project.Repos.Services
             return JsonConvert.DeserializeObject<Holiday>(response);
         }
 
-       
+
+
+        //get list of reddays from api
+        public async Task<IEnumerable<Holiday>> GetRedDaysAsync()
+        {
+            var response = await _httpClient.GetAsync("http://sholiday.faboul.se/dagar/v2.1/2024");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+
+            var jsonResponse = JsonConvert.DeserializeObject<dynamic>(content);
+            var redDays = new List<Holiday>();
+
+            if (jsonResponse != null && jsonResponse["dagar"] != null)
+            {
+                foreach (var day in jsonResponse["dagar"])
+                {
+                    if (day["röddag"] == "Ja")
+                    {
+                        redDays.Add(new Holiday
+                        {
+                            Datum = DateTime.Parse(day["datum"].ToString()),
+                            Veckodag = day["veckodag"],
+                            Röddag = day["röddag"]
+
+                        });
+                    }
+                }
+            }
+
+            return redDays;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //public bool IsWorkingDay(DateTime dateTime)
+        //{
+        //    try
+        //    {
+        //        var client = new HttpClient();
+        //        var endpoint = $"http://sholiday.faboul.se/dagar/v2.1/{dateTime.Year}";
+        //        var response = client.GetAsync(endpoint).Result;
+
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var holidaysJson = response.Content.ReadAsStringAsync().Result;
+        //            var holidays = JsonConvert.DeserializeObject<IEnumerable<Holiday>>(holidaysJson);
+
+        //            // Check if the provided date is not a holiday and is a working day
+        //            return !holidays.Any(holiday => holiday.Datum.Date == dateTime.Date) && IsWorkingDayOfWeek(dateTime.DayOfWeek);
+        //        }
+        //        else
+        //        {
+        //            // Handle unsuccessful HTTP response
+        //            Console.WriteLine($"Failed to fetch holidays data. Status code: {response.StatusCode}");
+        //            return false;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Handle exceptions
+        //        Console.WriteLine($"An error occurred: {ex.Message}");
+        //        return false;
+        //    }
+        //}
+
+
+
+
+        //private bool IsWorkingDayOfWeek(DayOfWeek dayOfWeek)
+        //{
+        //    // Implement your logic to determine if the provided day of the week is a working day.
+        //    // For example, you might want to exclude weekends (Saturday and Sunday).
+        //    return dayOfWeek != DayOfWeek.Saturday && dayOfWeek != DayOfWeek.Sunday;
+        //}
+
+
+
+        //public async Task<List<Holiday>> GetRedDaysForYear(int year)
+        //{
+        //    var response = await _httpClient.GetAsync($"http://sholiday.faboul.se/dagar/v2.1/{year}");
+
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        var content = await response.Content.ReadAsStringAsync();
+        //        var holidays = JsonConvert.DeserializeObject<List<Holiday>>(content);
+
+        //        // Filter red days
+        //        var redDays = new List<Holiday>();
+        //        foreach (var holiday in holidays)
+        //        {
+        //            if (holiday.Röddag)
+        //            {
+        //                redDays.Add(holiday);
+        //            }
+        //        }
+
+        //        return redDays;
+        //    }
+        //    else
+        //    {
+        //        throw new Exception($"Failed to fetch holidays for year {year}. Status code: {response.StatusCode}");
+        //    }
+        //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
 

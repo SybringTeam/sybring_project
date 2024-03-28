@@ -215,6 +215,10 @@ namespace sybring_project.Repos.Services
 
 
 
+        //get all red days from whole year
+
+
+
 
 
 
