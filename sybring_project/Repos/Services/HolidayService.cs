@@ -58,13 +58,14 @@ namespace sybring_project.Repos.Services
             {
                 foreach (var day in jsonResponse["dagar"])
                 {
-                    if (day["röddag"] == "Ja")
+                    if (day["röd dag"] == "Ja")
                     {
                         redDays.Add(new Holiday
                         {
                             Datum = DateTime.Parse(day["datum"].ToString()),
                             Veckodag = day["veckodag"],
-                            Röddag = day["röddag"]
+                            Röddag = day["röddag"],
+                            Vecka = day["vecka"]
 
                         });
                     }
