@@ -13,15 +13,8 @@
     <link rel="stylesheet" href="~/sybring_project.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css">
-    <link href="https://cdn.datatables.net/v/dt/dt-2.0.2/b-3.0.1/b-html5-3.0.1/date-1.5.2/fc-5.0.0/r-3.0.0/rg-1.5.0/sb-1.7.0/sl-2.0.0/sr-1.4.0/datatables.min.css" rel="stylesheet">
-   
+@*     <link href="https://cdn.datatables.net/v/dt/dt-2.0.2/b-3.0.1/b-html5-3.0.1/date-1.5.2/fc-5.0.0/r-3.0.0/rg-1.5.0/sb-1.7.0/sl-2.0.0/sr-1.4.0/datatables.min.css" rel="stylesheet"> *@
     <link href="https://cdn.datatables.net/v/dt/dt-2.0.3/date-1.5.2/r-3.0.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/sl-2.0.0/datatables.min.css" rel="stylesheet">
-
-   
-</head>
-   <head>
-   
-
 </head>
 
 
@@ -83,25 +76,25 @@
                 </div>
             </div>
         </nav>
-        @*   -----------------Sidbar---------------------  *@
-          @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
-        {
-            <div id="mySidenav" class="sidenav" >
-                <a class="closebtn" onclick="toggleNav()"><span>&#9776;</span></a>
-                <a href="@Url.Action("Index", "User")" style="margin-top:75px;"><span class="icon-span"><i class="bi bi-search"></i></span><span class="nav-text">Search Tool</span></a>
-                <a href="@Url.Action("Index", "User")"><span class="icon-span"><i class="bi bi-person-video2"></i></span><span class="nav-text">Users</span></a>
-                <a href="@Url.Action("Index", "Project")"><span class="icon-span"><i class="bi bi-card-heading"></i></span><span class="nav-text">Projects</span></a>
-                <a href="/Identity/Account/Register"><span class="icon-span"><i class="bi bi-person-plus-fill"></i></span><span class="nav-text">Register User</span></a>
-                <a href="@Url.Action("Create", "Project")"><span class="icon-span"><i class="bi bi-file-earmark-plus"></i></span><span class="nav-text">Register Projects</span></a>
-                <a href="@Url.Action("AssignProjects", "User")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Task Manager</span></a>
-                <a href="@Url.Action("Create", "Company")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Add a Company</span></a>
+     
+    </header>
+    @*   -----------------Sidbar---------------------  *@
+    @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    {
+        <div id="mySidenav" class="sidenav">
+            <a class="closebtn" onclick="toggleNav()"><span>&#9776;</span></a>
+            <a href="@Url.Action("Index", "User")" style="margin-top:75px;"><span class="icon-span"><i class="bi bi-search"></i></span><span class="nav-text">Search Tool</span></a>
+            <a href="@Url.Action("Index", "User")"><span class="icon-span"><i class="bi bi-person-video2"></i></span><span class="nav-text">Users</span></a>
+            <a href="@Url.Action("Index", "Project")"><span class="icon-span"><i class="bi bi-card-heading"></i></span><span class="nav-text">Projects</span></a>
+            <a href="/Identity/Account/Register"><span class="icon-span"><i class="bi bi-person-plus-fill"></i></span><span class="nav-text">Register User</span></a>
+            <a href="@Url.Action("Create", "Project")"><span class="icon-span"><i class="bi bi-file-earmark-plus"></i></span><span class="nav-text">Register Projects</span></a>
+            <a href="@Url.Action("AssignProjects", "User")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Task Manager</span></a>
+            <a href="@Url.Action("Create", "Company")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Add a Company</span></a>
 
         </div>
-        }
-        @*    -----------------Sidbar--------------------- *@
-
-    </header>
-    <div class="container col-sm-9" style="margin-left: 260px; margin-top: 10px;">
+    }
+    @*    -----------------Sidbar--------------------- *@
+    <div class="container" style="margin-left: 260px; margin-top: 10px ;">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -187,8 +180,8 @@
     <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/v/dt/dt-2.0.3/date-1.5.2/r-3.0.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/sl-2.0.0/datatables.min.js"></script>script src="https://cdn.datatables.net/v/dt/dt-2.0.2/b-3.0.1/b-html5-3.0.1/date-1.5.2/fc-5.0.0/r-3.0.0/rg-1.5.0/sb-1.7.0/sl-2.0.0/sr-1.4.0/datatables.min.js"></script>
-
+   @*  <script src="https://cdn.datatables.net/v/dt/dt-2.0.3/date-1.5.2/r-3.0.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/sl-2.0.0/datatables.min.js"> *@
+    <script src='https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js'></script>
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

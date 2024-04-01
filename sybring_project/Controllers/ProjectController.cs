@@ -161,10 +161,10 @@ namespace sybring_project.Controllers
         }
 
 
-        public IActionResult ProjectVc(int Id)
+        public IActionResult ProjectVc(int projectId)
         {
 
-            return ViewComponent("ShowProject", new { projectId = Id });
+            return ViewComponent("ShowProject", new { projectId = projectId });
 
 
         }

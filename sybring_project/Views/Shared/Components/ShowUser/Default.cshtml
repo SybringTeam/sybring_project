@@ -5,17 +5,17 @@
 
     @if (Model is not null)
     {
-        <div class="userDetails">
-            <div class="InfoUser col-md-4">
-                <p><strong>User information</strong></p>
-                <p> @Model.FirstName @Model.LastName</p>
-                <p> @Model.Email</p>
-                <p>@Model.PhoneNumber</p>  
-                <p> @Model.CitizenMembership</p>
-                <p>@Model.Address </p>
-                <p><strong>ICE Contact:</strong></p>
-                <p> @Model.UserICE</p>
-                <p> @Model.ICEContactName</p>
+        <div class="container-fluid userDetails">
+            <div class="col-md-4">
+                <h4><strong>User information</strong></h4>
+                <h5><em>@Model.FirstName @Model.LastName</em> </h5><hr />
+                <h6> @Model.Email</h6>
+                <h6>@Model.PhoneNumber</h6>  
+                <h6> @Model.CitizenMembership</h6>
+                <h6>@Model.Address </h6>
+                <h4><strong>ICE Contact:</strong></h4>
+                <h6> @Model.UserICE</h6>
+                <h6> @Model.ICEContactName</h6>
              
             
 
@@ -23,7 +23,7 @@
 
             <div class="InfoCompany col-md-4">
 
-                <p><strong>Company Information</strong> </p>
+                <h4><strong>Company Information</strong> </h4><hr />
 
                 @foreach (var project in Model.ProjectId)
                 {
@@ -51,15 +51,15 @@
 
             <div class="frame2 col-md-4 ">
                 <div class="infoDescription  ">
-                    <p><strong>Task Description</strong></p>
-                    <p>@Model.TaskDescription sadksljdklsajdklsajdmjslakdnmlksajdmlsakdjmlwsajdnlkjansdjsdsadsadsalkawnduikwsahfndckjabndjhdnawskdna dfsdafsdafsdasadsadsadsad</p>
+                    <h4><strong>Task Description</strong></h4>
+                    <h6>@Model.TaskDescription </h6>
                 </div>
                 <div class="InfoContact ">
 
-                    <p><strong>Supervisor Information</strong></p>
-                    <p><strong>Contact:</strong></p>
-                    <p><strong>Phone:</strong></p>
-                    <p><strong>Email:</strong></p>
+                    <h4><strong>Supervisor Information</strong></h4>
+                    <h6><strong>Contact:</strong></h6>
+                    <h6><strong>Phone:</strong></h6>
+                    <h6><strong>Email:</strong></h6>
 
                 </div>
             </div>

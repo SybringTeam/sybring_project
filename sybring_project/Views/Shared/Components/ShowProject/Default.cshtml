@@ -1,4 +1,15 @@
 ﻿@model sybring_project.Models.Db.Project
 
+<h2>@Model.Name</h2>
+<p>@Model.Description</p>
 
-<p>jdjasfafcsa</p>
+@if (ViewBag.AllProjects != null)
+{
+    <h3>Andra projekt</h3>
+    <ul>
+        @foreach (var project in ViewBag.AllProjects)
+        {
+            <li>@project.Name - @project.Description</li>
+        }
+    </ul>
+}

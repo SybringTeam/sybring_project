@@ -20,7 +20,8 @@
             </div>
         }
     </div>
-<table class="table">
+    <table class="table" id="myTable">
+
     <thead>
         <tr>
           
@@ -45,8 +46,9 @@
         {
             <tr>
               
-                <td> <a asp-action="Details" asp-route-id="@item.Id">
-                    @Html.DisplayFor(modelItem => item.Name)</a>
+                    <td>
+                        <a href="#" onclick="showProjectDetails('@item.Id');" >
+                    @item.Name</a>
                 </td>
                 <td><a asp-action="Details" asp-route-id="@item.Id">
                     @Html.DisplayFor(modelItem => item.Description) </a>

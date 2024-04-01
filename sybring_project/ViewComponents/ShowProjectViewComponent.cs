@@ -15,35 +15,26 @@ namespace sybring_project.ViewComponents
             _projectServices = projectService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int Id)
+        public async Task<IViewComponentResult> InvokeAsync(string userId, int projectId)
         {
             try
             {
-                var project = await _projectServices.GetProjectByIdAsync(Id);
+                var project = await _projectServices.GetProjectByIdAsync(projectId);
+                var user = await _userServices.GetUserByIdAsync(userId);
 
                 if (project != null)
                 {
                     ViewBag.AllProjects = project;
                 }
 
-                return View("Default", project);
+                return View("Default", project); 
             }
             catch (InvalidOperationException ex)
             {
                
-                return View("ProjectNotFound");
+                return Content(ex.Message);
             }
-
         }
-
-
-
-
-
-
-
-
-
 
     }
 }
