@@ -86,7 +86,7 @@ namespace sybring_project.Repos.Services
             {
                 decimal excessHours = workingHours - scheduledHoursPerWeek;
 
-                dayDataVM.Overtime = excessHours;
+                dayDataVM.MoreTime = excessHours;
 
                 workingHours = scheduledHoursPerWeek;
             }
