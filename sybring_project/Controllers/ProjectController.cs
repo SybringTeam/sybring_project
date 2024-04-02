@@ -72,7 +72,7 @@ namespace sybring_project.Controllers
             {
                 ProjectVM = new List<Project> { project },
                 CompanyVM = new List<Company> { company },
-                UserVM = new List<User> { assignedUser },
+                UserVM = new List<User> { assignedUser }.ToList(),
             };
 
             return View(viewModel);

@@ -1,4 +1,4 @@
-﻿
+
 $(document).ready(function () {
     $('#myTable').DataTable({
         "scrollY": "500px",
@@ -14,9 +14,11 @@ $(document).ready(function () {
     });
 });
 
+
 window.onload = function () {
     document.getElementById("closebtn").addEventListener("click", toggleNav);
 };
+
 
     function toggleNav() {
         var sidenav = document.getElementById("mySidenav");
@@ -32,7 +34,6 @@ window.onload = function () {
 
 
     }
-
 
     function openNav() {
         var sidenav = document.getElementById("mySidenav");
