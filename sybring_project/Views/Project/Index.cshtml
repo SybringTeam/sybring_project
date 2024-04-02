@@ -11,18 +11,30 @@
     <a asp-action="Create">Create New</a>
 </p>
 <div class="frame">
-<table class="table">
+
+    <div id="ProjectContainer">
+        @foreach (var item in Model)
+        {
+            <div id="ProjectContainer_@item.Id" style="display: none;">
+                <vc:show-project project-id="@item.Id"> </vc:show-project>
+            </div>
+        }
+    </div>
+    <table class="table" id="myTable">
+
     <thead>
         <tr>
           
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <p>NAME</p>
+               @*  @Html.DisplayNameFor(model => model.Name) *@
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                 <p>DESCRIPTION</p>
+               @*  @Html.DisplayNameFor(model => model.Description) *@
             </th>
             <th>
-               Users on Project
+                  <p>USERS ON PROJECTS</p>
             </th>
            
             <th></th>
@@ -34,8 +46,9 @@
         {
             <tr>
               
-                <td> <a asp-action="Details" asp-route-id="@item.Id">
-                    @Html.DisplayFor(modelItem => item.Name)</a>
+                    <td>
+                        <a href="#" onclick="showProjectDetails('@item.Id');" >
+                    @item.Name</a>
                 </td>
                 <td><a asp-action="Details" asp-route-id="@item.Id">
                     @Html.DisplayFor(modelItem => item.Description) </a>

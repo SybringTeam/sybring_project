@@ -1,67 +1,3 @@
-﻿//var editor = new DataTable.Editor({
-//    ajax: '../php/staff.php',
-//    fields: [
-//        {
-//            label: 'First name:',
-//            name: 'first_name'
-//        },
-//        {
-//            label: 'Last name:',
-//            name: 'last_name'
-//        },
-//        {
-//            label: 'Position:',
-//            name: 'position'
-//        },
-//        {
-//            label: 'Office:',
-//            name: 'office'
-//        },
-//        {
-//            label: 'Extension:',
-//            name: 'extn',
-//            multiEditable: false
-//        },
-//        {
-//            label: 'Start date:',
-//            name: 'start_date',
-//            type: 'datetime'
-//        },
-//        {
-//            label: 'Salary:',
-//            name: 'salary'
-//        }
-//    ],
-//    table: '#example'
-//});
-
-//new DataTable('#example', {
-//    ajax: '../php/staff.php',
-//    columns: [
-//        {
-//            data: null,
-//            render: (data) => data.first_name + ' ' + data.last_name
-//        },
-//        { data: 'position' },
-//        { data: 'office' },
-//        { data: 'extn' },
-//        { data: 'start_date' },
-//        { data: 'salary', render: DataTable.render.number(null, null, 0, '$') }
-//    ],
-//    layout: {
-//        topStart: {
-//            buttons: [
-//                { extend: 'create', editor: editor },
-//                { extend: 'edit', editor: editor },
-//                { extend: 'remove', editor: editor }
-//            ]
-//        }
-//    },
-//    select: true
-//});
-
-// ------------------sidobaren-------------
-//$(document).ready(function () {
 
 $(document).ready(function () {
     $('#myTable').DataTable({
@@ -79,6 +15,10 @@ $(document).ready(function () {
 });
 
 
+window.onload = function () {
+    document.getElementById("closebtn").addEventListener("click", toggleNav);
+};
+
 
     function toggleNav() {
         var sidenav = document.getElementById("mySidenav");
@@ -94,6 +34,7 @@ $(document).ready(function () {
 
 
     }
+
     function openNav() {
         var sidenav = document.getElementById("mySidenav");
         sidenav.style.width = "250px";
@@ -129,6 +70,7 @@ $(document).ready(function () {
         }
     });
 
+
     // ------------------sidobaren---------------------
     //function showUser(id) {
     //    $.ajax({
@@ -159,6 +101,7 @@ function showUser(userId) {
         })
         .catch(error => console.error('Error fetching user view component:', error));
 }
+
 function showUser(userId) {
     hideAllUsers();
     $('#showUserContainer_' + userId).show();
@@ -167,3 +110,28 @@ function showUser(userId) {
 function hideAllUsers() {
     $('[id^=showUserContainer_]').hide();
 }
+
+
+function showProject(projectId) {
+    fetch(`/Project/projectVc?projectId=${projectId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(html => {
+            document.getElementById('ProjectContainer').innerHTML = html;
+        })
+        .catch(error => console.error('Error fetching project view component:', error));
+}
+
+function showProjectDetails(projectId) {
+    hideAllProjects();
+    $('#ProjectContainer_' + projectId).show();
+}
+
+function hideAllProjects() {
+    $('[id^=ProjectContainer_]').hide();
+}
+

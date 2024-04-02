@@ -6,6 +6,7 @@ using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 using sybring_project.Repos.Services;
 
+
 namespace sybring_project.Controllers
 {
     public class ProjectController : Controller
@@ -160,6 +161,16 @@ namespace sybring_project.Controllers
         }
 
 
+        public IActionResult ProjectVc(int projectId)
+        {
 
+            return ViewComponent("ShowProject", new { projectId = projectId });
+
+
+        }
     }
+
+   
+
+  
 }
