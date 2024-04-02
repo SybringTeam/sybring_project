@@ -12,8 +12,8 @@ using sybring_project.Data;
 namespace sybring_project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240327090054_String")]
-    partial class String
+    [Migration("20240402112100_AllNewData")]
+    partial class AllNewData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -406,6 +406,9 @@ namespace sybring_project.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DOB")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)

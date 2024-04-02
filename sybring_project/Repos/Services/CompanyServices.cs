@@ -18,28 +18,28 @@ namespace sybring_project.Repos.Services
         {
             await _db.AddAsync(company);
             await _db.SaveChangesAsync();
-            
+
         }
 
         public async Task<Company> DeleteCompanyAsync(int id)
         {
             var del = await _db.Companies.FindAsync(id);
-            _db.Companies.Remove(del);  
+            _db.Companies.Remove(del);
             await _db.SaveChangesAsync();
             return del;
         }
 
         public async Task<List<Company>> GetCompanyAsync()
         {
-            return await _db.Companies.Include(c=>c.Project).ToListAsync();
+            return await _db.Companies.Include(c => c.Project).ToListAsync();
 
         }
 
         public async Task<Company> GetCompanyByIdAsync(int id)
         {
-           var company = await _db.Companies
-                .Include(c => c.Project)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            var company = await _db.Companies
+                 .Include(c => c.Project)
+                 .FirstOrDefaultAsync(c => c.Id == id);
             if (company == null)
             {
                 throw new InvalidOperationException($"Company with ID {id} not found.");
@@ -49,20 +49,16 @@ namespace sybring_project.Repos.Services
 
         public async Task<bool> UpdateCompanyAsync(Company company)
         {
-            try
-            {
-                _db.Entry(company).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception)
-            {
+            
 
-                return false; 
-            }
+            _db.Update(company);
+            await _db.SaveChangesAsync();
+            return true;
+
+           
         }
 
-        public async Task<Project> GetProjectByIdAsync(int id) 
+        public async Task<Project> GetProjectByIdAsync(int id)
         {
             var project = await _db.Projects.Include(p => p.Companies)
                 .FirstOrDefaultAsync(p => p.Id == id);
@@ -81,6 +77,6 @@ namespace sybring_project.Repos.Services
             return company;
         }
 
-       
+
     }
 }

@@ -12,8 +12,8 @@ using sybring_project.Data;
 namespace sybring_project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240326125523_NewAll")]
-    partial class NewAll
+    [Migration("20240402115553_null")]
+    partial class @null
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -257,8 +257,8 @@ namespace sybring_project.Migrations
                     b.Property<string>("SupervisorName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SupervisorPhone")
-                        .HasColumnType("int");
+                    b.Property<string>("SupervisorPhone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -394,10 +394,9 @@ namespace sybring_project.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Age")
+                    b.Property<int?>("Age")
                         .HasColumnType("int");
 
                     b.Property<string>("CitizenMembership")
@@ -406,6 +405,9 @@ namespace sybring_project.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DOB")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)

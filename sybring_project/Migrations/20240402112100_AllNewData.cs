@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace sybring_project.Migrations
 {
     /// <inheritdoc />
-    public partial class NewAll : Migration
+    public partial class AllNewData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,6 +34,7 @@ namespace sybring_project.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CitizenMembership = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Age = table.Column<int>(type: "int", nullable: false),
+                    DOB = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TaskDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserIncome = table.Column<double>(type: "float", nullable: false),
@@ -289,7 +290,7 @@ namespace sybring_project.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SupervisorName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CompanyWeb = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SupervisorPhone = table.Column<int>(type: "int", nullable: false),
+                    SupervisorPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SupervisorEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OrgNumber = table.Column<double>(type: "float", nullable: true),
                     CompanyAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),

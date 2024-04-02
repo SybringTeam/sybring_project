@@ -114,17 +114,34 @@ namespace sybring_project.Repos.Services
 
         public async Task<bool> UpdateUserAsync(User user)
         {
+
             try
             {
-                _db.Entry(user).State = EntityState.Modified;
+                _db.Update(user);
                 await _db.SaveChangesAsync();
                 return true;
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
+                var entry = ex.Entries.Single();
+                var databaseEntry = entry.GetDatabaseValues();
 
-                return false;
+                if (databaseEntry == null)
+                {
+                    // Handle the case where the entity has been deleted
+                    // You may choose to return false or throw an exception
+                    return false;
+                }
+                else
+                {
+                    // Handle the case where the entity has been modified
+                    // Refresh the entry in the context and attempt to save changes again
+                    entry.OriginalValues.SetValues(databaseEntry);
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
             }
+
         }
 
 
