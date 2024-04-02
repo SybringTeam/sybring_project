@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 
 namespace sybring_project.Controllers
@@ -21,13 +22,17 @@ namespace sybring_project.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var  companyList = await _companyServices.GetCompanyAsync();
+            var companyList = await _companyServices.GetCompanyAsync();
+
             return View(companyList);
         }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            var projects = await _projectServices.GetProjectsAsync();
+            ViewBag.Projects = projects;
+
             return View();
         }
 
@@ -36,7 +41,7 @@ namespace sybring_project.Controllers
         {
             await _companyServices.AddCompanyAsync(company);
             return RedirectToAction("Index");
-        }
+            }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
@@ -59,6 +64,7 @@ namespace sybring_project.Controllers
             return View(companyEdit);
         }
 
+        [HttpPost]
         public async Task<IActionResult> Edit(Company company) 
         {
             await _companyServices.UpdateCompanyAsync(company);

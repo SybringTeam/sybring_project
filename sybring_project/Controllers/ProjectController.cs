@@ -15,6 +15,7 @@ namespace sybring_project.Controllers
         private readonly IUserServices _userServices;
         private readonly ICompanyServices _companyServices;
 
+
         public ProjectController(IProjectServices projectServices,
            ApplicationDbContext applicationDbContext,
            IUserServices userServices,
@@ -56,26 +57,31 @@ namespace sybring_project.Controllers
                 ViewBag.AllUsers = allUsers;
             }
 
-            //var company = await _companyServices.GetCompanyByIdAsync(project.Company.Id);
+            var company = await _companyServices.GetCompanyByProjectIdAsync(project.Id);
 
-            //var viewModel = new ProjectCompanyVM
-            //{
-            //    ProjectVM = new List<Project> { project },
-            //    CompanyVM = new List<Company> { company },
-            //};
+            if (company == null)
+            {
 
-            return View(project);
+                ViewBag.ErrorMessage = "Project does not have an associated company.";
+                return View("Error");
+            }
+
+            var assignedUser = await _projectServices.GetAssignedUserForProjectAsync(project.Id);
+            var viewModel = new ProjectCompanyVM
+            {
+                ProjectVM = new List<Project> { project },
+                CompanyVM = new List<Company> { company },
+                UserVM = new List<User> { assignedUser }.ToList(),
+            };
+
+            return View(viewModel);
         }
 
 
 
         [HttpPost]
-
-
         public async Task<IActionResult> Details(string userId, int projectId)
         {
-
-
             try
             {
                 var getProject = await _projectServices.GetProjectByIdAsync(projectId);
