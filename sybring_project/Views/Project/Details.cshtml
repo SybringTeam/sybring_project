@@ -65,12 +65,19 @@
             Assignes Users
         </dt>
         <dd class="col-sm-10">
-           <ul>
-               @foreach (var item in Model.UserVM)
-                {
-                    <li>@item.FirstName @item.LastName</li>
-                }
-           </ul>
+            @if (Model.UserVM.Any())
+            {
+                <ul>
+                    @foreach (var item in Model.UserVM)
+                    {
+                        <li>@item.FirstName @item.LastName</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>No users assigned</p>
+            }
         </dd>
     </dl>
 </div>
