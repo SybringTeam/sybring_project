@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - sybring_project</title>
+    <link id="theme-link" rel="stylesheet" href="/css/light-theme.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">    @* changed http to https *@
+    <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">   @* changed http to https *@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/sybring_project.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/style.css" />
+
+@*     <link href="https://cdn.datatables.net/v/dt/dt-2.0.2/b-3.0.1/b-html5-3.0.1/date-1.5.2/fc-5.0.0/r-3.0.0/rg-1.5.0/sb-1.7.0/sl-2.0.0/sr-1.4.0/datatables.min.css" rel="stylesheet"> *@
+    <link href="https://cdn.datatables.net/v/dt/dt-2.0.3/date-1.5.2/r-3.0.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/sl-2.0.0/datatables.min.css" rel="stylesheet">
+
+</head>
+
+
+<body>
+    <header class="header">
+
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow">
+            <div class="container-fluid ">
+
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="/logo/Sybring_Logo-Black_1000px.png" />
+                </a>
+         
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Career">Career</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
+                            </li>
+                           
+                        }
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("admin, underconsult"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Details">TR Details</a>
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register as a new user</a>
+
+                            </li>          
+
+                         }
+                         else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
+                            </li>
+                        }
+                           
+                              </ul>
+                   
+
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+     
+    </header>
+    @*   -----------------Sidbar---------------------  *@
+    @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    {
+        <div id="mySidenav" class="sidenav">
+            <a class="closebtn" onclick="toggleNav()"><span>&#9776;</span></a>
+            <a href="@Url.Action("Index", "User")" style="margin-top:75px;"><span class="icon-span"><i class="bi bi-search"></i></span><span class="nav-text">Search Tool</span></a>
+            <a href="@Url.Action("Index", "User")"><span class="icon-span"><i class="bi bi-person-video2"></i></span><span class="nav-text">Users</span></a>
+            <a href="@Url.Action("Index", "Project")"><span class="icon-span"><i class="bi bi-card-heading"></i></span><span class="nav-text">Projects</span></a>
+            <a href="/Identity/Account/Register"><span class="icon-span"><i class="bi bi-person-plus-fill"></i></span><span class="nav-text">Register User</span></a>
+            <a href="@Url.Action("Create", "Project")"><span class="icon-span"><i class="bi bi-file-earmark-plus"></i></span><span class="nav-text">Register Projects</span></a>
+            <a href="@Url.Action("AssignProjects", "User")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Task Manager</span></a>
+            <a href="@Url.Action("Create", "Company")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Add a Company</span></a>
+
+        </div>
+    }
+    @*    -----------------Sidbar--------------------- *@
+    <div class="container" style="margin-left: 260px; margin-top: 10px ;">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <div class="col-lg  col-md col-sm">
+   <footer class="footer-distributed ">
+ 
+			<div class="footer-left">
+
+            <div class="img" style="display: flex;justify-content: left;">
+                <img src="~/logo/sybring_logo-white_1000px.png" style="margin-left: 130px;" />
+            </div>
+ 
+				<p class="footer-links">
+					<a href="#">Hem</a>
+				|
+					<a href="#">Våra tjänster</a>
+                |
+					<a href="#">Karriär</a>
+                |
+					<a href="#">Nyheter</a>
+                |
+					<a href="#">Om oss</a>
+                |
+					<a href="#">Kontakt</a>
+				</p>
+
+            <p class="footer-company-name">&copy; 2024 - Sybring AB</p>
+			</div>
+ 
+			<div class="footer-center">
+ 
+				<div>
+                <i class="bi bi-building-fill"></i>
+                <p><span> (HQ) Vallonvägen 12, 612 30</span>Finspång, Sweden</p>
+
+				</div>
+            <div>
+                <i class="bi bi-geo-alt-fill"></i>
+                <p><span> Besöksadress: Trädgårdsgatan 6A, 4tr, 602 24</span>Norrköping, Sweden</p>
+
+            </div>
+ 
+				<div>
+                <i class="bi bi-telephone-fill"></i>
+                <p>+46 70-670 07 07</p>
+				</div>
+ 
+				<div>
+					<i class="bi bi-envelope-fill"></i>
+                <p><a href="contact@sybring.com">contact@sybring.com</a></p>
+				</div>
+ 
+			</div>
+ 
+			<div class="footer-right">
+ 
+				<p class="footer-company-about">
+					<span>Om vårat företag</span>
+                Vi på Sybring lägger stor vikt vid att säkerställa att varje uppdrag får den bäst lämpade konsulten för att möta specifika behov och krav.
+				</p>
+ 
+				<div class="footer-icons">
+               
+                <a href="https://www.facebook.com/Sybring"><i class="bi bi-facebook"></i></a>
+                <a href="https://www.linkedin.com/in/sybring-ab-604696178/"><i class="bi bi-linkedin"></i></a>
+                <a href="contact@sybring.com"><i class="bi bi-envelope-at-fill"></i></a>
+				
+ 
+				</div>
+ 
+			</div>
+ 
+		</footer>
+        </div>
+  
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+   @*  <script src="https://cdn.datatables.net/v/dt/dt-2.0.3/date-1.5.2/r-3.0.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/sl-2.0.0/datatables.min.js"> *@
+    <script src='https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js'></script>
+
+    <script src="~/js/main.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

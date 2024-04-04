@@ -16,7 +16,7 @@
         @foreach (var item in Model)
         {
             <div id="ProjectContainer_@item.Id" style="display: none;">
-                <vc:show-project project-id="@item.Id"> </vc:show-project>
+                <vc:show-project project-id="@item.Id"></vc:show-project>
             </div>
         }
     </div>
@@ -47,8 +47,9 @@
             <tr>
               
                     <td>
-                        <a href="#" onclick="showProjectDetails('@item.Id');" >
-                    @item.Name</a>
+                        <a href="#" onclick="showProjectDetails('@item.Id');">
+                            @item.Name
+                        </a>
                 </td>
                 <td><a asp-action="Details" asp-route-id="@item.Id">
                     @Html.DisplayFor(modelItem => item.Description) </a>
