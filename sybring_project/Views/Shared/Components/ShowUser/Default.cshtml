@@ -5,33 +5,71 @@
 
     @if (Model is not null)
     {
-        <div class="userInfo">
-            <div class="InfoUser">
-            <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
-            <p><strong>Email:</strong> @Model.Email</p>
-            <p><strong>Phone:</strong> @Model.PhoneNumber</p>
-                <p><strong>ICE Contact:</strong> @Model.UserICE</p>
-                <p><strong>ICE Contact Name:</strong> @Model.ICEContactName</p>
-            </div>
-            <div class="InfoUser">
-            <p><strong>Task Description:</strong> @Model.TaskDescription</p>
-            @foreach (var project in Model.ProjectId)
-            {
-                <div>
-                    @project.Name
-                    <form asp-action="RemoveProject" method="post" style="display:inline;">
-                        <input type="hidden" name="userId" value="@Model.Id" />
-                        <input type="hidden" name="projectId" value="@project.Id" />
-                        <button type="submit" class="btn btn-danger remove-project" onclick="alertFunction()">Remove</button>
-                    </form>
-                </div>
-            }
 
-            <p><strong>Income:</strong> @Model.UserIncome</p>
+        <div class="container-fluid userDetails">
+            <div class="col-md-4">
+                <h4><strong>User information</strong></h4>
+                <h5><em>@Model.FirstName @Model.LastName</em> </h5><hr />
+                <h6> @Model.Email</h6>
+                <h6>@Model.PhoneNumber</h6>  
+                <h6> @Model.CitizenMembership</h6>
+                <h6>@Model.Address </h6>
+                <h4><strong>ICE Contact:</strong></h4>
+                <h6> @Model.UserICE</h6>
+                <h6> @Model.ICEContactName</h6>
+             
+            
+
+
+            </div>
+
+            <div class="InfoCompany col-md-4">
+
+                <h4><strong>Company Information</strong> </h4><hr />
+
+                @foreach (var project in Model.ProjectId)
+                {
+                    <div>
+                        @project.Name
+                        <form asp-action="RemoveProject" method="post" style="display:inline;">
+                            <input type="hidden" name="userId" value="@Model.Id" />
+                            <input type="hidden" name="projectId" value="@project.Id" />
+                            <button type="submit" class="btn btn-danger remove-project" onclick="alertFunction()">Remove</button>
+                        </form>
+                    </div>
+                }
+
+              @*<p>@Model.ProjectId.Company</p>
+                <p>@Model.ProjectId.Adress</p>
+                <p>@Model.ProjectId.BoD</p>
+                <p>@Model.ProjectId.Webbsite</p>
+                <p>@Model.ProjectId.Contract</p> *@
+                <p><strong>Addres:</strong></p>
+                <p><strong>OrgNr:</strong></p>
+                <p><strong>Webbsite:</strong></p>
+                <p><strong>Contract:</strong></p>
+
+            </div>
+
+            <div class="frame2 col-md-4 ">
+                <div class="infoDescription  ">
+                    <h4><strong>Task Description</strong></h4>
+                    <h6>@Model.TaskDescription </h6>
+                </div>
+                <div class="InfoContact ">
+
+
+                    <h4><strong>Supervisor Information</strong></h4>
+                    <h6><strong>Contact:</strong></h6>
+                    <h6><strong>Phone:</strong></h6>
+                    <h6><strong>Email:</strong></h6>
+
+
+                </div>
             </div>
         </div>
     }
-     else
+    else
     {
         <h5>Choose user for details</h5>
     }

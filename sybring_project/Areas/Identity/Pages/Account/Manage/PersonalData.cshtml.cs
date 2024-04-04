@@ -24,6 +24,7 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
         }
         [BindProperty]
         public List<User> Users { get; set; }
+        public User UserData { get; set; }
         public async Task<IActionResult> OnGet()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -32,10 +33,13 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+            UserData = user;
+
             return Page();
         }
 
-        public async Task<IActionResult> OnPost(string iceContactName, string iceContactNumber)
+        public async Task<IActionResult> OnPost(string iceContactName, string iceContactNumber,
+            string citizenMembership)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -45,6 +49,8 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
 
             user.ICEContactName = iceContactName;
             user.UserICE = iceContactNumber;
+            user.CitizenMembership = citizenMembership;
+
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)

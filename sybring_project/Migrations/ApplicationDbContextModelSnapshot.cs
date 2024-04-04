@@ -231,7 +231,10 @@ namespace sybring_project.Migrations
             modelBuilder.Entity("sybring_project.Models.Db.Company", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CompanyAddress")
                         .HasColumnType("nvarchar(max)");
@@ -251,10 +254,12 @@ namespace sybring_project.Migrations
                     b.Property<string>("SupervisorName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SupervisorPhone")
-                        .HasColumnType("int");
+                    b.Property<string>("SupervisorPhone")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("Companies");
                 });
@@ -268,6 +273,9 @@ namespace sybring_project.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("BillingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -383,10 +391,9 @@ namespace sybring_project.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Age")
+                    b.Property<int?>("Age")
                         .HasColumnType("int");
 
                     b.Property<string>("CitizenMembership")
@@ -395,6 +402,9 @@ namespace sybring_project.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DOB")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -444,6 +454,9 @@ namespace sybring_project.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Seller")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TaskDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -459,6 +472,9 @@ namespace sybring_project.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<double>("UserPersonalNumber")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -572,8 +588,8 @@ namespace sybring_project.Migrations
             modelBuilder.Entity("sybring_project.Models.Db.Company", b =>
                 {
                     b.HasOne("sybring_project.Models.Db.Project", "Project")
-                        .WithOne("Company")
-                        .HasForeignKey("sybring_project.Models.Db.Company", "Id")
+                        .WithMany("Companies")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -613,8 +629,7 @@ namespace sybring_project.Migrations
 
             modelBuilder.Entity("sybring_project.Models.Db.Project", b =>
                 {
-                    b.Navigation("Company")
-                        .IsRequired();
+                    b.Navigation("Companies");
 
                     b.Navigation("ProjectHistories");
                 });

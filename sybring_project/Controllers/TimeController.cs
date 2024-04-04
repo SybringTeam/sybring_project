@@ -72,7 +72,9 @@ namespace sybring_project.Controllers
         //dowad work
 
 
-        //[Authorize(Roles = "Admin, underconsult")]
+
+
+        [Authorize(Roles = "Admin, underconsult")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -134,6 +136,7 @@ namespace sybring_project.Controllers
         }
 
 
+
         public async Task<IActionResult> RedDays()
         {
 
@@ -155,6 +158,16 @@ namespace sybring_project.Controllers
 
 
 
+
+
+
+        public IActionResult projectVc(int Id)
+        {
+
+            return ViewComponent("ShowProject", new { projectId = Id });
+
+
+        }
 
 
 

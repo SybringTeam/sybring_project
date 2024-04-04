@@ -10,16 +10,21 @@ namespace sybring_project.Models.Db
         public string LastName { get; set; } = string.Empty;
 
         public string? CitizenMembership { get; set; }
-        public int Age { get; set; }
+        public int? Age { get; set; }
 
-        public string Address { get; set; } = string.Empty;
+        public DateTime? DOB { get; set; }
+
+        public string? Address { get; set; } = string.Empty;
 
         public string? TaskDescription { get; set; } = string.Empty;
 
         public double UserIncome { get; set; }
 
+        public double UserPersonalNumber { get; set; }
         public string? ICEContactName { get; set; }
         public string? UserICE { get; set; }
+
+        public string? Seller { get; set; }
         public string ImageLink { get; set; } = string.Empty;
 
         [NotMapped]

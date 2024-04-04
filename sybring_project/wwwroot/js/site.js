@@ -1,7 +1,3 @@
-﻿
-
-// ------------------sidobaren-------------
-//$(document).ready(function () {
 
 $(document).ready(function () {
     $('#myTable').DataTable({
@@ -10,12 +6,19 @@ $(document).ready(function () {
         "paging": true,
         "order": [[0, "desc"]],
         "searching": true,
+        "select": true
         
         
 
 
     });
 });
+
+
+window.onload = function () {
+    document.getElementById("closebtn").addEventListener("click", toggleNav);
+};
+
 
     function toggleNav() {
         var sidenav = document.getElementById("mySidenav");
@@ -44,7 +47,6 @@ $(document).ready(function () {
 
         localStorage.setItem("sidebarStatus", "open");
     }
-
     function closeNav() {
         var sidenav = document.getElementById("mySidenav");
         sidenav.style.width = "60px";
@@ -57,8 +59,6 @@ $(document).ready(function () {
 
         localStorage.setItem("sidebarStatus", "closed");
     }
-
-
     document.addEventListener("DOMContentLoaded", function () {
         var sidebarStatus = localStorage.getItem("sidebarStatus");
         if (sidebarStatus === "open") {
@@ -70,9 +70,8 @@ $(document).ready(function () {
         }
     });
 
+
     // ------------------sidobaren---------------------
-
-
     //function showUser(id) {
     //    $.ajax({
     //        type: "GET",
@@ -102,6 +101,7 @@ function showUser(userId) {
         })
         .catch(error => console.error('Error fetching user view component:', error));
 }
+
 function showUser(userId) {
     hideAllUsers();
     $('#showUserContainer_' + userId).show();
@@ -110,4 +110,28 @@ function showUser(userId) {
 function hideAllUsers() {
     $('[id^=showUserContainer_]').hide();
 }
-/*});*/
+
+
+function showProject(projectId) {
+    fetch(`/Project/projectVc?projectId=${projectId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(html => {
+            document.getElementById('ProjectContainer').innerHTML = html;
+        })
+        .catch(error => console.error('Error fetching project view component:', error));
+}
+
+function showProjectDetails(projectId) {
+    hideAllProjects();
+    $('#ProjectContainer_' + projectId).show();
+}
+
+function hideAllProjects() {
+    $('[id^=ProjectContainer_]').hide();
+}
+

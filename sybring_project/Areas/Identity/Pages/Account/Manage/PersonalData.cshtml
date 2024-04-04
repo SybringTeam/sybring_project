@@ -7,20 +7,35 @@
 
 <h3>@ViewData["Title"]</h3>
 
+<div class="row">
+    <div class="col-md-6">
 
 <form method="post">
-    <div class="form-group">
-        <label for="iceContactName">ICE Contact Name</label>
-        <input type="text" class="form-control" id="iceContactName" name="iceContactName" style="width: 300px" />
-    </div>
+            <div class="form-group">
+                <label for="iceContactName">ICE Contact Name</label>
+                <input type="text" class="form-control" id="iceContactName" name="iceContactName" style="width: 300px" value="@Model.UserData?.ICEContactName" />
+                <span>@Model.UserData?.ICEContactName</span>
+            </div>
     <div class="form-group">
         <label for="iceContactNumber">ICE Contact Number</label>
         <input type="text" class="form-control" id="iceContactNumber" name="iceContactNumber" style="width: 300px" />
     </div>
+            <div class="form-group">
+                <label for="citizenMembership">Citizen Membership</label>
+                <select class="form-control" id="citizenMembership" name="citizenMembership" multiple style="width: 300px; height: 400px">
+                    <option value="">Select Country</option>
+                </select>
+            </div>
+
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
 
+</div>
+</div>
 
+<div id="displayInfo">
+
+</div>
 
 @* <div class="row">
     <div class="col-md-6">
@@ -39,4 +54,26 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+        // Fetch data from Rest Countries API
+        fetch('https://restcountries.com/v3.1/all')
+            .then(response => response.json())
+            .then(data => {
+                // Get the select element
+                const selectElement = document.getElementById('citizenMembership');
+
+                // Loop through the data and create an option element for each country
+                data.forEach(country => {
+                    const option = document.createElement('option');
+                    option.value = country.cca2; // Use country code as value
+                    option.textContent = country.name.common; // Use country name as text content
+                    selectElement.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching countries:', error);
+            });
+    </script>
 }

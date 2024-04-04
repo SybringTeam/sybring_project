@@ -1,60 +1,22 @@
 @model IEnumerable<sybring_project.Models.Db.User>
 
     
-@* let table = new DataTable('#myTable'); *@
+
    
 <div class="frame">
 
-
     <div id="userInfoContainer">
-
-       
             @foreach (var item in Model)
             {
                 <div id="showUserContainer_@item.Id" style="display: none;">
                     <vc:show-user user-id="@item.Id"> </vc:show-user>
                 </div>
-            }
-            
-
+            }    
     </div>
-    @* <div class="adduser">
-
-        <div class="heading">name:</div>
-        <select name="selectList" id="selectList">
-            <option value="option1">Alternativ 1</option>
-            <option value="option2">Alternativ 2</option>
-            <option value="option3">Alternativ 3</option>
-            
-        </select>
-
-        <div class="heading">project:</div>
-        <select name="selectList" id="selectList">
-            <option value="option1">Alternativ 1</option>
-            <option value="option2">Alternativ 2</option>
-            <option value="option3">Alternativ 3</option>
-
-        </select>
-
-        <div class="heading">date:</div>
-        <select name="selectList" id="selectList">
-            <option value="option1">Alternativ 1</option>
-            <option value="option2">Alternativ 2</option>
-            <option value="option3">Alternativ 3</option>
-
-        </select>
-    </div> *@
-
-
     <div class="adduser">
-        @* <div class="search-container">
+      
 
-        <input type="text" id="search-bar" placeholder="Search user..">
-
-       
-         </div> *@
- 
-      <a asp-action="Create" class="btn">Create User</a>
+        <a asp-area="Identity" asp-page="/Account/Register" class="btn">Create User</a>
     </div>
 
 
@@ -62,18 +24,20 @@
     <table id="myTable" class="table">
         <thead>
             <tr>
-                <th > checkbox  </th>
-                <th > User  </th>
-                <th > Projects </th>
-                <th > Task Description  </th>
-                <th > User Name</th>
-                <th > Role</th>
-                <th > status</th>
-                <th > Actions</th>
+                    <th>
+                        <label for="preference1">
+                            <input type="checkbox" id="preference1" name="preference1"> 
+                        </label>
+                    </th>
+                <th > USER</th>
+                <th > PROJECTS</th>
+                <th > USER NAME</th>
+                <th > STATUS</th>
+                <th > ACTIONS</th>
             </tr>
         </thead>
 
-        <tbody>
+        @* <tbody> *@
             @foreach (var item in Model)
             {
                 <tr>
@@ -81,7 +45,7 @@
 
                     </td>
 
-                    <td >
+                    <td>
 
                         <a href="#" onclick="showUser('@item.Id');" class="showDetails">@item.FirstName @item.LastName</a>
 
@@ -95,11 +59,12 @@
 
                         }
                     </td>
-                    <td> </td>
-                    <td>@item.TaskDescription</td>
+
+                 
+                   
                     <td>@item.UserName</td>
                     
-                    <td> </td>
+                      <td> </td>
 
                     <td class="dropdown">
                         <span><i class="bi bi-three-dots-vertical"></i></span>
@@ -109,15 +74,18 @@
                         </div>
                        
                     </td>
+                       
                 </tr>
+                
             }
-
-    </tbody>
+    @* </tbody> *@
     </table>
 </div>
-
+<div>
+    <a asp-action="RoleView" asp-route-roleName="admin" class="btn btn-primary">View Admin Users</a>
+    <a asp-action="RoleView" asp-route-roleName="archive" class="btn btn-primary">View Archives Users</a>
+</div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 
-@*https://www.youtube.com/watch?v=8SL_hM1a0yo *@

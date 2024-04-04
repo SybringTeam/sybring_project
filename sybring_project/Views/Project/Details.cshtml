@@ -1,4 +1,4 @@
-﻿@model sybring_project.Models.Db.Project
+﻿@model sybring_project.Models.ViewModels.ProjectCompanyVM
 
 @{
     var error = TempData["ErrorMessage"];
@@ -12,81 +12,98 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
+            Project Id
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
+            @Html.DisplayFor(model => model.ProjectVM.FirstOrDefault().Id)
         </dd>
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            Project Name
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.ProjectVM.FirstOrDefault().Name)
         </dd>
-       
 
-        @*  <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.TimeId)
+        <dt class="col-sm-2">
+            Supervisor Name
         </dt>
         <dd class="col-sm-10">
-        
-        </div>
-        } *@
-
+            @Html.DisplayFor(model => model.CompanyVM.FirstOrDefault().SupervisorName)
+        </dd>
+        <dt class="col-sm-2">
+            Supervisor Phone
+        </dt>
         <dd class="col-sm-10">
-            @if (Model.ProjectHistories == null || !Model.ProjectHistories.Any())
-            {
-                <p>New user has no time to show.</p>
-
-            }
-            else
-            {
-                foreach (var item in Model.ProjectHistories)
+            @Html.DisplayFor(model => model.CompanyVM.FirstOrDefault().SupervisorPhone)
+        </dd>
+        <dt class="col-sm-2">
+            Supervisor Email
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompanyVM.FirstOrDefault().SupervisorEmail)
+        </dd>
+        <dt class="col-sm-2">
+            Organization Number
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompanyVM.FirstOrDefault().OrgNumber)
+        </dd>
+        <dt class="col-sm-2">
+            Company Website
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompanyVM.FirstOrDefault().CompanyWeb)
+        </dd>
+        <dt class="col-sm-2">
+            Company Address
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CompanyVM.FirstOrDefault().CompanyAddress)
+        </dd>
+        <dt class="col-sm-2">
+            Assignes Users
+        </dt>
+        <dd class="col-sm-10">
+           <ul>
+               @foreach (var item in Model.UserVM)
                 {
-                    <div>
-
-                        <p>User: @Html.DisplayFor(modelItem => item.TimeHistory.Users)</p>
-                        <p>Project: @Html.DisplayFor(modelItem => item.ProjectId)</p>
-                       
-                    </div>
+                    <li>@item.FirstName @item.LastName</li>
                 }
-            }
+           </ul>
         </dd>
     </dl>
 </div>
+@* 
 <div>
     <h4>Assign a User</h4>
-    <form asp-controller="Project" asp-action="Details" method="post">
+    <form asp-controller="Project" asp-action="AssignUser" method="post">
         <div class="form-group">
-            <label asp-for="Users">Select User:</label>
-            <select asp-for="Users" asp-items="@(new SelectList(ViewBag.AllUsers, "Id", "UserName"))" class="form-control">
+            <label>Select User:</label>
+            <select name="userId" class="form-control">
                 <option value="">Select a User</option>
+                @foreach (var user in ViewBag.AllUsers)
+                {
+                    <option value="@user.Id">@user.UserName</option>
+                }
             </select>
-            <span asp-validation-for="Users" class="text-danger"></span>
+            <span class="text-danger"></span>
         </div>
 
-        <input type="hidden" asp-for="Users" />
+        <input type="hidden" name="projectId" value="@Model.ProjectVM.FirstOrDefault().Id" />
 
         <button type="submit" class="btn btn-primary">Assign a User</button>
     </form>
 </div>
 
-
-</div>
-
-
-    @if (error != null)
-    {
-        <div>@error<br /></div>
-    }
-    else
-
-    {
-        <div>@added</div>
-    }
-
-
+@if (error != null)
+{
+    <div>@error<br /></div>
+}
+else
+{
+    <div>@added</div>
+} *@
 
 <div>
     <a asp-action="Index">Back to List</a>

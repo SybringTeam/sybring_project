@@ -2,8 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 using sybring_project.Repos.Services;
+
 
 namespace sybring_project.Controllers
 {
@@ -12,14 +14,18 @@ namespace sybring_project.Controllers
         private readonly IProjectServices _projectServices;
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IUserServices _userServices;
+        private readonly ICompanyServices _companyServices;
+
 
         public ProjectController(IProjectServices projectServices,
            ApplicationDbContext applicationDbContext,
-           IUserServices userServices)
+           IUserServices userServices,
+           ICompanyServices companyServices)
         {
             _applicationDbContext = applicationDbContext;
             _projectServices = projectServices;
             _userServices = userServices;
+            _companyServices = companyServices;
         }
 
 
@@ -31,12 +37,14 @@ namespace sybring_project.Controllers
 
 
         [HttpGet]
-
-
         public async Task<IActionResult> Details(int id)
         {
             var project = await _projectServices.GetProjectByIdAsync(id);
 
+            if (project == null)
+            {
+                return NotFound("Project not found.");
+            }
 
             if (project.ProjectHistories == null || !project.ProjectHistories.Any())
             {
@@ -50,17 +58,31 @@ namespace sybring_project.Controllers
                 ViewBag.AllUsers = allUsers;
             }
 
-            return View(project);
+            var company = await _companyServices.GetCompanyByProjectIdAsync(project.Id);
+
+            if (company == null)
+            {
+
+                ViewBag.ErrorMessage = "Project does not have an associated company.";
+                return View("Error");
+            }
+
+            var assignedUser = await _projectServices.GetAssignedUserForProjectAsync(project.Id);
+            var viewModel = new ProjectCompanyVM
+            {
+                ProjectVM = new List<Project> { project },
+                CompanyVM = new List<Company> { company },
+                UserVM = new List<User> { assignedUser }.ToList(),
+            };
+
+            return View(viewModel);
         }
 
 
+
         [HttpPost]
-
-
         public async Task<IActionResult> Details(string userId, int projectId)
         {
-
-
             try
             {
                 var getProject = await _projectServices.GetProjectByIdAsync(projectId);
@@ -74,6 +96,8 @@ namespace sybring_project.Controllers
                 await _projectServices.AssigUserToProjectAsync(userId, projectId);
 
                 TempData["Added"] = "This User has been assigned to the project.";
+
+
 
                 return RedirectToAction("Details", new { id = projectId });
             }
@@ -137,6 +161,16 @@ namespace sybring_project.Controllers
         }
 
 
+        public IActionResult ProjectVc(int projectId)
+        {
 
+            return ViewComponent("ShowProject", new { projectId = projectId });
+
+
+        }
     }
+
+   
+
+  
 }

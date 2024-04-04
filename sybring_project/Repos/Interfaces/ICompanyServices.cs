@@ -14,5 +14,8 @@ namespace sybring_project.Repos.Interfaces
         Task<Company> DeleteCompanyAsync(int id);
 
         Task<bool> UpdateCompanyAsync(Company company);
+
+        Task<Project> GetProjectByIdAsync(int id);
+        Task<Company> GetCompanyByProjectIdAsync(int projectId);
     }
 }
