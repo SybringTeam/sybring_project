@@ -45,13 +45,15 @@ body {
 }
 /*-------------navbar--------------*/
 .sidenav {
+    width: 250px;
     height: 100%;
     position: absolute;
     left: 0;
     background-color: #F7F7F9;
     overflow-x: hidden;
-    transition: 0.5s;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    white-space: nowrap;
+    display:block;
 }
 
 
@@ -61,7 +63,8 @@ body {
         font-size: 25px;
         color: #818181;
         display: block;
-        transition: 1.3s;
+        transition: 0.3s;
+        
     }
 
         .sidenav a:hover {
@@ -79,18 +82,18 @@ body {
 
 
     .sidenav a:hover {
-        border: 2px solid #ccc;
-        background-color: lightblue;
-        transition: 0.3s;
+        background-color: #b3b3ff;
+        transition: 0.1s;
+        color:white;
     }
 
-.navbar .openbtn {
+/*.navbar .openbtn {
     font-size: 30px;
     color: #818181;
     padding: 8px;
     cursor: pointer;
     margin-left: 15px;
-}
+}*/
 
 
 .main {
@@ -288,7 +291,7 @@ img {
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:wdth,wght@97.4,350&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 
-/*------------Index User-----------------*/
+/*Userlistan neråt*/
 .frame {
     
     background-color: white;
@@ -311,18 +314,28 @@ a :hover{
     border: 1px solid #ccc;
     width:100%;
     height:100%;
-
     padding: 10px;
     margin-top: 10px;
     background-color: #f9f9f9;
 }
 
-.table thead{
+.table thead {
     background-color: #F7F7F9;
-    width:auto;
+    width: auto;
+    color: dimgrey;
+    font-size:14px;
+    -webkit-box-shadow: inset 0px 0px 12px -7px rgba(0,0,0,0.25);
+    -moz-box-shadow: inset 0px 0px 12px -7px rgba(0,0,0,0.25);
+    box-shadow: inset 0px 0px 12px -7px rgba(0,0,0,0.25);
 }
-
+    .table thead :hover {
+        background-color: #f2f2f2;
+        
+    }
 .table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.table tr:nth-child(even):hover {
     background-color: #f2f2f2;
 }
 
@@ -334,18 +347,6 @@ a :hover{
     width: 250px;
 }
 
-    .search-container input[type="text"] {
-        flex: 1;
-        border: none;
-        padding: 8px;
-        background-color: transparent;
-        font-size: 16px;
-        outline: none;
-    }
-
-        .search-container input[type="text"]::placeholder {
-            color: #aaa;
-        }
 
 
         
@@ -368,16 +369,6 @@ a :hover{
 
 
 
-input[type=text], select {
-    width: 150px;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-/*------------Index User-----------------*/
 
 
 .adduser {
@@ -391,29 +382,64 @@ input[type=text], select {
  
 }
     .adduser a {
-        background-color: plum;
+        background-color: #b3b3ff;
         color: white;
-       
     }
-    .adduser a:hover {
+   /* .adduser a:hover {
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    }
+    }*/
 
-
+/* Userinformation neråt*/
     .userEle{
         padding:20px;
         
     }
-.userInfo {
+.userDetails {
     display: flex;
-   
+    color: dimgrey;
 }
 
 .InfoUser {
-    margin-right: 30px;
+    /* background-color: floralwhite;*/
+    padding: 10px;
+    display: grid;
+    /*  justify-items: center;*/
+    border-radius: 12px;
+    
 }
 
-/*------------login-----------------*/
+
+.InfoCompany {
+   /* background-color: lightpink;*/
+    padding: 10px;
+    display: grid;
+    border-radius: 12px;
+    /*justify-items: center;*/
+   
+}
+.frame2 {
+    display: flex;
+    flex-direction: column;
+  /*  background-color: lightslategrey;*/
+    /*  overflow:hidden;*/
+    word-wrap: break-word;
+    border-radius: 12px;
+}
+.infoDescription {
+    /*background-color: cornsilk;*/
+    padding: 10px;
+    border-radius: 12px;
+   
+}
+.InfoContact {/*
+    background-color: cadetblue;*/
+    padding: 10px;
+    display: grid;
+    border-radius: 12px;
+   
+    /* justify-items: center;*/
+}
+/*login neråt*/
 .login {
     display: flex;
 }
@@ -439,13 +465,65 @@ select {
     vertical-align: top;
     width: 100%;
 }
+/*create a user vyn*/
+.frame3 {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.buttn {
+    display: flex;
+    flex-direction: row;
+    background-color: #E8E8E8;
+    border-radius: 0px 0px 6px 6px;
+    justify-content: center;
+}
+    
+
+.registerForm1 {
+    padding: 10px;
+    margin: 7px;
+}
+
 
 /*------------login-----------------*/
 
-/*--------------index project---------------*/
-/*-----------------------------*/
-/*---------partial-----------*/
+/*.search-container input[type="text"] {
+    flex: 1;
+    border: none;
+    padding: 8px;
+    background-color: transparent;
+    font-size: 16px;
+    outline: none;
+}
 
+    .search-container input[type="text"]::placeholder {
+        color: #aaa;
+    }
+*/
 
-/*-----------------------------*/
+/*input[type=text], select {
+    width: 150px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+*/
+/*.form-group {
+    position: relative;
+    padding: 20px;
+    border: 2px solid #000;
+}
 
+    .form-group::before {
+        content: attr(data-label);
+        position: absolute;
+        top: -20px;*/ /* Justera beroende på hur stor tom yta du vill ha */
+        /*left: 50%;
+        transform: translateX(-50%);
+        background-color: white;
+        padding: 0 10px;
+    }*/

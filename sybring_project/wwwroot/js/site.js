@@ -1,8 +1,4 @@
 ﻿
-
-// ------------------sidobaren-------------
-//$(document).ready(function () {
-
 $(document).ready(function () {
     $('#myTable').DataTable({
         "scrollY": "500px",
@@ -10,12 +6,17 @@ $(document).ready(function () {
         "paging": true,
         "order": [[0, "desc"]],
         "searching": true,
+        "select": true
         
         
 
 
     });
 });
+
+window.onload = function () {
+    document.getElementById("closebtn").addEventListener("click", toggleNav);
+};
 
     function toggleNav() {
         var sidenav = document.getElementById("mySidenav");
@@ -32,6 +33,7 @@ $(document).ready(function () {
 
     }
 
+
     function openNav() {
         var sidenav = document.getElementById("mySidenav");
         sidenav.style.width = "250px";
@@ -44,7 +46,6 @@ $(document).ready(function () {
 
         localStorage.setItem("sidebarStatus", "open");
     }
-
     function closeNav() {
         var sidenav = document.getElementById("mySidenav");
         sidenav.style.width = "60px";
@@ -57,8 +58,6 @@ $(document).ready(function () {
 
         localStorage.setItem("sidebarStatus", "closed");
     }
-
-
     document.addEventListener("DOMContentLoaded", function () {
         var sidebarStatus = localStorage.getItem("sidebarStatus");
         if (sidebarStatus === "open") {
@@ -69,6 +68,7 @@ $(document).ready(function () {
             closeNav();
         }
     });
+
 
     // ------------------sidobaren---------------------
     //function showUser(id) {
