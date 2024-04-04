@@ -8,7 +8,7 @@ namespace sybring_project.Models.Db
         [Key]
         public int Id { get; set; }
 
-        public DateTime DataStamp { get; set; } = DateTime.Now;
+        public DateTime DateStamp { get; set; } = DateTime.Now;
         public string? ImageLink { get; set; }
 
         public string Description { get; set; } = string.Empty;

@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
@@ -19,15 +20,16 @@ namespace sybring_project.Repos.Services
             _db = db;
             _configuration = configuration;
         }
+
         public async Task AddBillingAsync(BillingVM billingVM, string userId)
         {
-            Billing billing = new Billing() 
+            Billing billing = new Billing()
             {
                 Id = billingVM.Id,
                 Description = billingVM.Description,
                 ImageLink = billingVM.ImageLink,
                 Cost = billingVM.Cost,
-                DataStamp = billingVM.DateStamp
+                DateStamp = billingVM.DateStamp
 
             };
             var user = await _db.Users.FindAsync(userId);
@@ -60,7 +62,9 @@ namespace sybring_project.Repos.Services
 
         public async Task<List<Billing>> GetBillingAsync()
         {
-            return _db.Billings.ToList();
+            return await _db.Billings.Include(b => b.Users)
+                                .Include(b => b.ProjectId)
+                                .ToListAsync();
         }
 
         public async Task<Billing> GetBillingByIdAsync(int id)
@@ -76,17 +80,17 @@ namespace sybring_project.Repos.Services
             return true;
         }
 
-        public async Task<ProjectBillingCompanyVM> GetProjectsAndUsersAsync() 
+        public async Task<BillingVM> GetProjectsAndUsersAsync()
         {
             var projects = await _db.Projects.ToListAsync();
-            var companies = await _db.Companies.ToListAsync();
+            //var companies = await _db.Companies.ToListAsync();
             var users = await _db.Users.ToListAsync();
 
-            return new ProjectBillingCompanyVM
+            return new BillingVM
             {
-                Projects = projects,
+                ProjectId = projects,
                 Users = users,
-                Companies = companies
+
             };
         }
 
@@ -100,7 +104,7 @@ namespace sybring_project.Repos.Services
                 .GetBlobContainerClient("sybringsstorage");
             BlobClient blobClient = blobContainerClient.GetBlobClient(uniqueFileName);
 
-            using (var stream = file.OpenReadStream()) 
+            using (var stream = file.OpenReadStream())
             {
                 blobClient.Upload(stream);
             }
@@ -116,5 +120,8 @@ namespace sybring_project.Repos.Services
             var address = blobClient.GetBlobClient(imgLink).Uri;
             return address;
         }
+
+
+
     }
 }

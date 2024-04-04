@@ -10,6 +10,8 @@ namespace sybring_project.Models.ViewModels
 
         public List<User>? Users { get; set; }
 
+        public List<Billing> Billings { get; set; }
+
 
     }
 }
