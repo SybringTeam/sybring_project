@@ -1,24 +1,17 @@
 
-$(document).ready(function () {
-    $('#myTable').DataTable({
-        "scrollY": "500px",
-        "scrollCollapse": false,
-        "paging": true,
-        "order": [[0, "desc"]],
-        "searching": true,
-        "select": true
-        
-        
-
-
-    });
-});
-
-
+//$(document).ready(function () {
+//    $('#myTable').DataTable({
+//        "scrollY": "500px",
+//        "scrollCollapse": false,
+//        "paging": true,
+//        "order": [[0, "desc"]],
+//        "searching": true,
+//        "select": true
+//    });
+//});
 window.onload = function () {
     document.getElementById("closebtn").addEventListener("click", toggleNav);
 };
-
 
     function toggleNav() {
         var sidenav = document.getElementById("mySidenav");

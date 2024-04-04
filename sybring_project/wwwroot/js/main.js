@@ -1,11 +1,4 @@
-/**
-* Template Name: NiceAdmin
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Updated: Mar 17 2024 with Bootstrap v5.3.3
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
+﻿
 $(document).ready(function () {
     $('#myTable').DataTable({
         "scrollY": "500px",
@@ -21,9 +14,7 @@ $(document).ready(function () {
 (function () {
     "use strict";
 
-    /**
-     * Easy selector helper function
-     */
+   
     const select = (el, all = false) => {
         el = el.trim()
         if (all) {
@@ -33,9 +24,7 @@ $(document).ready(function () {
         }
     }
 
-    /**
-     * Easy event listener function
-     */
+   
     const on = (type, el, listener, all = false) => {
         if (all) {
             select(el, all).forEach(e => e.addEventListener(type, listener))
@@ -45,34 +34,26 @@ $(document).ready(function () {
     }
 
 
-    /**
-     * Easy on scroll event listener 
-     */
+   
     const onscroll = (el, listener) => {
         el.addEventListener('scroll', listener)
     }
 
-    /**
-     * Sidebar toggle
-     */
+   
     if (select('.toggle-sidebar-btn')) {
         on('click', '.toggle-sidebar-btn', function (e) {
             select('body').classList.toggle('toggle-sidebar')
         })
     }
 
-    /**
-     * Search bar toggle
-     */
+    
     if (select('.search-bar-toggle')) {
         on('click', '.search-bar-toggle', function (e) {
             select('.search-bar').classList.toggle('search-bar-show')
         })
     }
 
-    /**
-     * Navbar links active state on scroll
-     */
+   
     let navbarlinks = select('#navbar .scrollto', true)
     const navbarlinksActive = () => {
         let position = window.scrollY + 200
@@ -90,9 +71,7 @@ $(document).ready(function () {
     window.addEventListener('load', navbarlinksActive)
     onscroll(document, navbarlinksActive)
 
-    /**
-     * Toggle .header-scrolled class to #header when page is scrolled
-     */
+  
     let selectHeader = select('#header')
     if (selectHeader) {
         const headerScrolled = () => {
@@ -106,9 +85,7 @@ $(document).ready(function () {
         onscroll(document, headerScrolled)
     }
 
-    /**
-     * Back to top button
-     */
+   
     let backtotop = select('.back-to-top')
     if (backtotop) {
         const toggleBacktotop = () => {
@@ -122,9 +99,7 @@ $(document).ready(function () {
         onscroll(document, toggleBacktotop)
     }
 
-    /**
-     * Initiate tooltips
-     */
+   
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
