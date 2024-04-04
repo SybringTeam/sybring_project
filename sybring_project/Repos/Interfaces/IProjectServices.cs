@@ -18,7 +18,7 @@ namespace sybring_project.Repos.Interfaces
         Task<List<string>> GetAllSupervisorsAsync(Company company);
         Task<List<Project>> GetProjectsByCompanyIdAsync(int companyId);
 
-        Task<User> GetAssignedUserForProjectAsync(int projectId);
+        Task<List<User>> GetAssignedUserForProjectAsync(int projectId);
 
 
     }

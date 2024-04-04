@@ -74,36 +74,7 @@
         </dd>
     </dl>
 </div>
-@* 
-<div>
-    <h4>Assign a User</h4>
-    <form asp-controller="Project" asp-action="AssignUser" method="post">
-        <div class="form-group">
-            <label>Select User:</label>
-            <select name="userId" class="form-control">
-                <option value="">Select a User</option>
-                @foreach (var user in ViewBag.AllUsers)
-                {
-                    <option value="@user.Id">@user.UserName</option>
-                }
-            </select>
-            <span class="text-danger"></span>
-        </div>
 
-        <input type="hidden" name="projectId" value="@Model.ProjectVM.FirstOrDefault().Id" />
-
-        <button type="submit" class="btn btn-primary">Assign a User</button>
-    </form>
-</div>
-
-@if (error != null)
-{
-    <div>@error<br /></div>
-}
-else
-{
-    <div>@added</div>
-} *@
 
 <div>
     <a asp-action="Index">Back to List</a>
