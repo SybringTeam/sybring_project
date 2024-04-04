@@ -74,7 +74,7 @@ namespace sybring_project.Controllers
 
 
 
-        [Authorize(Roles = "Admin, underconsult")]
+        //[Authorize(Roles = "Admin, underconsult")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
