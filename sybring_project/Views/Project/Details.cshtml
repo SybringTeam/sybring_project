@@ -1,4 +1,4 @@
-﻿@model sybring_project.Models.ViewModels.ProjectCompanyVM
+﻿@model sybring_project.Models.ViewModels.ProjectBillingCompanyVM
 
 @{
     var error = TempData["ErrorMessage"];
@@ -15,51 +15,51 @@
             Project Id
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProjectVM.FirstOrDefault().Id)
+            @Html.DisplayFor(model => model.Projects.FirstOrDefault().Id)
         </dd>
 
         <dt class="col-sm-2">
             Project Name
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ProjectVM.FirstOrDefault().Name)
+            @Html.DisplayFor(model => model.Projects.FirstOrDefault().Name)
         </dd>
 
         <dt class="col-sm-2">
             Supervisor Name
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CompanyVM.FirstOrDefault().SupervisorName)
+            @Html.DisplayFor(model => model.Companies.FirstOrDefault().SupervisorName)
         </dd>
         <dt class="col-sm-2">
             Supervisor Phone
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CompanyVM.FirstOrDefault().SupervisorPhone)
+            @Html.DisplayFor(model => model.Companies.FirstOrDefault().SupervisorPhone)
         </dd>
         <dt class="col-sm-2">
             Supervisor Email
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CompanyVM.FirstOrDefault().SupervisorEmail)
+            @Html.DisplayFor(model => model.Companies.FirstOrDefault().SupervisorEmail)
         </dd>
         <dt class="col-sm-2">
             Organization Number
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CompanyVM.FirstOrDefault().OrgNumber)
+            @Html.DisplayFor(model => model.Companies.FirstOrDefault().OrgNumber)
         </dd>
         <dt class="col-sm-2">
             Company Website
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CompanyVM.FirstOrDefault().CompanyWeb)
+            @Html.DisplayFor(model => model.Companies.FirstOrDefault().CompanyWeb)
         </dd>
         <dt class="col-sm-2">
             Company Address
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CompanyVM.FirstOrDefault().CompanyAddress)
+            @Html.DisplayFor(model => model.Companies.FirstOrDefault().CompanyAddress)
         </dd>
         <dt class="col-sm-2">
             Assignes Users
@@ -78,6 +78,7 @@
             {
                 <p>No users assigned</p>
             }
+
         </dd>
     </dl>
 </div>
