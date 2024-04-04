@@ -1,0 +1,23 @@
+﻿@using sybring_project.Models
+
+@{
+    ViewData["Title"] = "WeeksofYear";
+}
+
+<h1>Weeks of Year @ViewBag.Year</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Week Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var week in Model)
+        {
+            <tr>
+                <td>@week</td> 
+            </tr>
+        }
+    </tbody>
+</table>
