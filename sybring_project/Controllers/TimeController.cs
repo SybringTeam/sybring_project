@@ -24,6 +24,7 @@ namespace sybring_project.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IUserServices _userServices;
         private readonly IHolidayService _holidayService;
+        
 
 
         public TimeController(ApplicationDbContext context,
@@ -36,6 +37,7 @@ namespace sybring_project.Controllers
             _userManager = userManager;
             _userServices = userServices;
             _holidayService = holidayService;
+            
 
 
         }
@@ -85,6 +87,9 @@ namespace sybring_project.Controllers
                 startDate = startDate.AddDays(-1);
             }
 
+          
+
+
             // Generate data for the week
             for (int i = 0; i < 7; i++)
             {
@@ -95,7 +100,8 @@ namespace sybring_project.Controllers
                     StartWork = TimeSpan.FromHours(8), // Set default values for StartWork, EndWork, etc.
                     EndWork = TimeSpan.FromHours(17),
                     StartBreak = TimeSpan.FromHours(12),
-                    EndBreak = TimeSpan.FromHours(13)
+                    EndBreak = TimeSpan.FromHours(13),
+                    
                 };
                 model.Add(dayData);
             }
