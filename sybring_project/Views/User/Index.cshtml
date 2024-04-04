@@ -29,12 +29,16 @@
     <table id="myTable" class="table">
         <thead>
             <tr>
-                <th > checkbox </th>
-                <th > User</th>
-                <th > Projects</th>
-                <th > User Name</th>
-                <th > status</th>
-                <th > Actions</th>
+                    <th>
+                        <label for="preference1">
+                            <input type="checkbox" id="preference1" name="preference1"> 
+                        </label>
+                    </th>
+                <th > USER</th>
+                <th > PROJECTS</th>
+                <th > USER NAME</th>
+                <th > STATUS</th>
+                <th > ACTIONS</th>
             </tr>
         </thead>
 
@@ -46,7 +50,7 @@
 
                     </td>
 
-                    <td >
+                    <td>
 
                         <a href="#" onclick="showUser('@item.Id');" class="showDetails">@item.FirstName @item.LastName</a>
 
@@ -90,4 +94,3 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 
-@*https://www.youtube.com/watch?v=8SL_hM1a0yo *@
