@@ -60,20 +60,26 @@ namespace sybring_project.Controllers
 
             var company = await _companyServices.GetCompanyByProjectIdAsync(project.Id);
 
-            if (company == null)
+            //if (company == null)
+            //{
+            //    ViewBag.ErrorMessage = "Project does not have an associated company.";
+            //    // Return an error view or handle the error in a different way
+            //    return View("Error"); // Make sure the "Error" view expects an ErrorViewModel
+            //}
+
+            var companies = await _companyServices.GetCompanyByProjectIdAsync(project.Id);
+
+            var viewModel = new ProjectBillingCompanyVM
             {
 
-                ViewBag.ErrorMessage = "Project does not have an associated company.";
-                return View("Error");
-            }
+                Projects = new List<Project> { project },
+                Companies = company != null ? new List<Company> { company } : new List<Company>(), // Check if company is null
+                Users = await _projectServices.GetAssignedUserForProjectAsync(project.Id)
 
-            var assignedUser = await _projectServices.GetAssignedUserForProjectAsync(project.Id);
-            var viewModel = new ProjectCompanyVM
-            {
-                ProjectVM = new List<Project> { project },
-                CompanyVM = new List<Company> { company },
-                UserVM = new List<User> { assignedUser }.ToList(),
             };
+
+            // If company is null, set a message or flag in the view model
+            viewModel.CompanyNotAssigned = company == null;
 
             return View(viewModel);
         }

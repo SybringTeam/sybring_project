@@ -173,6 +173,7 @@ namespace sybring_project.Models.Seeding
             await userManager.AddToRoleAsync(useradmin6, "admin");
             await userManager.AddToRoleAsync(user, "superadmin");
             await userManager.AddToRoleAsync(userarchive, "archive");
+            await userManager.AddToRoleAsync(realuser, "underconsult");
 
         }
         private async  static Task SeedProject(ApplicationDbContext project)
