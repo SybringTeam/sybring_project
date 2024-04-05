@@ -44,8 +44,8 @@ namespace sybring_project.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(BillingVM billingVM)
         {
-            billingVM.ImageLink = Guid.NewGuid().ToString() + "_" + billingVM.File.FileName;
-            await _billingServices.UploadImageFileAsync(billingVM);
+            //billingVM.ImageLink = Guid.NewGuid().ToString() + "_" + billingVM.File.FileName;
+            //await _billingServices.UploadImageFileAsync(billingVM);
 
             var userId = _userManager.GetUserId(User);
 

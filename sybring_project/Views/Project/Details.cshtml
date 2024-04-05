@@ -1,8 +1,7 @@
 ﻿@model sybring_project.Models.ViewModels.ProjectBillingCompanyVM
 
 @{
-    var error = TempData["ErrorMessage"];
-    var added = TempData["Added"];
+   
 }
 
 <h1>Project Details</h1>
@@ -15,60 +14,132 @@
             Project Id
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Projects.FirstOrDefault().Id)
+            @if (Model.Projects.Any())
+            {
+                <ul>
+                    @foreach (var item in Model.Projects)
+                    {
+                        <li>@item.Id</li>
+                    }
+                </ul>
+
+            }
         </dd>
 
         <dt class="col-sm-2">
             Project Name
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Projects.FirstOrDefault().Name)
+            @if (Model.Projects.Any())
+            {
+                <ul>
+                    @foreach (var item in Model.Projects)
+                    {
+                        <li>@item.Name</li>
+                    }
+                </ul>
+
+            }
         </dd>
 
         <dt class="col-sm-2">
             Supervisor Name
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Companies.FirstOrDefault().SupervisorName)
+            @if (Model.Companies.Any())
+            {
+                <ul>
+                    @foreach (var item in Model.Companies)
+                    {
+                        <li>@item.SupervisorName</li>
+                    }
+                </ul>
+
+            }
         </dd>
         <dt class="col-sm-2">
             Supervisor Phone
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Companies.FirstOrDefault().SupervisorPhone)
+            @if (Model.Companies.Any())
+            {
+                <ul>
+                    @foreach (var item in Model.Companies)
+                    {
+                        <li>@item.SupervisorPhone</li>
+                    }
+                </ul>
+
+            }
         </dd>
         <dt class="col-sm-2">
             Supervisor Email
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Companies.FirstOrDefault().SupervisorEmail)
+            @if (Model.Companies.Any())
+            {
+                <ul>
+                    @foreach (var item in Model.Companies)
+                    {
+                        <li>@item.SupervisorEmail</li>
+                    }
+                </ul>
+
+            }
         </dd>
-        <dt class="col-sm-2">
-            Organization Number
-        </dt>
+
+        <dt class="col-sm-2">Organization Number</dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Companies.FirstOrDefault().OrgNumber)
+        @if (Model.Companies.Any())
+        {
+            <ul>
+                @foreach (var item in Model.Companies)
+                {
+                    <li>@item.OrgNumber</li>
+                }
+            </ul>
+
+        }
         </dd>
-        <dt class="col-sm-2">
-            Company Website
-        </dt>
+        <dt class="col-sm-2">Company Website</dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Companies.FirstOrDefault().CompanyWeb)
+        @if (Model.Companies.Any())
+        {
+            <ul>
+                @foreach (var item in Model.Companies)
+                {
+                    <li>@item.CompanyWeb</li>
+                }
+            </ul>
+
+        }
         </dd>
-        <dt class="col-sm-2">
-            Company Address
-        </dt>
+        
+        <dt class="col-sm-2">Company Address</dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Companies.FirstOrDefault().CompanyAddress)
+        
+
+            @if (Model.Companies.Any())
+            {
+             <ul>
+                 @foreach (var item in Model.Companies)
+                    {
+                        <li>@item.CompanyAddress</li>
+                    }
+                </ul>
+                
+            }
+
         </dd>
         <dt class="col-sm-2">
             Assignes Users
         </dt>
         <dd class="col-sm-10">
-            @if (Model.UserVM.Any())
+
+            @if (Model.Users.Any())
             {
-                <ul>
-                    @foreach (var item in Model.UserVM)
+                <ul>    
+                    @foreach (var item in Model.Users)
                     {
                         <li>@item.FirstName @item.LastName</li>
                     }
@@ -82,36 +153,7 @@
         </dd>
     </dl>
 </div>
-@* 
-<div>
-    <h4>Assign a User</h4>
-    <form asp-controller="Project" asp-action="AssignUser" method="post">
-        <div class="form-group">
-            <label>Select User:</label>
-            <select name="userId" class="form-control">
-                <option value="">Select a User</option>
-                @foreach (var user in ViewBag.AllUsers)
-                {
-                    <option value="@user.Id">@user.UserName</option>
-                }
-            </select>
-            <span class="text-danger"></span>
-        </div>
 
-        <input type="hidden" name="projectId" value="@Model.ProjectVM.FirstOrDefault().Id" />
-
-        <button type="submit" class="btn btn-primary">Assign a User</button>
-    </form>
-</div>
-
-@if (error != null)
-{
-    <div>@error<br /></div>
-}
-else
-{
-    <div>@added</div>
-} *@
 
 <div>
     <a asp-action="Index">Back to List</a>

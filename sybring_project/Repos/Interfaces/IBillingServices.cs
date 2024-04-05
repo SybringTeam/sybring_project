@@ -17,7 +17,7 @@ namespace sybring_project.Repos.Interfaces
 
         Task BillingUserAsync(string userId, int billingId);
 
-        Task<ProjectBillingCompanyVM> GetProjectsAndUsersAsync();
+        Task<BillingVM> GetProjectsAndUsersAsync();
 
 
 
