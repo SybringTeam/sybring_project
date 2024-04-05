@@ -6,6 +6,7 @@ using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 using sybring_project.Repos.Services;
 
+
 namespace sybring_project.Controllers
 {
     public class ProjectController : Controller
@@ -69,9 +70,11 @@ namespace sybring_project.Controllers
             var assignedUser = await _projectServices.GetAssignedUserForProjectAsync(project.Id);
             var viewModel = new ProjectBillingCompanyVM
             {
+
                 Projects = new List<Project> { project },
                 Companies = new List<Company> { company },
                Users = assignedUser
+
             };
 
             return View(viewModel);
@@ -160,6 +163,16 @@ namespace sybring_project.Controllers
         }
 
 
+        public IActionResult ProjectVc(int projectId)
+        {
 
+            return ViewComponent("ShowProject", new { projectId = projectId });
+
+
+        }
     }
+
+   
+
+  
 }
