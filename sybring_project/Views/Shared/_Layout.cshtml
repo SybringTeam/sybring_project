@@ -2,191 +2,333 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
     <title>@ViewData["Title"] - sybring_project</title>
-    <link id="theme-link" rel="stylesheet" href="/css/light-theme.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">    @* changed http to https *@
-    <link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">   @* changed http to https *@
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+  
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/lib/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+
+   
     <link rel="stylesheet" href="~/sybring_project.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/css/style.css" rel="stylesheet">
+
+   @*  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet"> *@
+
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css">
-
-@*     <link href="https://cdn.datatables.net/v/dt/dt-2.0.2/b-3.0.1/b-html5-3.0.1/date-1.5.2/fc-5.0.0/r-3.0.0/rg-1.5.0/sb-1.7.0/sl-2.0.0/sr-1.4.0/datatables.min.css" rel="stylesheet"> *@
     <link href="https://cdn.datatables.net/v/dt/dt-2.0.3/date-1.5.2/r-3.0.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/sl-2.0.0/datatables.min.css" rel="stylesheet">
-
 </head>
 
-
 <body>
-    <header class="header">
+    <header id="header" class="header fixed-top d-flex align-items-center">
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow">
-            <div class="container-fluid ">
+        <div class="d-flex align-items-center justify-content-between">
+            <a href="index.html" class="logo d-flex align-items-center">
+                <img src="/logo/Sybring_Logo-Black_1000px.png" alt="Sybring" height="48" style="max-height: 48px;" asp-area="" asp-controller="Home" asp-action="Index" />
+              
+            </a>
 
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="/logo/Sybring_Logo-Black_1000px.png" />
-                </a>
-         
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+             @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+            {
+                <i class="bi bi-list toggle-sidebar-btn"></i>
+            }
+        </div>
 
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Career">Career</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
-                            </li>
-                           
-                        }
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("admin, underconsult"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Details">TR Details</a>
-                            </li>
-                            <li class="nav-item">
+        <div class="d-flex justify-content-between">
+            <ul class="navbar-nav nav">
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Career">Career</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
+                    </li>
+                }
+                @if (User.Identity.IsAuthenticated && User.IsInRole("admin, underconsult"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Details">TR Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register as a new user</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
+                    </li>
+                }
+            </ul>
+        </div>
 
-                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register as a new user</a>
+        <nav class="header-nav ms-auto">
+            <ul class="d-flex align-items-center">
+                <li class="nav-item dropdown pe-3">
 
-                            </li>          
-
-                         }
-                         else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
+                    @if (User.Identity?.IsAuthenticated is true) 
+                    {
+                        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                            @* <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> *@
+                            <div class="rounded-circle bg-primary-subtle d-flex justify-content-center align-items-center fw-semibold" style="width: 48px; height: 48px;">
+                                @(User.Identity?.Name?.Substring(0, 2).ToUpperInvariant())
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+                            <li class="dropdown-header">
+                                <h6>Namn på inloggad</h6>
+                                <span>Admin/UK</span>
                             </li>
-                        }
-                           
-                              </ul>
-                   
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
 
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" asp-area="Identity" asp-page="/Account/Manage/Index">
+                                    <i class="bi bi-person"></i>
+                                    <span>My Profile</span>
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="">
+                                    <i class="bi bi-gear"></i>
+                                    <span>Account Settings</span>
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="">
+                                    <i class="bi bi-question-circle"></i>
+                                    <span>Need Help?</span>
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+
+                            <li>
+                                @* <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <span>Sign Out</span>
+                                </a> *@
+
+                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                    <button type="submit" class="btn btn-link">Logout</button>
+                                </form>
+                            </li>
+
+                        </ul>
+
+                    }
+                    else
+                    {
+                        <a class="nav-link nav-profile d-flex align-items-center pe-0" asp-area="Identity" asp-page="/Account/Login">
+                            Sign In
+                        </a>
+                    }
+
+                </li>
+
+            </ul>
         </nav>
-     
+
     </header>
-    @*   -----------------Sidbar---------------------  *@
-    @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+    
+     @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
     {
-        <div id="mySidenav" class="sidenav">
-            <a class="closebtn" onclick="toggleNav()"><span>&#9776;</span></a>
-            <a href="@Url.Action("Index", "User")" style="margin-top:75px;"><span class="icon-span"><i class="bi bi-search"></i></span><span class="nav-text">Search Tool</span></a>
-            <a href="@Url.Action("Index", "User")"><span class="icon-span"><i class="bi bi-person-video2"></i></span><span class="nav-text">Users</span></a>
-            <a href="@Url.Action("Index", "Project")"><span class="icon-span"><i class="bi bi-card-heading"></i></span><span class="nav-text">Projects</span></a>
-            <a href="/Identity/Account/Register"><span class="icon-span"><i class="bi bi-person-plus-fill"></i></span><span class="nav-text">Register User</span></a>
-            <a href="@Url.Action("Create", "Project")"><span class="icon-span"><i class="bi bi-file-earmark-plus"></i></span><span class="nav-text">Register Projects</span></a>
-            <a href="@Url.Action("AssignProjects", "User")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Task Manager</span></a>
-            <a href="@Url.Action("Create", "Company")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Add a Company</span></a>
+        <aside id="sidebar" class="sidebar">
 
-        </div>
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                    <a class="nav-link " href="@Url.Action("Index", "Home")" >
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>Search Tool</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="@Url.Action("Index", "User")">
+                            <i class="bi bi-circle"></i><span>User</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Index", "Project")">
+                            <i class="bi bi-circle"></i><span>Project</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="components-badges.html">
+                            <i class="bi bi-circle"></i><span>Exempel</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-journal-text"></i><span>Task Manager</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="@Url.Action("Create", "Project")">
+                            <i class="bi bi-circle"></i><span>Create Project</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("AssignProjects", "User")">
+                            <i class="bi bi-circle"></i><span>Assign Project</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Create", "Company")">
+                            <i class="bi bi-circle"></i><span>Add Company Info</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span>Exempel</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-layout-text-window-reverse"></i><span>Tillfälligt</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="">
+                                <i class="bi bi-circle"></i><span>exempel</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="bi bi-circle"></i><span> exempel</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-heading">Pages</li>
+
+            <li class="nav-item">
+                    <a class="nav-link collapsed" asp-area="Identity" asp-page="/Account/Manage/Index">
+                    <i class="bi bi-person"></i>
+                    <span>Profile</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="">
+                    <i class="bi bi-envelope"></i>
+                    <span>Contact</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-area="Identity" asp-page="/Account/Register">
+                    <i class="bi bi-card-list"></i>
+                    <span>Register</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" asp-area="Identity" asp-page="/Account/Login">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Login</span>
+                </a>
+            </li>
+
+              <li class="nav-item">
+                <a class="nav-link collapsed" href="pages-faq.html">
+                    <i class="bi bi-question-circle"></i>
+                    <span>F.A.Q</span>
+                </a>
+            </li>
+
+
+        </ul>
+
+    </aside>
     }
-    @*    -----------------Sidbar--------------------- *@
-    <div class="container" style="margin-left: 260px; margin-top: 10px ;">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <div class="col-lg  col-md col-sm">
-   <footer class="footer-distributed ">
- 
-			<div class="footer-left">
+    <main id="main" class="main">
 
-            <div class="img" style="display: flex;justify-content: left;">
-                <img src="~/logo/sybring_logo-white_1000px.png" style="margin-left: 130px;" />
-            </div>
- 
-				<p class="footer-links">
-					<a href="#">Hem</a>
-				|
-					<a href="#">Våra tjänster</a>
-                |
-					<a href="#">Karriär</a>
-                |
-					<a href="#">Nyheter</a>
-                |
-					<a href="#">Om oss</a>
-                |
-					<a href="#">Kontakt</a>
-				</p>
-
-            <p class="footer-company-name">&copy; 2024 - Sybring AB</p>
-			</div>
- 
-			<div class="footer-center">
- 
-				<div>
-                <i class="bi bi-building-fill"></i>
-                <p><span> (HQ) Vallonvägen 12, 612 30</span>Finspång, Sweden</p>
-
-				</div>
-            <div>
-                <i class="bi bi-geo-alt-fill"></i>
-                <p><span> Besöksadress: Trädgårdsgatan 6A, 4tr, 602 24</span>Norrköping, Sweden</p>
-
-            </div>
- 
-				<div>
-                <i class="bi bi-telephone-fill"></i>
-                <p>+46 70-670 07 07</p>
-				</div>
- 
-				<div>
-					<i class="bi bi-envelope-fill"></i>
-                <p><a href="contact@sybring.com">contact@sybring.com</a></p>
-				</div>
- 
-			</div>
- 
-			<div class="footer-right">
- 
-				<p class="footer-company-about">
-					<span>Om vårat företag</span>
-                Vi på Sybring lägger stor vikt vid att säkerställa att varje uppdrag får den bäst lämpade konsulten för att möta specifika behov och krav.
-				</p>
- 
-				<div class="footer-icons">
-               
-                <a href="https://www.facebook.com/Sybring"><i class="bi bi-facebook"></i></a>
-                <a href="https://www.linkedin.com/in/sybring-ab-604696178/"><i class="bi bi-linkedin"></i></a>
-                <a href="contact@sybring.com"><i class="bi bi-envelope-at-fill"></i></a>
-				
- 
-				</div>
- 
-			</div>
- 
-		</footer>
+        <div class="pagetitle">
+            <h1>Dashboard</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </nav>
         </div>
+
+        <section class="section dashboard">
+            @RenderBody()
+        </section>
+
+    </main>
+
+
+
+    <footer id="footer" class="footer">
+        <div class="copyright">
+            &copy; Copyright <strong><span>Sybring</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
   
-
-
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
 
-   @*  <script src="https://cdn.datatables.net/v/dt/dt-2.0.3/date-1.5.2/r-3.0.0/sc-2.4.1/sb-1.7.0/sp-2.3.0/sl-2.0.0/datatables.min.js"> *@
-    <script src='https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js'></script>
+  
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>
+
 </html>
