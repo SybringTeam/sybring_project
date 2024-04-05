@@ -160,6 +160,22 @@
             </ul>
         </nav>
 
+        @*   -----------------Sidbar---------------------  *@
+          @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+        {
+            <div id="mySidenav" class="sidenav" >
+                <a class="closebtn" onclick="toggleNav()"><span>&#9776;</span></a>
+                <a href="@Url.Action("Index", "User")"  "User")"><spanstyle="margin-top:75px;"><span class="icon-span"><i class="bi bi-search"></i></span><span class="nav-text">Search Tool</span></a>
+                <a href="@Url.Action("Index", class="icon-span"><i class="bi bi-person-video2"></i></span><span class="nav-text">Users</span></a>
+                <a href="@Url.Action("Index", "Project")"><span class="icon-span"><i class="bi bi-card-heading"></i></span><span class="nav-text">Projects</span></a>
+                <a href="/Identity/Account/Register"><span class="icon-span"><i class="bi bi-person-plus-fill"></i></span><span class="nav-text">Register User</span></a>
+                <a href="@Url.Action("Create", "Project")"><span class="icon-span"><i class="bi bi-file-earmark-plus"></i></span><span class="nav-text">Register Projects</span></a>
+                <a href="@Url.Action("AssignProjects", "User")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Task Manager</span></a>
+                <a href="@Url.Action("Create", "Company")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Add a Company</span></a>
+                <a href="@Url.Action("Create", "Billing")"><span class="icon-span"><i class="bi bi-ui-checks"></i></span><span class="nav-text">Add a Billing</span></a>
+             
+
+
     </header>
     
      @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))

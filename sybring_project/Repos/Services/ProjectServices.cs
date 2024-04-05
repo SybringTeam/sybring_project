@@ -69,7 +69,8 @@ namespace sybring_project.Repos.Services
 
         public async Task<List<Project>> GetProjectsAsync()
         {
-            return await _db.Projects.Include(p => p.Users).ToListAsync();
+            return await _db.Projects.Include(p => p.Users)
+                .ToListAsync();
         }
 
         public async Task<bool> UpdateProjectAsync(Project project)
@@ -98,8 +99,6 @@ namespace sybring_project.Repos.Services
 
             var supervisors = companyWithSupervisorNames.Split(',').ToList();
             return supervisors;
-
-
         }
 
         public async Task<List<Project>> GetProjectsByCompanyIdAsync(int companyId)
@@ -112,16 +111,12 @@ namespace sybring_project.Repos.Services
         }
 
 
-        public async Task<User> GetAssignedUserForProjectAsync(int projectId)
+        public async Task<List<User>> GetAssignedUserForProjectAsync(int projectId)
         {
             var user = await _db.Users
-                  .Include(u => u.ProjectId)
-                  .FirstOrDefaultAsync(u => u.ProjectId.Any(p => p.Id == projectId));
-
-            if (user == null)
-            {
-                throw new InvalidOperationException($"User assigned to project with ID {projectId} not found.");
-            }
+           .Include(u => u.ProjectId)
+           .Where(u => u.ProjectId.Any(p => p.Id == projectId))
+           .ToListAsync();
 
             return user;
         }

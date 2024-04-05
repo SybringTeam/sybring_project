@@ -28,7 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
+
     <Folder Include="wwwroot\davidshimjs-qrcodejs-04f46c6\davidshimjs-qrcodejs-04f46c6\" />
+
+    <Folder Include="wwwroot\logo\Icons\" />
+
   </ItemGroup>
 
 </Project>
