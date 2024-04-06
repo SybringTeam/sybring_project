@@ -114,35 +114,45 @@ namespace sybring_project.Repos.Services
 
         public async Task<bool> UpdateUserAsync(User user)
         {
-
             try
             {
-                _db.Update(user);
+                var userInDb = await _db.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+
+                if (userInDb == null)
+                {
+                    // Handle case where the user doesn't exist
+                    return false;
+                }
+                // Update properties
+                userInDb.FirstName = user.FirstName;
+                userInDb.LastName = user.LastName;
+                userInDb.Age = user.Age;
+                userInDb.Address = user.Address;
+                userInDb.TaskDescription = user.TaskDescription;
+                userInDb.UserIncome = user.UserIncome;
+                userInDb.CitizenMembership = user.CitizenMembership;
+                userInDb.DOB = user.DOB;
+                userInDb.UserPersonalNumber = user.UserPersonalNumber;
+                userInDb.ICEContactName = user.ICEContactName;
+                userInDb.UserICE = user.UserICE;
+                userInDb.Seller = user.Seller;
+                userInDb.ImageLink = user.ImageLink;
+                userInDb.Email = user.Email; // Update Email property
+
                 await _db.SaveChangesAsync();
                 return true;
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                var entry = ex.Entries.Single();
-                var databaseEntry = entry.GetDatabaseValues();
-
-                if (databaseEntry == null)
-                {
-                    // Handle the case where the entity has been deleted
-                    // You may choose to return false or throw an exception
-                    return false;
-                }
-                else
-                {
-                    // Handle the case where the entity has been modified
-                    // Refresh the entry in the context and attempt to save changes again
-                    entry.OriginalValues.SetValues(databaseEntry);
-                    await _db.SaveChangesAsync();
-                    return true;
-                }
+                // Handle concurrency exception
+                return false;
             }
-
         }
+
+                
+            
+
+        
 
 
 
