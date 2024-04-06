@@ -55,7 +55,7 @@
                     <option value="">Select a user</option>
                     @foreach (var user in Model.Users)
                     {
-                        <option value="@user.Id">@user.UserName</option>
+                        <option value="@user.Id">@user.FirstName @user.FirstName || @user.UserName</option>
                     }
                 </select>
                 <span asp-validation-for="Users" class="text-danger"></span>
@@ -81,6 +81,10 @@
             </div>
         </form>
     </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 <script>

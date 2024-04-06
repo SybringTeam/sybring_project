@@ -42,14 +42,14 @@ namespace sybring_project.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(BillingVM billingVM)
+        public async Task<IActionResult> Create(BillingVM billingVM, int projectId)
         {
             //billingVM.ImageLink = Guid.NewGuid().ToString() + "_" + billingVM.File.FileName;
             //await _billingServices.UploadImageFileAsync(billingVM);
 
             var userId = _userManager.GetUserId(User);
-
-            await _billingServices.AddBillingAsync(billingVM, userId);
+          
+            await _billingServices.AddBillingAsync(billingVM, userId, projectId);
             return RedirectToAction("Index");
         }
 
@@ -61,7 +61,7 @@ namespace sybring_project.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            await _billingServices.DeleteCompanyAsync(id);
+            await _billingServices.DeleteBillingAsync(id);
             return RedirectToAction("Index");
         }
 
@@ -69,6 +69,7 @@ namespace sybring_project.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var billingEdit = await _billingServices.GetBillingByIdAsync(id);
+          
             return View(billingEdit);
         }
 

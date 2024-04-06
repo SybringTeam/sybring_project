@@ -87,10 +87,8 @@ namespace sybring_project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(User user)
         {
-
             await _userServices.UpdateUserAsync(user);
             return RedirectToAction("Index");
-
         }
 
         [HttpGet]
@@ -185,7 +183,7 @@ namespace sybring_project.Controllers
             return View(viewModel);
         }
 
-        
+
         // POST: UserController/AssignProjects
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -197,7 +195,7 @@ namespace sybring_project.Controllers
                 foreach (var projectId in viewModel.SelectedProjectIds)
                 {
                     await _userServices.TaskManager(userId, projectId);
-                   
+
                 }
                 TempData["Added"] = "This Project has been assigned.";
 
@@ -221,7 +219,7 @@ namespace sybring_project.Controllers
             var user = await _applicationDbContext.Users.FindAsync(userId);
             if (user == null)
             {
-               
+
                 return NotFound();
             }
             await _emailSender.SendEmailAsync(user.Email, subject, htmlMessage);

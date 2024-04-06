@@ -7,11 +7,11 @@ namespace sybring_project.Repos.Interfaces
     {
         Task<List<Billing>> GetBillingAsync();
 
-        Task AddBillingAsync(BillingVM billingVM, string userId);
+        Task AddBillingAsync(BillingVM billingVM, string userId, int projectId);
 
         Task<Billing> GetBillingByIdAsync(int id);
 
-        Task<Billing> DeleteCompanyAsync(int id);
+        Task<Billing> DeleteBillingAsync(int id);
 
         Task<bool> UpdateCompanyAsync(Billing billing);
 
@@ -22,6 +22,8 @@ namespace sybring_project.Repos.Interfaces
 
 
         Task<string> UploadImageFileAsync(BillingVM billingVM);
+
+        
 
     }
 }

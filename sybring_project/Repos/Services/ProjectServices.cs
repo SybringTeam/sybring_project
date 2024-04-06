@@ -77,7 +77,7 @@ namespace sybring_project.Repos.Services
         {
             try
             {
-                _db.Entry(project).State = EntityState.Modified;
+                _db.Projects.Update(project);
                 await _db.SaveChangesAsync();
                 return true;
             }

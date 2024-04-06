@@ -6,6 +6,7 @@ using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Project = sybring_project.Models.Db.Project;
 
 namespace sybring_project.Repos.Services
 {
@@ -13,15 +14,18 @@ namespace sybring_project.Repos.Services
     {
         private readonly ApplicationDbContext _db;
         private readonly IConfiguration _configuration;
+        private readonly IProjectServices _projectServices;
 
 
-        public BillingServices(ApplicationDbContext db, IConfiguration configuration)
+        public BillingServices(ApplicationDbContext db, IConfiguration configuration,
+            IProjectServices projectServices)
         {
             _db = db;
             _configuration = configuration;
+            _projectServices = projectServices;
         }
 
-        public async Task AddBillingAsync(BillingVM billingVM, string userId)
+        public async Task AddBillingAsync(BillingVM billingVM, string userId, int projectId)
         {
             Billing billing = new Billing()
             {
@@ -29,12 +33,17 @@ namespace sybring_project.Repos.Services
                 Description = billingVM.Description,
                 ImageLink = billingVM.ImageLink,
                 Cost = billingVM.Cost,
-                DateStamp = billingVM.DateStamp
+                DateStamp = billingVM.DateStamp,
+                ProjectId = new List<Project>()
+
 
             };
             var user = await _db.Users.FindAsync(userId);
 
             billing.Users = new List<User> { user };
+
+            var project = await _db.Projects.FindAsync(projectId);
+            billing.ProjectId = new List<Project> { project };
 
             await _db.AddAsync(billing);
             await _db.SaveChangesAsync();
@@ -52,9 +61,15 @@ namespace sybring_project.Repos.Services
             }
         }
 
-        public async Task<Billing> DeleteCompanyAsync(int id)
+        public async Task<Billing> DeleteBillingAsync(int id)
         {
             var delBilling = await _db.Billings.FindAsync(id);
+
+            var associatedProject = _db.Projects.Where(p => p.BillingId == id);
+            foreach (var item in associatedProject)
+            {
+                item.BillingId = null;
+            }
             _db.Billings.Remove(delBilling);
             await _db.SaveChangesAsync();
             return delBilling;
@@ -69,7 +84,9 @@ namespace sybring_project.Repos.Services
 
         public async Task<Billing> GetBillingByIdAsync(int id)
         {
-            var billing = await _db.Billings.FindAsync(new { id });
+            var billing = await _db.Billings.Include(b => b.ProjectId)
+                .Include(b => b.Users)
+                .FirstOrDefaultAsync(b => b.Id == id);
             return billing;
         }
 
@@ -122,6 +139,6 @@ namespace sybring_project.Repos.Services
         }
 
 
-
+       
     }
 }
