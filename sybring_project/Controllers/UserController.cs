@@ -126,7 +126,7 @@ namespace sybring_project.Controllers
             await _userServices.AssignProjectToUserAsync(userId, projectId);
 
 
-            TempData["Added"] = "This Project has been assigned.";
+            //TempData["Added"] = "This Project has been assigned.";
 
             return RedirectToAction("Details", new { id = userId });
             //return PartialView("~/Views/Shared/_UserDetailsPartial.cshtml");
@@ -195,6 +195,18 @@ namespace sybring_project.Controllers
                 foreach (var projectId in viewModel.SelectedProjectIds)
                 {
                     await _userServices.TaskManager(userId, projectId);
+                    // Get the user's email address
+                    var user = await _userServices.GetUserByIdAsync(userId);
+                    var userEmail = user.Email;
+
+                    // Get the project's name
+                    var project = await _userServices.GetProjectByIdAsync(projectId);
+                    var projectName = project.Name;
+
+                    await _emailSender.SendEmailAsync(userEmail, "You've been assigned to a project",
+                    $"Hello {user.FirstName},\n\nYou've been assigned to the project: " +
+                    $"{projectName}.\n\nRegards,\n\n Sybring AB"); 
+
 
                 }
                 TempData["Added"] = "This Project has been assigned.";
