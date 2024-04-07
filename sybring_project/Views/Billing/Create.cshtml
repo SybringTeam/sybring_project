@@ -3,6 +3,70 @@
 
 <hr />
 
+<section>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Add Billing</h5>
+
+
+            <form asp-action="Create" enctype="multipart/form-data" method="post" class="row g-3">
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <input asp-for="DateStamp" type="textarea" class="form-control" id="floatingDateStamp" placeholder="Date Stamp">
+                        <label for="floatingDateStamp">Date Stamp</label>
+                        <span asp-validation-for="DateStamp" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input asp-for="Description" class="form-control" id="floatingDescription" placeholder="Description">
+                        <label for="floatingDescription">Description</label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <select asp-for="ProjectId" class="form-select" id="floatingProjectId" aria-label="Project">
+                            <option value="">Select a project</option>
+                            @foreach (var project in Model.ProjectId)
+                            {
+                                <option value="@project.Id">@project.Name</option>
+                            }
+                        </select>
+                        <label for="floatingProjectId">Project:</label>
+                        <span asp-validation-for="ProjectId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <select asp-for="SelectedUserId" class="form-select" id="floatingSelectedUserId" aria-label="User">
+                            <option value="">Select a user</option>
+                            @foreach (var user in Model.Users)
+                            {
+                                <option value="@user.Id">@user.FirstName @user.LastName || @user.UserName</option>
+                            }
+                        </select>
+                        <label for="floatingSelectedUserId">Select User:</label>
+                        <span asp-validation-for="SelectedUserId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-floating">
+                        <input asp-for="Cost" class="form-control" id="floatingCost" placeholder="Cost">
+                        <label for="floatingCost">Cost</label>
+                        <span asp-validation-for="Cost" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-12 text-center">
+                    <input type="hidden" name="projectId" value="@Model.ProjectId" />
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data" method="post">
@@ -37,16 +101,16 @@
                 <span asp-validation-for="ProjectId" class="text-danger"></span>
             </div>
 
-           @*  <div class="form-group">
-                <label asp-for="Companies" class="control-label">Company</label>
-                <select asp-for="Companies" class="form-control">
-                    <option value="">Select a company</option>
-                    @foreach (var company in Model.Companies)
-                    {
-                        <option value="@company.Id">@company.Project</option>
-                    }
-                </select>
-                <span asp-validation-for="Companies" class="text-danger"></span>
+            @*  <div class="form-group">
+            <label asp-for="Companies" class="control-label">Company</label>
+            <select asp-for="Companies" class="form-control">
+            <option value="">Select a company</option>
+            @foreach (var company in Model.Companies)
+            {
+            <option value="@company.Id">@company.Project</option>
+            }
+            </select>
+            <span asp-validation-for="Companies" class="text-danger"></span>
             </div> *@
 
             <div class="form-group">
@@ -61,25 +125,25 @@
                 <span asp-validation-for="SelectedUserId" class="text-danger"></span>
             </div>
 
-          
 
 
-           @*  <div class="form-group">
-                <dl>
-                    <dt>
-                        <label asp-for="File"></label>
-                    </dt>
-                    <dd>
-                        <input asp-for="File" type="file">
-                        <img src="@Model.File" alt="Image Preview" height="100" width="100" />
-                        <span asp-validation-for="File"></span>
 
-                    </dd>
-                </dl>
-                <input asp-page-handler="Upload" class="btn btn-primary" type="submit" value="Upload and Save" onclick="typevalfunc()" />
- *@
+            @*  <div class="form-group">
+            <dl>
+            <dt>
+            <label asp-for="File"></label>
+            </dt>
+            <dd>
+            <input asp-for="File" type="file">
+            <img src="@Model.File" alt="Image Preview" height="100" width="100" />
+            <span asp-validation-for="File"></span>
 
-   <input type="hidden" name="projectId" value="@Model.ProjectId" />
+            </dd>
+            </dl>
+            <input asp-page-handler="Upload" class="btn btn-primary" type="submit" value="Upload and Save" onclick="typevalfunc()" />
+            *@
+
+            <input type="hidden" name="projectId" value="@Model.ProjectId" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -95,8 +159,8 @@
     function typevalfunc() {
         document.getElementById("File").click();
     }
-                      
 
-                        }
+
+                                }
 
 </script>
