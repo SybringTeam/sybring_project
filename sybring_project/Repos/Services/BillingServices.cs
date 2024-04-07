@@ -89,6 +89,7 @@ namespace sybring_project.Repos.Services
                 // If the user is an admin, retrieve all billing data
                 return await _db.Billings
                     .Include(b => b.Users)
+                    .Include(b => b.ProjectId)
                     .ToListAsync();
             }
             else
@@ -96,6 +97,7 @@ namespace sybring_project.Repos.Services
                 // If the user is not an admin, retrieve only their own billing data
                 return await _db.Billings
                     .Include(b => b.Users)
+                    .Include(b => b.ProjectId)
                     .Where(b => b.Users.Any(u => u.Id == userId))
                     .ToListAsync();
             }
