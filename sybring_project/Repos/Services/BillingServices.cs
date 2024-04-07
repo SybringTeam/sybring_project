@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
@@ -15,14 +16,16 @@ namespace sybring_project.Repos.Services
         private readonly ApplicationDbContext _db;
         private readonly IConfiguration _configuration;
         private readonly IProjectServices _projectServices;
+        private readonly UserManager<User> _userManager;
 
 
         public BillingServices(ApplicationDbContext db, IConfiguration configuration,
-            IProjectServices projectServices)
+            IProjectServices projectServices, UserManager<User> userManager)
         {
             _db = db;
             _configuration = configuration;
             _projectServices = projectServices;
+            _userManager = userManager;
         }
 
         public async Task AddBillingAsync(BillingVM billingVM, string userId, int projectId)
@@ -79,12 +82,25 @@ namespace sybring_project.Repos.Services
 
         public async Task<List<Billing>> GetBillingAsync(string userId)
         {
-            var billingList = await _db.Billings
-                               .Include(b => b.Users)
-                               .Where(b => b.Users.Any(u => u.Id == userId))
-                               .ToListAsync();
-            return billingList;
+            var currentUser = await _userManager.FindByIdAsync(userId);
+
+            if (await _userManager.IsInRoleAsync(currentUser, "Admin"))
+            {
+                // If the user is an admin, retrieve all billing data
+                return await _db.Billings
+                    .Include(b => b.Users)
+                    .ToListAsync();
+            }
+            else
+            {
+                // If the user is not an admin, retrieve only their own billing data
+                return await _db.Billings
+                    .Include(b => b.Users)
+                    .Where(b => b.Users.Any(u => u.Id == userId))
+                    .ToListAsync();
+            }
         }
+
 
         public async Task<Billing> GetBillingByIdAsync(int id)
         {

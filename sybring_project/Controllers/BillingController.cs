@@ -43,8 +43,7 @@ namespace sybring_project.Controllers
         {
             var viewModel = await _billingServices.GetProjectsAndUsersAsync();
             return View(viewModel);
-
-            
+                        
         }
 
         [HttpPost]
