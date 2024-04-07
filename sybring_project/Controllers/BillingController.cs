@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using sybring_project.Data;
+using sybring_project.Migrations;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
@@ -26,13 +28,17 @@ namespace sybring_project.Controllers
             _userServices = userServices;
             _userManager = userManager;
         }
+
+       
         public async Task<IActionResult>Index()
         {
-            var billingList = await _billingServices.GetBillingAsync();
+            var userId = _userManager.GetUserId(User);
+            var billingList = await _billingServices.GetBillingAsync(userId);
             return View(billingList);
         }
 
         [HttpGet]
+        
         public async Task<IActionResult> Create() 
         {
             var viewModel = await _billingServices.GetProjectsAndUsersAsync();
@@ -42,23 +48,27 @@ namespace sybring_project.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(BillingVM billingVM, int projectId)
+      
+        public async Task<IActionResult> Create(BillingVM billingVM, int projectId, string selectedUserId)
         {
             //billingVM.ImageLink = Guid.NewGuid().ToString() + "_" + billingVM.File.FileName;
             //await _billingServices.UploadImageFileAsync(billingVM);
 
-            var userId = _userManager.GetUserId(User);
+            var adminUserId = _userManager.GetUserId(User);
+                        
           
-            await _billingServices.AddBillingAsync(billingVM, userId, projectId);
+            await _billingServices.AddBillingAsync(billingVM, selectedUserId, projectId);
             return RedirectToAction("Index");
         }
 
+       
         public async Task<IActionResult> Details(int id) 
         {
             var byId = await _billingServices.GetBillingByIdAsync(id);
             return View(byId);
         }
 
+       
         public async Task<IActionResult> Delete(int id)
         {
             await _billingServices.DeleteBillingAsync(id);
@@ -66,6 +76,7 @@ namespace sybring_project.Controllers
         }
 
         [HttpGet]
+        
         public async Task<IActionResult> Edit(int id)
         {
             var billingEdit = await _billingServices.GetBillingByIdAsync(id);
@@ -74,17 +85,14 @@ namespace sybring_project.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, underconsult")]
         public async Task<IActionResult> Edit(Billing billing)
         {
             await _billingServices.UpdateCompanyAsync(billing);
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> AssignUserBillingAsync(string userId, int billingId) 
-        {
-            await _billingServices.BillingUserAsync(userId, billingId);
-            return RedirectToAction("Index");
-        }
+    
 
     }
 }

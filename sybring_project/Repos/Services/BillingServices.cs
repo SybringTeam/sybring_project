@@ -34,16 +34,18 @@ namespace sybring_project.Repos.Services
                 ImageLink = billingVM.ImageLink,
                 Cost = billingVM.Cost,
                 DateStamp = billingVM.DateStamp,
-                ProjectId = new List<Project>()
+              
+                ProjectId = new List<Project>(),
+                Users = new List<User>()
 
 
             };
-            var user = await _db.Users.FindAsync(userId);
-
-            billing.Users = new List<User> { user };
-
+           
             var project = await _db.Projects.FindAsync(projectId);
             billing.ProjectId = new List<Project> { project };
+
+            var user = await _db.Users.FindAsync(userId);
+            billing.Users = new List<User> { user };
 
             await _db.AddAsync(billing);
             await _db.SaveChangesAsync();
@@ -75,11 +77,13 @@ namespace sybring_project.Repos.Services
             return delBilling;
         }
 
-        public async Task<List<Billing>> GetBillingAsync()
+        public async Task<List<Billing>> GetBillingAsync(string userId)
         {
-            return await _db.Billings.Include(b => b.Users)
-                                .Include(b => b.ProjectId)
-                                .ToListAsync();
+            var billingList = await _db.Billings
+                               .Include(b => b.Users)
+                               .Where(b => b.Users.Any(u => u.Id == userId))
+                               .ToListAsync();
+            return billingList;
         }
 
         public async Task<Billing> GetBillingByIdAsync(int id)
@@ -139,6 +143,6 @@ namespace sybring_project.Repos.Services
         }
 
 
-       
+
     }
 }

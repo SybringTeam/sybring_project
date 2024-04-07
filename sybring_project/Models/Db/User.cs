@@ -33,6 +33,7 @@ namespace sybring_project.Models.Db
         [NotMapped]
         public IFormFile? File { get; set; }
 
+     
         public virtual ICollection<Project>? ProjectId { get; set; }
 
         public virtual ICollection<TimeHistory>? TimeId { get; set; }

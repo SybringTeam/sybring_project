@@ -5,7 +5,7 @@ namespace sybring_project.Repos.Interfaces
 {
     public interface IBillingServices
     {
-        Task<List<Billing>> GetBillingAsync();
+        Task<List<Billing>> GetBillingAsync(string userId);
 
         Task AddBillingAsync(BillingVM billingVM, string userId, int projectId);
 
