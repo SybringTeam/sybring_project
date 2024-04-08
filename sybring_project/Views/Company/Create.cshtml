@@ -7,7 +7,7 @@
 
 <hr />
 <section>
-    <div class="container col-md-6">
+    <div class="container col-md-5">
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Add Company</h5>
@@ -16,7 +16,7 @@
 
                     <div class="mb-2">
                         <div class="form-floating">
-                            <select asp-for="ProjectId" class="form-select" style="width: 300px">
+                            <select asp-for="ProjectId" class="form-select" >
                                 <option value="">Select a Project</option>
                                 @foreach (var project in ViewBag.Projects)
                                 {

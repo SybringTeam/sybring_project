@@ -47,11 +47,11 @@ $(document).ready(function () {
     }
 
     
-    if (select('.search-bar-toggle')) {
-        on('click', '.search-bar-toggle', function (e) {
-            select('.search-bar').classList.toggle('search-bar-show')
-        })
-    }
+    //if (select('.search-bar-toggle')) {
+    //    on('click', '.search-bar-toggle', function (e) {
+    //        select('.search-bar').classList.toggle('search-bar-show')
+    //    })
+    //}
 
    
     let navbarlinks = select('#navbar .scrollto', true)

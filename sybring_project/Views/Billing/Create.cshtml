@@ -27,7 +27,7 @@
 
                     <div class=" mb-2">
                         <div class="form-floating">
-                            <select asp-for="ProjectId" class="form-select" id="floatingProjectId" aria-label="Project" >
+                            <select asp-for="ProjectId" id="floatingProjectId" aria-label="Project" class="form-select" multiple>
                                 @foreach (var project in Model.ProjectId)
                                 {
                                     <option value="@project.Id">@project.Name</option>

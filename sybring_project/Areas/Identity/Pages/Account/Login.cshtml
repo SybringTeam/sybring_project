@@ -6,13 +6,20 @@
 }
 
 <h1>@ViewData["Title"]</h1>
-<div class="containerlayout">
-    <div class="row">
-        <div class="col-md-7">
+
+<div class="container ">
+    <div class="row  justify-content-center">
+        <div class="col-md-6">
             <section>
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Log In</h5>
+                        <div class="pt-4 pb-2">
+                            <div class="container d-flex justify-content-center">
+                                <img src="~/logo/sybring_logo-black_1000px.png" height="50" width="auto" />
+                            </div>
+                            <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
+                            <p class="text-center small">Enter your username &amp; password to login</p>
+                        </div>
                         <form id="account" method="post" class="row g-3">
                             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                             <div class="col-12">
@@ -53,7 +60,7 @@
             <section>
                 <h1>Log In</h1>
                 <form id="account" method="post">
-                    
+
                     <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                     <div class="form-floating mb-3">
                         <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
