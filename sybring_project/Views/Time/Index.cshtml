@@ -12,6 +12,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>User Name</th>
                 <th>Date</th>
                 <th>StartWork</th>
                 <th>EndWork</th>
@@ -38,6 +39,14 @@
             {
                 <tr>
                     <td>@timeHistory.Id</td>
+                    <td>
+                        @foreach (var user in timeHistory.Users)
+                        {
+                            <span>@user.FirstName @user.LastName</span>
+
+                            <br />
+                        }
+                    </td>
                     <td>@timeHistory.Date</td>
                     <td>@timeHistory.StartWork</td>
                     <td>@timeHistory.EndWork</td>

@@ -44,9 +44,10 @@ namespace sybring_project.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var list = await _timeService.GetTimeListAsync();
+            var userId = _userManager.GetUserId(User);
+            var timeList = await _timeService.GetTimeListAsync(userId);
 
-            return View(list);
+            return View(timeList);
         }
 
 
@@ -74,7 +75,7 @@ namespace sybring_project.Controllers
 
 
 
-        [Authorize(Roles = "Admin, underconsult")]
+        //[Authorize(Roles = "Admin, underconsult")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
