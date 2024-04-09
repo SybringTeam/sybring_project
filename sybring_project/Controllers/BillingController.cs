@@ -84,7 +84,7 @@ namespace sybring_project.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, underconsult")]
+       
         public async Task<IActionResult> Edit(Billing billing)
         {
             await _billingServices.UpdateCompanyAsync(billing);
