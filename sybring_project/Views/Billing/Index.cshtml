@@ -28,8 +28,9 @@
             <th>
                 Project Name
             </th>
+           
             <th>
-                Users
+                User Name
             </th>
             <th>Action</th>
         </tr>
@@ -58,7 +59,7 @@
                     <ul>
                         @foreach (var user in item.ProjectId)
                         {
-                            <li>@user.Name</li>
+                                <li>@user.Name</li>
                         }
                     </ul>
                 }
@@ -74,7 +75,9 @@
                         <ul>
                             @foreach (var user in item.Users)
                             {
+                                <li>@user.FirstName @user.LastName</li>
                                 <li>@user.UserName</li>
+                                
                             }
                         </ul>
                     }

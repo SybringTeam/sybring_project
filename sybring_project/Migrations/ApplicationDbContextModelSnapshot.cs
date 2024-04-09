@@ -225,6 +225,9 @@ namespace sybring_project.Migrations
                     b.Property<string>("ImageLink")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SelectedUserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Billings");
@@ -600,9 +603,11 @@ namespace sybring_project.Migrations
 
             modelBuilder.Entity("sybring_project.Models.Db.Project", b =>
                 {
-                    b.HasOne("sybring_project.Models.Db.Billing", null)
+                    b.HasOne("sybring_project.Models.Db.Billing", "Billing")
                         .WithMany("ProjectId")
                         .HasForeignKey("BillingId");
+
+                    b.Navigation("Billing");
                 });
 
             modelBuilder.Entity("sybring_project.Models.Db.ProjectTimeReport", b =>

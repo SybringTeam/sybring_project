@@ -42,8 +42,6 @@ namespace sybring_project.ViewComponents
             }
             catch (InvalidOperationException ex)
             {
-                // Handle the case where the user is not found
-                // For example, you could return a view indicating that the user was not found
                 return View("UserNotFound");
             }
         }

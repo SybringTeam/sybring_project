@@ -14,7 +14,9 @@ namespace sybring_project.Models.ViewModels
 
         public double Cost { get; set; }
 
+        public string UserId { get; set; }
 
+        public string SelectedUserId { get; set; }
         public IFormFile File { get; set; }
         public virtual ICollection<Project> ProjectId { get; set; }
         public virtual ICollection<User> Users { get; set; }

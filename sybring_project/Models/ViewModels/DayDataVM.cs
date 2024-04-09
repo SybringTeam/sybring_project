@@ -25,7 +25,7 @@ namespace sybring_project.Models.ViewModels
         public ICollection<ProjectTimeReport> ProjectHistories { get; set; }
         public ICollection<User> Users { get; set; }
 
-
+        public bool IsRedDay { get; set; }
 
     }
 

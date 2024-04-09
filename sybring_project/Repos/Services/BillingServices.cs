@@ -1,4 +1,5 @@
 ﻿using Azure.Storage.Blobs;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
@@ -6,6 +7,7 @@ using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Project = sybring_project.Models.Db.Project;
 
 namespace sybring_project.Repos.Services
 {
@@ -13,15 +15,20 @@ namespace sybring_project.Repos.Services
     {
         private readonly ApplicationDbContext _db;
         private readonly IConfiguration _configuration;
+        private readonly IProjectServices _projectServices;
+        private readonly UserManager<User> _userManager;
 
 
-        public BillingServices(ApplicationDbContext db, IConfiguration configuration)
+        public BillingServices(ApplicationDbContext db, IConfiguration configuration,
+            IProjectServices projectServices, UserManager<User> userManager)
         {
             _db = db;
             _configuration = configuration;
+            _projectServices = projectServices;
+            _userManager = userManager;
         }
 
-        public async Task AddBillingAsync(BillingVM billingVM, string userId)
+        public async Task AddBillingAsync(BillingVM billingVM, string userId, int projectId)
         {
             Billing billing = new Billing()
             {
@@ -29,11 +36,18 @@ namespace sybring_project.Repos.Services
                 Description = billingVM.Description,
                 ImageLink = billingVM.ImageLink,
                 Cost = billingVM.Cost,
-                DateStamp = billingVM.DateStamp
+                DateStamp = billingVM.DateStamp,
+              
+                ProjectId = new List<Project>(),
+                Users = new List<User>()
+
 
             };
-            var user = await _db.Users.FindAsync(userId);
+           
+            var project = await _db.Projects.FindAsync(projectId);
+            billing.ProjectId = new List<Project> { project };
 
+            var user = await _db.Users.FindAsync(userId);
             billing.Users = new List<User> { user };
 
             await _db.AddAsync(billing);
@@ -52,24 +66,49 @@ namespace sybring_project.Repos.Services
             }
         }
 
-        public async Task<Billing> DeleteCompanyAsync(int id)
+        public async Task<Billing> DeleteBillingAsync(int id)
         {
             var delBilling = await _db.Billings.FindAsync(id);
+
+            var associatedProject = _db.Projects.Where(p => p.BillingId == id);
+            foreach (var item in associatedProject)
+            {
+                item.BillingId = null;
+            }
             _db.Billings.Remove(delBilling);
             await _db.SaveChangesAsync();
             return delBilling;
         }
 
-        public async Task<List<Billing>> GetBillingAsync()
+        public async Task<List<Billing>> GetBillingAsync(string userId)
         {
-            return await _db.Billings.Include(b => b.Users)
-                                .Include(b => b.ProjectId)
-                                .ToListAsync();
+            var currentUser = await _userManager.FindByIdAsync(userId);
+
+            if (await _userManager.IsInRoleAsync(currentUser, "Admin"))
+            {
+                // If the user is an admin, retrieve all billing data
+                return await _db.Billings
+                    .Include(b => b.Users)
+                    .Include(b => b.ProjectId)
+                    .ToListAsync();
+            }
+            else
+            {
+                // If the user is not an admin, retrieve only their own billing data
+                return await _db.Billings
+                    .Include(b => b.Users)
+                    .Include(b => b.ProjectId)
+                    .Where(b => b.Users.Any(u => u.Id == userId))
+                    .ToListAsync();
+            }
         }
+
 
         public async Task<Billing> GetBillingByIdAsync(int id)
         {
-            var billing = await _db.Billings.FindAsync(new { id });
+            var billing = await _db.Billings.Include(b => b.ProjectId)
+                .Include(b => b.Users)
+                .FirstOrDefaultAsync(b => b.Id == id);
             return billing;
         }
 

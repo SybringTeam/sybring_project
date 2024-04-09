@@ -1,9 +1,73 @@
 ﻿@model sybring_project.Models.ViewModels.BillingVM
-<h2>Add Billing</h2>
+
 
 <hr />
 
-<div class="row">
+<section>
+    <div class="container col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add Billing</h5>
+                <form asp-action="Create" enctype="multipart/form-data" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class=" mb-2">
+                        <div class="form-floating">
+                            <input asp-for="DateStamp" class="form-control" id="floatingDateStamp" placeholder="Date Stamp">
+                            <label for="floatingDateStamp">Date Stamp</label>
+                            <span asp-validation-for="DateStamp" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="form-floating">
+                            <textarea asp-for="Description" class="form-control" id="floatingDescription" placeholder="Description" style="height: 70px;"></textarea>
+                            <label for="floatingDescription">Description</label>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class=" mb-2">
+                        <div class="form-floating">
+                            <select asp-for="ProjectId" id="floatingProjectId" aria-label="Project" class="form-select" multiple>
+                                @foreach (var project in Model.ProjectId)
+                                {
+                                    <option value="@project.Id">@project.Name</option>
+                                }
+                            </select>
+                            <label for="floatingProjectId">Project:</label>
+                            <span asp-validation-for="ProjectId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class=" mb-2">
+                        <div class="form-floating">
+                            <select asp-for="SelectedUserId" class="form-select" id="floatingSelectedUserId" aria-label="User">
+                                <option value="">Select a user</option>
+                                @foreach (var user in Model.Users)
+                                {
+                                    <option value="@user.Id">@user.FirstName @user.LastName || @user.UserName</option>
+                                }
+                            </select>
+                            <label for="floatingSelectedUserId">Select User:</label>
+                            <span asp-validation-for="SelectedUserId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <div class="form-floating">
+                            <input asp-for="Cost" class="form-control" id="floatingCost" placeholder="Cost">
+                            <label for="floatingCost">Cost</label>
+                            <span asp-validation-for="Cost" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <input type="hidden" name="projectId" value="@Model.ProjectId" />
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -37,58 +101,66 @@
                 <span asp-validation-for="ProjectId" class="text-danger"></span>
             </div>
 
-           @*  <div class="form-group">
-                <label asp-for="Companies" class="control-label">Company</label>
-                <select asp-for="Companies" class="form-control">
-                    <option value="">Select a company</option>
-                    @foreach (var company in Model.Companies)
-                    {
-                        <option value="@company.Id">@company.Project</option>
-                    }
-                </select>
-                <span asp-validation-for="Companies" class="text-danger"></span>
-            </div> *@
+              <div class="form-group">
+            <label asp-for="Companies" class="control-label">Company</label>
+            <select asp-for="Companies" class="form-control">
+            <option value="">Select a company</option>
+            @foreach (var company in Model.Companies)
+            {
+            <option value="@company.Id">@company.Project</option>
+            }
+            </select>
+            <span asp-validation-for="Companies" class="text-danger"></span>
+            </div> 
 
-          @*   <div class="form-group">
-                <label asp-for="Users" class="control-label">User</label>
-                <select asp-for="Users" class="form-control">
+            <div class="form-group">
+                <label asp-for="SelectedUserId" class="control-label">Select User:</label>
+                <select asp-for="SelectedUserId" class="form-control">
                     <option value="">Select a user</option>
                     @foreach (var user in Model.Users)
                     {
-                        <option value="@user.Id">@user.UserName</option>
+                        <option value="@user.Id">@user.FirstName @user.LastName || @user.UserName</option>
                     }
                 </select>
-                <span asp-validation-for="Users" class="text-danger"></span>
-            </div> *@
+                <span asp-validation-for="SelectedUserId" class="text-danger"></span>
+            </div>
 
 
-           @*  <div class="form-group">
-                <dl>
-                    <dt>
-                        <label asp-for="File"></label>
-                    </dt>
-                    <dd>
-                        <input asp-for="File" type="file">
-                        <img src="@Model.File" alt="Image Preview" height="100" width="100" />
-                        <span asp-validation-for="File"></span>
 
-                    </dd>
-                </dl>
-                <input asp-page-handler="Upload" class="btn btn-primary" type="submit" value="Upload and Save" onclick="typevalfunc()" />
- *@
+
+             <div class="form-group">
+            <dl>
+            <dt>
+            <label asp-for="File"></label>
+            </dt>
+            <dd>
+            <input asp-for="File" type="file">
+            <img src="@Model.File" alt="Image Preview" height="100" width="100" />
+            <span asp-validation-for="File"></span>
+
+            </dd>
+            </dl>
+            <input asp-page-handler="Upload" class="btn btn-primary" type="submit" value="Upload and Save" onclick="typevalfunc()" />
+            
+
+            <input type="hidden" name="projectId" value="@Model.ProjectId" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
+ *@
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
 <script>
     function typevalfunc() {
         document.getElementById("File").click();
     }
-                      
 
-                        }
+
+                                                    }
 
 </script>

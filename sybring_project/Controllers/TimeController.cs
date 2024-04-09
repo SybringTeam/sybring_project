@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
+using sybring_project.Models;
 using sybring_project.Models.Db;
 using sybring_project.Models.Seeding;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
+using sybring_project.Repos.Services;
 using System.Security.Claims;
 
 
@@ -16,22 +18,26 @@ namespace sybring_project.Controllers
     public class TimeController : Controller
     {
         private const decimal MaxRegularHoursPerDay = 8; // Declaration 
-
+        
         private readonly ITimeService _timeService;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly IUserServices _userServices;
+        private readonly IHolidayService _holidayService;
+        
 
 
         public TimeController(ApplicationDbContext context,
             ITimeService timeService, UserManager<User> userManager,
-            IUserServices userServices)
+            IUserServices userServices , IHolidayService holidayService)
         {
 
             _timeService = timeService;
             _context = context;
             _userManager = userManager;
             _userServices = userServices;
+            _holidayService = holidayService;
+            
 
 
         }
@@ -63,6 +69,10 @@ namespace sybring_project.Controllers
             return View(timeHistory);
         }
 
+        //dowad work
+
+
+
 
         [Authorize(Roles = "Admin, underconsult")]
         [HttpGet]
@@ -79,6 +89,7 @@ namespace sybring_project.Controllers
                 startDate = startDate.AddDays(-1);
             }
 
+          
             // Generate data for the week
             for (int i = 0; i < 7; i++)
             {
@@ -89,7 +100,8 @@ namespace sybring_project.Controllers
                     StartWork = TimeSpan.FromHours(8), // Set default values for StartWork, EndWork, etc.
                     EndWork = TimeSpan.FromHours(17),
                     StartBreak = TimeSpan.FromHours(12),
-                    EndBreak = TimeSpan.FromHours(13)
+                    EndBreak = TimeSpan.FromHours(13),
+                    
                 };
                 model.Add(dayData);
             }
@@ -98,9 +110,9 @@ namespace sybring_project.Controllers
         }
 
 
-     
 
-        [Authorize(Roles = "Admin,underconsult")]
+        //dowad work
+        //[Authorize(Roles = "Admin,underconsult")]
         [HttpPost]
         public async Task<IActionResult> Create(List<DayDataVM> weekData, decimal scheduledHoursPerWeek)
         {
@@ -123,8 +135,30 @@ namespace sybring_project.Controllers
         }
 
 
-           
+
+        public async Task<IActionResult> RedDays()
+        {
+
+            //// Retrieve all red days for the current year
+            //var currentYear = DateTime.Now.Year;
+
+            // Retrieve all red days for the year 2024
+            var redDays = await _holidayService.GetRedDaysAsync();
+
+            // Pass the red days to the view
+            return View(redDays);
+        }
 
         
+        public IActionResult projectVc(int Id)
+        {
+
+            return ViewComponent("ShowProject", new { projectId = Id });
+
+
+        }
+
+
+
     }
 }

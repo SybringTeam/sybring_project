@@ -6,6 +6,7 @@ using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 using sybring_project.Repos.Services;
 
+
 namespace sybring_project.Controllers
 {
     public class ProjectController : Controller
@@ -70,9 +71,11 @@ namespace sybring_project.Controllers
 
             var viewModel = new ProjectBillingCompanyVM
             {
+
                 Projects = new List<Project> { project },
-                Companies = company != null ? new List<Company> { company } : new List<Company>(), // Check if company is null
-                Users = await _projectServices.GetAssignedUserForProjectAsync(project.Id)
+                Companies = new List<Company> { company },
+               Users = assignedUser
+
             };
 
             // If company is null, set a message or flag in the view model
@@ -164,6 +167,16 @@ namespace sybring_project.Controllers
         }
 
 
+        public IActionResult ProjectVc(int projectId)
+        {
 
+            return ViewComponent("ShowProject", new { projectId = projectId });
+
+
+        }
     }
+
+   
+
+  
 }
