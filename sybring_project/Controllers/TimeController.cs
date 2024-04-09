@@ -139,7 +139,6 @@ namespace sybring_project.Controllers
 
 
 
-
         //fetch red days and weeknumbers of year from api
         public async Task<IActionResult> RedDays()
         {

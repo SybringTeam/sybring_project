@@ -148,6 +148,8 @@
 
 
 
+@* good one *@
+
 
 <script>
     // Fetch red days data from the API
@@ -173,7 +175,8 @@
                 selectElement.appendChild(option);
             });
 
-            // Event listener for the dropdown
+            // dropdown
+
             selectElement.addEventListener('change', function () {
                 const selectedWeek = parseInt(this.value);
 
@@ -184,7 +187,10 @@
                 const dateCells = document.querySelectorAll('#weekDaysBody td.date-column');
                 const weekdayCells = document.querySelectorAll('#weekDaysBody td.weekday-column');
 
-                dateCells.forEach((cell, index) => {
+
+                //chages date to red
+              
+                dateCells.forEach((cell, index) => {                 
                     const currentDate = selectedWeekDays[index].datum;
                     cell.textContent = currentDate;
                     const isRedDay = selectedWeekDays[index]['röd dag'] === 'Ja';
@@ -194,6 +200,9 @@
                         cell.style.color = 'black';
                     }
                 });
+
+                  
+                //changes weekday to red
 
                 weekdayCells.forEach((cell, index) => {
                     const currentWeekday = selectedWeekDays[index].veckodag;
@@ -211,3 +220,5 @@
             console.error('Error fetching data:', error);
         });
 </script>
+
+
