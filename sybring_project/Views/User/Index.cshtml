@@ -13,12 +13,12 @@
     </div>
 </div>
 
-<div class="button">
-    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary">Create User</a>
-</div>
 
-<section class="section">
-    <div class="row">
+<section class="container-fluid">
+   @*  <div class="button">
+        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary">Create User</a>
+    </div> *@
+    <div class="card p-3">
         <div class="col-lg-12 bg-white">
             <table id="myTable" class="table">
                 <thead>
@@ -59,13 +59,28 @@
 
                         <td> </td>
 
-                        <td class="dropdown">
-                            <span><i class="bi bi-three-dots-vertical"></i></span>
-                            <div class="dropdown-content">
-                                <a asp-action="Edit" asp-route-id="@item.Id"> <i class="bi bi-pencil"></i>Edit</a> |
-                                <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a>
+                        <td>
+                            <div class="dropdown">
+                                <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                    <li class="dropdown-header text-start">
+                                        @* <h6>Filter</h6> *@
+                                    </li>
+                                    <li>
+                                        <div class="d-flex">
+                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">
+                                                <i class="bi bi-pencil"></i>
+                                                <span>Edit</span>
+                                            </a>
+                                            <span>|</span>
+                                            <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">
+                                                <i class="bi bi-trash"></i>
+                                                <span>Delete</span>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
-
                         </td>
 
                     </tr>
@@ -81,6 +96,7 @@
 <div>
     <a asp-action="RoleView" asp-route-roleName="admin" class="btn btn-primary">View Admin Users</a>
     <a asp-action="RoleView" asp-route-roleName="archive" class="btn btn-primary">View Archives Users</a>
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Create User</a>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

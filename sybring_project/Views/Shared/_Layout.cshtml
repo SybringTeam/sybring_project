@@ -47,44 +47,44 @@
         </div>
 
         <div class="d-flex justify-content-between">
-            <ul class="navbar-nav nav">
+            <ul class="list-inline d-flex flex-row ">
                 @if (!User.Identity.IsAuthenticated)
                 {
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-right: 10px;">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-right: 10px;">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-right: 10px;">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Career">Career</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-right: 10px;">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
                     </li>
                 }
                 @if (User.Identity.IsAuthenticated && User.IsInRole("admin, underconsult"))
                 {
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-right: 10px;">
                         <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-right: 10px;">
                         <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Details">TR Details</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-right: 10px;">
                         <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register as a new user</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-right: 10px;">
                         <a class="nav-link" asp-area="" asp-controller="Billing" asp-action="Index">Billing Report</a>
                     </li>
                   
                 }
                 else
                 {
-                    <li class="nav-item">
+                    <li class="nav-item " style="margin-right: 10px; margin-left:10px;">
                         <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="margin-right: 10px;">
                         <a class="nav-link" asp-area="" asp-controller="Billing" asp-action="Index">Billing</a>
                     </li>
                    
@@ -342,7 +342,7 @@
     <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
 
 
-    <script src="~/js/main.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

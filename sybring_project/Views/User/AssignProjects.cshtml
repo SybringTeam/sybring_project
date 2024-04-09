@@ -4,42 +4,41 @@
     var add = TempData["Added"];
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <h2>Assign Projects</h2>
-            <form asp-action="AssignProjects" method="post">
-                <div class="form-group">
-                    <label asp-for="SelectedUserIds">Select Users:</label>
-                    <select asp-for="SelectedUserIds" class="form-control" multiple>
-                        @foreach (var user in Model.Users)
-                        {
-                            <option value="@user.Id">@user.FirstName @user.LastName || @user.UserName</option>
-                        }
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="SelectedProjectIds">Select Projects:</label>
-                    <select asp-for="SelectedProjectIds" class="form-control" multiple>
-                        @foreach (var project in Model.Projects)
-                        {
-                            <option value="@project.Id">@project.Name</option>
-                        }
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Assign Projects</button>
-            </form>
-        </div>
-    </div>
-    @if (!string.IsNullOrEmpty(add?.ToString()))
-    {
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <div class="alert alert-success" role="alert">
-                    @add
-                </div>
+
+<section>
+    <div class="container col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Assign Projects</h5>
+                <form asp-action="AssignProjects" method="post">
+                    <div class="form-group">
+                        <label asp-for="SelectedUserIds">Select Users:</label>
+                        <select asp-for="SelectedUserIds" class="form-control" multiple>
+                            @foreach (var user in Model.Users)
+                            {
+                                <option value="@user.Id">@user.UserName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SelectedProjectIds">Select Projects:</label>
+                        <select asp-for="SelectedProjectIds" class="form-control" multiple>
+                            @foreach (var project in Model.Projects)
+                            {
+                                <option value="@project.Id">@project.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Assign Projects</button>
+                    </div>
+                </form>
+                @if (true)
+                {
+                    <div>@add</div>
+                }
             </div>
         </div>
-    }
+    </div>
+</section>
 
-</div>
