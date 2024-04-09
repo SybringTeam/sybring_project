@@ -12,6 +12,8 @@ namespace sybring_project.Models.ViewModels
 
         public List<Billing> Billings { get; set; }
 
+        public bool CompanyNotAssigned { get; set; }
+
 
     }
 }
