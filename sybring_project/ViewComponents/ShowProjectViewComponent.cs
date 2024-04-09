@@ -1,5 +1,6 @@
 ﻿using ActiveUp.Net.Security.OpenPGP.Packets;
 using Microsoft.AspNetCore.Mvc;
+using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
 
 namespace sybring_project.ViewComponents
@@ -19,22 +20,40 @@ namespace sybring_project.ViewComponents
         {
             try
             {
-                var project = await _projectServices.GetProjectsByCompanyIdAsync(projectId);
-                //var user = await _userServices.GetUserByIdAsync(userId);
+                var project = await _projectServices.GetProjectsAsync(projectId);
 
                 if (project != null)
                 {
-                    ViewBag.AllProjects = project;
+
+                    var assignedUsers = await _projectServices.GetAssignedUserForProjectAsync(projectId);
+
+                    ViewBag.Project = project;
+
+                    ViewBag.AssignedUsers = assignedUsers;
+                    if (assignedUsers != null)
+                    {
+                        ViewBag.AssignedUsers = assignedUsers;
+                    }
+                    else
+                    {
+
+                        ViewBag.AssignedUsers = new List<User>();
+                    }
+
                 }
 
-                return View("Default", project); 
+
+                return View("Default", project);
             }
             catch (InvalidOperationException ex)
             {
-               
+
                 return Content(ex.Message);
             }
+
         }
 
     }
+
 }
+
