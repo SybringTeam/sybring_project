@@ -149,17 +149,7 @@ namespace sybring_project.Controllers
             return View(redDays);
         }
 
-
-       
-
-
-
-
-
-
-
-
-
+        
         public IActionResult projectVc(int Id)
         {
 
