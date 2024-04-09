@@ -215,12 +215,17 @@ namespace sybring_project.Migrations
                     b.Property<double>("Cost")
                         .HasColumnType("float");
 
+                    b.Property<DateTime>("DateStamp")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
+                    b.Property<string>("ImageLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SelectedUserId")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -598,9 +603,11 @@ namespace sybring_project.Migrations
 
             modelBuilder.Entity("sybring_project.Models.Db.Project", b =>
                 {
-                    b.HasOne("sybring_project.Models.Db.Billing", null)
+                    b.HasOne("sybring_project.Models.Db.Billing", "Billing")
                         .WithMany("ProjectId")
                         .HasForeignKey("BillingId");
+
+                    b.Navigation("Billing");
                 });
 
             modelBuilder.Entity("sybring_project.Models.Db.ProjectTimeReport", b =>

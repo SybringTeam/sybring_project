@@ -14,10 +14,13 @@ namespace sybring_project.Models.Db
 
         [ForeignKey("Project")]
         public int CompanyId { get; set; }
-       
-              
+     
+        public int? BillingId { get; set; }
+
         [NotMapped]
-        public IFormFile Contracts { get; set; }
+        public IFormFile? Contracts { get; set; }
+
+      public virtual Billing? Billing { get; set; }
         public virtual ICollection<Company> Companies { get; set; }
         public virtual ICollection<ProjectTimeReport>? ProjectHistories { get; set; }
         public virtual ICollection<User>? Users { get; set; }

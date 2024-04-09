@@ -90,8 +90,6 @@ namespace sybring_project.Controllers
             }
 
           
-
-
             // Generate data for the week
             for (int i = 0; i < 7; i++)
             {
@@ -110,6 +108,7 @@ namespace sybring_project.Controllers
 
             return View(model);
         }
+
 
 
         //dowad work

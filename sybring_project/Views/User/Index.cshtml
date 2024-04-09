@@ -1,89 +1,102 @@
 @model IEnumerable<sybring_project.Models.Db.User>
 
-    
-
-   
-<div class="frame">
-
-    <div id="userInfoContainer">
+<div class="section">
+    <div class="row">
+        <div class="col-lg-12">
             @foreach (var item in Model)
             {
                 <div id="showUserContainer_@item.Id" style="display: none;">
                     <vc:show-user user-id="@item.Id"> </vc:show-user>
                 </div>
-            }    
-    </div>
-    <div class="adduser">
-      
-
-        <a asp-area="Identity" asp-page="/Account/Register" class="btn">Create User</a>
-    </div>
-
-
-<div class="table">
-    <table id="myTable" class="table">
-        <thead>
-            <tr>
-                    <th>
-                        <label for="preference1">
-                            <input type="checkbox" id="preference1" name="preference1"> 
-                        </label>
-                    </th>
-                <th > USER</th>
-                <th > PROJECTS</th>
-                <th > USER NAME</th>
-                <th > STATUS</th>
-                <th > ACTIONS</th>
-            </tr>
-        </thead>
-
-        @* <tbody> *@
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-
-                    </td>
-
-                    <td>
-
-                        <a href="#" onclick="showUser('@item.Id');" class="showDetails">@item.FirstName @item.LastName</a>
-
-                    </td>
-
-                    <td>
-                        @foreach (var project in item.ProjectId)
-                        {
-
-                            @project.Name<br>
-
-                        }
-                    </td>
-
-                 
-                   
-                    <td>@item.UserName</td>
-                    
-                      <td> </td>
-
-                    <td class="dropdown">
-                        <span><i class="bi bi-three-dots-vertical"></i></span>
-                        <div class="dropdown-content">
-                            <a asp-action="Edit" asp-route-id="@item.Id"> <i class="bi bi-pencil"></i>Edit</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id"><i class="bi bi-trash"></i>Delete</a>
-                        </div>
-                       
-                    </td>
-                       
-                </tr>
-                
             }
-    @* </tbody> *@
-    </table>
+        </div>
+    </div>
 </div>
+
+
+<section class="container-fluid">
+   @*  <div class="button">
+        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary">Create User</a>
+    </div> *@
+    <div class="card p-3">
+        <div class="col-lg-12 bg-white">
+            <table id="myTable" class="table">
+                <thead>
+                    <tr>
+                        <th> </th>
+                        <th> USER</th>
+                        <th> PROJECTS</th>
+                        <th> USER NAME</th>
+                        <th> STATUS</th>
+                        <th> ACTIONS</th>
+                    </tr>
+                </thead>
+                @* <tbody> *@
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                        </td>
+
+                        <td>
+
+                            <a href="#" onclick="showUser('@item.Id');" class="showDetails">@item.FirstName @item.LastName</a>
+
+                        </td>
+
+                        <td>
+                            @foreach (var project in item.ProjectId)
+                            {
+
+                                @project.Name
+
+                                <br>
+
+                            }
+                        </td>
+
+                        <td>@item.UserName</td>
+
+                        <td> </td>
+
+                        <td>
+                            <div class="dropdown">
+                                <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                    <li class="dropdown-header text-start">
+                                        @* <h6>Filter</h6> *@
+                                    </li>
+                                    <li>
+                                        <div class="d-flex">
+                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">
+                                                <i class="bi bi-pencil"></i>
+                                                <span>Edit</span>
+                                            </a>
+                                            <span>|</span>
+                                            <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">
+                                                <i class="bi bi-trash"></i>
+                                                <span>Delete</span>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                }
+                @* </tbody> *@
+            </table>
+        </div>
+
+    </div>
+</section>
+
 <div>
     <a asp-action="RoleView" asp-route-roleName="admin" class="btn btn-primary">View Admin Users</a>
     <a asp-action="RoleView" asp-route-roleName="archive" class="btn btn-primary">View Archives Users</a>
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Create User</a>
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
