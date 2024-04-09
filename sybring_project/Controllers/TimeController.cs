@@ -10,6 +10,7 @@ using sybring_project.Models.Seeding;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 using sybring_project.Repos.Services;
+using System.Globalization;
 using System.Security.Claims;
 
 
@@ -69,12 +70,14 @@ namespace sybring_project.Controllers
             return View(timeHistory);
         }
 
+        
+        
+        
+        
+        
         //dowad work
 
-
-
-
-        [Authorize(Roles = "Admin, underconsult")]
+        //[Authorize(Roles = "Admin, underconsult")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -89,7 +92,6 @@ namespace sybring_project.Controllers
                 startDate = startDate.AddDays(-1);
             }
 
-          
             // Generate data for the week
             for (int i = 0; i < 7; i++)
             {
@@ -120,22 +122,25 @@ namespace sybring_project.Controllers
             {
                 return BadRequest("No data provided.");
             }
-            var userId = _userManager.GetUserId(User);
 
+            var userId = _userManager.GetUserId(User);
 
             foreach (var dayData in weekData)
             {
-               
+
                 // Add the report
                 await _timeService.AddReportAsync(dayData, userId, scheduledHoursPerWeek);
-               
+
             }
-           
+
             return RedirectToAction("Index");
         }
 
 
 
+
+
+        //fetch red days and weeknumbers of year from api
         public async Task<IActionResult> RedDays()
         {
 
@@ -149,7 +154,6 @@ namespace sybring_project.Controllers
             return View(redDays);
         }
 
-        
         public IActionResult projectVc(int Id)
         {
 
