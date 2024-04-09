@@ -4,32 +4,42 @@
     var add = TempData["Added"];
 }
 
-<div>
-<form asp-action="AssignProjects" method="post">
-    <div class="form-group">
-        <label asp-for="SelectedUserIds">Select Users:</label>
-        <select asp-for="SelectedUserIds" class="form-control" multiple>
-            @foreach (var user in Model.Users)
-            {
-                <option value="@user.Id">@user.UserName</option>
-            }
-        </select>
-
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Assign Projects</h2>
+            <form asp-action="AssignProjects" method="post">
+                <div class="form-group">
+                    <label asp-for="SelectedUserIds">Select Users:</label>
+                    <select asp-for="SelectedUserIds" class="form-control" multiple>
+                        @foreach (var user in Model.Users)
+                        {
+                            <option value="@user.Id">@user.FirstName @user.LastName || @user.UserName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SelectedProjectIds">Select Projects:</label>
+                    <select asp-for="SelectedProjectIds" class="form-control" multiple>
+                        @foreach (var project in Model.Projects)
+                        {
+                            <option value="@project.Id">@project.Name</option>
+                        }
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Assign Projects</button>
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="SelectedProjectIds">Select Projects:</label>
-        <select asp-for="SelectedProjectIds" class="form-control" multiple>
-            @foreach (var project in Model.Projects)
-            {
-                <option value="@project.Id">@project.Name</option>
-            }
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Assign Projects</button>
-</form>
-@if (true)
-{
-    <div>@add</div>
-}
+    @if (!string.IsNullOrEmpty(add?.ToString()))
+    {
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="alert alert-success" role="alert">
+                    @add
+                </div>
+            </div>
+        </div>
+    }
 
 </div>
