@@ -20,7 +20,7 @@ namespace sybring_project.Models.Db
         [NotMapped]
         public IFormFile? Contracts { get; set; }
 
-      public virtual Billing? Billing { get; set; }
+        public virtual Billing? Billing { get; set; }
         public virtual ICollection<Company> Companies { get; set; }
         public virtual ICollection<ProjectTimeReport>? ProjectHistories { get; set; }
         public virtual ICollection<User>? Users { get; set; }

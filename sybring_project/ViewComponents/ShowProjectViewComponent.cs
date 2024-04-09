@@ -19,7 +19,7 @@ namespace sybring_project.ViewComponents
         {
             try
             {
-                var project = await _projectServices.GetProjectByIdAsync(projectId);
+                var project = await _projectServices.GetProjectsByCompanyIdAsync(projectId);
                 //var user = await _userServices.GetUserByIdAsync(userId);
 
                 if (project != null)

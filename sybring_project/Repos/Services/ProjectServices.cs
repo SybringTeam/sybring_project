@@ -50,7 +50,7 @@ namespace sybring_project.Repos.Services
             return del;
         }
 
-        public async Task<Project> GetProjectByIdAsync(int id)
+        public async Task<Project> GetProjectsAsync(int id)
         {
             var project = await _db.Projects.Include(p => p.Users)
                                                .Include(p => p.Companies)
