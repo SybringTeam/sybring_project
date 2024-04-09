@@ -112,6 +112,7 @@ namespace sybring_project.Controllers
         }
 
 
+
         //dowad work
         //[Authorize(Roles = "Admin,underconsult")]
         [HttpPost]
@@ -153,8 +154,6 @@ namespace sybring_project.Controllers
             return View(redDays);
         }
 
-
-       
         public IActionResult projectVc(int Id)
         {
 

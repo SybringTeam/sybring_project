@@ -1,0 +1,98 @@
+﻿@model IEnumerable<sybring_project.Models.Db.Billing>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Billing List</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageLink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                Project Name
+            </th>
+           
+            <th>
+                User Name
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageLink)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td>
+
+                
+                @if (item.ProjectId != null && item.ProjectId.Any())
+                {
+                    <ul>
+                        @foreach (var user in item.ProjectId)
+                        {
+                                <li>@user.Name</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <span>No Project associated</span>
+                }
+                </td>
+
+                <td>
+                    @if (item.Users != null && item.Users.Any())
+                    {
+                        <ul>
+                            @foreach (var user in item.Users)
+                            {
+                                <li>@user.FirstName @user.LastName</li>
+                                <li>@user.UserName</li>
+                                
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No users associated</span>
+                    }
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,36 @@
+﻿@model sybring_project.Models.Db.Billing
+
+@{
+    ViewData["Title"] = "Billing Details";
+}
+
+<h1>Billing Details</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <dl class="row">
+            <dt class="col-sm-4">ID:</dt>
+            <dd class="col-sm-8">@Model.Id</dd>
+
+            <dt class="col-sm-4">Description:</dt>
+            <dd class="col-sm-8">@Model.Description</dd>
+
+            <dt class="col-sm-4">Cost:</dt>
+            <dd class="col-sm-8">@Model.Cost</dd>
+
+            <dt class="col-sm-4">Image Link:</dt>
+            <dd class="col-sm-8">@Model.ImageLink</dd>
+
+            <dt class="col-sm-4">Project ID:</dt>
+            <dd class="col-sm-8">
+                @foreach (var item in @Model.ProjectId)
+                {
+                    @item.Name
+                }
+            </dd>
+        </dl>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

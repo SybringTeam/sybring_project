@@ -15,12 +15,12 @@ namespace sybring_project.ViewComponents
             _projectServices = projectService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string userId, int projectId)
+        public async Task<IViewComponentResult> InvokeAsync(/*string userId,*/ int projectId)
         {
             try
             {
                 var project = await _projectServices.GetProjectByIdAsync(projectId);
-                var user = await _userServices.GetUserByIdAsync(userId);
+                //var user = await _userServices.GetUserByIdAsync(userId);
 
                 if (project != null)
                 {
