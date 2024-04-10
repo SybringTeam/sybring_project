@@ -4,76 +4,140 @@
 
 
 
- @if (!User.Identity.IsAuthenticated)
+@if (User.IsInRole("admin"))
 {
-   <section class="section">
-    <div class="row align-items-top">
-        <div class="col-lg-6">
-            <div class="card">
-                <img src="/logo/pictures/pexels-picjumbocom-461077.jpg" class="card-img-top" alt="..." />
-                <div class="card-img-overlay">
-                    <h5 class="card-title">tillfälligt</h5>
-                    <p class="card-text">tillfälligt text..</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">Header</div>
-                <div class="card-body">
-                    <h5 class="card-title">tillfälligt</h5>
-                    tillfälligt text.
-                </div>
-                <div class="card-footer">
-                    Footer
-                </div>
-            </div>
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src="/logo/pictures/pexels-picjumbocom-196650.jpg" class="img-fluid rounded-start" alt="Foto">
+    
+
+
+
+    <section class="section">
+        <div class="row align-items-top">
+            <div class="col-lg-6">
+                <div class="card">
+                    <img src="/logo/pictures/pexels-picjumbocom-461077.jpg" class="card-img-top" alt="..." />
+                    <div class="card-img-overlay">
+                        <h5 class="card-title">tillfälligt</h5>
+                        <p class="card-text">tillfälligt text..</p>
                     </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">tillfälligt</h5>
-                            <p class="card-text">tillfälligt text.</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">tillfälligt</h5>
+                        tillfälligt text.
+                    </div>
+                    <div class="card-footer">
+                        Footer
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="/logo/pictures/pexels-picjumbocom-196650.jpg" class="img-fluid rounded-start" alt="Foto">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">tillfälligt</h5>
+                                <p class="card-text">tillfälligt text.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
-        </div>
+            <div class="col-lg-3">
 
-        <div class="col-lg-3">
 
-           
-            <div class="card">
-                <img src="/logo/pictures/pexels-cottonbro-studio-4065895.jpg" class="card-img-top" alt="..." />
-                <div class="card-body">
-                    <h5 class="card-title">tillfälligt</h5>
-                    <p class="card-text">tillfälligt text.</p>
+                <div class="card">
+                    <img src="/logo/pictures/pexels-cottonbro-studio-4065895.jpg" class="card-img-top" alt="..." />
+                    <div class="card-body">
+                        <h5 class="card-title">tillfälligt</h5>
+                        <p class="card-text">tillfälligt text.</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">tillfälligt</h5>
-                    <p class="card-text">tillfälligt text.</p>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">tillfälligt</h5>
+                        <p class="card-text">tillfälligt text.</p>
+                    </div>
+                    <img src="assets/img/card.jpg" class="card-img-bottom" alt="...">
                 </div>
-                <img src="assets/img/card.jpg" class="card-img-bottom" alt="...">
+
+            </div>
+
+            <div class="col-lg-3">
             </div>
 
         </div>
+    </section>
 
-        <div class="col-lg-3">
+}
+@if (User.IsInRole("underconsult"))
+{
+    <section class="section">
+        <div class="row align-items-top">
+            <div class="col-lg-6">
+                <div class="card">
+                    <img src="/logo/pictures/pexels-picjumbocom-461077.jpg" class="card-img-top" alt="..." />
+                    <div class="card-img-overlay">
+                        <h5 class="card-title">Välkommen till Sybrings Tisrapportering</h5>
+                        <p class="card-text">Vi hälsar dig varmt välkommen till Sybrings tisrapportering, plattformen där vi tillsammans håller koll på veckans framsteg och steg framåt. Det är här vi samlar in och delar våra tidrapporter varje vecka för att säkerställa att vi är på rätt spår mot våra gemensamma mål.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">Header</div>
+                    <div class="card-body">
+                        <h5 class="card-title">tillfälligt</h5>
+                        tillfälligt text.
+                    </div>
+                    <div class="card-footer">
+                        Footer
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="/logo/pictures/pexels-picjumbocom-196650.jpg" class="img-fluid rounded-start" alt="Foto">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">tillfälligt</h5>
+                                <p class="card-text">tillfälligt text.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-          
-           
-           
-            
+            </div>
+
+            <div class="col-lg-3">
+
+
+                <div class="card">
+                    <img src="/logo/pictures/pexels-cottonbro-studio-4065895.jpg" class="card-img-top" alt="..." />
+                    <div class="card-body">
+                        <h5 class="card-title">tillfälligt</h5>
+                        <p class="card-text">tillfälligt text.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">tillfälligt</h5>
+                        <p class="card-text">tillfälligt text.</p>
+                    </div>
+                    <img src="assets/img/card.jpg" class="card-img-bottom" alt="...">
+                </div>
+
+            </div>
+
+            <div class="col-lg-3">
+            </div>
+
         </div>
-
-    </div>
-</section>
-
+    </section>
 }
 else
 {
@@ -139,5 +203,5 @@ else
 
         </div>
     </section>
-
 }
+

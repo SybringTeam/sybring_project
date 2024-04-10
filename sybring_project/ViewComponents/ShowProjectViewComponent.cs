@@ -16,7 +16,7 @@ namespace sybring_project.ViewComponents
             _projectServices = projectService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(/*string userId,*/ int projectId)
+        public async Task<IViewComponentResult> InvokeAsync(int projectId)
         {
             try
             {
