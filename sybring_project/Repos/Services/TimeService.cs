@@ -204,12 +204,7 @@ namespace sybring_project.Repos.Services
             return WorkingHours;
         }
 
-
-
-       
-
-
-
+   
         // Helper method to get the previous Monday from a given date
         //public DateTime GetPreviousMonday(DateTime date)
         //{
