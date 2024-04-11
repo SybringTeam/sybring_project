@@ -68,13 +68,13 @@ namespace sybring_project.Controllers
             //}
 
             var companies = await _companyServices.GetCompanyByProjectIdAsync(project.Id);
-
+            var assignedUser = await _projectServices.GetAssignedUserForProjectAsync(project.Id);
             var viewModel = new ProjectBillingCompanyVM
             {
 
                 Projects = new List<Project> { project },
                 Companies = new List<Company> { company },
-               Users = assignedUser
+                Users = assignedUser
 
             };
 
