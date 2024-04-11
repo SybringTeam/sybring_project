@@ -60,6 +60,7 @@ namespace sybring_project.Controllers
 
             var company = await _companyServices.GetCompanyByProjectIdAsync(project.Id);
 
+
             if (company == null)
             {
                 ViewBag.ErrorMessage = "Project does not have an associated company.";
@@ -73,13 +74,12 @@ namespace sybring_project.Controllers
 
                 Projects = new List<Project> { project },
                 Companies = new List<Company> { company },
-               Users = assignedUser
+                Users = assignedUser
 
             };
 
             return View(viewModel);
         }
-
 
 
         [HttpPost]
@@ -114,6 +114,7 @@ namespace sybring_project.Controllers
 
 
         [HttpGet]
+        
         public async Task<IActionResult> Create()
         {
             return View();

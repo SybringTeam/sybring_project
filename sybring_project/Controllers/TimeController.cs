@@ -10,6 +10,7 @@ using sybring_project.Models.Seeding;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 using sybring_project.Repos.Services;
+using System.Globalization;
 using System.Security.Claims;
 
 
@@ -18,18 +19,18 @@ namespace sybring_project.Controllers
     public class TimeController : Controller
     {
         private const decimal MaxRegularHoursPerDay = 8; // Declaration 
-        
+
         private readonly ITimeService _timeService;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly IUserServices _userServices;
         private readonly IHolidayService _holidayService;
-        
+
 
 
         public TimeController(ApplicationDbContext context,
             ITimeService timeService, UserManager<User> userManager,
-            IUserServices userServices , IHolidayService holidayService)
+            IUserServices userServices, IHolidayService holidayService)
         {
 
             _timeService = timeService;
@@ -37,16 +38,17 @@ namespace sybring_project.Controllers
             _userManager = userManager;
             _userServices = userServices;
             _holidayService = holidayService;
-            
+
 
 
         }
 
         public async Task<IActionResult> Index()
         {
-            var list = await _timeService.GetTimeListAsync();
+            var userId = _userManager.GetUserId(User);
+            var timeList = await _timeService.GetTimeListAsync(userId);
 
-            return View(list);
+            return View(timeList);
         }
 
 
@@ -69,12 +71,14 @@ namespace sybring_project.Controllers
             return View(timeHistory);
         }
 
+        
+        
+        
+        
+        
         //dowad work
 
-
-
-
-        [Authorize(Roles = "Admin, underconsult")]
+        //[Authorize(Roles = "Admin, underconsult")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -101,13 +105,14 @@ namespace sybring_project.Controllers
                     EndWork = TimeSpan.FromHours(17),
                     StartBreak = TimeSpan.FromHours(12),
                     EndBreak = TimeSpan.FromHours(13),
-                    
+
                 };
                 model.Add(dayData);
             }
 
             return View(model);
         }
+
 
 
         //dowad work
@@ -119,22 +124,45 @@ namespace sybring_project.Controllers
             {
                 return BadRequest("No data provided.");
             }
-            var userId = _userManager.GetUserId(User);
 
+            var userId = _userManager.GetUserId(User);
 
             foreach (var dayData in weekData)
             {
-               
+
                 // Add the report
                 await _timeService.AddReportAsync(dayData, userId, scheduledHoursPerWeek);
-               
+
             }
-           
+
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _timeService.DeleteTimeHistoryAsync(id);
+            return RedirectToAction("Index");
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id) 
+        {
+            var getById = _timeService.GetTimeHistoryByIdAsync(id);
+            return View(getById);  
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(TimeHistory updatedTimeHistory)
+        {
+            var edit = _timeService.UpdateTimeHistoryAsync(updatedTimeHistory);
+            return View(edit);
         }
 
 
 
+
+        //fetch red days and weeknumbers of year from api
         public async Task<IActionResult> RedDays()
         {
 
@@ -148,17 +176,7 @@ namespace sybring_project.Controllers
             return View(redDays);
         }
 
-
-       
-
-
-
-
-
-
-
-
-
+        
         public IActionResult projectVc(int Id)
         {
 

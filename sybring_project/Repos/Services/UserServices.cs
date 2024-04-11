@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using ActiveUp.Net.Security.OpenPGP.Packets;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -137,7 +138,10 @@ namespace sybring_project.Repos.Services
                 userInDb.UserICE = user.UserICE;
                 userInDb.Seller = user.Seller;
                 userInDb.ImageLink = user.ImageLink;
-                userInDb.Email = user.Email; // Update Email property
+                userInDb.Email = user.Email;
+                userInDb.Status = user.Status;
+               
+               
 
                 await _db.SaveChangesAsync();
                 return true;
@@ -258,6 +262,20 @@ namespace sybring_project.Repos.Services
         {
             return _db.Users.FirstOrDefault(u => u.Id == userId);
         }
+
+
+        public async Task UpdateUserStatusAsync(string userId, Status status)
+        {
+            var user = await _db.Users.FindAsync(userId);
+            if (user != null)
+            {
+                user.Status = status;
+                await _db.SaveChangesAsync();
+            }
+        }
+
+
+
 
     }
 }

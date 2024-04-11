@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
@@ -10,15 +11,35 @@ namespace sybring_project.Repos.Services
     public class TimeService : ITimeService
     {
         private readonly ApplicationDbContext _db;
+        private readonly UserManager<User> _userManager;
 
-        public TimeService(ApplicationDbContext db)
+        public TimeService(ApplicationDbContext db, UserManager<User> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
-        public async Task<List<TimeHistory>> GetTimeListAsync()
+        public async Task<List<TimeHistory>> GetTimeListAsync(string userId)
         {
-            return await _db.TimeHistories.ToListAsync();
+            var currentUser = await _userManager.FindByIdAsync(userId);
+            if (await _userManager.IsInRoleAsync(currentUser, "Admin"))
+            {
+                // If the user is an admin, retrieve all billing data
+                return await _db.TimeHistories
+                    .Include(t => t.Users)
+                    .ToListAsync();
+            }
+            else
+            {
+                // If the user is not an admin, retrieve only their own billing data
+                return await _db.TimeHistories
+                    .Include(t => t.Users)
+                    .Where(b => b.Users.Any(u => u.Id == userId))
+                    .ToListAsync();
+            }
+
+
+
         }
 
 
@@ -30,84 +51,171 @@ namespace sybring_project.Repos.Services
         }
 
 
-        public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal scheduledHoursPerWeek)
-        {
-            // Calculate working hours for the day (including overtime)
-            decimal totalWorkingHours = CalculateWorkingHoursAsync(dayDataVM, scheduledHoursPerWeek);
+        //dawod work
+        //public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal scheduledHoursPerWeek)
+        //{
 
-            var timeReport = new TimeHistory
-            {
-                Date = dayDataVM.Date,
-                //Schedule = GetPreviousMonday(dayData.Date),
-                StartWork = dayDataVM.StartWork,
-                EndWork = dayDataVM.EndWork,
-                StartBreak = dayDataVM.StartBreak,
-                EndBreak = dayDataVM.EndBreak,
-                TotalWorkingHours = totalWorkingHours,
-                WorkingHours = dayDataVM.WorkingHours,
-                FlexiTime = dayDataVM.FlexiTime,
-                MoreTime = dayDataVM.MoreTime,
-                AttendanceTime = dayDataVM.AttendanceTime,
-                AnnualLeave = dayDataVM.AnnualLeave,
-                SickLeave = dayDataVM.SickLeave,
-                LeaveOfAbsence = dayDataVM.LeaveOfAbsence,
-                Childcare = dayDataVM.Childcare,
-                Overtime = dayDataVM.Overtime,
-                InconvenientHours = dayDataVM.InconvenientHours,
-                              
-            };
-           
+        //    try
+        //    {
+        //        // Calculate working hours for the day (including overtime)
+        //        decimal totalWorkingHours = CalculateWorkingHoursAsync(dayDataVM, scheduledHoursPerWeek);
 
-            var user = _db.Users.Find(userId);
-            if (user != null) 
-            {
-                timeReport.Users = new List<User> {user};// Assign the user to the Users collection
+        //        var timeReport = new TimeHistory
+        //        {
+        //            Date = dayDataVM.Date,
+        //            //Schedule = GetPreviousMonday(dayData.Date),
+        //            StartWork = dayDataVM.StartWork,
+        //            EndWork = dayDataVM.EndWork,
+        //            StartBreak = dayDataVM.StartBreak,
+        //            EndBreak = dayDataVM.EndBreak,
+        //            TotalWorkingHours = totalWorkingHours,
+        //            //WorkingHours = dayDataVM.WorkingHours,
+        //            WorkingHours = totalWorkingHours,
+        //            FlexiTime = dayDataVM.FlexiTime,
+        //            MoreTime = dayDataVM.MoreTime,
+        //            AttendanceTime = dayDataVM.AttendanceTime,
+        //            AnnualLeave = dayDataVM.AnnualLeave,
+        //            SickLeave = dayDataVM.SickLeave,
+        //            LeaveOfAbsence = dayDataVM.LeaveOfAbsence,
+        //            Childcare = dayDataVM.Childcare,
+        //            Overtime = dayDataVM.Overtime,
+        //            InconvenientHours = dayDataVM.InconvenientHours,
 
-                _db.TimeHistories.Add(timeReport);
-                _db.SaveChanges();
-            }
-           
-            
-        }
+        //        };
 
+        //        var user = _db.Users.Find(userId);
+
+        //        if (user != null)
+        //        {
+        //            timeReport.Users = new List<User> { user };// Assign the user to the Users collection
+
+        //            _db.TimeHistories.Add(timeReport);
+        //            _db.SaveChanges();
+        //            //await _db.SaveChangesAsync();
+
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // exception
+        //        Console.WriteLine($"Error occurred while adding report: {ex.Message}");
+        //        throw;
+        //    }
+
+        //}
+
+        ////dawod work
+        //        public decimal CalculateWorkingHoursAsync(DayDataVM dayDataVM, decimal scheduledHoursPerWeek)
+        //{
+        //    TimeSpan workDuration = dayDataVM.EndWork - dayDataVM.StartWork;
+        //    TimeSpan breakDuration = dayDataVM.EndBreak - dayDataVM.StartBreak;
+
+        //    // Calculate the total break duration in hours
+        //    decimal totalBreakHours = (decimal)breakDuration.TotalHours;
+
+        //    // Subtract the break duration from the total work duration
+        //    decimal workingHours = (decimal)workDuration.TotalHours - totalBreakHours;
+
+        //    if (workingHours > scheduledHoursPerWeek)
+        //    {
+        //        decimal excessHours = workingHours - scheduledHoursPerWeek;
+
+        //        dayDataVM.Overtime = excessHours;
+
+        //        workingHours = scheduledHoursPerWeek;
+        //    }
+
+
+        //    const decimal standardWorkingHoursPerDay = 8;
+        //    if (workingHours > standardWorkingHoursPerDay)
+        //    {
+        //        // Calculate overtime
+        //        decimal overtime = workingHours - standardWorkingHoursPerDay;
+
+        //        // Limit to standard working hours
+        //        workingHours = standardWorkingHoursPerDay;
+
+        //        // Add overtime to total working hours
+        //        workingHours += overtime;
+        //    }
+
+        //    return workingHours;
+        //}
+
+
+
+        //Spurti
+
+
+public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal scheduledHoursPerWeek)
+        {                               
+                decimal totalWorkingHours = CalculateWorkingHoursAsync(dayDataVM, scheduledHoursPerWeek);
+
+                var timeReport = new TimeHistory
+                {
+                    Date = dayDataVM.Date,
+                    StartWork = dayDataVM.StartWork,
+                    EndWork = dayDataVM.EndWork,
+                    StartBreak = dayDataVM.StartBreak,
+                    EndBreak = dayDataVM.EndBreak,
+                    TotalWorkingHours = totalWorkingHours,
+                    WorkingHours = totalWorkingHours, 
+                    FlexiTime = dayDataVM.FlexiTime,
+                    MoreTime = dayDataVM.MoreTime,
+                    AttendanceTime = dayDataVM.AttendanceTime,
+                    AnnualLeave = dayDataVM.AnnualLeave,
+                    SickLeave = dayDataVM.SickLeave,
+                    LeaveOfAbsence = dayDataVM.LeaveOfAbsence,
+                    Childcare = dayDataVM.Childcare,
+                    Overtime = dayDataVM.Overtime,
+                    InconvenientHours = dayDataVM.InconvenientHours,
+                };
+
+                var user = await _db.Users.FindAsync(userId);
+                if (user != null)
+                {
+                    timeReport.Users = new List<User> { user }; 
+
+                    _db.TimeHistories.Add(timeReport);
+                    await _db.SaveChangesAsync();
+                }
+           }
+	
 
         public decimal CalculateWorkingHoursAsync(DayDataVM dayDataVM, decimal scheduledHoursPerWeek)
         {
-            TimeSpan workDuration = dayDataVM.EndWork - dayDataVM.StartWork;
+            
+            TimeSpan workDuration = dayDataVM.EndWork - dayDataVM.StartWork;          
             TimeSpan breakDuration = dayDataVM.EndBreak - dayDataVM.StartBreak;
-
-            // Calculate the total break duration in hours
             decimal totalBreakHours = (decimal)breakDuration.TotalHours;
 
-            // Subtract the break duration from the total work duration
-            decimal workingHours = (decimal)workDuration.TotalHours - totalBreakHours;
+            
+            decimal totalWorkHours = (decimal)workDuration.TotalHours;
 
-            if (workingHours > scheduledHoursPerWeek)
-            {
-                decimal excessHours = workingHours - scheduledHoursPerWeek;
+           
+            decimal workingHours = totalWorkHours - totalBreakHours;
 
-                dayDataVM.Overtime = excessHours;
-
-                workingHours = scheduledHoursPerWeek;
-            }
-
-
+           
             const decimal standardWorkingHoursPerDay = 8;
+
+         
+            decimal WorkingHours = Math.Min(workingHours, standardWorkingHoursPerDay);
+
+           
+            decimal overtime = 0;
             if (workingHours > standardWorkingHoursPerDay)
             {
-                // Calculate overtime
-                decimal overtime = workingHours - standardWorkingHoursPerDay;
-
-                // Limit to standard working hours
-                workingHours = standardWorkingHoursPerDay;
-
-                // Add overtime to total working hours
-                workingHours += overtime;
+                overtime = workingHours - standardWorkingHoursPerDay;
             }
 
-            return workingHours;
+            
+            dayDataVM.Overtime = overtime;
+
+            return WorkingHours;
         }
 
+   
         // Helper method to get the previous Monday from a given date
         //public DateTime GetPreviousMonday(DateTime date)
         //{
@@ -143,7 +251,7 @@ namespace sybring_project.Repos.Services
         //}
 
 
-            
+
 
         public async Task<TimeHistory> GetTimeHistoryByIdAsync(int id)
         {
@@ -158,7 +266,7 @@ namespace sybring_project.Repos.Services
             return time;
         }
 
-      
+
 
 
         // Deleting a time history 
@@ -170,7 +278,7 @@ namespace sybring_project.Repos.Services
                 _db.TimeHistories.Remove(timeHistoryToDelete);
                 await _db.SaveChangesAsync();
             }
-                    }
+        }
 
 
         // Updating an existing time history 
@@ -179,8 +287,6 @@ namespace sybring_project.Repos.Services
             _db.Update(updatedTimeHistory);
             await _db.SaveChangesAsync();
         }
-
-
 
 
         ////  // Generate time report by days of the week
@@ -211,21 +317,6 @@ namespace sybring_project.Repos.Services
 
         ////      return report;
         ////  }
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
 
 
     }

@@ -6,6 +6,7 @@ using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
+using sybring_project.Repos.Services;
 using System.Runtime.InteropServices;
 
 namespace sybring_project.Controllers
@@ -13,29 +14,56 @@ namespace sybring_project.Controllers
     public class UserController : Controller
     {
         private readonly IUserServices _userServices;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IProjectServices _projectServices;
         private readonly IEmailSender _emailSender;
+        private readonly IStatusService _statusService;
 
 
         public UserController(IUserServices userServices,
             UserManager<User> userManager, ApplicationDbContext applicationDbContext,
-            IProjectServices projectServices, IEmailSender emailSender)
+            IProjectServices projectServices, IEmailSender emailSender,
+            IStatusService statusService, RoleManager<IdentityRole> roleManager )
         {
             _userServices = userServices;
             _userManager = userManager;
             _projectServices = projectServices;
             _applicationDbContext = applicationDbContext;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         public async Task<IActionResult> Index()
         {
-            var list = await _userServices.GetAllUserAsync();
-            return View(list);
+            var userList = await _userServices.GetAllUserAsync();
+            var statusList = await _statusService.GetStatusListAsync();
+            ViewBag.StatusList = statusList;
+
+            return View(userList);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(string userId, Status status)
+        {
+            // Retrieve the user by ID
+            var user = await _userServices.GetUserByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Update the user's status
+            user.Status = status;
+
+            // Update the user in the database
+            await _userServices.UpdateUserAsync(user);
+
+            return RedirectToAction("Index");
+        }
+
 
         public async Task<IActionResult> RoleView(string roleName)
         {
@@ -151,8 +179,36 @@ namespace sybring_project.Controllers
 
             return RedirectToAction("Details", new { id = userId });
         }
-
         public async Task<IActionResult> Delete(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (await _userManager.IsInRoleAsync(user, "underconsult"))
+            {
+                await _userManager.RemoveFromRoleAsync(user, "underconsult");
+                await _userManager.AddToRoleAsync(user, "archive");
+            }
+            else if (await _userManager.IsInRoleAsync(user, "archive"))
+            {
+                await _userManager.RemoveFromRoleAsync(user, "archive");
+                await _userManager.AddToRoleAsync(user, "underconsult");
+            }
+            else
+            {
+                // User is not in the "underconsult" role, handle this case as needed
+                // For example, return an error message or handle it differently
+                // You may also choose to do nothing in this case if it's not an error
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> TrueDelete(string id)
         {
             await _userServices.DeleteUserAsync(id);
             return RedirectToAction("Index");
@@ -205,7 +261,7 @@ namespace sybring_project.Controllers
 
                     await _emailSender.SendEmailAsync(userEmail, "You've been assigned to a project",
                     $"Hello {user.FirstName},\n\nYou've been assigned to the project: " +
-                    $"{projectName}.\n\nRegards,\n\n Sybring AB"); 
+                    $"{projectName}.\n\nRegards,\n\n Sybring AB");
 
 
                 }
@@ -238,6 +294,8 @@ namespace sybring_project.Controllers
 
             return RedirectToAction("SendEmail");
         }
+
+
 
 
     }

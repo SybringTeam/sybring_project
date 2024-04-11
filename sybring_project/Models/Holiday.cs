@@ -40,7 +40,7 @@ namespace sybring_project.Models
 
 
         // Custom property to determine if it's a red day
-        public bool IsRedDay => Röddag.ToLower() == "Ja";
+        //public bool IsRedDay => Röddag.ToLower() == "Ja";
 
 
     }
