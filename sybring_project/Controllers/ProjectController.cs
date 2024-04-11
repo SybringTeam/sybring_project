@@ -66,7 +66,6 @@ namespace sybring_project.Controllers
                 // Return an error view or handle the error in a different way
                 return View("Error"); // Make sure the "Error" view expects an ErrorViewModel
             }
-
             var assignedUser = await _projectServices.GetAssignedUserForProjectAsync(project.Id);
             var viewModel = new ProjectBillingCompanyVM
             {
