@@ -25,6 +25,7 @@ namespace sybring_project.Data
         public DbSet<ProjectTimeReport> ProjectTimeReport { get; set; }
 
         public DbSet<Company> Companies { get; set; }
+        public DbSet<Status> Status { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -70,7 +71,10 @@ namespace sybring_project.Data
                    .WithOne(c => c.Project)
                    .HasForeignKey(c => c.ProjectId);
 
-
+            //builder.Entity<Status>()
+            //    .HasMany(s => s.User)
+            //    .WithOne(s => s.Status)
+            //    .HasForeignKey(s => s.Status);
 
             base.OnModelCreating(builder);
         }

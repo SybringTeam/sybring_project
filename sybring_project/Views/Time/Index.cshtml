@@ -64,6 +64,11 @@
                     <td>@timeHistory.Overtime</td>
                     <td>@timeHistory.InconvenientHours</td>
 
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@timeHistory.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@timeHistory.Id">Details</a> |
+                        <a asp-action="Delete" onclick="return confirm('Are you sure to delete this?')" asp-route-id="@timeHistory.Id">Delete</a>
+                    </td>
                 </tr>
             }
         </tbody>

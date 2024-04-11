@@ -34,5 +34,8 @@ namespace sybring_project.Repos.Interfaces
         //Task<User> GetUserWithProjectsAsync(string id);
         User GetUserById(string userId);
 
+        Task UpdateUserStatusAsync(string userId, Status status);
+
+
     }
 }
