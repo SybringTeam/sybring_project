@@ -25,15 +25,16 @@
                         </div>
                     </div>
 
-                    <div class=" mb-2">
-                        <div class="form-floating">
+                    <div class="mb-2">
+                        <label for="floatingProjectId">Project:</label>
+                        <div class="form-label">
                             <select asp-for="ProjectId" id="floatingProjectId" aria-label="Project" class="form-select" multiple>
                                 @foreach (var project in Model.ProjectId)
                                 {
                                     <option value="@project.Id">@project.Name</option>
                                 }
                             </select>
-                            <label for="floatingProjectId">Project:</label>
+                            
                             <span asp-validation-for="ProjectId" class="text-danger"></span>
                         </div>
                     </div>

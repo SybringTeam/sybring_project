@@ -6,16 +6,14 @@
 
 @if (User.IsInRole("admin"))
 {
-    
-
-
 
     <section class="section">
         <div class="row align-items-top">
             <div class="col-lg-6">
                 <div class="card">
-                    <img src="/logo/pictures/pexels-picjumbocom-461077.jpg" class="card-img-top" alt="..." />
-                    <div class="card-img-overlay">
+                    <img src="~/logo/pictures/pexels-andrea-piacquadio-3760060.jpg" class="card-img-top" alt="..." />
+
+                    <div class="card-img">
                         <h5 class="card-title">tillfälligt</h5>
                         <p class="card-text">tillfälligt text..</p>
                     </div>
@@ -43,7 +41,7 @@
                         </div>
                     </div>
                 </div>
-
+               
             </div>
 
             <div class="col-lg-3">
@@ -57,24 +55,24 @@
                     </div>
                 </div>
 
-                <div class="card">
+               @*  <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">tillfälligt</h5>
                         <p class="card-text">tillfälligt text.</p>
                     </div>
                     <img src="assets/img/card.jpg" class="card-img-bottom" alt="...">
-                </div>
+                </div> *@
 
             </div>
 
-            <div class="col-lg-3">
-            </div>
+           
+          
 
         </div>
     </section>
 
 }
-@if (User.IsInRole("underconsult"))
+else if (User.IsInRole("underconsult"))
 {
     <section class="section">
         <div class="row align-items-top">
@@ -83,7 +81,12 @@
                     <img src="/logo/pictures/pexels-picjumbocom-461077.jpg" class="card-img-top" alt="..." />
                     <div class="card-img-overlay">
                         <h5 class="card-title">Välkommen till Sybrings Tisrapportering</h5>
-                        <p class="card-text">Vi hälsar dig varmt välkommen till Sybrings tisrapportering, plattformen där vi tillsammans håller koll på veckans framsteg och steg framåt. Det är här vi samlar in och delar våra tidrapporter varje vecka för att säkerställa att vi är på rätt spår mot våra gemensamma mål.</p>
+                        <p class="card-text">Vi hälsar dig varmt välkommen till Sybrings tisrapportering, plattformen där vi tillsammans håller koll på projektets tidsåtgång. Det är här vi samlar in och delar våra tidrapporter varje vecka för rätt fakturering och rapportering till kund. </p>
+                        <p>
+                            Era insatser är kärnan i vårt arbete och varje inlämnad tidrapport är ett steg närmare vår framgång. Genom att noggrant dokumentera era aktiviteter ger ni inte bara oss, utan även er själva, möjligheten att se den påverkan ni har och att identifiera områden för förbättring. Er tid och engagemang är ovärderliga för oss och tillsammans bygger vi en starkare och mer effektiv arbetsmiljö.
+
+                            Tack för att ni är en del av Sybrings team och för ert ovärderliga bidrag. Låt oss fortsätta att arbeta tillsammans för att nå nya höjder!
+                        </p>
                     </div>
                 </div>
                 <div class="card">
@@ -114,7 +117,6 @@
 
             <div class="col-lg-3">
 
-
                 <div class="card">
                     <img src="/logo/pictures/pexels-cottonbro-studio-4065895.jpg" class="card-img-top" alt="..." />
                     <div class="card-body">
@@ -139,13 +141,13 @@
         </div>
     </section>
 }
-else
+else 
 {
     <section class="section">
         <div class="row align-items-top">
             <div class="col-lg-6">
                 <div class="card">
-                    <img src="/logo/pictures/pexels-picjumbocom-461077.jpg" class="card-img-top" alt="..." />
+                    <img src="~/logo/pictures/pexels-jessica-lewis-thepaintedsquare-583848.jpg" class="card-img-top" alt="..." />
                     <div class="card-img-overlay">
                         <h5 class="card-title">tillfälligt</h5>
                         <p class="card-text">tillfälligt text..</p>

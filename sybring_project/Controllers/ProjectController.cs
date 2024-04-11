@@ -39,7 +39,7 @@ namespace sybring_project.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var project = await _projectServices.GetProjectsAsync(id);
+            var project = await _projectServices.GetProjectByIdAsync(id);
 
             if (project == null)
             {
@@ -87,7 +87,7 @@ namespace sybring_project.Controllers
         {
             try
             {
-                var getProject = await _projectServices.GetProjectsAsync(projectId);
+                var getProject = await _projectServices.GetProjectByIdAsync(projectId);
                 var getUser = await _userServices.GetUserByIdAsync(userId);
 
                 if (getUser == null || getProject == null)
@@ -144,7 +144,7 @@ namespace sybring_project.Controllers
                 return NotFound();
             }
 
-            var projectId = await _projectServices.GetProjectsAsync(id);
+            var projectId = await _projectServices.GetProjectByIdAsync(id);
 
             if (projectId == null)
             {

@@ -81,12 +81,12 @@
                 }
                 else
                 {
-                    <li class="nav-item " style="margin-right: 10px; margin-left:10px;">
-                        <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
-                    </li>
-                    <li class="nav-item" style="margin-right: 10px;">
-                        <a class="nav-link" asp-area="" asp-controller="Billing" asp-action="Index">Billing</a>
-                    </li>
+                    @*  <li class="nav-item " style="margin-right: 10px; margin-left:10px;">
+                <a class="nav-link" asp-area="" asp-controller="Time" asp-action="Create">TimeReport</a>
+                </li>
+                <li class="nav-item" style="margin-right: 10px;">
+                <a class="nav-link" asp-area="" asp-controller="Billing" asp-action="Index">Billing</a>
+                </li> *@
 
                 }
             </ul>
@@ -305,7 +305,7 @@
 
         </aside>
     }
-    else
+    else if (User.IsInRole("underconsult"))
     {
         <aside id="sidebar" class="sidebar">
 
@@ -382,8 +382,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="@Url.Action("", "")">
-                                <i class="bi bi-circle"></i><span> exempel</span>
+                            <a href="@Url.Action("Index", "Billing")">
+                                <i class="bi bi-circle"></i><span>Files</span>
                             </a>
                         </li>
                     </ul>
@@ -391,25 +391,25 @@
 
                 <li class="nav-heading">Pages</li>
 
-                  <li class="nav-item">
-            <a class="nav-link collapsed" asp-area="Identity" asp-page="/Account/Manage/Index">
-            <i class="bi bi-person"></i>
-            <span>Profile</span>
-            </a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link collapsed" href="">
-            <i class="bi bi-envelope"></i>
-            <span>Contact</span>
-            </a>
-            </li>
-
-              @*   <li class="nav-item">
-                    <a class="nav-link collapsed" asp-area="Identity" asp-page="/Account/Register">
-                        <i class="bi bi-card-list"></i>
-                        <span>Register</span>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
                     </a>
-                </li> *@
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="">
+                        <i class="bi bi-envelope"></i>
+                        <span>Contact</span>
+                    </a>
+                </li>
+
+                @*   <li class="nav-item">
+            <a class="nav-link collapsed" asp-area="Identity" asp-page="/Account/Register">
+            <i class="bi bi-card-list"></i>
+            <span>Register</span>
+            </a>
+            </li> *@
 
                 @*   <li class="nav-item">
             <a class="nav-link collapsed" asp-area="Identity" asp-page="/Account/Login">
@@ -419,16 +419,20 @@
             </li>
             *@
                 <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
-            <i class="bi bi-question-circle"></i>
-            <span>F.A.Q</span>
-            </a>
-            </li>
+                    <a class="nav-link collapsed" href="pages-faq.html">
+                        <i class="bi bi-question-circle"></i>
+                        <span>F.A.Q</span>
+                    </a>
+                </li>
 
 
             </ul>
 
         </aside>
+    }
+    else
+    {
+        
     }
     <main id="main" class="main">
 

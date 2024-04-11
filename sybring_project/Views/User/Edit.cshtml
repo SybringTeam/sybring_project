@@ -1,79 +1,94 @@
 ﻿@model sybring_project.Models.Db.User
 
 
-<h1>Edit User</h1>
-<div class="frame">
-<form asp-action="Edit" method="post" enctype="multipart/form-data">
-    <input type="hidden" asp-for="Id" />
 
-    <div asp-validation-summary="All" class="text-danger"></div>
+<div class="container ">
+    <div class="row  justify-content-center">
+        <div class="col-md-12">
+            <section>
+                <div class="card">
+                    <div class="card-header">
+                        <h4><strong>Edit User Details </strong></h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                            <input type="hidden" asp-for="Id" />
 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="FirstName">First Name</label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
+                            <div asp-validation-summary="All" class="text-danger"></div>
 
-            <div class="form-group">
-                <label asp-for="LastName">Last Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="FirstName">First Name</label>
+                                        <input asp-for="FirstName" class="form-control" />
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
 
-            <div class="form-group">
-                <label asp-for="Age">Age:</label>
-                <input asp-for="Age" class="form-control" />
-                <span asp-validation-for="Age" class="text-danger"></span>
-            </div>
+                                    <div class="form-group">
+                                        <label asp-for="LastName">Last Name</label>
+                                        <input asp-for="LastName" class="form-control" />
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
 
-            <div class="form-group">
-                <label asp-for="Address">Address:</label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-        </div>
+                                    <div class="form-group">
+                                        <label asp-for="Age">Age:</label>
+                                        <input asp-for="Age" class="form-control" />
+                                        <span asp-validation-for="Age" class="text-danger"></span>
+                                    </div>
 
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="TaskDescription">Task Description:</label>
-                <input asp-for="TaskDescription" class="form-control" />
-                <span asp-validation-for="TaskDescription" class="text-danger"></span>
-            </div>
+                                    <div class="form-group">
+                                        <label asp-for="Address">Address:</label>
+                                        <input asp-for="Address" class="form-control" />
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+                                </div>
 
-            <div class="form-group">
-                <label asp-for="UserIncome">Income</label>
-                <input asp-for="UserIncome" class="form-control" />
-                <span asp-validation-for="UserIncome" class="text-danger"></span>
-            </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="TaskDescription">Task Description:</label>
+                                         <textarea asp-for="TaskDescription" class="form-control" id="floatingDescription"  style="height: 70px;"></textarea>
+                                        <span asp-validation-for="TaskDescription" class="text-danger"></span>
+                                    </div>
 
-            <div class="form-group">
-                <label asp-for="ProjectId">Project</label>
-                @if (ViewBag.Projects != null && ViewBag.Projects.Count > 0)
-                {
-                    <select asp-for="ProjectId" asp-items="@(new SelectList(ViewBag.Projects, "Id", "Name", Model.ProjectId))" class="form-control">
-                        <option value="">Select a Project</option>
-                    </select>
-                }
-                else
-                {
-                    <p>No projects available.</p>
-                }
-                <span asp-validation-for="ProjectId" class="text-danger"></span>
-            </div>
+                                    <div class="form-group">
+                                        <label asp-for="UserIncome">Income</label>
+                                        <input asp-for="UserIncome" class="form-control" />
+                                        <span asp-validation-for="UserIncome" class="text-danger"></span>
+                                    </div>
 
-            <div class="form-group">
-                <label asp-for="File">Upload File</label>
-                <input asp-for="File" type="file" class="form-control" />
-                <span asp-validation-for="File" class="text-danger"></span>
-            </div>
+                                  @*   <div class="form-group">
+                                        <label asp-for="ProjectId">Project</label>
+                                        @if (ViewBag.Projects != null && ViewBag.Projects.Count > 0)
+                                        {
+                                            <select asp-for="ProjectId" asp-items="@(new SelectList(ViewBag.Projects, "Id", "Name", Model.ProjectId))" class="form-control">
+                                                <option value="">Select a Project</option>
+                                            </select>
+                                        }
+                                        else
+                                        {
+                                            <p>No projects available.</p>
+                                        }
+                                        <span asp-validation-for="ProjectId" class="text-danger"></span>
+                                    </div> *@
+
+                                    <div class="form-group">
+                                        <label asp-for="File">Upload File</label>
+                                        <input asp-for="File" type="file" class="form-control" />
+                                        <span asp-validation-for="File" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
-
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-</form>
 </div>
+
+
 <a asp-action="Index">Back to List</a>
 
 
