@@ -26,13 +26,14 @@ namespace sybring_project.Controllers
         public UserController(IUserServices userServices,
             UserManager<User> userManager, ApplicationDbContext applicationDbContext,
             IProjectServices projectServices, IEmailSender emailSender,
-            IStatusService statusService)
+            IStatusService statusService, RoleManager<IdentityRole> roleManager )
         {
             _userServices = userServices;
             _userManager = userManager;
             _projectServices = projectServices;
             _applicationDbContext = applicationDbContext;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         public async Task<IActionResult> Index()
