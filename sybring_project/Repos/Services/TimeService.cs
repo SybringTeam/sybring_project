@@ -215,12 +215,7 @@ public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal sch
             return WorkingHours;
         }
 
-
-
-       
-
-
-
+   
         // Helper method to get the previous Monday from a given date
         //public DateTime GetPreviousMonday(DateTime date)
         //{
