@@ -13,11 +13,7 @@
     </div>
 </div>
 
-
 <section class="container-fluid">
-   @*  <div class="button">
-        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary">Create User</a>
-    </div> *@
     <div class="card p-3">
         <div class="col-lg-12 bg-white">
             <table id="myTable" class="table">
@@ -31,65 +27,61 @@
                         <th> ACTIONS</th>
                     </tr>
                 </thead>
-                @* <tbody> *@
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                        </td>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td></td>
+                            <td>
+                                <a href="#" onclick="showUser('@user.Id');" class="showDetails">@user.FirstName @user.LastName</a>
+                            </td>
+                            <td>
+                                @foreach (var project in user.ProjectId)
+                                {
+                                    @project.Name
 
-                        <td>
-
-                            <a href="#" onclick="showUser('@item.Id');" class="showDetails">@item.FirstName @item.LastName</a>
-
-                        </td>
-
-                        <td>
-                            @foreach (var project in item.ProjectId)
-                            {
-
-                                @project.Name
-
-                                <br>
-
-                            }
-                        </td>
-
-                        <td>@item.UserName</td>
-
-                        <td> </td>
-
-                        <td>
-                            <div class="dropdown">
-                                <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
-                                    <li class="dropdown-header text-start">
-                                        @* <h6>Filter</h6> *@
-                                    </li>
-                                    <li>
-                                        <div class="d-flex">
-                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">
-                                                <i class="bi bi-pencil"></i>
-                                                <span>Edit</span>
-                                            </a>
-                                            <span>|</span>
-                                            <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">
-                                                <i class="bi bi-trash"></i>
-                                                <span>Delete</span>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-
-                    </tr>
-
-                }
-                @* </tbody> *@
+                                    <br />
+                                }
+                            </td>
+                            <td>@user.UserName</td>
+                            <td>
+                                <form asp-action="UpdateStatus" method="post">
+                                    <input type="hidden" name="userId" value="@user.Id" />
+                                    <select name="status">
+                                        @foreach (var status in ViewBag.StatusList)
+                                        {
+                                            <option value="@status.Id">@status.Name</option>
+                                        }
+                                    </select>
+                                    <button type="submit">Update</button>
+                                </form>
+                            </td>
+                            <td>
+                                <div class="dropdown">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true"><i class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                        <li class="dropdown-header text-start"></li>
+                                        <li>
+                                            <div class="d-flex">
+                                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@user.Id">
+                                                    <i class="bi bi-pencil"></i>
+                                                    <span>Edit</span>
+                                                </a>
+                                                <span>|</span>
+                                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@user.Id">
+                                                    <i class="bi bi-trash"></i>
+                                                    <span>Delete</span>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
-
     </div>
 </section>
 
@@ -100,5 +92,3 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
-

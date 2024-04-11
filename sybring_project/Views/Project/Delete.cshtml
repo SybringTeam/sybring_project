@@ -30,7 +30,7 @@
 </div>
 
 <div>
-    <form asp-action="DeleteConfirmed" method="post" onsubmit="return confirm('Are you sure you want to delete this project?');">
+    <form asp-action="DeleteConfirmed" method="post" >
         @* @Html.AntiForgeryToken() *@
 
         <input type="hidden" asp-for="Id" />
