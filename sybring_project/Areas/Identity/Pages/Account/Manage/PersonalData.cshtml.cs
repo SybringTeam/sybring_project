@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using sybring_project.Models.Db;
+using sybring_project.Repos.Interfaces;
 
 namespace sybring_project.Areas.Identity.Pages.Account.Manage
 {
@@ -14,13 +15,15 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly ILogger<PersonalDataModel> _logger;
+        private readonly IUserServices _userServices;
 
         public PersonalDataModel(
             UserManager<User> userManager,
-            ILogger<PersonalDataModel> logger)
+            ILogger<PersonalDataModel> logger, IUserServices userServices)
         {
             _userManager = userManager;
             _logger = logger;
+            _userServices = userServices;
         }
         [BindProperty]
         public List<User> Users { get; set; }
@@ -50,6 +53,7 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
             user.ICEContactName = iceContactName;
             user.UserICE = iceContactNumber;
             user.CitizenMembership = citizenMembership;
+
 
 
             var result = await _userManager.UpdateAsync(user);

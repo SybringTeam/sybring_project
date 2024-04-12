@@ -4,8 +4,69 @@
     ViewData["Title"] = "";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="frame3"
+<section>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Create a new account for user</h4>
+
+                <form class="registerForm1" id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    @* <h2>Create a new account.</h2> *@
+                    <hr />
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.FirstName" class="form-control " autocomplete="FirstName" aria-required="true" placeholder="First Name" />
+                                <label asp-for="Input.FirstName">First Name</label>
+                                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.LastName" class="form-control" autocomplete="LastName" aria-required="true" placeholder="Last Name" />
+                                <label asp-for="Input.LastName">Last Name</label>
+                                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                            <label asp-for="Input.Email">Email</label>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
+                                <label asp-for="Input.Password">Password</label>
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" />
+                                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container text-center">
+
+                        <button id="registerSubmit" type="submit" class=" btn btn-lg btn-primary col-sm-3">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+</section>
+
+
+@* <div class="frame3"
 <div class="row">
     <div class="col-sm-12">
         <form class="registerForm1"id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
@@ -55,11 +116,11 @@
      <button id="registerSubmit" type="submit" class=" btn btn-lg btn-primary col-sm-3">Register</button>
      </div>
         </form>
-       
+
     </div>
    
     </div>
-</div>
+</div> *@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

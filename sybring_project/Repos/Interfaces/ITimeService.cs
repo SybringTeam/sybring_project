@@ -11,7 +11,7 @@ namespace sybring_project.Repos.Interfaces
     {
         // Methods to add , delete and update a new time history record
 
-        Task<List<TimeHistory>> GetTimeListAsync();
+        Task<List<TimeHistory>> GetTimeListAsync(string userId);
         Task AddTimeHistoryAsync(TimeHistory timeHistory);
 
         Task UpdateTimeHistoryAsync(TimeHistory updatedTimeHistory);
