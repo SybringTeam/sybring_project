@@ -25,6 +25,7 @@
                         <th> USER NAME</th>
                         <th> STATUS</th>
                         <th> ACTIONS</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -44,18 +45,7 @@
                                 }
                             </td>
                             <td>@user.UserName</td>
-                            <td>
-                                <form asp-action="UpdateStatus" method="post">
-                                    <input type="hidden" name="userId" value="@user.Id" />
-                                    <select name="status">
-                                        @foreach (var status in ViewBag.StatusList)
-                                        {
-                                            <option value="@status.Id">@status.Name</option>
-                                        }
-                                    </select>
-                                    <button type="submit">Update</button>
-                                </form>
-                            </td>
+                         
                             <td>
                                 <div class="dropdown">
                                     <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true"><i class="bi bi-three-dots"></i></a>
