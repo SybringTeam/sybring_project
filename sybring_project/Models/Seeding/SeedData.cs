@@ -13,11 +13,14 @@ namespace sybring_project.Models.Seeding
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var project = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var status = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
 
             await SeedRoles(roleManager);
             await SeedAdmin(userManager);
             await SeedProject(project);
+            await SeedStatus(status);
+
         }
 
         private async static Task SeedRoles(RoleManager<IdentityRole> roleManager)
@@ -203,6 +206,19 @@ namespace sybring_project.Models.Seeding
                     }
                     );
                     await project.SaveChangesAsync();
+            }
+        }
+
+        private async static Task SeedStatus(ApplicationDbContext status)
+        {
+            if (!status.Status.Any())
+            {
+                await status.Status.AddRangeAsync(
+                    new Status { Name = "active" },
+                    new Status { Name = "inactive" },
+                    new Status { Name = "inprogress" }
+                );
+                await status.SaveChangesAsync();
             }
         }
     }
