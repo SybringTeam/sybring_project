@@ -69,6 +69,8 @@ namespace sybring_project.Controllers
 
         public async Task<IActionResult> RoleView(string roleName)
         {
+            ViewBag.RoleName = roleName; // Pass the roleName to the view
+
             if (roleName != "admin")  // Check if the requested role is not "admin"
             {
                 var list = await _userServices.GetAllUsersInRoleAsync(roleName);

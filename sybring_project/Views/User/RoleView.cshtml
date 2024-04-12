@@ -29,9 +29,16 @@
                     <td>@item.TaskDescription</td>
                     <td>@item.UserName</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Restore</a> |
-                        <a asp-action="TrueDelete" asp-route-id="@item.Id">Delete</a>
+                        @if (ViewBag.RoleName == "archive")
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">| Restore </a>
+                            <a asp-action="TrueDelete" asp-route-id="@item.Id">| Delete </a>
+                            }
+                        else
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        }
                     </td>
                 </tr>
             }
