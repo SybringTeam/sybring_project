@@ -38,11 +38,13 @@ namespace sybring_project.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var userList = await _userServices.GetAllUserAsync();
-            var statusList = await _statusService.GetStatusListAsync();
-            ViewBag.StatusList = statusList;
 
-            return View(userList);
+            var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
+            //var userList = await _userServices.GetAllUserAsync();
+            //var statusList = await _statusService.GetStatusListAsync();
+            //ViewBag.StatusList = statusList;
+
+            return View(userListUK);
         }
 
         [HttpPost]
@@ -67,8 +69,22 @@ namespace sybring_project.Controllers
 
         public async Task<IActionResult> RoleView(string roleName)
         {
-            var list = await _userServices.GetAllUsersInRoleAsync(roleName);
-            return View(list);
+            if (roleName != "admin")  // Check if the requested role is not "admin"
+            {
+                var list = await _userServices.GetAllUsersInRoleAsync(roleName);
+                return View(list);
+            }
+            else  // Handle the case when the requested role is "admin"
+            {
+                // Fetch users with both "Admin" and "SuperAdmin" roles
+                var adminUsers = await _userServices.GetAllUsersInRoleAsync("Admin");
+                var superAdminUsers = await _userServices.GetAllUsersInRoleAsync("SuperAdmin");
+
+                // Combine the users from both roles
+                var combinedUsers = adminUsers.Concat(superAdminUsers).ToList();
+
+                return View(combinedUsers);
+            }
         }
 
         [HttpGet]
