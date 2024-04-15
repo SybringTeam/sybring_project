@@ -9,5 +9,9 @@ namespace sybring_project.Repos.Interfaces
         Task UpdateUserStatusAsync(string userId, string statusName);
 
         Task<List<Status>> GetStatusListAsync();
+
+        Task<Status> GetStatusByIdAsync(int id);
+
+        Task<Status> DeleteStatusAsync(int id);
     }
 }
