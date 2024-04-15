@@ -1,5 +1,6 @@
 @model IEnumerable<sybring_project.Models.Db.User>
 
+
 <div class="section">
     <div class="row">
         <div class="col-lg-12">
@@ -47,12 +48,12 @@
                             <td>
                                 <form asp-action="UpdateStatus" method="post">
                                     <input type="hidden" name="userId" value="@user.Id" />
-                                    <select name="status">
+                                    @* <select name="status">
                                         @foreach (var status in ViewBag.StatusList)
                                         {
                                             <option value="@status.Id">@status.Name</option>
                                         }
-                                    </select>
+                                    </select> *@
                                     <button type="submit">Update</button>
                                 </form>
                             </td>
@@ -86,7 +87,7 @@
 </section>
 
 <div>
-        <a asp-action="RoleView" asp-route-roleName="underconsult" class="btn btn-primary">View Underconsult Users</a>
+    <a asp-action="RoleView" asp-route-roleName="admin" class="btn btn-primary">View Admin Users</a>
     <a asp-action="RoleView" asp-route-roleName="archive" class="btn btn-primary">View Archives Users</a>
     <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Create User</a>
 </div>
