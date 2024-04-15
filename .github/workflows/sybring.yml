@@ -2,7 +2,7 @@ name: Build and deploy .NET Core application to Web App sybring
 on:
   push:
     branches:
-    - Dawood/Time_Work
+    - development
 env:
   AZURE_WEBAPP_NAME: sybring
   AZURE_WEBAPP_PACKAGE_PATH: sybring_project\published
