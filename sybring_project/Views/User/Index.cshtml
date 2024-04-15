@@ -45,8 +45,8 @@
                                 }
                             </td>
                             <td>@user.UserName</td>
-                            <td>
-                                <form asp-action="UpdateStatus" method="post">
+                           <td>
+                               @*  <form asp-action="UpdateStatus" method="post">
                                     <input type="hidden" name="userId" value="@user.Id" />
                                     @* <select name="status">
                                         @foreach (var status in ViewBag.StatusList)
@@ -55,8 +55,8 @@
                                         }
                                     </select> *@
                                     <button type="submit">Update</button>
-                                </form>
-                            </td>
+                                </form> *@
+                            </td> 
                             <td>
                                 <div class="dropdown">
                                     <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true"><i class="bi bi-three-dots"></i></a>
@@ -92,4 +92,4 @@
     <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary">Create User</a>
 </div>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>

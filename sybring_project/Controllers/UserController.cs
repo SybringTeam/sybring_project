@@ -38,6 +38,9 @@ namespace sybring_project.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var userList = await _userServices.GetAllUserAsync();
+            //var statusList = await _statusService.GetStatusListAsync();
+            //ViewBag.StatusList = statusList;
 
             var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
             //var userList = await _userServices.GetAllUserAsync();
@@ -47,24 +50,24 @@ namespace sybring_project.Controllers
             return View(userListUK);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateStatus(string userId, Status status)
-        {
-            // Retrieve the user by ID
-            var user = await _userServices.GetUserByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //public async Task<IActionResult> UpdateStatus(string userId, Status status)
+        //{
+        //    // Retrieve the user by ID
+        //    var user = await _userServices.GetUserByIdAsync(userId);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            // Update the user's status
-            user.Status = status;
+        //    // Update the user's status
+        //    user.Status = status;
 
-            // Update the user in the database
-            await _userServices.UpdateUserAsync(user);
+        //    // Update the user in the database
+        //    await _userServices.UpdateUserAsync(user);
 
-            return RedirectToAction("Index");
-        }
+        //    return RedirectToAction("Index");
+        //}
 
 
         public async Task<IActionResult> RoleView(string roleName)
