@@ -111,6 +111,14 @@
                                 {
                                     <span>Admin</span>
                                 }
+                                else if (User.IsInRole("superadmin"))
+                                {
+                                    <span>Super Admin</span>
+                                }
+                                else if (User.IsInRole("archive"))
+                                {
+                                    <span>Archived</span>
+                                }
                                 else
                                 {
                                     <span>Under Consultant</span>

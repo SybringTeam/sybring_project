@@ -44,7 +44,7 @@ namespace sybring_project.Repos.Services
 
         public async Task<List<Status>> GetStatusListAsync()
         {
-           
+
             return await _db.Status.ToListAsync();
         }
 

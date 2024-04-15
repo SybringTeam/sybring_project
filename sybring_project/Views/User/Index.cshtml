@@ -50,7 +50,8 @@
                             <td>
                                 <form asp-action="UpdateStatus" method="post">
                                     <input type="hidden" name="userId" value="@user.Id" />
-                                    <input type="hidden" name="statusId" value="@((user.Status != null) ? user.Status.Id.ToString() : string.Empty)" />
+                                    <input type="hidden" name="statusId" value="@((user.Status != null)
+                                        ? user.Status.Id.ToString() : string.Empty)" />
                                     <select name="status">
                                         @foreach (var status in Model.Statuses)
                                         {
