@@ -1,0 +1,45 @@
+﻿@model IEnumerable<sybring_project.Models.Db.Status>
+
+<div class="container">
+    <h1>Status List</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Actions</th> <!-- Add a column for actions -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var status in Model)
+            {
+                <tr>
+                    <td>@status.Id</td>
+                    <td>@status.Name</td>
+                    <td>
+                        <!-- Dropdown menu for actions -->
+                        <div class="dropdown">
+                            <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                <li class="dropdown-header text-start"></li>
+                                <li>
+                                    <div class="d-flex">
+                                        <a class="dropdown-item" asp-action="Edit" asp-route-id="@status.Id">
+                                            <i class="bi bi-pencil"></i>
+                                            <span>Edit</span>
+                                        </a>
+                                        <span>|</span>
+                                        <a class="dropdown-item" asp-action="Delete" asp-route-id="@status.Id">
+                                            <i class="bi bi-trash"></i>
+                                            <span>Delete</span>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -26,7 +26,7 @@ namespace sybring_project.Controllers
         public UserController(IUserServices userServices,
             UserManager<User> userManager, ApplicationDbContext applicationDbContext,
             IProjectServices projectServices, IEmailSender emailSender,
-            IStatusService statusService, RoleManager<IdentityRole> roleManager )
+            IStatusService statusService, RoleManager<IdentityRole> roleManager)
         {
             _userServices = userServices;
             _userManager = userManager;
@@ -34,19 +34,26 @@ namespace sybring_project.Controllers
             _applicationDbContext = applicationDbContext;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _statusService = statusService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var userList = await _userServices.GetAllUserAsync();
+            var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
             var statusList = await _statusService.GetStatusListAsync();
-            ViewBag.StatusList = statusList;
 
-            return View(userList);
+            var viewModel = new UserStatusViewModel
+            {
+                Users = userListUK,
+                Statuses = statusList
+            };
+
+            return View(viewModel);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(string userId, Status status)
+        public async Task<IActionResult> UpdateStatus(string userId, int statusId)
         {
             // Retrieve the user by ID
             var user = await _userServices.GetUserByIdAsync(userId);
@@ -55,11 +62,18 @@ namespace sybring_project.Controllers
                 return NotFound();
             }
 
+            // Retrieve the status by ID
+            var status = await _statusService.GetStatusByIdAsync(statusId);
+            if (status == null)
+            {
+                return NotFound("Status not found");
+            }
+
             // Update the user's status
             user.Status = status;
 
             // Update the user in the database
-            await _userServices.UpdateUserAsync(user);
+            await _statusService.UpdateUserAsync(user);
 
             return RedirectToAction("Index");
         }
@@ -67,8 +81,24 @@ namespace sybring_project.Controllers
 
         public async Task<IActionResult> RoleView(string roleName)
         {
-            var list = await _userServices.GetAllUsersInRoleAsync(roleName);
-            return View(list);
+            ViewBag.RoleName = roleName; // Pass the roleName to the view
+
+            if (roleName != "admin")  // Check if the requested role is not "admin"
+            {
+                var list = await _userServices.GetAllUsersInRoleAsync(roleName);
+                return View(list);
+            }
+            else  // Handle the case when the requested role is "admin"
+            {
+                // Fetch users with both "Admin" and "SuperAdmin" roles
+                var adminUsers = await _userServices.GetAllUsersInRoleAsync("Admin");
+                var superAdminUsers = await _userServices.GetAllUsersInRoleAsync("SuperAdmin");
+
+                // Combine the users from both roles
+                var combinedUsers = adminUsers.Concat(superAdminUsers).ToList();
+
+                return View(combinedUsers);
+            }
         }
 
         [HttpGet]

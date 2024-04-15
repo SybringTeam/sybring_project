@@ -17,12 +17,40 @@ namespace sybring_project.Repos.Services
             _userServices = userServices;
         }
 
+        public async Task<Status> DeleteStatusAsync(int id)
+        {
+            var statusToDelete = await _db.Status.FindAsync(id);
+
+            if (statusToDelete != null)
+            {
+                // Remove references from users
+                var usersWithStatus = await _db.Users.Where(u => u.Status.Id == id).ToListAsync();
+                foreach (var user in usersWithStatus)
+                {
+                    user.Status = null; // Or assign them to another status
+                }
+
+                _db.Status.Remove(statusToDelete);
+                await _db.SaveChangesAsync();
+            }
+
+            return statusToDelete;
+        }
+
+        public async Task<Status> GetStatusByIdAsync(int id)
+        {
+            return await _db.Status.FirstOrDefaultAsync(s => s.Id == id);
+        }
+
         public async Task<List<Status>> GetStatusListAsync()
         {
+
             return await _db.Status.ToListAsync();
         }
+
         public async Task UpdateUserAsync(User user)
         {
+            _db.Entry(user).State = EntityState.Modified;
             _db.Users.Update(user);
             await _db.SaveChangesAsync();
         }
