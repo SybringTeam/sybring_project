@@ -26,7 +26,7 @@ namespace sybring_project.Controllers
         public UserController(IUserServices userServices,
             UserManager<User> userManager, ApplicationDbContext applicationDbContext,
             IProjectServices projectServices, IEmailSender emailSender,
-            IStatusService statusService, RoleManager<IdentityRole> roleManager )
+            IStatusService statusService, RoleManager<IdentityRole> roleManager)
         {
             _userServices = userServices;
             _userManager = userManager;
@@ -38,10 +38,6 @@ namespace sybring_project.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var userList = await _userServices.GetAllUserAsync();
-            //var statusList = await _statusService.GetStatusListAsync();
-            //ViewBag.StatusList = statusList;
-
             var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
             //var userList = await _userServices.GetAllUserAsync();
             //var statusList = await _statusService.GetStatusListAsync();
