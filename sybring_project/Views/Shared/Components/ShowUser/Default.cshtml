@@ -1,6 +1,7 @@
 ﻿@model sybring_project.Models.Db.User
 
 
+
 <div id="userEle" class="container-fluid">
 
     @if (Model is not null)
@@ -48,7 +49,9 @@
                                 }
                             </div>
                             <input type="hidden" name="userId" value="@Model.Id" />
-                            <button type="submit" class="btn btn-outline-danger btn-sm mb-2" onclick="alertFunction()">Remove Selected</button>
+                           
+                                <button type="submit" class="btn btn-outline-danger btn-sm mb-2" onclick="alertFunction()">Remove Selected</button>
+                            
                         </form>
                       
                     <p><strong>Addres:</strong></p>

@@ -33,9 +33,11 @@ namespace sybring_project.ViewComponents
                 ViewBag.User = user;
 
                 var allProjects = await _projectServices.GetProjectsAsync();
+
                 if (allProjects != null)
                 {
                     ViewBag.AllProjects = allProjects;
+                   
                 }
 
                 return View("Default", user);
