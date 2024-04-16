@@ -26,7 +26,7 @@ namespace sybring_project.Controllers
         public UserController(IUserServices userServices,
             UserManager<User> userManager, ApplicationDbContext applicationDbContext,
             IProjectServices projectServices, IEmailSender emailSender,
-            IStatusService statusService, RoleManager<IdentityRole> roleManager )
+            IStatusService statusService, RoleManager<IdentityRole> roleManager)
         {
             _userServices = userServices;
             _userManager = userManager;
@@ -34,21 +34,26 @@ namespace sybring_project.Controllers
             _applicationDbContext = applicationDbContext;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _statusService = statusService;
         }
 
         public async Task<IActionResult> Index()
         {
-
             var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
-            //var userList = await _userServices.GetAllUserAsync();
-            //var statusList = await _statusService.GetStatusListAsync();
-            //ViewBag.StatusList = statusList;
+            var statusList = await _statusService.GetStatusListAsync();
 
-            return View(userListUK);
+            var viewModel = new UserStatusViewModel
+            {
+                Users = userListUK,
+                Statuses = statusList
+            };
+
+            return View(viewModel);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(string userId, Status status)
+        public async Task<IActionResult> UpdateStatus(string userId, int statusId)
         {
             // Retrieve the user by ID
             var user = await _userServices.GetUserByIdAsync(userId);
@@ -57,11 +62,18 @@ namespace sybring_project.Controllers
                 return NotFound();
             }
 
+            // Retrieve the status by ID
+            var status = await _statusService.GetStatusByIdAsync(statusId);
+            if (status == null)
+            {
+                return NotFound("Status not found");
+            }
+
             // Update the user's status
             user.Status = status;
 
             // Update the user in the database
-            await _userServices.UpdateUserAsync(user);
+            await _statusService.UpdateUserAsync(user);
 
             return RedirectToAction("Index");
         }

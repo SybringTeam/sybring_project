@@ -1,10 +1,13 @@
-@model IEnumerable<sybring_project.Models.Db.User>
+@model sybring_project.Models.ViewModels.UserStatusViewModel
 
+@{
+    
+}
 
 <div class="section">
     <div class="row">
         <div class="col-lg-12">
-            @foreach (var item in Model)
+            @foreach (var item in Model.Users)
             {
                 <div id="showUserContainer_@item.Id" style="display: none;">
                     <vc:show-user user-id="@item.Id"> </vc:show-user>
@@ -29,7 +32,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var user in Model)
+                    @foreach (var user in Model.Users)
                     {
                         <tr>
                             <td></td>
@@ -40,7 +43,6 @@
                                 @foreach (var project in user.ProjectId)
                                 {
                                     @project.Name
-
                                     <br />
                                 }
                             </td>
@@ -48,12 +50,14 @@
                             <td>
                                 <form asp-action="UpdateStatus" method="post">
                                     <input type="hidden" name="userId" value="@user.Id" />
-                                    @* <select name="status">
-                                        @foreach (var status in ViewBag.StatusList)
+                                    <input type="hidden" name="statusId" value="@((user.Status != null)
+                                        ? user.Status.Id.ToString() : string.Empty)" />
+                                    <select name="status">
+                                        @foreach (var status in Model.Statuses)
                                         {
                                             <option value="@status.Id">@status.Name</option>
                                         }
-                                    </select> *@
+                                    </select>
                                     <button type="submit">Update</button>
                                 </form>
                             </td>
