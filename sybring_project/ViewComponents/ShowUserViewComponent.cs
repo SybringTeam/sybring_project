@@ -12,11 +12,13 @@ namespace sybring_project.ViewComponents
 
         private readonly IUserServices _userServices;
         private readonly IProjectServices _projectServices;
+        private readonly ICompanyServices _companyServices;
 
-        public ShowUserViewComponent(IUserServices userServices, IProjectServices projectService)
+        public ShowUserViewComponent(IUserServices userServices, IProjectServices projectService, ICompanyServices companyServices)
         {
             _userServices = userServices;
             _projectServices = projectService;   
+            _companyServices = companyServices;
         }
 
         //public IViewComponentResult Invoke(string userId)
@@ -29,9 +31,10 @@ namespace sybring_project.ViewComponents
         {
             try
             {
+                
                 var user = await _userServices.GetUserByIdAsync(userId);
                 ViewBag.User = user;
-
+                
                 var allProjects = await _projectServices.GetProjectsAsync();
 
                 if (allProjects != null)

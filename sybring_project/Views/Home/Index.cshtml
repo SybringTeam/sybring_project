@@ -93,29 +93,20 @@ else if (User.IsInRole("underconsult"))
 {
     <section class="section">
         <div class="row align-items-top">
-            <div class="col-lg-9">
-                <div class="card">
+            <div class="col-lg-9 col-md-12 ">
+                <div class="card ">
                     <img src="/logo/pictures/pexels-picjumbocom-461077.jpg" class="card-img-top" alt="bild" />
-                    <div class="card-img-overlay">
-                        <h5 class="card-title">Välkommen till Sybrings Tisrapportering</h5>
-                        <p class="card-text">Vi hälsar dig varmt välkommen till Sybrings tisrapportering, plattformen där vi tillsammans håller koll på projektets tidsåtgång. Det är här vi samlar in och delar våra tidrapporter varje vecka för rätt fakturering och rapportering till kund. </p>
+                    <div class="card-img-overlay p-3">
+                        <h5 class="card-title">Welcome to Sybrings Time Reporting</h5>
+                        <div class="card-text" style="word-wrap: break-word;">
+                        <p>We warmly welcome you to Sybrings time reporting platform, where together we keep track of project time consumption. This is where we collect and share our time reports every week for accurate invoicing and reporting to the client. </p>
                         <p>
-                            Era insatser är kärnan i vårt arbete och varje inlämnad tidrapport är ett steg närmare vår framgång. Genom att noggrant dokumentera era aktiviteter ger ni inte bara oss, utan även er själva, möjligheten att se den påverkan ni har och att identifiera områden för förbättring. Er tid och engagemang är ovärderliga för oss och tillsammans bygger vi en starkare och mer effektiv arbetsmiljö.
-
-                            Tack för att ni är en del av Sybrings team och för ert ovärderliga bidrag. Låt oss fortsätta att arbeta tillsammans för att nå nya höjder!
+                            Your contributions are at the heart of our work, and each submitted time report is a step closer to our success. By meticulously documenting your activities, you provide not only us but also yourselves the opportunity to see the impact you make and to identify areas for improvement. Your time and commitment are invaluable to us, and together we build a stronger and more efficient work environment. Thank you for being a part of Sybrings team and for your invaluable contribution. Let's continue working together to reach new heights!
                         </p>
+                        </div>
                     </div>
                 </div>
-                @*  <div class="card">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-            <h5 class="card-title">tillfälligt</h5>
-            tillfälligt text.
-            </div>
-            <div class="card-footer">
-            Footer
-            </div>
-            </div> *@
+
                 <div class="card mb-3">
                     <div class="row g-0">
                         <div class="col-md-4">
@@ -133,7 +124,25 @@ else if (User.IsInRole("underconsult"))
                         </div>
                     </div>
                 </div>
-
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-8">
+                            <a href="@Url.Action("Details", "Time")">
+                                <div class="card-body">
+                                    <h5 class="card-title">Time report History </h5>
+                                    <p class="card-text">Check your time history</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="@Url.Action("create", "Time")">
+                                <img src="~/logo/pictures/pexels-andrea-piacquadio-3760060.jpg" class="img-fluid rounded-start" alt="Foto" />
+                                
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
             </div>
 
             <div class="col-lg-3">
@@ -145,7 +154,13 @@ else if (User.IsInRole("underconsult"))
                         <p class="card-text"></p>
                     </div>
                 </div>
-
+                <div class="card">
+                    <img src="/logo/pictures/pexels-cottonbro-studio-4065895.jpg" class="card-img-top" alt="..." />
+                    <div class="card-body">
+                        <h5 class="card-title"></h5>
+                        <p class="card-text"></p>
+                    </div>
+                </div>
                 @* <div class="card">
             <div class="card-body">
             <h5 class="card-title">tillfälligt</h5>
