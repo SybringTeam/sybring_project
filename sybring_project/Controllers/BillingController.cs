@@ -29,7 +29,8 @@ namespace sybring_project.Controllers
             _userManager = userManager;
         }
 
-       
+
+        [Authorize(Roles = "admin, superadmin")]
         public async Task<IActionResult>Index()
         {
             var userId = _userManager.GetUserId(User);
@@ -38,7 +39,7 @@ namespace sybring_project.Controllers
         }
 
         [HttpGet]
-        
+        [Authorize(Roles = "admin, superadmin, underconsult")]
         public async Task<IActionResult> Create() 
         {
             var viewModel = await _billingServices.GetProjectsAndUsersAsync();
@@ -47,7 +48,7 @@ namespace sybring_project.Controllers
         }
 
         [HttpPost]
-      
+        [Authorize(Roles = "admin, superadmin, underconsult")]
         public async Task<IActionResult> Create(BillingVM billingVM, int projectId, string selectedUserId)
         {
             //billingVM.ImageLink = Guid.NewGuid().ToString() + "_" + billingVM.File.FileName;
@@ -75,7 +76,7 @@ namespace sybring_project.Controllers
         }
 
         [HttpGet]
-        
+        [Authorize(Roles = "admin, superadmin")]
         public async Task<IActionResult> Edit(int id)
         {
             var billingEdit = await _billingServices.GetBillingByIdAsync(id);
@@ -84,7 +85,7 @@ namespace sybring_project.Controllers
         }
 
         [HttpPost]
-       
+        [Authorize(Roles = "admin, superadmin")]
         public async Task<IActionResult> Edit(Billing billing)
         {
             await _billingServices.UpdateCompanyAsync(billing);

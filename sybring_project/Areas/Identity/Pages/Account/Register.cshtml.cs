@@ -1,7 +1,7 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
-
+using Microsoft.AspNetCore.Authorization;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -17,6 +17,7 @@ using sybring_project.Models.Db;
 
 namespace sybring_project.Areas.Identity.Pages.Account
 {
+    [Authorize(Policy = "RequireAdminRole")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;
