@@ -39,8 +39,10 @@ namespace sybring_project.Controllers
 
         public async Task<IActionResult> Index()
         {
+
             var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
             var statusList = await _statusService.GetStatusListAsync();
+
 
             var viewModel = new UserStatusViewModel
             {
@@ -50,6 +52,7 @@ namespace sybring_project.Controllers
 
             return View(viewModel);
         }
+
 
 
         [HttpPost]
@@ -77,6 +80,7 @@ namespace sybring_project.Controllers
 
             return RedirectToAction("Index");
         }
+
 
 
         public async Task<IActionResult> RoleView(string roleName)
@@ -194,20 +198,23 @@ namespace sybring_project.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> RemoveProject(string userId, int projectId)
+        [ActionName("RemoveProjects")]
+        public async Task<IActionResult> RemoveProjectsPost(string userId, List<int> projectIds)
         {
-            var result = await _userServices.RemoveUserFromProjectAsync(projectId, userId);
-
-            if (result)
+            foreach (var projectId in projectIds)
             {
-                TempData["Removed"] = "Project has been removed from the user.";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Project removal failed. User or project not found.";
+                var result = await _userServices.RemoveUserFromProjectAsync(projectId, userId);
+
+                if (!result)
+                {
+                    TempData["ErrorMessage"] = "One or more projects could not be removed. Please try again.";
+                    return RedirectToAction("Index", new { id = userId });
+                }
             }
 
-            return RedirectToAction("Details", new { id = userId });
+            TempData["Removed"] = "Selected projects have been removed from the user.";
+
+            return RedirectToAction("Index", new { id = userId });
         }
         public async Task<IActionResult> Delete(string id)
         {

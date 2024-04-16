@@ -29,6 +29,7 @@
                         <th> USER NAME</th>
                         <th> STATUS</th>
                         <th> ACTIONS</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -47,7 +48,9 @@
                                 }
                             </td>
                             <td>@user.UserName</td>
+                            <td></td>
                             <td>
+
                                 <form asp-action="UpdateStatus" method="post">
                                     <input type="hidden" name="userId" value="@user.Id" />
                                     <input type="hidden" name="statusId" value="@((user.Status != null)
@@ -62,6 +65,7 @@
                                 </form>
                             </td>
                             <td>
+
                                 <div class="dropdown">
                                     <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true"><i class="bi bi-three-dots"></i></a>
                                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">

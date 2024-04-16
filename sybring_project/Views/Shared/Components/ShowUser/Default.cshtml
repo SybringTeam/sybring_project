@@ -1,6 +1,7 @@
 ﻿@model sybring_project.Models.Db.User
 
 
+
 <div id="userEle" class="container-fluid">
 
     @if (Model is not null)
@@ -29,17 +30,30 @@
                     <h4><strong>Company Information</strong> </h4>
                     </div>
                     <div class="card-body p-3">
-                    @foreach (var project in Model.ProjectId)
-                    {
-                        <div>
-                            @project.Name
-                            <form asp-action="RemoveProject" method="post" style="display:inline;">
-                                <input type="hidden" name="userId" value="@Model.Id" />
-                                <input type="hidden" name="projectId" value="@project.Id" />
-                                <button type="submit" class="btn btn-danger remove-project" onclick="alertFunction()">Remove</button>
-                            </form>
-                        </div>
-                    }
+                        <form asp-action="RemoveProjects" method="post">
+
+                            <div class="d-flex flex-column">
+                                @foreach (var project in Model.ProjectId)
+                                {
+                                    <div class="form-check d-flex justify-content-between align-items-center mb-2">
+                                        <div>
+                                            <input type="checkbox" class="form-check-input mr-2" id="project-@project.Id" name="projectIds" value="@project.Id.ToString()" />
+                                            <label class="form-check-label" for="project-@project.Id">
+                                                @project.Name
+                                            </label>
+                                        </div>
+                                        <div>
+                                           
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <input type="hidden" name="userId" value="@Model.Id" />
+                           
+                                <button type="submit" class="btn btn-outline-danger btn-sm mb-2" onclick="alertFunction()">Remove Selected</button>
+                            
+                        </form>
+                      
                     <p><strong>Addres:</strong></p>
                     <p><strong>OrgNr:</strong></p>
                     <p><strong>Webbsite:</strong></p>
