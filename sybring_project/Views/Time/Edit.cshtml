@@ -1,0 +1,83 @@
+﻿@model sybring_project.Models.Db.TimeHistory
+
+@{
+    ViewData["Title"] = "Edit Time History";
+}
+
+<h1>Edit Time History</h1>
+
+<div>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Date" class="control-label">Date:</label>
+            <input asp-for="Date" class="form-control" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Schedule" class="control-label">Schedule:</label>
+            <input asp-for="Schedule" class="form-control" />
+            <span asp-validation-for="Schedule" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StartWork" class="control-label">Start Work:</label>
+            <input asp-for="StartWork" class="form-control" />
+            <span asp-validation-for="StartWork" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndWork" class="control-label">End Work:</label>
+            <input asp-for="EndWork" class="form-control" />
+            <span asp-validation-for="EndWork" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StartBreak " class="control-label">Start Break :</label>
+            <input asp-for="StartBreak " class="form-control" />
+            <span asp-validation-for="StartBreak " class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndBreak  " class="control-label">End Break  :</label>
+            <input asp-for="EndBreak  " class="form-control" />
+            <span asp-validation-for="EndBreak  " class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndBreak  " class="control-label">End Break  :</label>
+            <input asp-for="EndBreak  " class="form-control" />
+            <span asp-validation-for="EndBreak  " class="text-danger"></span>
+        </div>  <div class="form-group">
+            <label asp-for="EndBreak  " class="control-label">End Break  :</label>
+            <input asp-for="EndBreak  " class="form-control" />
+            <span asp-validation-for="EndBreak  " class="text-danger"></span>
+        </div>  <div class="form-group">
+            <label asp-for="EndBreak  " class="control-label">End Break  :</label>
+            <input asp-for="EndBreak  " class="form-control" />
+            <span asp-validation-for="EndBreak  " class="text-danger"></span>
+        </div>  <div class="form-group">
+            <label asp-for="EndBreak  " class="control-label">End Break  :</label>
+            <input asp-for="EndBreak  " class="form-control" />
+            <span asp-validation-for="EndBreak  " class="text-danger"></span>
+        </div>  <div class="form-group">
+            <label asp-for="EndBreak  " class="control-label">End Break  :</label>
+            <input asp-for="EndBreak  " class="form-control" />
+            <span asp-validation-for="EndBreak  " class="text-danger"></span>
+        </div>  <div class="form-group">
+            <label asp-for="EndBreak  " class="control-label">End Break  :</label>
+            <input asp-for="EndBreak  " class="form-control" />
+            <span asp-validation-for="EndBreak  " class="text-danger"></span>
+        </div>  <div class="form-group">
+            <label asp-for="EndBreak  " class="control-label">End Break  :</label>
+            <input asp-for="EndBreak  " class="form-control" />
+            <span asp-validation-for="EndBreak  " class="text-danger"></span>
+        </div>  <div class="form-group">
+            <label asp-for="EndBreak  " class="control-label">End Break  :</label>
+            <input asp-for="EndBreak  " class="form-control" />
+            <span asp-validation-for="EndBreak  " class="text-danger"></span>
+        </div>  <div class="form-group">
+            <label asp-for="EndBreak  " class="control-label">End Break  :</label>
+            <input asp-for="EndBreak  " class="form-control" />
+            <span asp-validation-for="EndBreak  " class="text-danger"></span>
+        </div>
+        <!-- Add other fields here as needed -->
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>

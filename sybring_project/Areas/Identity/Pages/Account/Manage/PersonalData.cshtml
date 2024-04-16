@@ -1,0 +1,115 @@
+﻿@page
+@model PersonalDataModel
+@{
+    ViewData["Title"] = "Personal Data";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+
+
+<div class="container ">
+    <div class="row ">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    @*   <div class="container d-flex justify-content-center">
+                    <img src="~/logo/sybring_logo-black_1000px.png" height="50" width="auto" />
+                    </div> *@
+
+                    <h5 class="card-title text-center pb-0 fs-4">Personal Data</h5>
+                    <p class="text-center small">Add your ICE contact (In case of emergency)</p>
+                    <form method="post">
+                        <div class="form-group ">
+                            <label for="iceContactName">ICE Contact Name</label>
+                            <input type="text" class="form-control" id="iceContactName" name="iceContactName" value="@Model.UserData?.ICEContactName" />
+                            <span>@Model.UserData?.ICEContactName</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="iceContactNumber">ICE Contact Number</label>
+                            <input type="text" class="form-control" id="iceContactNumber" name="iceContactNumber"  />
+                        </div>
+                        <div class="form-group">
+                            <label for="citizenMembership">Citizen Membership</label>
+                            <select class="form-control" id="citizenMembership" name="citizenMembership" multiple style=" height: 400px">
+                                <option value="">Select Country</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mt-3 ">Save</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <div class="row">
+    <div class="col-md-6">
+
+        <form method="post">
+            <div class="form-group">
+                <label for="iceContactName">ICE Name</label>
+                <input type="text" class="form-control" id="iceContactName" name="iceContactName" style="width: 300px" value="@Model.UserData?.ICEContactName" />
+                <span>@Model.UserData?.ICEContactName</span>
+            </div>
+            <div class="form-group">
+                <label for="iceContactNumber">ICE Contact Number</label>
+                <input type="text" class="form-control" id="iceContactNumber" name="iceContactNumber" style="width: 300px" />
+            </div>
+            <div class="form-group">
+                <label for="citizenMembership">Citizen Membership</label>
+                <select class="form-control" id="citizenMembership" name="citizenMembership" multiple style="width: 300px; height: 400px">
+                    <option value="">Select Country</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+
+    </div>
+</div>
+ *@
+<div id="displayInfo">
+</div>
+
+@* <div class="row">
+    <div class="col-md-6">
+        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
+        <p>
+            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+        </p>
+        <form id="download-data" asp-page="DownloadPersonalData" method="post">
+            <button class="btn btn-primary" type="submit">Download</button>
+        </form>
+        <p>
+            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Delete</a>
+        </p>
+    </div>
+</div> *@
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+
+    <script>
+        // Fetch data from Rest Countries API
+        fetch('https://restcountries.com/v3.1/all')
+            .then(response => response.json())
+            .then(data => {
+                // Get the select element
+                const selectElement = document.getElementById('citizenMembership');
+
+                // Loop through the data and create an option element for each country
+                data.forEach(country => {
+                    const option = document.createElement('option');
+                    option.value = country.cca2; // Use country code as value
+                    option.textContent = country.name.common; // Use country name as text content
+                    selectElement.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching countries:', error);
+            });
+    </script>
+}

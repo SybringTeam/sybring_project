@@ -1,0 +1,52 @@
+﻿@model IEnumerable<sybring_project.Models.Db.User>
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="frame">
+    <div class="pagging1"></div>
+    <div class="pagging2"></div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Projects</th>
+                <th>Task Description</th>
+                <th>User Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName @item.LastName</a></td>
+                    <td>
+                        @* @foreach (var project in item.ProjectId)
+                        {
+                            @project.Name
+                        } *@
+                    </td>
+                    <td>@item.TaskDescription</td>
+                    <td>@item.UserName</td>
+                    <td>
+                        @if (ViewBag.RoleName == "archive")
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">| Restore </a>
+                            <a asp-action="TrueDelete" asp-route-id="@item.Id">| Delete </a>
+                            }
+                        else
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    <a asp-action="Index"class="btn btn-primary">View Index</a>
+    <a asp-action="RoleView" asp-route-roleName="admin" class="btn btn-primary">View Admin Users</a>
+    <a asp-action="RoleView" asp-route-roleName="archive" class="btn btn-primary">View Archives Users</a>
+</div>

@@ -1,0 +1,88 @@
+﻿@model sybring_project.Models.Db.TimeHistory
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Time History Details</h1>
+
+<div>
+    <table class="table">
+        <tr>
+            <th>ID</th>
+            <td>@Model.Id</td>
+        </tr>
+        <tr>
+            <th>Date</th>
+            <td>@Model.Date</td>
+        </tr>
+        <tr>
+            <th>Schedule</th>
+            <td>@Model.Schedule</td>
+        </tr>
+        <tr>
+            <th>Start Work</th>
+            <td>@Model.StartWork</td>
+        </tr>
+        <tr>
+            <th>End Work</th>
+            <td>@Model.EndWork</td>
+        </tr>
+        <tr>
+            <th>Start Break</th>
+            <td>@Model.StartBreak</td>
+        </tr>
+        <tr>
+            <th>End Break</th>
+            <td>@Model.EndBreak</td>
+        </tr>
+        <tr>
+            <th>Total Working Hours</th>
+            <td>@Model.TotalWorkingHours</td>
+        </tr>
+        <tr>
+            <th>Working Hours</th>
+            <td>@Model.WorkingHours</td>
+        </tr>
+        <tr>
+            <th>Flexi Time</th>
+            <td>@Model.FlexiTime</td>
+        </tr>
+        <tr>
+            <th>More Time</th>
+            <td>@Model.MoreTime</td>
+        </tr>
+        <tr>
+            <th>Attendance Time</th>
+            <td>@Model.AttendanceTime</td>
+        </tr>
+        <tr>
+            <th>Annual Leave</th>
+            <td>@Model.AnnualLeave</td>
+        </tr>
+        <tr>
+            <th>Sick Leave</th>
+            <td>@Model.SickLeave</td>
+        </tr>
+        <tr>
+            <th>Leave of Absence</th>
+            <td>@Model.LeaveOfAbsence</td>
+        </tr>
+        <tr>
+            <th>Childcare</th>
+            <td>@Model.Childcare</td>
+        </tr>
+        <tr>
+            <th>Overtime</th>
+            <td>@Model.Overtime</td>
+        </tr>
+        <tr>
+            <th>Inconvenient Hours</th>
+            <td>@Model.InconvenientHours</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

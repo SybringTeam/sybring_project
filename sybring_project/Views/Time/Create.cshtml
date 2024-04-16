@@ -1,0 +1,237 @@
+﻿@model List<sybring_project.Models.ViewModels.DayDataVM>
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Time Report</h1>
+
+
+<h4>Select Week</h4>
+<select id="weekNumber">       </select>
+
+
+
+@using (Html.BeginForm("Create", "Time", FormMethod.Post))
+{
+    <hr />
+
+    <!-- validation  -->
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>StartWork</th>
+                <th>EndWork</th>
+                <th>StartBrea</th>
+                <th>EndBreak</th>
+                <th>Total Working Hours </th>
+                <th>WorkingHours</th>
+                <th>FlexiTime</th>
+                <th>MoreTime</th>
+                <th>Attendance</th>
+                <th>AnnualLea</th>
+                <th>SickLeave</th>
+                <th>Absence </th>
+                <th>Childcare</th>
+                <th>Overtime</th>
+                <th>InconvenientHours</th>
+                
+                <th>Validation Message</th>
+            </tr>
+        </thead>
+        <tbody id="weekDaysBody">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <input type="hidden" asp-for="@Model[i].Date" id="@Model[i].Date.DayOfWeek" />
+                <tr>
+
+                   @*  <td>@Model[i].Date.DayOfWeek</td> *@
+                    <td class="weekday-column">@Model[i].Date.DayOfWeek</td> 
+                  @*   <td>@Html.HiddenFor(m => m[i].Date) @Model[i].Date.ToShortDateString()</td> *@
+                    @* <td id="@Model[i].Date.ToString("yyyy-MM-dd")">
+                        @Html.HiddenFor(m => m[i].Date)
+                        @Model[i].Date.ToShortDateString()
+                    </td> *@
+                    @* @Html.HiddenFor(m => m[i].Date) *@
+                    <td class="date-column" id="@Model[i].Date.ToString("yyyy-MM-dd")">
+                        
+                        @Model[i].Date.ToShortDateString()
+                    </td>
+
+
+
+                    <td>@Html.TextBoxFor(m => m[i].StartWork, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].EndWork, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].StartBreak, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].EndBreak, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].WorkingHours, new { type = "time" })</td>
+                    <td id="workingHours">@Model[i].WorkingHours</td>
+                    <td id="totalWorkingHours">@Model[i].TotalWorkingHours</td>
+                    <td>@Html.TextBoxFor(m => m[i].Overtime, new { type = "time" })</td>
+                    <td>@Html.TextBoxFor(m => m[i].MoreTime, new { type = "time" })</td>
+
+                    <td>@Html.ValidationMessageFor(m => m[i].StartWork, "", new { @class = "text-danger" })</td>
+                </tr>
+            }
+           
+        </tbody>
+    </table>
+
+
+
+    <input type="hidden" name="userId" value="user_id_here" /> 
+    <button type="submit" class="btn btn-primary">Submit</button>
+
+    <a asp-action="Index">Back to List</a>
+}
+
+
+
+@* My code works good but not displays based on selected week *@
+
+
+
+@*    
+<script>
+
+
+    // Fetch red days data from the API
+    fetch('https://sholiday.faboul.se/dagar/v2.1/2024')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('API Response:', data);
+
+            // get red days
+            const redDays = data.dagar.filter(day => day['röd dag'] === 'Ja');
+            const dates = data.dagar;
+
+            // Loop 
+            dates.forEach(date => {
+                if (redDays.some(redDay => redDay.datum === date.datum)) {
+                    
+                    const dateElement = document.getElementById(date.datum);
+                    if (dateElement) {
+                        
+                        dateElement.style.color = 'red';
+                        
+                         dateElement.previousElementSibling.style.color = 'red';
+                    }
+                }
+            });
+
+            
+            const weekNumbers = new Set(dates.map(day => parseInt(day.vecka)).filter(weekNumber => !isNaN(weekNumber)));
+            const selectElement = document.getElementById('weekNumber');
+            weekNumbers.forEach(weekNumber => {
+                const option = document.createElement('option');
+                option.textContent = 'Week ' + weekNumber;
+                option.value = weekNumber;
+                selectElement.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+</script> *@
+
+
+@* 
+It displays date based on select week *@
+
+<script>
+    // Fetch red days data from the API
+    fetch('https://sholiday.faboul.se/dagar/v2.1/2024')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('API Response:', data);
+
+            const allDays = data.dagar;
+
+            
+            const weekNumbers = new Set(allDays.map(day => parseInt(day.vecka)).filter(weekNumber => !isNaN(weekNumber)));
+            const selectElement = document.getElementById('weekNumber');
+            weekNumbers.forEach(weekNumber => {
+                const option = document.createElement('option');
+                option.textContent = 'Week ' + weekNumber;
+                option.value = weekNumber;
+                selectElement.appendChild(option);
+            });
+
+            // dropdown
+
+            selectElement.addEventListener('change', function () {
+                const selectedWeek = parseInt(this.value);
+
+                
+                const selectedWeekDays = allDays.filter(day => parseInt(day.vecka) === selectedWeek);
+
+                
+                const dateCells = document.querySelectorAll('#weekDaysBody td.date-column');
+                const weekdayCells = document.querySelectorAll('#weekDaysBody td.weekday-column');
+
+
+                //chages date to red
+              
+                dateCells.forEach((cell, index) => {                 
+                    const currentDate = selectedWeekDays[index].datum;
+                    cell.textContent = currentDate;
+                    const isRedDay = selectedWeekDays[index]['röd dag'] === 'Ja';
+                    if (isRedDay) {
+                        cell.style.color = 'red';
+                    } else {
+                        cell.style.color = 'black';
+                    }
+
+                    var daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                    for (var i = 0; i < daysOfWeek.length; i++) {
+                        var dayElement = document.getElementById(daysOfWeek[i]);
+                        dayElement.innerText = selectedWeekDays[i].datum;
+                        dayElement.value = selectedWeekDays[i].datum;
+                    }
+                    console.log(daysOfWeek)
+
+                                   
+                  @*   var weekday = document.getElementById("Monday");            
+                    weekday.innerText = currentDate;
+                    weekday.value = currentDate;       *@   
+                    
+                });
+
+                  
+                //changes weekday to red
+
+                weekdayCells.forEach((cell, index) => {
+                    const currentWeekday = selectedWeekDays[index].veckodag;
+                    const isRedDay = selectedWeekDays[index]['röd dag'] === 'Ja';
+                    cell.textContent = currentWeekday;
+                    if (isRedDay) {
+                        cell.style.color = 'red';
+                    } else {
+                        cell.style.color = 'black';
+                    }
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+</script>
+
+

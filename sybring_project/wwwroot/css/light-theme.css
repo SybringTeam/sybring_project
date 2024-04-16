@@ -1,0 +1,22 @@
+﻿/* Light theme styles */
+body {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.header {
+    background-color: #f0f0f0; /* Example color for the header background in light theme */
+}
+
+.light-theme .form-floating > .form-control {
+    background-color: #ffffff; /* White background */
+    color: #000000; /* Black text color */
+}
+
+.light-theme .form-label {
+    color: #000000; /* Black label text color */
+}
+
+.light-theme .header-default-bg {
+    background-color: #f0f0f0; /* Light theme header background color */
+}

@@ -1,0 +1,28 @@
+﻿/* Dark theme styles */
+body {
+    background-color: #1f1f1f;
+    color: #ffffff;
+}
+
+dark-theme .header {
+    background-color: #333333; /* Example color for the header background in dark theme */
+}
+.dark-theme a{
+    color:white
+}
+
+
+/* Dark theme styles for form elements */
+.dark-theme .form-floating > .form-control {
+    background-color: #1f1f1f; /* Dark background */
+    color: #ffffff; /* White text color */
+}
+
+.dark-theme .form-label {
+    color: #ffffff; /* White label text color */
+}
+
+.dark-theme .navbar-light .navbar-nav .nav-link.text-dark {
+    color: #ffffff !important; /* Set link color to white */
+    --bs-text-opacity: unset !important;
+}

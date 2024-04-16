@@ -1,0 +1,96 @@
+﻿@model sybring_project.Models.Db.Company
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<hr />
+<section>
+    <div class="container col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Add Company</h5>
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="mb-2">
+                        <div class="form-floating">
+                            <select asp-for="ProjectId" class="form-select" >
+                                <option value="">Select a Project</option>
+                                @foreach (var project in ViewBag.Projects)
+                                {
+                                    <option value="@project.Id">@project.Name</option>
+                                }
+                            </select>
+                            <label for="floatingProjectId">Project</label>
+                            <span asp-validation-for="ProjectId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <div class="form-floating">
+                            <input asp-for="CompanyWeb" class="form-control" id="floatingCompanyWeb" placeholder="Company's Website">
+                            <label for="floatingCompanyWeb">Company's Website</label>
+                            <span asp-validation-for="CompanyWeb" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <div class="form-floating">
+                            <input asp-for="SupervisorName" class="form-control" id="floatingSupervisorName" placeholder="Supervisor Name">
+                            <label for="floatingSupervisorName">Supervisor Name</label>
+                            <span asp-validation-for="SupervisorName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <div class="form-floating">
+                            <input asp-for="SupervisorPhone" class="form-control" id="floatingSupervisorPhone" placeholder="Supervisor Phone">
+                            <label for="floatingSupervisorPhone">Supervisor Phone</label>
+                            <span asp-validation-for="SupervisorPhone" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <div class="form-floating">
+                            <input asp-for="SupervisorEmail" class="form-control" id="floatingSupervisorEmail" placeholder="Supervisor Email">
+                            <label for="floatingSupervisorEmail">Supervisor Email</label>
+                            <span asp-validation-for="SupervisorEmail" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <div class="form-floating">
+                            <input asp-for="OrgNumber" class="form-control" id="floatingOrgNumber" placeholder="Org Number">
+                            <label for="floatingOrgNumber">Org Number</label>
+                            <span asp-validation-for="OrgNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <div class="form-floating">
+                            <input asp-for="CompanyAddress" class="form-control" id="floatingCompanyAddress" placeholder="Company Address">
+                            <label for="floatingCompanyAddress">Company Address</label>
+                            <span asp-validation-for="CompanyAddress" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
