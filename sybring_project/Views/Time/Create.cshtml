@@ -189,54 +189,26 @@ It displays date based on select week *@
 
             selectElement.addEventListener('change', function () {
                 const selectedWeek = parseInt(this.value);
-
-                
                 const selectedWeekDays = allDays.filter(day => parseInt(day.vecka) === selectedWeek);
 
-                
+                // Redefine dateCells and weekdayCells within the event listener
                 const dateCells = document.querySelectorAll('#weekDaysBody td.date-column');
                 const weekdayCells = document.querySelectorAll('#weekDaysBody td.weekday-column');
 
-
-                //chages date to red
-                        
-                dateCells.forEach((cell, index) => {                 
+                // Update date cells
+                dateCells.forEach((cell, index) => {
                     const currentDate = selectedWeekDays[index].datum;
                     cell.textContent = currentDate;
                     const isRedDay = selectedWeekDays[index]['röd dag'] === 'Ja';
-                    if (isRedDay) {
-                        cell.style.color = 'red';
-                    } else {
-                        cell.style.color = 'black';
-                    }
-
-                    var daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-                    for (var i = 0; i < daysOfWeek.length; i++) {
-                        var dayElement = document.getElementById(daysOfWeek[i]);
-                        dayElement.innerText = selectedWeekDays[i].datum;
-                        dayElement.value = selectedWeekDays[i].datum;
-                    }
-                    console.log(daysOfWeek)
-
-                                   
-                  @*   var weekday = document.getElementById("Monday");            
-                    weekday.innerText = currentDate;
-                    weekday.value = currentDate;       *@   
-                    
+                    cell.style.color = isRedDay ? 'red' : 'black';
                 });
 
-                  
-                //changes weekday to red
-
+                // Update weekday cells
                 weekdayCells.forEach((cell, index) => {
                     const currentWeekday = selectedWeekDays[index].veckodag;
                     const isRedDay = selectedWeekDays[index]['röd dag'] === 'Ja';
                     cell.textContent = currentWeekday;
-                    if (isRedDay) {
-                        cell.style.color = 'red';
-                    } else {
-                        cell.style.color = 'black';
-                    }
+                    cell.style.color = isRedDay ? 'red' : 'black';
                 });
             });
         })
