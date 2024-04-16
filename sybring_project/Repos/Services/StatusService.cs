@@ -1,4 +1,7 @@
 ﻿
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Build.Evaluation;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
@@ -16,6 +19,39 @@ namespace sybring_project.Repos.Services
             _db = db;
             _userServices = userServices;
         }
+
+        public async Task AddStatusAsync(Status status)
+        {
+            _db.Status.Add(status);
+            await _db.SaveChangesAsync();
+
+
+        }
+
+        public async Task AddStatusToUserAsync(string userId, int newStatusId)
+        {
+           
+            var user = await _db.Users.FindAsync(userId);
+            if (user == null)
+            {
+                throw new InvalidOperationException("User not found");
+            }
+                    
+            var newStatus = await _db.Status.FirstOrDefaultAsync(s => s.Id == newStatusId);
+            if (newStatus == null)
+            {
+                throw new InvalidOperationException("New status not found");
+            }
+
+        
+            user.Status = newStatus;
+
+         
+            await _db.SaveChangesAsync();
+        }
+
+
+
 
         public async Task<Status> DeleteStatusAsync(int id)
         {

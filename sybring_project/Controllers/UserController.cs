@@ -51,29 +51,12 @@ namespace sybring_project.Controllers
             return View(viewModel);
         }
 
+            
 
         [HttpPost]
         public async Task<IActionResult> UpdateStatus(string userId, int statusId)
         {
-            // Retrieve the user by ID
-            var user = await _userServices.GetUserByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            // Retrieve the status by ID
-            var status = await _statusService.GetStatusByIdAsync(statusId);
-            if (status == null)
-            {
-                return NotFound("Status not found");
-            }
-
-            // Update the user's status
-            user.Status = status;
-
-            // Update the user in the database
-            await _statusService.UpdateUserAsync(user);
+            await _statusService.AddStatusToUserAsync(userId, statusId);
 
             return RedirectToAction("Index");
         }

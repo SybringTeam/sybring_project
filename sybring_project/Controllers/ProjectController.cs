@@ -114,7 +114,6 @@ namespace sybring_project.Controllers
 
 
         [HttpGet]
-        
         public async Task<IActionResult> Create()
         {
             return View();
@@ -173,7 +172,7 @@ namespace sybring_project.Controllers
         }
     }
 
-   
 
-  
+
+
 }

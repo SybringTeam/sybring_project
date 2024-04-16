@@ -1,4 +1,5 @@
 ﻿using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 
 namespace sybring_project.Repos.Interfaces
 {
@@ -13,5 +14,9 @@ namespace sybring_project.Repos.Interfaces
         Task<Status> GetStatusByIdAsync(int id);
 
         Task<Status> DeleteStatusAsync(int id);
+
+        Task AddStatusToUserAsync(string userId, int statusId);
+
+        Task AddStatusAsync(Status status);
     }
 }

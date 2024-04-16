@@ -41,7 +41,7 @@ namespace sybring_project.Controllers
         {
             await _companyServices.AddCompanyAsync(company);
             return RedirectToAction("Index");
-            }
+        }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
