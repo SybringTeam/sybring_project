@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -254,7 +255,7 @@ namespace sybring_project.Controllers
         }
 
 
-
+        [Authorize]
         // GET: UserController/AssignProjects
         [HttpGet]
         public async Task<IActionResult> AssignProjects()
