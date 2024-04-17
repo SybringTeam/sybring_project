@@ -210,6 +210,7 @@ namespace sybring_project.Controllers
                     TempData["ErrorMessage"] = "One or more projects could not be removed. Please try again.";
                     return RedirectToAction("Index", new { id = userId });
                 }
+
             }
 
             TempData["Removed"] = "Selected projects have been removed from the user.";

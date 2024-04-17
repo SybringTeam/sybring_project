@@ -3,176 +3,694 @@
 }
 
 
-
-
-
-
 @if (User.IsInRole("admin"))
 {
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card sales-card">
 
-    <section class="section">
-        <div class="row align-items-top">
-            <div class="col-lg-9">
-                <div class="card">
-                    <img src="~/logo/pictures/pexels-andrea-piacquadio-3760060.jpg" class="card-img-top" alt="..." />
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
 
-                    <div class="card-img">
-                        <h5 class="card-title">tillfälligt</h5>
-                        <p class="card-text">tillfälligt text..</p>
-                    </div>
-                </div>
-                @* <div class="card">
-            <div class="card-header">navigation</div>
-            <div class="card-body">
-            <a href="@Url.Action("Index", "User")">
-            <h5 class="card-title">Uk list</h5>
-            </a>
-            <a href="@Url.Action("Index", "Project")">
-            <h5 class="card-title">Project list</h5>
-            </a>
-            <a href="@Url.Action("Index", "Time")">
-            <h5 class="card-title">Time Reports</h5>
-            </a>
-            </div>
-            <div class="card-footer">
-            Footer
-            </div>
-            </div> *@
-                <div class="card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="/logo/pictures/pexels-picjumbocom-196650.jpg" class="img-fluid rounded-start" alt="Foto">
-                        </div>
-                        <div class="col-md-8">
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
                             <div class="card-body">
-                                <a href="@Url.Action("Index", "User")">
-                                    <h5 class="card-title">Uk list</h5>
-                                </a>
-                                <a href="@Url.Action("Index", "Project")">
-                                    <h5 class="card-title">Project list</h5>
-                                </a>
-                                <a href="@Url.Action("Index", "Time")">
-                                    <h5 class="card-title">Time Reports</h5>
-                                </a>
+                                <h5 class="card-title">User <span>| Today</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-table"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>145</h6>
+                                        <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Time <span>| This Month</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-calendar2-check"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>8h</h6>
+                                        <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <div class="col-xxl-4 col-xl-12">
+
+                        <div class="card info-card customers-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Customers <span>| This Year</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>1244</h6>
+                                        <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
+
+                    </div>
+                    
+                </div>
+                <div class="col-12">
+                    <div class="card recent-sales overflow-auto">
+
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Time Reports <span>|  Activitys</span></h5>
+
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Project</th>
+                                        <th scope="col">Hours</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"><a href="#">#2457</a></th>
+                                        <td>Fname Lname</td>
+                                        <td><a href="#" class="text-primary">Simens</a></td>
+                                        <td>8</td>
+                                        <td>2024-04-15</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#">#2147</a></th>
+                                        <td>Fname Lname</td>
+                                        <td><a href="#" class="text-primary">Jordbruksverket</a></td>
+                                        <td>6</td>
+                                        <td>2024-04-14</td>
+                                        <td><span class="badge bg-warning">Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#">#2049</a></th>
+                                        <td>Fname Lname</td>
+                                        <td><a href="#" class="text-primary">Hydro</a></td>
+                                        <td>4</td>
+                                        <td>2024-04-13</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#">#2644</a></th>
+                                        <td>Fname Lname</td>
+                                        <td><a href="#" class="text-primary">Väderstad</a></td>
+                                        <td>7</td>
+                                        <td>2024-04-12</td>
+                                        <td><span class="badge bg-danger">Rejected</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#">#2644</a></th>
+                                        <td>Fname Lname</td>
+                                        <td><a href="#" class="text-primary">Hydro</a></td>
+                                        <td>5</td>
+                                        <td>2024-04-11</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
                     </div>
                 </div>
+                
+                <div class="col-12">
+                    <div class="card top-selling overflow-auto">
 
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body pb-0">
+                            <h5 class="card-title">Report History <span>| Today</span></h5>
+
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Tillfälligt</th>
+                                        <th scope="col">Tillfälligt</th>
+                                        <th scope="col">Tillfälligt</th>
+                                        <th scope="col">Tillfälligt</th>
+                                        <th scope="col">Tillfälligt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
+                                        <td><a href="#" class="text-primary fw-bold">Tillfälligt </a></td>
+                                        <td>?</td>
+                                        <td class="fw-bold"></td>
+                                        <td>?</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
+                                        <td><a href="#" class="text-primary fw-bold"></a></td>
+                                        <td>?</td>
+                                        <td class="fw-bold"></td>
+                                        <td>?</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#"><img src="assets/img/product-3.jpg" alt=""></a></th>
+                                        <td><a href="#" class="text-primary fw-bold"></a></td>
+                                        <td></td>
+                                        <td class="fw-bold"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#"><img src="assets/img/product-4.jpg" alt=""></a></th>
+                                        <td><a href="#" class="text-primary fw-bold"></a></td>
+                                        <td></td>
+                                        <td class="fw-bold"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#"><img src="assets/img/product-5.jpg" alt=""></a></th>
+                                        <td><a href="#" class="text-primary fw-bold"></a></td>
+                                        <td></td>
+                                        <td class="fw-bold"></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+                
             </div>
+            <div class="col-lg-4">
 
-            <div class="col-lg-3">
-
-
+               
                 <div class="card">
-                    <img src="/logo/pictures/pexels-cottonbro-studio-4065895.jpg" class="card-img-top" alt="..." />
-                    <div class="card-body">
-                        <h5 class="card-title">tillfälligt</h5>
-                        <p class="card-text">tillfälligt text.</p>
+                    <div class="filter">
+                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <li class="dropdown-header text-start">
+                                <h6>Filter</h6>
+                            </li>
+
+                            <li><a class="dropdown-item" href="#">Today</a></li>
+                            <li><a class="dropdown-item" href="#">This Month</a></li>
+                            <li><a class="dropdown-item" href="#">This Year</a></li>
+                        </ul>
                     </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+
+                        <div class="activity">
+
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">32 min</div>
+                                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                                <div class="activity-content">
+                                    Natalie raporterade din tid .... <a href="#" class="fw-bold text-dark"></a> beatae
+                                </div>
+                            </div>
+
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">56 min</div>
+                                <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
+                                <div class="activity-content">
+                                    Spurti raporterade din tid ....
+                                </div>
+                            </div>
+
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">2 hrs</div>
+                                <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
+                                <div class="activity-content">
+                                    Gabriel raporterade in... 
+                                </div>
+                            </div>
+
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">1 day</div>
+                                <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
+                                <div class="activity-content">
+                                    Dawod raporterade in... <a href="#" class="fw-bold text-dark">Övertid</a> tempore
+                                </div>
+                            </div>
+
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">2 days</div>
+                                <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
+                                <div class="activity-content">
+                                    Fidel raporterade in...
+                                </div>
+                            </div>
+
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">4 weeks</div>
+                                <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
+                                <div class="activity-content">
+                                    Henrik raporterade in...
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
-
-                @*  <div class="card">
-            <div class="card-body">
-            <h5 class="card-title">tillfälligt</h5>
-            <p class="card-text">tillfälligt text.</p>
+               
             </div>
-            <img src="assets/img/card.jpg" class="card-img-bottom" alt="...">
-            </div> *@
-
-            </div>
-
-
-
-
         </div>
+
     </section>
+
 
 }
 else if (User.IsInRole("underconsult"))
 {
-    <section class="section">
-        <div class="row align-items-top">
-            <div class="col-lg-9 col-md-12 ">
-                <div class="card ">
-                    <img src="/logo/pictures/pexels-picjumbocom-461077.jpg" class="card-img-top" alt="bild" />
-                    <div class="card-img-overlay p-3">
-                        <h5 class="card-title">Welcome to Sybrings Time Reporting</h5>
-                        <div class="card-text" style="word-wrap: break-word;">
-                        <p>We warmly welcome you to Sybrings time reporting platform, where together we keep track of project time consumption. This is where we collect and share our time reports every week for accurate invoicing and reporting to the client. </p>
-                        <p>
-                            Your contributions are at the heart of our work, and each submitted time report is a step closer to our success. By meticulously documenting your activities, you provide not only us but also yourselves the opportunity to see the impact you make and to identify areas for improvement. Your time and commitment are invaluable to us, and together we build a stronger and more efficient work environment. Thank you for being a part of Sybrings team and for your invaluable contribution. Let's continue working together to reach new heights!
-                        </p>
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card sales-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Hours <span>| Today</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-table"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>145</h6>
+                                        <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
+                    </div>
+                    <div class="col-xxl-4 col-md-6">
+                        <div class="card info-card revenue-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Hours<span>| This Month</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-calendar2-check"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>8h</h6>
+                                        <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-4 col-xl-12">
+
+                        <div class="card info-card customers-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Hours <span>| This Year</span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>1244</h6>
+                                        <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-12">
+                    <div class="card recent-sales overflow-auto">
+
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Time Report History <span>| Weekly</span></h5>
+
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Project</th>
+                                        <th scope="col">Hours</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"><a href="#">#2457</a></th>
+                                        <td>Fname Lname</td>
+                                        <td><a href="#" class="text-primary">Simens</a></td>
+                                        <td>8</td>
+                                        <td>2024-04-15</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#">#2147</a></th>
+                                        <td>Fname Lname</td>
+                                        <td><a href="#" class="text-primary">Jordbruksverket</a></td>
+                                        <td>6</td>
+                                        <td>2024-04-14</td>
+                                        <td><span class="badge bg-warning">Pending</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#">#2049</a></th>
+                                        <td>Fname Lname</td>
+                                        <td><a href="#" class="text-primary">Hydro</a></td>
+                                        <td>4</td>
+                                        <td>2024-04-13</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#">#2644</a></th>
+                                        <td>Fname Lname</td>
+                                        <td><a href="#" class="text-primary">Väderstad</a></td>
+                                        <td>7</td>
+                                        <td>2024-04-12</td>
+                                        <td><span class="badge bg-danger">Rejected</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#">#2644</a></th>
+                                        <td>Fname Lname</td>
+                                        <td><a href="#" class="text-primary">Hydro</a></td>
+                                        <td>5</td>
+                                        <td>2024-04-11</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
                     </div>
                 </div>
 
-                <div class="card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <a href="@Url.Action("create", "Time")">
-                                <img src="/logo/pictures/pexels-picjumbocom-196650.jpg" class="img-fluid rounded-start" alt="Foto">
-                            </a>
+                <div class="col-12">
+                    <div class="card top-selling overflow-auto">
+
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
                         </div>
-                        <div class="col-md-8">
-                            <a href="@Url.Action("create", "Time")">
-                                <div class="card-body">
-                                    <h5 class="card-title">Time Report </h5>
-                                    <p class="card-text">Report your time here</p>
-                                </div>
-                            </a>
+
+                        <div class="card-body pb-0">
+                            <h5 class="card-title">Report History <span>| Today</span></h5>
+
+                            <table class="table table-borderless">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Tillfälligt</th>
+                                        <th scope="col">Tillfälligt</th>
+                                        <th scope="col">Tillfälligt</th>
+                                        <th scope="col">Tillfälligt</th>
+                                        <th scope="col">Tillfälligt</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"><a href="#"><img src="assets/img/product-1.jpg" alt=""></a></th>
+                                        <td><a href="#" class="text-primary fw-bold">Tillfälligt </a></td>
+                                        <td>?</td>
+                                        <td class="fw-bold"></td>
+                                        <td>?</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
+                                        <td><a href="#" class="text-primary fw-bold"></a></td>
+                                        <td>?</td>
+                                        <td class="fw-bold"></td>
+                                        <td>?</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#"><img src="assets/img/product-3.jpg" alt=""></a></th>
+                                        <td><a href="#" class="text-primary fw-bold"></a></td>
+                                        <td></td>
+                                        <td class="fw-bold"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#"><img src="assets/img/product-4.jpg" alt=""></a></th>
+                                        <td><a href="#" class="text-primary fw-bold"></a></td>
+                                        <td></td>
+                                        <td class="fw-bold"></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row"><a href="#"><img src="assets/img/product-5.jpg" alt=""></a></th>
+                                        <td><a href="#" class="text-primary fw-bold"></a></td>
+                                        <td></td>
+                                        <td class="fw-bold"></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
                         </div>
+
                     </div>
                 </div>
-                <div class="card mb-3">
-                    <div class="row g-0">
-                        <div class="col-md-8">
-                            <a href="@Url.Action("Details", "Time")">
-                                <div class="card-body">
-                                    <h5 class="card-title">Time report History </h5>
-                                    <p class="card-text">Check your time history</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="@Url.Action("create", "Time")">
-                                <img src="~/logo/pictures/pexels-andrea-piacquadio-3760060.jpg" class="img-fluid rounded-start" alt="Foto" />
-                                
-                            </a>
-                        </div>
-                        
-                    </div>
-                </div>
+
             </div>
+            <div class="col-lg-4">
 
-            <div class="col-lg-3">
 
                 <div class="card">
-                    <img src="/logo/pictures/pexels-cottonbro-studio-4065895.jpg" class="card-img-top" alt="..." />
-                    <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="card-text"></p>
+                    <div class="filter">
+                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <li class="dropdown-header text-start">
+                                <h6>Filter</h6>
+                            </li>
+
+                            <li><a class="dropdown-item" href="#">Today</a></li>
+                            <li><a class="dropdown-item" href="#">This Month</a></li>
+                            <li><a class="dropdown-item" href="#">This Year</a></li>
+                        </ul>
                     </div>
-                </div>
-                <div class="card">
-                    <img src="/logo/pictures/pexels-cottonbro-studio-4065895.jpg" class="card-img-top" alt="..." />
+
                     <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="card-text"></p>
+                        <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+
+                        <div class="activity">
+
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">32 min</div>
+                                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                                <div class="activity-content">
+                                    Natalie raporterade din tid .... <a href="#" class="fw-bold text-dark"></a> beatae
+                                </div>
+                            </div>
+
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">56 min</div>
+                                <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
+                                <div class="activity-content">
+                                    Spurti raporterade din tid ....
+                                </div>
+                            </div>
+
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">2 hrs</div>
+                                <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
+                                <div class="activity-content">
+                                    Gabriel raporterade in...
+                                </div>
+                            </div>
+
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">1 day</div>
+                                <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
+                                <div class="activity-content">
+                                    Dawod raporterade in... <a href="#" class="fw-bold text-dark">Övertid</a> tempore
+                                </div>
+                            </div>
+
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">2 days</div>
+                                <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
+                                <div class="activity-content">
+                                    Fidel raporterade in...
+                                </div>
+                            </div>
+
+                            <div class="activity-item d-flex">
+                                <div class="activite-label">4 weeks</div>
+                                <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
+                                <div class="activity-content">
+                                    Henrik raporterade in...
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
+
                 </div>
-                @* <div class="card">
-            <div class="card-body">
-            <h5 class="card-title">tillfälligt</h5>
-            <p class="card-text">tillfälligt text.</p>
-            </div>
-            <img src="assets/img/card.jpg" class="card-img-bottom" alt="...">
-            </div> *@
 
             </div>
-
-
         </div>
+
     </section>
 }
 else
