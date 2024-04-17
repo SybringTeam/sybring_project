@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
@@ -40,26 +41,48 @@ namespace sybring_project.Controllers
         public async Task<IActionResult> Index()
         {
             var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
-            var statusList = await _statusService.GetStatusListAsync();
+            var allStatuses = await _userServices.GetStatusListAsync();
 
-            var viewModel = new UserStatusViewModel
+            ViewBag.Statuses = allStatuses.Select(status => new SelectListItem
             {
-                Users = userListUK,
-                Statuses = statusList
-            };
+                Value = status.Id.ToString(),
+                Text = status.Name
+            });
 
-            return View(viewModel);
+            return View(userListUK);
         }
 
-            
+        //public async Task<IActionResult> UpdateStatus()
+        //{
+        //    UserVM addStatus = new UserVM();
+
+        //    var allStatuses = await _userServices.GetStatusListAsync(); 
+
+        //    foreach (var status in allStatuses)
+        //    {
+        //        addStatus.Statuses.Add(new SelectListItem
+        //        {
+        //            Value = status.Id.ToString(),
+        //            Text = status.Name
+        //        });
+        //    }
+
+        //    return View(addStatus);
+        //}
+
+
 
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(string userId, int statusId)
+        public async Task<IActionResult> UpdateStatus(string userId, UserVM viewModel)
         {
-            await _statusService.AddStatusToUserAsync(userId, statusId);
+
+            await _userServices.AddStatusToUserAsync(userId, viewModel.ChosenStatusId);
+
 
             return RedirectToAction("Index");
+
         }
+
 
 
         public async Task<IActionResult> RoleView(string roleName)

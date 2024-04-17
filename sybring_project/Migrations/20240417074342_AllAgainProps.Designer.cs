@@ -12,8 +12,8 @@ using sybring_project.Data;
 namespace sybring_project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240413122752_mydb")]
-    partial class mydb
+    [Migration("20240417074342_AllAgainProps")]
+    partial class AllAgainProps
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -481,7 +481,7 @@ namespace sybring_project.Migrations
                     b.Property<string>("Seller")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StatusId")
+                    b.Property<int>("StatusId")
                         .HasColumnType("int");
 
                     b.Property<string>("TaskDescription")
@@ -656,8 +656,10 @@ namespace sybring_project.Migrations
             modelBuilder.Entity("sybring_project.Models.Db.User", b =>
                 {
                     b.HasOne("sybring_project.Models.Db.Status", "Status")
-                        .WithMany("User")
-                        .HasForeignKey("StatusId");
+                        .WithMany("Users")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Status");
                 });
@@ -676,7 +678,7 @@ namespace sybring_project.Migrations
 
             modelBuilder.Entity("sybring_project.Models.Db.Status", b =>
                 {
-                    b.Navigation("User");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("sybring_project.Models.Db.TimeHistory", b =>

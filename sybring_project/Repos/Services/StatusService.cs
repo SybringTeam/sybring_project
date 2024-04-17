@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 
 namespace sybring_project.Repos.Services
@@ -28,30 +29,7 @@ namespace sybring_project.Repos.Services
 
         }
 
-        public async Task AddStatusToUserAsync(string userId, int newStatusId)
-        {
-           
-            var user = await _db.Users.FindAsync(userId);
-            if (user == null)
-            {
-                throw new InvalidOperationException("User not found");
-            }
-                    
-            var newStatus = await _db.Status.FirstOrDefaultAsync(s => s.Id == newStatusId);
-            if (newStatus == null)
-            {
-                throw new InvalidOperationException("New status not found");
-            }
-
-        
-            user.Status = newStatus;
-
-         
-            await _db.SaveChangesAsync();
-        }
-
-
-
+    
 
         public async Task<Status> DeleteStatusAsync(int id)
         {
