@@ -1,11 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using sybring_project.Models.Db;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace sybring_project.Models.Db
+namespace sybring_project.Models.ViewModels
 {
-    public class User : IdentityUser
+    public class UserVM
     {
-
+        public UserVM()
+        {
+            Statuses = new List<SelectListItem>();
+        }
+        public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
 
@@ -35,7 +40,10 @@ namespace sybring_project.Models.Db
 
         // Navigation properties
         public int? StatusId { get; set; }
-        public virtual Status Status { get; set; }
+        public List<SelectListItem> Statuses { get; set; } = new List<SelectListItem>();
+
+
+        public int ChosenStatusId { get; set; }
         public virtual ICollection<Project>? ProjectId { get; set; }
 
         public virtual ICollection<TimeHistory>? TimeId { get; set; }

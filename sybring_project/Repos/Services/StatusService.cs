@@ -1,7 +1,11 @@
 ﻿
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Build.Evaluation;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 
 namespace sybring_project.Repos.Services
@@ -16,6 +20,16 @@ namespace sybring_project.Repos.Services
             _db = db;
             _userServices = userServices;
         }
+
+        public async Task AddStatusAsync(Status status)
+        {
+            _db.Status.Add(status);
+            await _db.SaveChangesAsync();
+
+
+        }
+
+    
 
         public async Task<Status> DeleteStatusAsync(int id)
         {

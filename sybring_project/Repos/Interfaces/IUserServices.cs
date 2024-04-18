@@ -1,4 +1,5 @@
 ﻿using sybring_project.Models.Db;
+using sybring_project.Models.ViewModels;
 
 
 namespace sybring_project.Repos.Interfaces
@@ -33,8 +34,11 @@ namespace sybring_project.Repos.Interfaces
 
         //Task<User> GetUserWithProjectsAsync(string id);
         User GetUserById(string userId);
+            
 
-        Task UpdateUserStatusAsync(string userId, Status status);
+        Task<List<Status>> GetStatusListAsync();
+
+        Task AddStatusToUserAsync(string userId, int id);
 
 
     }

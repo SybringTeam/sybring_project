@@ -71,10 +71,13 @@ namespace sybring_project.Data
                    .WithOne(c => c.Project)
                    .HasForeignKey(c => c.ProjectId);
 
-            //builder.Entity<Status>()
-            //    .HasMany(s => s.User)
-            //    .WithOne(s => s.Status)
-            //    .HasForeignKey(s => s.Status);
+            builder.Entity<User>()
+                .HasOne(u => u.Status)
+                .WithMany(s => s.Users)
+                .HasForeignKey(u => u.StatusId)
+                .OnDelete(DeleteBehavior.Restrict);
+           
+
 
             base.OnModelCreating(builder);
         }

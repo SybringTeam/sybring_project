@@ -12,8 +12,8 @@ using sybring_project.Data;
 namespace sybring_project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240409131108_AllNewAgain")]
-    partial class AllNewAgain
+    [Migration("20240417075546_Again")]
+    partial class Again
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -656,8 +656,9 @@ namespace sybring_project.Migrations
             modelBuilder.Entity("sybring_project.Models.Db.User", b =>
                 {
                     b.HasOne("sybring_project.Models.Db.Status", "Status")
-                        .WithMany("User")
-                        .HasForeignKey("StatusId");
+                        .WithMany("Users")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Status");
                 });
@@ -676,7 +677,7 @@ namespace sybring_project.Migrations
 
             modelBuilder.Entity("sybring_project.Models.Db.Status", b =>
                 {
-                    b.Navigation("User");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("sybring_project.Models.Db.TimeHistory", b =>

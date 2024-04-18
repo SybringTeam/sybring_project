@@ -44,7 +44,7 @@ namespace sybring_project.Controllers
         {
             await _companyServices.AddCompanyAsync(company);
             return RedirectToAction("Index");
-            }
+        }
 
         [Authorize(Roles = "admin, superadmin")]
         [HttpGet]
