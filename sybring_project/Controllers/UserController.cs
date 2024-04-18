@@ -45,42 +45,18 @@ namespace sybring_project.Controllers
             var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
             var allStatuses = await _userServices.GetStatusListAsync();
 
-            ViewBag.Statuses = allStatuses.Select(status => new SelectListItem
-            {
-                Value = status.Id.ToString(),
-                Text = status.Name
-            });
+          ViewBag.Statuses = allStatuses;
 
             return View(userListUK);
         }
 
 
-        //public async Task<IActionResult> UpdateStatus()
-        //{
-        //    UserVM addStatus = new UserVM();
-
-        //    var allStatuses = await _userServices.GetStatusListAsync(); 
-
-        //    foreach (var status in allStatuses)
-        //    {
-        //        addStatus.Statuses.Add(new SelectListItem
-        //        {
-        //            Value = status.Id.ToString(),
-        //            Text = status.Name
-        //        });
-        //    }
-
-        //    return View(addStatus);
-        //}
-
         [Authorize(Roles = "admin, superadmin")]
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(string userId, UserVM viewModel)
+        public async Task<IActionResult> UpdateStatus(string userId, int statusId)
         {
 
-            await _userServices.AddStatusToUserAsync(userId, viewModel.ChosenStatusId);
-
-
+            await _userServices.AddStatusToUserAsync(userId, statusId);
             return RedirectToAction("Index");
 
         }

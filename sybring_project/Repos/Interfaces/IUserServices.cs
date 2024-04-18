@@ -38,7 +38,7 @@ namespace sybring_project.Repos.Interfaces
 
         Task<List<Status>> GetStatusListAsync();
 
-        Task AddStatusToUserAsync(string userId, int id);
+        Task AddStatusToUserAsync(string userId, int statusId);
 
 
     }
