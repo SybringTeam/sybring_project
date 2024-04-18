@@ -12,8 +12,8 @@ using sybring_project.Data;
 namespace sybring_project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240417075546_Again")]
-    partial class Again
+    [Migration("20240418080549_ManyToManyProps")]
+    partial class ManyToManyProps
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -190,6 +190,21 @@ namespace sybring_project.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("ProjectUsers", (string)null);
+                });
+
+            modelBuilder.Entity("StatusUser", b =>
+                {
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("StatusId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("StatusUser");
                 });
 
             modelBuilder.Entity("TimeHistoryUser", b =>
@@ -481,9 +496,6 @@ namespace sybring_project.Migrations
                     b.Property<string>("Seller")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StatusId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TaskDescription")
                         .HasColumnType("nvarchar(max)");
 
@@ -512,8 +524,6 @@ namespace sybring_project.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("StatusId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -599,6 +609,21 @@ namespace sybring_project.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("StatusUser", b =>
+                {
+                    b.HasOne("sybring_project.Models.Db.Status", null)
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("sybring_project.Models.Db.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TimeHistoryUser", b =>
                 {
                     b.HasOne("sybring_project.Models.Db.TimeHistory", null)
@@ -653,16 +678,6 @@ namespace sybring_project.Migrations
                     b.Navigation("TimeHistory");
                 });
 
-            modelBuilder.Entity("sybring_project.Models.Db.User", b =>
-                {
-                    b.HasOne("sybring_project.Models.Db.Status", "Status")
-                        .WithMany("Users")
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Status");
-                });
-
             modelBuilder.Entity("sybring_project.Models.Db.Billing", b =>
                 {
                     b.Navigation("ProjectId");
@@ -673,11 +688,6 @@ namespace sybring_project.Migrations
                     b.Navigation("Companies");
 
                     b.Navigation("ProjectHistories");
-                });
-
-            modelBuilder.Entity("sybring_project.Models.Db.Status", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("sybring_project.Models.Db.TimeHistory", b =>

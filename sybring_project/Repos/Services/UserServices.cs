@@ -274,15 +274,15 @@ namespace sybring_project.Repos.Services
 
         public async Task AddStatusToUserAsync(string userId, int Id)
         {
-            // Find the user by ID
-            var user = await _db.Users.FindAsync(userId);
+            //// Find the user by ID
+            //var user = await _db.Users.FindAsync(userId);
 
-            // Find the status by ID
-            var status = await _db.Status.FindAsync(Id);
-            if (status != null) 
-            {
-                user.StatusId = status.Id;
-            }
+            //// Find the status by ID
+            //var status = await _db.Status.FindAsync(Id);
+            //if (status != null) 
+            //{
+            //    user.StatusId = status.Id;
+            //}
 
             
             await _db.SaveChangesAsync();
