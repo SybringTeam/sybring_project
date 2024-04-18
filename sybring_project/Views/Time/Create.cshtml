@@ -1,150 +1,170 @@
 ﻿@model List<sybring_project.Models.ViewModels.DayDataVM>
 
-
 @{
     ViewData["Title"] = "Create";
 }
 
+
+<style>
+    .table-container {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    .data-column {
+        flex-grow: 1;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+
+    .header-row th {
+        background-color: #f0f0f0;
+    }
+
+    .date-cell {
+        min-width: 100px;
+    }
+</style>
+
 <h1>Create Time Report</h1>
 
-
 <h4>Select Week</h4>
-<select id="weekNumber">       </select>
+<select id="weekNumber"></select>
 
+
+<div style="display: flex; justify-content: flex-end;">
+    <button id="set-working-hours-btn">Working Hours</button>
+</div>
 
 
 @using (Html.BeginForm("Create", "Time", FormMethod.Post))
 {
     <hr />
 
-    <!-- validation  -->
+    <!-- Validation summary -->
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="table-container">
+       
+        <div class="data-column">
+            <table class="table">
+                <tbody id="weekDaysBody">
+                <td class="header-cell" colspan="2">DAY</td>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                    <input type="hidden" asp-for="@Model[i].Date" id="@Model[i].Date.DayOfWeek" />
+                    <td class="weekday-column">@Model[i].Date.DayOfWeek</td>
+
+                    }
+                <tr></tr>
+                <td class="header-cell" colspan="2">Date</td>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                    <td class="date-column" id="@Model[i].Date.ToString("yyyy-MM-dd")">@Model[i].Date.ToShortDateString()</td>
+                    }
+
+                <tr></tr>
+                <td class="header-cell" colspan="2">StartWork</td>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                    <td class="data-cell">@Html.TextBoxFor(m => m[i].StartWork, new { type = "time" ,@class = "work-time" })</td>
+                    }
+                <tr></tr>
+                <td class="header-cell" colspan="2">EndWork</td>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+
+
+                    <td class="data-cell">@Html.TextBoxFor(m => m[i].EndWork, new { type = "time", @class = "work-time" })</td>
+                    }
+                <tr></tr>      
+
+                <td class="header-cell" colspan="2">StartBreak</td>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                    <td class="data-cell">@Html.TextBoxFor(m => m[i].StartBreak, new { type = "time", @class = "work-time" })</td>
+                    }
+                <tr></tr>
+                <td class="header-cell" colspan="2">EndBreak</td>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+
+                    <td class="data-cell">@Html.TextBoxFor(m => m[i].EndBreak, new { type = "time", @class = "work-time" })</td>
+                    }
+
+                <tr></tr>
+                <td class="header-cell" colspan="2">WorkingHours</td>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                    <td class="data-cell" id="workingHours">@Model[i].WorkingHours</td>
+                    }
 
 
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Date</th>
-                <th>StartWork</th>
-                <th>EndWork</th>
-                <th>StartBrea</th>
-                <th>EndBreak</th>
-                <th>Total Working Hours </th>
-                <th>WorkingHours</th>
-                <th>FlexiTime</th>
-                <th>MoreTime</th>
-                <th>Attendance</th>
-                <th>AnnualLea</th>
-                <th>SickLeave</th>
-                <th>Absence </th>
-                <th>Childcare</th>
-                <th>Overtime</th>
-                <th>InconvenientHours</th>
+                <tr></tr>
+                <td class="header-cell" colspan="2">Total Working Hours</td>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+
+                    <td class="data-cell">@Html.TextBoxFor(m => m[i].WorkingHours, new { type = "text" ,size = "4" })</td>
+                    }
                 
-                <th>Validation Message</th>
-            </tr>
-        </thead>
-        <tbody id="weekDaysBody">
-            @for (int i = 0; i < Model.Count; i++)
-            {
-                <input type="hidden" asp-for="@Model[i].Date" id="@Model[i].Date.DayOfWeek" />
-                <tr>
+                <tr></tr>
+                <td class="header-cell" colspan="2">FlexiTime</td>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                <td class="data-cell">@Html.TextBoxFor(m => m[i].FlexiTime, new { type = "time" })</td>
+                    }
+                <tr></tr>
+                <td class="header-cell" colspan="2">OverTime</td>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                    <td class="data-cell">@Html.TextBoxFor(m => m[i].Overtime, new { type = "time" })</td>
 
-                   @*  <td>@Model[i].Date.DayOfWeek</td> *@
-                    <td class="weekday-column">@Model[i].Date.DayOfWeek</td> 
-                  @*   <td>@Html.HiddenFor(m => m[i].Date) @Model[i].Date.ToShortDateString()</td> *@
-                    @* <td id="@Model[i].Date.ToString("yyyy-MM-dd")">
-                        @Html.HiddenFor(m => m[i].Date)
-                        @Model[i].Date.ToShortDateString()
-                    </td> *@
-                    @* @Html.HiddenFor(m => m[i].Date) *@
-                    <td class="date-column" id="@Model[i].Date.ToString("yyyy-MM-dd")">
-                        
-                        @Model[i].Date.ToShortDateString()
-                    </td>
+                    }
+                <tr></tr>
+                <td class="header-cell" colspan="2">MoreTime</td>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+
+                    <td class="data-cell">@Html.TextBoxFor(m => m[i].MoreTime, new { type = "time" })</td>
+
+                    }
+                <tr></tr>
+                <td class="header-cell" colspan="2"></td>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                    <td class="validation-cell">@Html.ValidationMessageFor(m => m[i].StartWork, "", new { @class = "text-danger" })</td>
+
+                    }
 
 
 
-                    <td>@Html.TextBoxFor(m => m[i].StartWork, new { type = "time" })</td>
-                    <td>@Html.TextBoxFor(m => m[i].EndWork, new { type = "time" })</td>
-                    <td>@Html.TextBoxFor(m => m[i].StartBreak, new { type = "time" })</td>
-                    <td>@Html.TextBoxFor(m => m[i].EndBreak, new { type = "time" })</td>
-                    <td>@Html.TextBoxFor(m => m[i].WorkingHours, new { type = "time" })</td>
-                    <td id="workingHours">@Model[i].WorkingHours</td>
-                    <td id="totalWorkingHours">@Model[i].TotalWorkingHours</td>
-                    <td>@Html.TextBoxFor(m => m[i].Overtime, new { type = "time" })</td>
-                    <td>@Html.TextBoxFor(m => m[i].MoreTime, new { type = "time" })</td>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-                    <td>@Html.ValidationMessageFor(m => m[i].StartWork, "", new { @class = "text-danger" })</td>
-                </tr>
-            }
-           
-        </tbody>
-    </table>
+
 
 
 
     <input type="hidden" name="userId" value="user_id_here" /> 
     <button type="submit" class="btn btn-primary">Submit</button>
-
     <a asp-action="Index">Back to List</a>
 }
 
 
 
-@* My code works good but not displays based on selected week *@
-
-
-
-@*    
-<script>
-
-
-    // Fetch red days data from the API
-    fetch('https://sholiday.faboul.se/dagar/v2.1/2024')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('API Response:', data);
-
-            // get red days
-            const redDays = data.dagar.filter(day => day['röd dag'] === 'Ja');
-            const dates = data.dagar;
-
-            // Loop 
-            dates.forEach(date => {
-                if (redDays.some(redDay => redDay.datum === date.datum)) {
-                    
-                    const dateElement = document.getElementById(date.datum);
-                    if (dateElement) {
-                        
-                        dateElement.style.color = 'red';
-                        
-                         dateElement.previousElementSibling.style.color = 'red';
-                    }
-                }
-            });
-
-            
-            const weekNumbers = new Set(dates.map(day => parseInt(day.vecka)).filter(weekNumber => !isNaN(weekNumber)));
-            const selectElement = document.getElementById('weekNumber');
-            weekNumbers.forEach(weekNumber => {
-                const option = document.createElement('option');
-                option.textContent = 'Week ' + weekNumber;
-                option.value = weekNumber;
-                selectElement.appendChild(option);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-</script> *@
 
 
 @* 
@@ -178,26 +198,18 @@ It displays date based on select week *@
 
             selectElement.addEventListener('change', function () {
                 const selectedWeek = parseInt(this.value);
-
-                
                 const selectedWeekDays = allDays.filter(day => parseInt(day.vecka) === selectedWeek);
 
-                
+                // Redefine dateCells and weekdayCells within the event listener
                 const dateCells = document.querySelectorAll('#weekDaysBody td.date-column');
                 const weekdayCells = document.querySelectorAll('#weekDaysBody td.weekday-column');
 
-
-                //chages date to red
-              
-                dateCells.forEach((cell, index) => {                 
+                // Update date cells
+                dateCells.forEach((cell, index) => {
                     const currentDate = selectedWeekDays[index].datum;
                     cell.textContent = currentDate;
                     const isRedDay = selectedWeekDays[index]['röd dag'] === 'Ja';
-                    if (isRedDay) {
-                        cell.style.color = 'red';
-                    } else {
-                        cell.style.color = 'black';
-                    }
+                    cell.style.color = isRedDay ? 'red' : 'black';
 
                     var daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
                     for (var i = 0; i < daysOfWeek.length; i++) {
@@ -207,31 +219,57 @@ It displays date based on select week *@
                     }
                     console.log(daysOfWeek)
 
-                                   
-                  @*   var weekday = document.getElementById("Monday");            
-                    weekday.innerText = currentDate;
-                    weekday.value = currentDate;       *@   
-                    
+
                 });
 
-                  
-                //changes weekday to red
-
+                // Update weekday cells
                 weekdayCells.forEach((cell, index) => {
                     const currentWeekday = selectedWeekDays[index].veckodag;
                     const isRedDay = selectedWeekDays[index]['röd dag'] === 'Ja';
                     cell.textContent = currentWeekday;
-                    if (isRedDay) {
-                        cell.style.color = 'red';
-                    } else {
-                        cell.style.color = 'black';
-                    }
+                    cell.style.color = isRedDay ? 'red' : 'black';
                 });
             });
         })
         .catch(error => {
             console.error('Error fetching data:', error);
         });
+
+
+
+   
+
+
+
+
+
+
+        // Button 
+    const button = document.getElementById('set-working-hours-btn');
+    button.addEventListener('click', function () {
+      
+
+        // Set working hours to 8
+        const workingHoursCells = document.querySelectorAll('.data-cell#workingHours'); 
+        workingHoursCells.forEach(cell => {
+            cell.textContent = '8'; 
+        });
+
+        // Toggle disabled state of StartWork, EndWork, StartBreak, and EndBreak input fields
+        const workInputs = document.querySelectorAll('.work-time'); 
+        workInputs.forEach(input => {
+            input.disabled = !input.disabled; 
+
+            
+        });
+    });
+
+
+
+
+
+
+
 </script>
 
 
