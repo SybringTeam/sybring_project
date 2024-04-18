@@ -100,6 +100,7 @@ namespace sybring_project.Models.Seeding
                     FirstName = "Dawood",
                     LastName = "Rizwan"
 
+
                 };
                 await userManager.CreateAsync(useradmin4, "Admin_2024");
             }
@@ -164,7 +165,8 @@ namespace sybring_project.Models.Seeding
                     Email = "dawood.rizwan@outlook.com",
                     EmailConfirmed = true,
                     FirstName = "Real",
-                    LastName = "User"
+                    LastName = "User",
+                    
 
                 };
                 await userManager.CreateAsync(realuser, "Admin_2024");

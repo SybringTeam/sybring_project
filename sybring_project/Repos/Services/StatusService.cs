@@ -29,27 +29,32 @@ namespace sybring_project.Repos.Services
 
         }
 
-    
-
-        public async Task<Status> DeleteStatusAsync(int id)
+        public Task<Status> DeleteStatusAsync(int id)
         {
-            var statusToDelete = await _db.Status.FindAsync(id);
-
-            if (statusToDelete != null)
-            {
-                // Remove references from users
-                var usersWithStatus = await _db.Users.Where(u => u.Status.Id == id).ToListAsync();
-                foreach (var user in usersWithStatus)
-                {
-                    user.Status = null; // Or assign them to another status
-                }
-
-                _db.Status.Remove(statusToDelete);
-                await _db.SaveChangesAsync();
-            }
-
-            return statusToDelete;
+            throw new NotImplementedException();
         }
+
+
+
+        //public async Task<Status> DeleteStatusAsync(int id)
+        //{
+        //    var statusToDelete = await _db.Status.FindAsync(id);
+
+        //    if (statusToDelete != null)
+        //    {
+        //        // Remove references from users
+        //        var usersWithStatus = await _db.Users.Where(u => u.Status. == id).ToListAsync();
+        //        foreach (var user in usersWithStatus)
+        //        {
+        //            user.Status = null; // Or assign them to another status
+        //        }
+
+        //        _db.Status.Remove(statusToDelete);
+        //        await _db.SaveChangesAsync();
+        //    }
+
+        //    return statusToDelete;
+        //}
 
         public async Task<Status> GetStatusByIdAsync(int id)
         {
@@ -78,7 +83,7 @@ namespace sybring_project.Repos.Services
             var status = await _db.Status.FirstOrDefaultAsync(s => s.Name == statusName);
 
             // Update the user's status
-            user.Status = status;
+            //user.Status = status;
 
             // Save changes to the database
             await _db.SaveChangesAsync();

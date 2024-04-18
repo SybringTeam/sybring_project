@@ -52,7 +52,7 @@
                                     <input type="hidden" name="userId" value="@user.Id" />
                                     @if (user.Status != null)
                                     {
-                                        <input type="hidden" name="currentStatusId" value="@user.Status.Id" />
+                                        <input type="hidden" name="currentStatusId" value="@user.Status" />
                                     }
                                     <select name="status">
                                         @foreach (var status in ViewBag.Statuses as IEnumerable<SelectListItem>)
@@ -61,7 +61,7 @@
                                         }
                                     </select>
 
-                                    <button type="submit" name="statusId">Update</button>
+                                    <button type="submit" name="statusId" value="@user.Status">Update</button>
                                 </form>
                             </td>
                             <td>

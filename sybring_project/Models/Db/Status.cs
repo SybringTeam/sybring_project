@@ -10,8 +10,11 @@ namespace sybring_project.Models.Db
         public int? Id { get; set; }
         public string? Name { get; set; }
 
+
+
         // Navigation properties
-        public ICollection<User> Users { get; set; }
+               
+        public virtual ICollection<User> Users { get; set; }
 
     }
 }
