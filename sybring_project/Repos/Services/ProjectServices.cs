@@ -18,6 +18,7 @@ namespace sybring_project.Repos.Services
 
         public async Task AddProjectAsync(Project project)
         {
+
             _db.Projects.Add(project);
             await _db.SaveChangesAsync();
 

@@ -47,9 +47,8 @@ namespace sybring_project.Controllers
             var allStatuses = await _userServices.GetStatusListAsync();
 
 
-            ViewBag.Statuses = allStatuses.Select(status => new SelectListItem
-
-
+          ViewBag.Statuses = allStatuses;
+          ViewBag.Statuses = allStatuses.Select(status => new SelectListItem
             var viewModel = new UserStatusViewModel
 
             {
@@ -82,12 +81,10 @@ namespace sybring_project.Controllers
 
         [Authorize(Roles = "admin, superadmin")]
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(string userId, UserVM viewModel)
+        public async Task<IActionResult> UpdateStatus(string userId, int statusId)
         {
 
-            await _userServices.AddStatusToUserAsync(userId, viewModel.ChosenStatusId);
-
-
+            await _userServices.AddStatusToUserAsync(userId, statusId);
             return RedirectToAction("Index");
 
         }
