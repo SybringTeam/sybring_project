@@ -6,6 +6,20 @@
 
 <h1>Time History Records</h1>
 
+@* <form method="post" action="@Url.Action("SelectUserForTimeHistory", "Time")">
+    <div class="mb-3">
+        <label for="userId" class="form-label">Select User:</label>
+        <select class="form-select" id="userId" name="selectedUserId">
+            <option value="">Select User</option>
+            @foreach (var timeHistory in Model)
+            {
+                <option value="@timeHistory.Users">@timeHistory.Users</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Show Time History</button>
+</form> *@
+
 @if (Model.Any())
 {
     <table class="table">
