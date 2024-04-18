@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
@@ -37,50 +39,61 @@ namespace sybring_project.Controllers
             _statusService = statusService;
         }
 
+        [Authorize(Roles = "admin, superadmin")]
         public async Task<IActionResult> Index()
         {
 
             var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
-            var statusList = await _statusService.GetStatusListAsync();
+            var allStatuses = await _userServices.GetStatusListAsync();
+
+
+            ViewBag.Statuses = allStatuses.Select(status => new SelectListItem
 
 
             var viewModel = new UserStatusViewModel
-            {
-                Users = userListUK,
-                Statuses = statusList
-            };
 
-            return View(viewModel);
+            {
+                Value = status.Id.ToString(),
+                Text = status.Name
+            });
+
+            return View(userListUK);
         }
 
 
 
+        //public async Task<IActionResult> UpdateStatus()
+        //{
+        //    UserVM addStatus = new UserVM();
+
+        //    var allStatuses = await _userServices.GetStatusListAsync(); 
+
+        //    foreach (var status in allStatuses)
+        //    {
+        //        addStatus.Statuses.Add(new SelectListItem
+        //        {
+        //            Value = status.Id.ToString(),
+        //            Text = status.Name
+        //        });
+        //    }
+
+        //    return View(addStatus);
+        //}
+
+        [Authorize(Roles = "admin, superadmin")]
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(string userId, int statusId)
+        public async Task<IActionResult> UpdateStatus(string userId, UserVM viewModel)
         {
-            // Retrieve the user by ID
-            var user = await _userServices.GetUserByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
 
-            // Retrieve the status by ID
-            var status = await _statusService.GetStatusByIdAsync(statusId);
-            if (status == null)
-            {
-                return NotFound("Status not found");
-            }
+            await _userServices.AddStatusToUserAsync(userId, viewModel.ChosenStatusId);
 
-            // Update the user's status
-            user.Status = status;
-
-            // Update the user in the database
-            await _statusService.UpdateUserAsync(user);
 
             return RedirectToAction("Index");
+
         }
 
+
+        [Authorize(Roles = "admin, superadmin")]
 
 
         public async Task<IActionResult> RoleView(string roleName)
@@ -105,32 +118,7 @@ namespace sybring_project.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Create()
-        {
-            var projects = await _userServices.GetProjectsAsync();
-
-            if (projects == null)
-            {
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.Projects = projects;
-            return View();
-        }
-
-        [HttpPost]
-
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(User user, int projectId)
-        {
-
-            await _userServices.AddUsersAsync(user, projectId);
-            return RedirectToAction("Index");
-
-        }
-
-
+        [Authorize(Roles = "admin, superadmin")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -144,7 +132,7 @@ namespace sybring_project.Controllers
             return View(user);
         }
 
-
+        [Authorize(Roles = "admin, superadmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(User user)
@@ -261,9 +249,8 @@ namespace sybring_project.Controllers
 
         }
 
-
-
         // GET: UserController/AssignProjects
+        [Authorize(Roles = "admin, superadmin")]
         [HttpGet]
         public async Task<IActionResult> AssignProjects()
         {
@@ -279,6 +266,7 @@ namespace sybring_project.Controllers
 
 
         // POST: UserController/AssignProjects
+        [Authorize(Roles = "admin, superadmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignProjects(AssignProjectsViewModel viewModel)

@@ -139,7 +139,7 @@ namespace sybring_project.Repos.Services
                 userInDb.Seller = user.Seller;
                 userInDb.ImageLink = user.ImageLink;
                 userInDb.Email = user.Email;
-                userInDb.Status = user.Status;
+             
                
                
 
@@ -264,18 +264,31 @@ namespace sybring_project.Repos.Services
         }
 
 
-        public async Task UpdateUserStatusAsync(string userId, Status status)
+
+        public async Task<List<Status>> GetStatusListAsync()
         {
-            var user = await _db.Users.FindAsync(userId);
-            if (user != null)
-            {
-                user.Status = status;
-                await _db.SaveChangesAsync();
-            }
+            return await _db.Status.ToListAsync();
         }
 
 
 
+        public async Task AddStatusToUserAsync(string userId, int Id)
+        {
+            //// Find the user by ID
+            //var user = await _db.Users.FindAsync(userId);
+
+            //// Find the status by ID
+            //var status = await _db.Status.FindAsync(Id);
+            //if (status != null) 
+            //{
+            //    user.StatusId = status.Id;
+            //}
+
+            
+            await _db.SaveChangesAsync();
+
+
+        }
 
     }
 }

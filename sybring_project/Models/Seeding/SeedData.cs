@@ -100,6 +100,7 @@ namespace sybring_project.Models.Seeding
                     FirstName = "Dawood",
                     LastName = "Rizwan"
 
+
                 };
                 await userManager.CreateAsync(useradmin4, "Admin_2024");
             }
@@ -157,13 +158,15 @@ namespace sybring_project.Models.Seeding
             }
             if (realuser is null)
             {
+
                 realuser = new User
                 {
                     UserName = "dawood.rizwan@outlook.com",
                     Email = "dawood.rizwan@outlook.com",
                     EmailConfirmed = true,
                     FirstName = "Real",
-                    LastName = "User"
+                    LastName = "User",
+                    
 
                 };
                 await userManager.CreateAsync(realuser, "Admin_2024");
@@ -216,7 +219,8 @@ namespace sybring_project.Models.Seeding
                 await status.Status.AddRangeAsync(
                     new Status { Name = "active" },
                     new Status { Name = "inactive" },
-                    new Status { Name = "inprogress" }
+                    new Status { Name = "inprogress" },
+                    new Status { Name = "Admin"}
                 );
                 await status.SaveChangesAsync();
             }

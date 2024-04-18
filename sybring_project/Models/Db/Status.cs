@@ -5,12 +5,16 @@ namespace sybring_project.Models.Db
 {
     public class Status
     {
+      
         [Key]
         public int? Id { get; set; }
         public string? Name { get; set; }
 
-     
-        public List<User>? User { get; set; }
+
+
+        // Navigation properties
+               
+        public virtual ICollection<User> Users { get; set; }
 
     }
 }
