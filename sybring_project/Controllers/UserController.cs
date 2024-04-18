@@ -42,16 +42,10 @@ namespace sybring_project.Controllers
         [Authorize(Roles = "admin, superadmin")]
         public async Task<IActionResult> Index()
         {
-
             var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
             var allStatuses = await _userServices.GetStatusListAsync();
 
-
             ViewBag.Statuses = allStatuses.Select(status => new SelectListItem
-
-
-            var viewModel = new UserStatusViewModel
-
             {
                 Value = status.Id.ToString(),
                 Text = status.Name
@@ -59,6 +53,7 @@ namespace sybring_project.Controllers
 
             return View(userListUK);
         }
+
 
 
 

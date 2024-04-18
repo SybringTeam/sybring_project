@@ -9,6 +9,7 @@
 
         <div class="row align-items-top">
             <div class="col-lg-6">
+                <div class="row">
                 <div class="card">
                     <div class="card-header">
                         <h4><strong>User information</strong></h4>
@@ -49,12 +50,12 @@
                                 }
                             </div>
                             <input type="hidden" name="userId" value="@Model.Id" />
-                            <button type="submit" class="btn btn-outline-danger btn-sm mb-2" onclick="alertFunction()">Remove Selected</button>
+                           @*  <button type="submit" class="btn btn-outline-danger btn-sm mb-2" onclick="alertFunction()">Remove Selected</button> *@
 
-                           @*  @if (Model.ProjectId != null && Model.ProjectId.Any()) 
+                            @if (Model.ProjectId != null && Model.ProjectId.Any()) 
                             {
                                 <button type="submit" class="btn btn-outline-danger btn-sm mb-2" onclick="alertFunction()">Remove Selected</button>
-                            } *@
+                            } 
                             
                         </form>
                       
