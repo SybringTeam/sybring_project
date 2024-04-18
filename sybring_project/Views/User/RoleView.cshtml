@@ -29,9 +29,16 @@
                     <td>@item.TaskDescription</td>
                     <td>@item.UserName</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Restore</a> |
-                        <a asp-action="TrueDelete" asp-route-id="@item.Id">Delete</a>
+                        @if (ViewBag.RoleName == "archive")
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">| Restore </a>
+                            <a asp-action="TrueDelete" asp-route-id="@item.Id">| Delete </a>
+                            }
+                        else
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        }
                     </td>
                 </tr>
             }
@@ -40,6 +47,6 @@
 </div>
 <div>
     <a asp-action="Index"class="btn btn-primary">View Index</a>
-    <a asp-action="RoleView" asp-route-roleName="underconsult" class="btn btn-primary">View Underconsult Users</a>
+    <a asp-action="RoleView" asp-route-roleName="admin" class="btn btn-primary">View Admin Users</a>
     <a asp-action="RoleView" asp-route-roleName="archive" class="btn btn-primary">View Archives Users</a>
 </div>

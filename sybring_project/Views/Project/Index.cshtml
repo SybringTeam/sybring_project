@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -23,7 +23,6 @@
             }
         </div>
     </div>
-
 </div>
 
 <section class="section">
@@ -36,13 +35,11 @@
 
                         <th>
                             <p>NAME</p>
-                            @*  @Html.DisplayNameFor(model => model.Name) *@
-
 
                         </th>
                         <th>
                             <p>DESCRIPTION</p>
-                            @*  @Html.DisplayNameFor(model => model.Description) *@
+                            
                         </th>
                         <th>
                             <p>USERS ON PROJECTS</p>
@@ -86,9 +83,30 @@
 
 
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                                @*                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            *@                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+
+                                <div class="dropdown">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true"><i class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
+                                        <li class="dropdown-header text-start">
+                                            @* <h6>Filter</h6> *@
+                                        </li>
+                                        <li>
+                                            <div class="d-flex">
+                                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">
+                                                    <i class="bi bi-pencil"></i>
+                                                    <span>Edit</span>
+                                                </a>
+                                                <span>|</span>
+                                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">
+                                                    <i class="bi bi-trash"></i>
+                                                    <span>Delete</span>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
                             </td>
                         </tr>
                     }
