@@ -71,14 +71,14 @@ namespace sybring_project.Controllers
             return View(timeHistory);
         }
 
-        
-        
-        
-        
-        
+
+
+
+
+
         //dowad work
 
-        //[Authorize(Roles = "Admin, underconsult")]
+        [Authorize(Roles = "admin, superadmin, underconsult")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {

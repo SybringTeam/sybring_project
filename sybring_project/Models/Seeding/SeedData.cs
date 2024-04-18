@@ -157,6 +157,7 @@ namespace sybring_project.Models.Seeding
             }
             if (realuser is null)
             {
+
                 realuser = new User
                 {
                     UserName = "dawood.rizwan@outlook.com",
@@ -216,7 +217,8 @@ namespace sybring_project.Models.Seeding
                 await status.Status.AddRangeAsync(
                     new Status { Name = "active" },
                     new Status { Name = "inactive" },
-                    new Status { Name = "inprogress" }
+                    new Status { Name = "inprogress" },
+                    new Status { Name = "Admin"}
                 );
                 await status.SaveChangesAsync();
             }

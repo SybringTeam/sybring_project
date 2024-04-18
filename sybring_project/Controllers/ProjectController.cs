@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
@@ -29,6 +30,7 @@ namespace sybring_project.Controllers
         }
 
 
+        [Authorize(Roles = "admin, superadmin")]
         public async Task<IActionResult> Index()
         {
             var projectsList = await _projectServices.GetProjectsAsync();
@@ -36,6 +38,7 @@ namespace sybring_project.Controllers
         }
 
 
+        [Authorize(Roles = "admin, superadmin")]
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -82,6 +85,7 @@ namespace sybring_project.Controllers
         }
 
 
+        [Authorize(Roles = "admin, superadmin")]
         [HttpPost]
         public async Task<IActionResult> Details(string userId, int projectId)
         {
@@ -114,6 +118,8 @@ namespace sybring_project.Controllers
 
 
         [HttpGet]
+
+        [Authorize(Roles = "admin, superadmin")]
         public async Task<IActionResult> Create()
         {
             return View();
@@ -121,6 +127,7 @@ namespace sybring_project.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "admin, superadmin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Project project)
         {
@@ -136,6 +143,7 @@ namespace sybring_project.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "admin, superadmin")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -155,6 +163,7 @@ namespace sybring_project.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, superadmin")]
         public async Task<IActionResult> Edit(Project project)
         {
             await _projectServices.UpdateProjectAsync(project);
