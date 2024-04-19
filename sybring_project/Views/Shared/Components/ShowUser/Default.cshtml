@@ -46,6 +46,14 @@
                                             <div>
                                             </div>
                                         </div>
+
+                                        @foreach (var company in project.Companies)
+                                        {
+                                            <p><strong>Addres:</strong>@company.CompanyAddress</p>
+                                            <p><strong>OrgNr:</strong>@company.OrgNumber</p>
+                                            <p><strong>Webbsite:</strong>@company.CompanyWeb</p>
+                                            <p><strong>Contract:</strong></p>
+                                        }
                                     }
                                 </div>
                                 <input type="hidden" name="userId" value="@Model.Id" />
@@ -55,15 +63,8 @@
                                 }
                             </form>
 
-                            @foreach (var company in project.Companies)
-                            {
-                                <p><strong>Addres:</strong>@company.CompanyAddress</p>
-                                <p><strong>OrgNr:</strong>@company.OrgNumber</p>
-                                <p><strong>Webbsite:</strong>@company.CompanyWeb</p>
-                                <p><strong>Contract:</strong></p>
-                            }
                         </div>
-                        }
+                       
                     </div>
                 </div>
 
