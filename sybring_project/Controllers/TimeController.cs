@@ -20,17 +20,19 @@ namespace sybring_project.Controllers
     {
         //private const decimal MaxRegularHoursPerDay = 8; // Declaration 
         
+        private const decimal MaxRegularHoursPerDay = 8; // Declaration 
+
         private readonly ITimeService _timeService;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly IUserServices _userServices;
         private readonly IHolidayService _holidayService;
-        
+
 
 
         public TimeController(ApplicationDbContext context,
             ITimeService timeService, UserManager<User> userManager,
-            IUserServices userServices , IHolidayService holidayService)
+            IUserServices userServices, IHolidayService holidayService)
         {
 
             _timeService = timeService;
@@ -38,16 +40,17 @@ namespace sybring_project.Controllers
             _userManager = userManager;
             _userServices = userServices;
             _holidayService = holidayService;
-            
+
 
 
         }
 
         public async Task<IActionResult> Index()
         {
-            var list = await _timeService.GetTimeListAsync();
+            var userId = _userManager.GetUserId(User);
+            var timeList = await _timeService.GetTimeListAsync(userId);
 
-            return View(list);
+            return View(timeList);
         }
 
 
@@ -92,6 +95,7 @@ namespace sybring_project.Controllers
                 startDate = startDate.AddDays(-1);
             }
 
+          
             // Generate data for the week
             for (int i = 0; i < 7; i++)
             {
@@ -103,7 +107,7 @@ namespace sybring_project.Controllers
                     EndWork = TimeSpan.FromHours(17),
                     StartBreak = TimeSpan.FromHours(12),
                     EndBreak = TimeSpan.FromHours(13),
-                    
+
                 };
                 model.Add(dayData);
             }
@@ -136,6 +140,26 @@ namespace sybring_project.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _timeService.DeleteTimeHistoryAsync(id);
+            return RedirectToAction("Index");
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id) 
+        {
+            var getById = _timeService.GetTimeHistoryByIdAsync(id);
+            return View(getById);  
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(TimeHistory updatedTimeHistory)
+        {
+            var edit = _timeService.UpdateTimeHistoryAsync(updatedTimeHistory);
+            return View(edit);
+        }
 
 
 
@@ -152,6 +176,7 @@ namespace sybring_project.Controllers
             return View(redDays);
         }
 
+        
         public IActionResult projectVc(int Id)
         {
 

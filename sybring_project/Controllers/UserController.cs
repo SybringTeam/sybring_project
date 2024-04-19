@@ -6,6 +6,7 @@ using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
+using sybring_project.Repos.Services;
 using System.Runtime.InteropServices;
 
 namespace sybring_project.Controllers
@@ -19,12 +20,13 @@ namespace sybring_project.Controllers
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly IProjectServices _projectServices;
         private readonly IEmailSender _emailSender;
+        private readonly IStatusService _statusService;
 
 
         public UserController(IUserServices userServices,
             UserManager<User> userManager, ApplicationDbContext applicationDbContext,
             IProjectServices projectServices, IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            IStatusService statusService, RoleManager<IdentityRole> roleManager)
         {
             _userServices = userServices;
             _userManager = userManager;
@@ -32,18 +34,75 @@ namespace sybring_project.Controllers
             _applicationDbContext = applicationDbContext;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _statusService = statusService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var list = await _userServices.GetAllUserAsync();
-            return View(list);
+
+            var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
+            var statusList = await _statusService.GetStatusListAsync();
+
+
+            var viewModel = new UserStatusViewModel
+            {
+                Users = userListUK,
+                Statuses = statusList
+            };
+
+            return View(viewModel);
         }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(string userId, int statusId)
+        {
+            // Retrieve the user by ID
+            var user = await _userServices.GetUserByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Retrieve the status by ID
+            var status = await _statusService.GetStatusByIdAsync(statusId);
+            if (status == null)
+            {
+                return NotFound("Status not found");
+            }
+
+            // Update the user's status
+            user.Status = status;
+
+            // Update the user in the database
+            await _statusService.UpdateUserAsync(user);
+
+            return RedirectToAction("Index");
+        }
+
+
 
         public async Task<IActionResult> RoleView(string roleName)
         {
-            var list = await _userServices.GetAllUsersInRoleAsync(roleName);
-            return View(list);
+            ViewBag.RoleName = roleName; // Pass the roleName to the view
+
+            if (roleName != "admin")  // Check if the requested role is not "admin"
+            {
+                var list = await _userServices.GetAllUsersInRoleAsync(roleName);
+                return View(list);
+            }
+            else  // Handle the case when the requested role is "admin"
+            {
+                // Fetch users with both "Admin" and "SuperAdmin" roles
+                var adminUsers = await _userServices.GetAllUsersInRoleAsync("Admin");
+                var superAdminUsers = await _userServices.GetAllUsersInRoleAsync("SuperAdmin");
+
+                // Combine the users from both roles
+                var combinedUsers = adminUsers.Concat(superAdminUsers).ToList();
+
+                return View(combinedUsers);
+            }
         }
 
         [HttpGet]
@@ -139,20 +198,23 @@ namespace sybring_project.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> RemoveProject(string userId, int projectId)
+        [ActionName("RemoveProjects")]
+        public async Task<IActionResult> RemoveProjectsPost(string userId, List<int> projectIds)
         {
-            var result = await _userServices.RemoveUserFromProjectAsync(projectId, userId);
-
-            if (result)
+            foreach (var projectId in projectIds)
             {
-                TempData["Removed"] = "Project has been removed from the user.";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Project removal failed. User or project not found.";
+                var result = await _userServices.RemoveUserFromProjectAsync(projectId, userId);
+
+                if (!result)
+                {
+                    TempData["ErrorMessage"] = "One or more projects could not be removed. Please try again.";
+                    return RedirectToAction("Index", new { id = userId });
+                }
             }
 
-            return RedirectToAction("Details", new { id = userId });
+            TempData["Removed"] = "Selected projects have been removed from the user.";
+
+            return RedirectToAction("Index", new { id = userId });
         }
         public async Task<IActionResult> Delete(string id)
         {
@@ -236,7 +298,7 @@ namespace sybring_project.Controllers
 
                     await _emailSender.SendEmailAsync(userEmail, "You've been assigned to a project",
                     $"Hello {user.FirstName},\n\nYou've been assigned to the project: " +
-                    $"{projectName}.\n\nRegards,\n\n Sybring AB"); 
+                    $"{projectName}.\n\nRegards,\n\n Sybring AB");
 
 
                 }
@@ -269,6 +331,8 @@ namespace sybring_project.Controllers
 
             return RedirectToAction("SendEmail");
         }
+
+
 
 
     }
