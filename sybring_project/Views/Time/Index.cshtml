@@ -6,6 +6,29 @@
 
 <h1>Time History Records</h1>
 
+
+
+<form method="post" action="@Url.Action("SelectUserForTimeHistory", "Time")">
+    <div class="mb-3">
+        <label for="userId" class="form-label">Select User:</label>
+        <select class="form-select" id="userId" name="selectedUserId">
+            <option value="">Select User</option>
+            @foreach (var user in ViewBag.AllUsers)
+            {
+                <option value="@user.Value">@user.Text</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Show Time History</button>
+</form>
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
 @if (Model.Any())
 {
     <table class="table">
@@ -29,9 +52,9 @@
                 <th>Childcare</th>
                 <th>Overtime</th>
                 <th>InconvenientHours</th>
-                    
-                
-                
+
+
+
             </tr>
         </thead>
         <tbody>
@@ -47,6 +70,7 @@
                             <br />
                         }
                     </td>
+
                     <td>@timeHistory.Date</td>
                     <td>@timeHistory.StartWork</td>
                     <td>@timeHistory.EndWork</td>

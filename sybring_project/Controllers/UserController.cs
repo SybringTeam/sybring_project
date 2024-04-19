@@ -42,9 +42,9 @@ namespace sybring_project.Controllers
         [Authorize(Roles = "admin, superadmin")]
         public async Task<IActionResult> Index()
         {
-
             var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
             var allStatuses = await _userServices.GetStatusListAsync();
+
 
             ViewBag.Statuses = allStatuses;
 
@@ -61,6 +61,7 @@ namespace sybring_project.Controllers
             var userRoles = new Dictionary<string, IList<string>>();
 
             foreach (var user in userList)
+
             {
                 var roles = await _userManager.GetRolesAsync(user);
                 var rolesList = roles.ToList();
@@ -101,6 +102,7 @@ namespace sybring_project.Controllers
             await _userManager.AddToRoleAsync(user, newRole);
             return RedirectToAction("Index");
         }
+
 
 
 
