@@ -18,7 +18,7 @@ namespace sybring_project.Controllers
 {
     public class TimeController : Controller
     {
-        private const decimal MaxRegularHoursPerDay = 8; // Declaration 
+        //private const decimal MaxRegularHoursPerDay = 8; // Declaration 
         
         private readonly ITimeService _timeService;
         private readonly ApplicationDbContext _context;
