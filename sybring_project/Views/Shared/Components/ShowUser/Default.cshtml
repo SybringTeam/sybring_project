@@ -34,18 +34,26 @@
                     {
                         <div>
                             @project.Name
-                            <form asp-action="RemoveProject" method="post" style="display:inline;">
-                                <input type="hidden" name="userId" value="@Model.Id" />
-                                <input type="hidden" name="projectId" value="@project.Id" />
-                                <button type="submit" class="btn btn-danger remove-project" onclick="alertFunction()">Remove</button>
-                            </form>
+                                <form asp-action="RemoveProject" method="post" style="display:inline;">
+                                    <input type="hidden" name="userId" value="@Model.Id" />
+                                    <input type="hidden" name="projectId" value="@project.Id" />
+                                    <button type="submit" class="btn btn-danger remove-project" style="display: none;">Remove</button>
+                                </form>
+                                <div>
+                                    <a href="#" class="delete-link" onclick="alertFunction()">Delete</a>
+                                </div>
+
+
+                            @foreach (var company in project.Companies)
+                                {
+                                    <p><strong>Addres:</strong>@company.CompanyAddress</p>
+                                    <p><strong>OrgNr:</strong>@company.OrgNumber</p>
+                                    <p><strong>Webbsite:</strong>@company.CompanyWeb</p>
+                                    <p><strong>Contract:</strong></p>
+                                }
                         </div>
                     }
-                    <p><strong>Addres:</strong></p>
-                    <p><strong>OrgNr:</strong></p>
-                    <p><strong>Webbsite:</strong></p>
-                    <p><strong>Contract:</strong></p>
-                    </div>
+                 
                 </div>
             </div>
 
