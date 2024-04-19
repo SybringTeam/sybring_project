@@ -35,7 +35,7 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href ="@Url.Action("Index", "Home")" class="logo d-flex align-items-center">
                 <img src="/logo/Sybring_Logo-Black_1000px.png" alt="Sybring" height="48" style="max-height: 48px;" asp-area="" asp-controller="Home" asp-action="Index" />
 
             </a>
@@ -50,7 +50,7 @@
             <ul class="list-inline d-flex flex-row ">
                 @if (!User.Identity.IsAuthenticated)
                 {
-                    <li class="nav-item" style="margin-right: 10px;">
+                   @*  <li class="nav-item" style="margin-right: 10px;">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li class="nav-item" style="margin-right: 10px;">
@@ -61,7 +61,7 @@
                     </li>
                     <li class="nav-item" style="margin-right: 10px;">
                         <a class="nav-link" asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
-                    </li>
+                    </li> *@
                 }
                 @if (User.Identity.IsAuthenticated && User.IsInRole("admin, underconsult"))
                 {
@@ -188,6 +188,8 @@
 
     </header>
     @if (User.Identity.IsAuthenticated && (User.IsInRole("admin") || User.IsInRole("superadmin")))
+
+    @if ( User.IsInRole("admin"))
     {
         <aside id="sidebar" class="sidebar">
 
@@ -223,6 +225,11 @@
                                 </a>
                             </li>
                         }
+                        <li>
+                            <a href="@Url.Action("Index","Time")">
+                                <i class="bi bi-circle"></i><span>Time Reports</span>
+                            </a>
+                        </li>
 
                     </ul>
                 </li>
@@ -256,9 +263,9 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
+               @*  <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-layout-text-window-reverse"></i><span>Tillfälligt</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-layout-text-window-reverse"></i><span>Tidsrapporter</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
@@ -272,7 +279,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> *@
 
                 <li class="nav-heading">Pages</li>
 
@@ -408,7 +415,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="">
+                    <a class="nav-link collapsed" href="@Url.Action("Contact","Home")">
                         <i class="bi bi-envelope"></i>
                         <span>Contact</span>
                     </a>
@@ -444,7 +451,8 @@
     {
         
     }
-    <main id="main" class="main">
+
+    <main id="main" class="main @(User.Identity?.IsAuthenticated is true ?"" :"signedOut")">
 
         @*   <div class="pagetitle">
         <h1>Dashboard</h1>

@@ -131,7 +131,14 @@ namespace sybring_project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Project project)
         {
-            await _projectServices.AddProjectAsync(project);
+            var addProject =  _projectServices.AddProjectAsync(project);
+
+            if (addProject == null)
+            {
+                return BadRequest("No Description found.");
+
+            }
+
             return RedirectToAction("Index");
 
 

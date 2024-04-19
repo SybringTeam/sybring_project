@@ -29,6 +29,7 @@
                         <th> USER NAME</th>
                         <th> STATUS</th>
                         <th> ACTIONS</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -47,24 +48,22 @@
                                 }
                             </td>
                             <td>@user.UserName</td>
+                           
                             <td>
+
                                 <form asp-action="UpdateStatus" method="post">
                                     <input type="hidden" name="userId" value="@user.Id" />
-                                    @if (user.Status != null)
-                                    {
-                                        <input type="hidden" name="currentStatusId" value="@user.Status" />
-                                    }
-                                    <select name="status">
-                                        @foreach (var status in ViewBag.Statuses as IEnumerable<SelectListItem>)
+                                    <select name="statusId">
+                                        @foreach (var status in ViewBag.Statuses as IEnumerable<sybring_project.Models.Db.Status>)
                                         {
-                                            <option value="@status.Value">@status.Text</option>
+                                            <option value="@status.Id">@status.Name</option>
                                         }
                                     </select>
-
-                                    <button type="submit" name="statusId" value="@user.Status">Update</button>
+                                    <button type="submit">Update Status</button>
                                 </form>
                             </td>
                             <td>
+
                                 <div class="dropdown">
                                     <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true"><i class="bi bi-three-dots"></i></a>
                                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="">
