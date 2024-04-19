@@ -48,16 +48,17 @@ namespace sybring_project.Controllers
         {
             var userId = _userManager.GetUserId(User);
             var timeList = await _timeService.GetTimeListAsync(userId);
-            var allUsers = await _userManager.Users.ToListAsync();
 
-            ViewBag.AllUsers = allUsers.Select(u => new SelectListItem
+            
+            ViewBag.AllUsers = await _userManager.Users.Select(u => new SelectListItem
             {
-                Value = u.Id,
-                Text = $"{u.FirstName} {u.LastName}"
-            }).ToList();
+                Value = u.Id, 
+                Text = $"{u.FirstName} {u.LastName}" 
+            }).ToListAsync();
 
             return View(timeList);
         }
+
 
 
 
@@ -199,20 +200,22 @@ namespace sybring_project.Controllers
         {
             if (string.IsNullOrEmpty(selectedUserId))
             {
-                
                 return RedirectToAction("Index");
             }
 
             var timeList = await _timeService.GetTimeListAsync(selectedUserId);
 
-            if (timeList == null)
+            if (timeList == null || !timeList.Any()) 
             {
-               
-                return RedirectToAction("Index");
+                ViewBag.ErrorMessage = "No time history records found for the selected user.";
+                return View("Index", new List<TimeHistory>()); 
             }
 
-            return View("Index", timeList);
+            ViewBag.AllUsers = await _userManager.Users.ToListAsync(); 
+
+            return View("Index", timeList); 
         }
+
 
 
 

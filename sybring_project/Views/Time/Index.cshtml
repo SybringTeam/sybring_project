@@ -6,11 +6,13 @@
 
 <h1>Time History Records</h1>
 
+
+
 <form method="post" action="@Url.Action("SelectUserForTimeHistory", "Time")">
     <div class="mb-3">
         <label for="userId" class="form-label">Select User:</label>
         <select class="form-select" id="userId" name="selectedUserId">
-            <option value="">Select User </option>
+            <option value="">Select User</option>
             @foreach (var user in ViewBag.AllUsers)
             {
                 <option value="@user.Value">@user.Text</option>
@@ -20,17 +22,12 @@
     <button type="submit" class="btn btn-primary">Show Time History</button>
 </form>
 
-
-@if (Model.Any())
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
 {
-
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
 }
-else
-{
-    <p>No time history records found.</p>
-}
-
-<a asp-action="Create">Create New</a>
 
 @if (Model.Any())
 {
@@ -73,6 +70,7 @@ else
                             <br />
                         }
                     </td>
+
                     <td>@timeHistory.Date</td>
                     <td>@timeHistory.StartWork</td>
                     <td>@timeHistory.EndWork</td>
