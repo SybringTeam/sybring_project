@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
@@ -47,9 +48,17 @@ namespace sybring_project.Controllers
         {
             var userId = _userManager.GetUserId(User);
             var timeList = await _timeService.GetTimeListAsync(userId);
+            var allUsers = await _userManager.Users.ToListAsync();
+
+            ViewBag.AllUsers = allUsers.Select(u => new SelectListItem
+            {
+                Value = u.Id,
+                Text = $"{u.FirstName} {u.LastName}"
+            }).ToList();
 
             return View(timeList);
         }
+
 
 
 
@@ -93,7 +102,7 @@ namespace sybring_project.Controllers
                 startDate = startDate.AddDays(-1);
             }
 
-          
+
             // Generate data for the week
             for (int i = 0; i < 7; i++)
             {
@@ -146,10 +155,10 @@ namespace sybring_project.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id) 
+        public async Task<IActionResult> Edit(int id)
         {
             var getById = _timeService.GetTimeHistoryByIdAsync(id);
-            return View(getById);  
+            return View(getById);
         }
 
         [HttpPost]
@@ -176,7 +185,7 @@ namespace sybring_project.Controllers
             return View(redDays);
         }
 
-        
+
         public IActionResult projectVc(int Id)
         {
 
@@ -184,6 +193,27 @@ namespace sybring_project.Controllers
 
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SelectUserForTimeHistory(string selectedUserId)
+        {
+            if (string.IsNullOrEmpty(selectedUserId))
+            {
+                
+                return RedirectToAction("Index");
+            }
+
+            var timeList = await _timeService.GetTimeListAsync(selectedUserId);
+
+            if (timeList == null)
+            {
+               
+                return RedirectToAction("Index");
+            }
+
+            return View("Index", timeList);
+        }
+
 
 
 
