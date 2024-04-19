@@ -188,8 +188,6 @@
 
     </header>
     @if (User.Identity.IsAuthenticated && (User.IsInRole("admin") || User.IsInRole("superadmin")))
-
-    @if ( User.IsInRole("admin"))
     {
         <aside id="sidebar" class="sidebar">
 
