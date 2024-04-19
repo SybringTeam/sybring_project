@@ -69,6 +69,7 @@ namespace sybring_project.Repos.Services
         public async Task<List<Project>> GetProjectsAsync()
         {
             return await _db.Projects.Include(p => p.Users)
+                                .Include(p => p.Companies)
                 .ToListAsync();
         }
 

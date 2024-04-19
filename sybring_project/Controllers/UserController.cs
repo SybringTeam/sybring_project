@@ -46,15 +46,8 @@ namespace sybring_project.Controllers
             var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
             var allStatuses = await _userServices.GetStatusListAsync();
 
+            ViewBag.Statuses = allStatuses;
 
-          ViewBag.Statuses = allStatuses;
-          ViewBag.Statuses = allStatuses.Select(status => new SelectListItem
-            var viewModel = new UserStatusViewModel
-
-            {
-                Value = status.Id.ToString(),
-                Text = status.Name
-            });
 
             return View(userListUK);
         }
