@@ -1,7 +1,7 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
-
+using Microsoft.AspNetCore.Authorization;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -14,9 +14,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using sybring_project.Data;
 using sybring_project.Models.Db;
+using sybring_project.Repos.Interfaces;
 
 namespace sybring_project.Areas.Identity.Pages.Account
 {
+    [Authorize(Policy = "RequireAdminRole")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;
@@ -26,13 +28,15 @@ namespace sybring_project.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly ApplicationDbContext _db;
+        private readonly IStatusService _statusService;
 
         public RegisterModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, ApplicationDbContext db)
+            IEmailSender emailSender, ApplicationDbContext db,
+            IStatusService statusService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -41,6 +45,7 @@ namespace sybring_project.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _db = db;
+            _statusService = statusService;
         }
 
         /// <summary>
@@ -136,6 +141,7 @@ namespace sybring_project.Areas.Identity.Pages.Account
 
                     //Assigning user a role
                     await _userManager.AddToRoleAsync(user, "underconsult");
+                   
 
                     // Redirect to admin index page
                     return Redirect("/User");

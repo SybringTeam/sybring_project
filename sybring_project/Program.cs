@@ -23,7 +23,11 @@ builder.Services.AddDefaultIdentity<User>(options =>
 options.SignIn.RequireConfirmedAccount = false)
      .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy =>
+        policy.RequireRole("admin", "superadmin"));
+});
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -98,6 +102,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",

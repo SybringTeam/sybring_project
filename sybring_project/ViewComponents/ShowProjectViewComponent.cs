@@ -1,4 +1,5 @@
 ﻿using ActiveUp.Net.Security.OpenPGP.Packets;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
@@ -45,10 +46,11 @@ namespace sybring_project.ViewComponents
 
                 return View("Default", project);
             }
-            catch (InvalidOperationException ex)
+            catch (Exception )
             {
 
-                return Content(ex.Message);
+                return View("Component Not Found");
+
             }
 
         }
