@@ -1,16 +1,16 @@
-@model sybring_project.Models.ViewModels.UserStatusViewModel
+@model IEnumerable<sybring_project.Models.Db.User>
 
 @{
-    
+    ViewData["Title"] = "Index";
 }
 
 <div class="section">
     <div class="row">
         <div class="col-lg-12">
-            @foreach (var item in Model.Users)
+            @foreach (var user in Model)
             {
-                <div id="showUserContainer_@item.Id" style="display: none;">
-                    <vc:show-user user-id="@item.Id"> </vc:show-user>
+                <div id="showUserContainer_@user.Id" style="display: none;">
+                    <vc:show-user user-id="@user.Id"> </vc:show-user>
                 </div>
             }
         </div>
@@ -33,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var user in Model.Users)
+                    @foreach (var user in Model)
                     {
                         <tr>
                             <td></td>
@@ -48,20 +48,18 @@
                                 }
                             </td>
                             <td>@user.UserName</td>
-                            <td></td>
+                           
                             <td>
 
                                 <form asp-action="UpdateStatus" method="post">
                                     <input type="hidden" name="userId" value="@user.Id" />
-                                    <input type="hidden" name="statusId" value="@((user.Status != null)
-                                        ? user.Status.Id.ToString() : string.Empty)" />
-                                    <select name="status">
-                                        @foreach (var status in Model.Statuses)
+                                    <select name="statusId">
+                                        @foreach (var status in ViewBag.Statuses as IEnumerable<sybring_project.Models.Db.Status>)
                                         {
                                             <option value="@status.Id">@status.Name</option>
                                         }
                                     </select>
-                                    <button type="submit">Update</button>
+                                    <button type="submit">Update Status</button>
                                 </form>
                             </td>
                             <td>

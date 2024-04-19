@@ -66,15 +66,17 @@ namespace sybring_project.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
 
-            builder.Entity<Project>()
-                   .HasMany(p => p.Companies)
-                   .WithOne(c => c.Project)
-                   .HasForeignKey(c => c.ProjectId);
+            builder.Entity<User>()
+               .HasMany(u => u.Status)
+               .WithMany(u => u.Users)
+               .UsingEntity(j => j.ToTable("StatusUser"));
 
-            //builder.Entity<Status>()
-            //    .HasMany(s => s.User)
-            //    .WithOne(s => s.Status)
-            //    .HasForeignKey(s => s.Status);
+            builder.Entity<Status>()
+               .HasMany(s => s.Users)
+               .WithMany(s => s.Status)
+               .UsingEntity(t => t.ToTable("StatusUser"));
+
+
 
             base.OnModelCreating(builder);
         }

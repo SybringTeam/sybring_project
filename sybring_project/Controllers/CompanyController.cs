@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
@@ -27,6 +28,7 @@ namespace sybring_project.Controllers
             return View(companyList);
         }
 
+        [Authorize(Roles = "admin, superadmin")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -36,13 +38,15 @@ namespace sybring_project.Controllers
             return View();
         }
 
+        [Authorize(Roles = "admin, superadmin")]
         [HttpPost]
         public async Task<IActionResult> Create(Company company)
         {
             await _companyServices.AddCompanyAsync(company);
             return RedirectToAction("Index");
-            }
+        }
 
+        [Authorize(Roles = "admin, superadmin")]
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -50,13 +54,15 @@ namespace sybring_project.Controllers
             return View(byId);
         }
 
-        
+
+        [Authorize(Roles = "admin, superadmin")]
         public async Task<IActionResult> Delete(int id)
         {
             await _companyServices.DeleteCompanyAsync(id);
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "admin, superadmin")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id) 
         {
@@ -64,6 +70,7 @@ namespace sybring_project.Controllers
             return View(companyEdit);
         }
 
+        [Authorize(Roles = "admin, superadmin")]
         [HttpPost]
         public async Task<IActionResult> Edit(Company company) 
         {

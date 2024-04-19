@@ -1,0 +1,37 @@
+﻿@model IEnumerable<sybring_project.Models.Db.User>
+
+<h1>User Role Management</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Current Role</th>
+            <th>New Role</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FirstName @user.LastName (@user.Email)</td>
+                <td>@string.Join(", ", ViewBag.UserRoles[user.Id])</td>
+                <td>
+                    <form asp-controller="User" asp-action="ChangeUserRole" method="post">
+                        <input type="hidden" name="userId" value="@user.Id" />
+                        <select name="newRole">
+                            <option value="underconsult">Under Consult</option>
+                            <option value="admin">Admin</option>
+                            <option value="archive">Archive</option>
+                        </select>
+                        <button type="submit">Change Role</button>
+                    </form>
+                </td>
+                <td>
+                    <!-- Add any additional actions/buttons if needed -->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

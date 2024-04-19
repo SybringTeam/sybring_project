@@ -1,4 +1,5 @@
-﻿using ActiveUp.Net.Security.OpenPGP.Packets;
+﻿
+using ActiveUp.Net.Security.OpenPGP.Packets;
 using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
@@ -18,15 +19,18 @@ namespace sybring_project.Repos.Services
         private readonly IProjectServices _projectServices;
         private readonly BlobServiceClient _blobServiceClient;
         private readonly IConfiguration _configuration;
+   
 
         public UserServices(ApplicationDbContext db,
-            UserManager<User> userManager, IProjectServices projectServices, IConfiguration configuration)
+            UserManager<User> userManager, IProjectServices projectServices, 
+            IConfiguration configuration)
         {
             _db = db;
             _userManager = userManager;
             _projectServices = projectServices;
             _configuration = configuration;
             _blobServiceClient = new BlobServiceClient(_configuration["AzureWebJobsStorage"]);
+         
         }
 
         private BlobContainerClient InitBlobService(string blobContainer)
@@ -139,7 +143,7 @@ namespace sybring_project.Repos.Services
                 userInDb.Seller = user.Seller;
                 userInDb.ImageLink = user.ImageLink;
                 userInDb.Email = user.Email;
-                userInDb.Status = user.Status;
+             
                
                
 
@@ -264,18 +268,32 @@ namespace sybring_project.Repos.Services
         }
 
 
-        public async Task UpdateUserStatusAsync(string userId, Status status)
+
+        public async Task<List<Status>> GetStatusListAsync()
         {
-            var user = await _db.Users.FindAsync(userId);
-            if (user != null)
-            {
-                user.Status = status;
-                await _db.SaveChangesAsync();
-            }
+            return await _db.Status.Include(s => s.Users).ToListAsync();
         }
 
 
 
+        public async Task AddStatusToUserAsync(string userId, int statusId)
+        {
+            var user = await _db.Users.Include(u => u.Status).FirstOrDefaultAsync(u => u.Id == userId);
+
+            var statusToAdd = await _db.Status.FindAsync(statusId);
+
+            if (user != null && statusToAdd != null)
+            {
+                // Check if the user already has the status assigned
+                if (!user.Status.Any(s => s.Id == statusId))
+                {
+                    user.Status.Add(statusToAdd);
+                    await _db.SaveChangesAsync();
+                }
+            }
+
+
+        }
 
     }
 }

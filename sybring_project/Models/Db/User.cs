@@ -33,8 +33,9 @@ namespace sybring_project.Models.Db
         [NotMapped]
         public IFormFile? File { get; set; }
 
-       
-        public virtual Status? Status { get; set; }
+        // Navigation properties
+        
+        public virtual ICollection<Status>? Status { get; set; } = new List<Status>();
         public virtual ICollection<Project>? ProjectId { get; set; }
 
         public virtual ICollection<TimeHistory>? TimeId { get; set; }

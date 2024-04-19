@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
@@ -50,8 +51,17 @@ namespace sybring_project.Controllers
             var userId = _userManager.GetUserId(User);
             var timeList = await _timeService.GetTimeListAsync(userId);
 
+            
+            ViewBag.AllUsers = await _userManager.Users.Select(u => new SelectListItem
+            {
+                Value = u.Id, 
+                Text = $"{u.FirstName} {u.LastName}" 
+            }).ToListAsync();
+
             return View(timeList);
         }
+
+
 
 
 
@@ -73,14 +83,9 @@ namespace sybring_project.Controllers
             return View(timeHistory);
         }
 
-        
-        
-        
-        
-        
-        
 
-        //[Authorize(Roles = "Admin, underconsult")]
+
+        [Authorize(Roles = "admin, superadmin, underconsult")]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -95,7 +100,7 @@ namespace sybring_project.Controllers
                 startDate = startDate.AddDays(-1);
             }
 
-          
+
             // Generate data for the week
             for (int i = 0; i < 7; i++)
             {
@@ -148,10 +153,10 @@ namespace sybring_project.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id) 
+        public async Task<IActionResult> Edit(int id)
         {
             var getById = _timeService.GetTimeHistoryByIdAsync(id);
-            return View(getById);  
+            return View(getById);
         }
 
         [HttpPost]
@@ -176,7 +181,7 @@ namespace sybring_project.Controllers
             return View(redDays);
         }
 
-        
+
         public IActionResult projectVc(int Id)
         {
 
@@ -184,6 +189,29 @@ namespace sybring_project.Controllers
 
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SelectUserForTimeHistory(string selectedUserId)
+        {
+            if (string.IsNullOrEmpty(selectedUserId))
+            {
+                return RedirectToAction("Index");
+            }
+
+            var timeList = await _timeService.GetTimeListAsync(selectedUserId);
+
+            if (timeList == null || !timeList.Any()) 
+            {
+                ViewBag.ErrorMessage = "No time history records found for the selected user.";
+                return View("Index", new List<TimeHistory>()); 
+            }
+
+            ViewBag.AllUsers = await _userManager.Users.ToListAsync(); 
+
+            return View("Index", timeList); 
+        }
+
+
 
 
 
