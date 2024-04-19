@@ -18,6 +18,7 @@ namespace sybring_project.Repos.Services
 
         public async Task AddProjectAsync(Project project)
         {
+
             _db.Projects.Add(project);
             await _db.SaveChangesAsync();
 
@@ -68,6 +69,7 @@ namespace sybring_project.Repos.Services
         public async Task<List<Project>> GetProjectsAsync()
         {
             return await _db.Projects.Include(p => p.Users)
+                                .Include(p => p.Companies)
                 .ToListAsync();
         }
 

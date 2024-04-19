@@ -19,6 +19,8 @@ namespace sybring_project.Controllers
 {
     public class TimeController : Controller
     {
+        //private const decimal MaxRegularHoursPerDay = 8; // Declaration 
+        
         private const decimal MaxRegularHoursPerDay = 8; // Declaration 
 
         private readonly ITimeService _timeService;
@@ -83,11 +85,6 @@ namespace sybring_project.Controllers
 
 
 
-
-
-
-        //dowad work
-
         [Authorize(Roles = "admin, superadmin, underconsult")]
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -125,7 +122,7 @@ namespace sybring_project.Controllers
 
 
 
-        //dowad work
+        
         //[Authorize(Roles = "Admin,underconsult")]
         [HttpPost]
         public async Task<IActionResult> Create(List<DayDataVM> weekData, decimal scheduledHoursPerWeek)
@@ -172,12 +169,10 @@ namespace sybring_project.Controllers
 
 
 
-        //fetch red days and weeknumbers of year from api
+        //fetching red days and weeknumbers of year from api
         public async Task<IActionResult> RedDays()
         {
 
-            //// Retrieve all red days for the current year
-            //var currentYear = DateTime.Now.Year;
 
             // Retrieve all red days for the year 2024
             var redDays = await _holidayService.GetRedDaysAsync();

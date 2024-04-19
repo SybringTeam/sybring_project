@@ -25,6 +25,7 @@
                         </div>
                     </div>
 
+
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title">Company Information<span> </span></h5>
@@ -53,14 +54,18 @@
                                     <button type="submit" class="btn btn-outline-danger btn-sm mb-2" onclick="alertFunction()">Remove Selected</button>
                                 }
                             </form>
-                            <p><strong>Addres:</strong></p>
-                            <p><strong>OrgNr: </strong></p>
-                            <p><strong>Webbsite:</strong></p>
-                            <p><strong>Contract:</strong></p>
+
+                                @foreach (var company in project.Companies)
+                                {
+                                    <p><strong>Addres:</strong>@company.CompanyAddress</p>
+                                    <p><strong>OrgNr:</strong>@company.OrgNumber</p>
+                                    <p><strong>Webbsite:</strong>@company.CompanyWeb</p>
+                                    <p><strong>Contract:</strong></p>
+                                }
                         </div>
                     </div>
                 </div>
-            </div>
+
 
             <div class="col-md-6">
                 <div class="card">
@@ -85,13 +90,10 @@
                         <h6><strong>Contact:</strong></h6>
                         <h6><strong>Phone:</strong></h6>
                         <h6><strong>Email:</strong></h6>
+
                     </div>
                 </div>
             </div>
         </div>
-    }
-    else
-    {
-        <h5>Choose user for details</h5>
     }
 </div>

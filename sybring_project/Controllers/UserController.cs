@@ -45,14 +45,64 @@ namespace sybring_project.Controllers
             var userListUK = await _userServices.GetAllUsersInRoleAsync("underconsult");
             var allStatuses = await _userServices.GetStatusListAsync();
 
-            ViewBag.Statuses = allStatuses.Select(status => new SelectListItem
-            {
-                Value = status.Id.ToString(),
-                Text = status.Name
-            });
+
+            ViewBag.Statuses = allStatuses;
+
 
             return View(userListUK);
         }
+
+
+
+        [Authorize(Roles = "superadmin")]
+        public async Task<IActionResult> RoleManager()
+        {
+            var userList = await _userServices.GetAllUserAsync();
+            var userRoles = new Dictionary<string, IList<string>>();
+
+            foreach (var user in userList)
+
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                var rolesList = roles.ToList();
+                rolesList.Sort();
+                userRoles.Add(user.Id, rolesList);
+            }
+
+            ViewBag.UserRoles = userRoles;
+
+            return View(userList);
+        }
+
+
+        [Authorize(Roles = "superadmin")]
+        public async Task<IActionResult> ChangeUserRole(string userId, string newRole)
+        {
+            if (!User.IsInRole("superadmin"))
+            {
+                return Forbid(); 
+            }
+            if (newRole != "underconsult" && newRole != "admin" && newRole != "archive")
+            {
+                return BadRequest("Invalid role");
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            if (await _userManager.IsInRoleAsync(user, "superadmin"))
+            {
+                return BadRequest("Cannot change role for superadmin");
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, roles);
+
+            await _userManager.AddToRoleAsync(user, newRole);
+            return RedirectToAction("Index");
+        }
+
 
 
 
@@ -77,12 +127,10 @@ namespace sybring_project.Controllers
 
         [Authorize(Roles = "admin, superadmin")]
         [HttpPost]
-        public async Task<IActionResult> UpdateStatus(string userId, UserVM viewModel)
+        public async Task<IActionResult> UpdateStatus(string userId, int statusId)
         {
 
-            await _userServices.AddStatusToUserAsync(userId, viewModel.ChosenStatusId);
-
-
+            await _userServices.AddStatusToUserAsync(userId, statusId);
             return RedirectToAction("Index");
 
         }
