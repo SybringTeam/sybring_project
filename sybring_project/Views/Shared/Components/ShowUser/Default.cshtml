@@ -13,7 +13,7 @@
                     <div class="card-header">
                         <h4><strong>User information</strong></h4>
                     </div>
-                    <div class="card-body p-3">
+                    <div class="card-body p-3" style="min-height:130px">
                         <h5>@Model.FirstName @Model.LastName </h5>
                         <h6> @Model.Email</h6>  
                         <h6>@Model.PhoneNumber</h6>
@@ -34,45 +34,27 @@
                     {
                         <div>
                             @project.Name
-
-                                <form asp-action="RemoveProject" method="post" style="display:inline;">
-                                    <input type="hidden" name="userId" value="@Model.Id" />
-                                    <input type="hidden" name="projectId" value="@project.Id" />
-                                    <button type="submit" class="btn btn-danger remove-project" style="display: none;">Remove</button>
-                                </form>
-                                <div>
-                                    <a href="#" class="delete-link" onclick="alertFunction()">Delete</a>
-                                </div>
-                                <div>
-
-
-                                @foreach (var company in project.Companies)
-                                {
-                                    <p><strong>Address: </strong> @company.CompanyAddress</p>
-                                    <p><strong>OrgNr:</strong> @company.OrgNumber</p>
-                                    <p><strong>Webbsite:</strong> @company.CompanyWeb</p>
-                                    <p><strong>Contract:</strong></p>
-                                }
-                              </div>
-
-                               
+                            <form asp-action="RemoveProject" method="post" style="display:inline;">
+                                <input type="hidden" name="userId" value="@Model.Id" />
+                                <input type="hidden" name="projectId" value="@project.Id" />
+                                <button type="submit" class="btn btn-danger remove-project" onclick="alertFunction()">Remove</button>
+                            </form>
                         </div>
                     }
-                        
-                   
-
-
-
-
+                    <p><strong>Addres:</strong></p>
+                    <p><strong>OrgNr:</strong></p>
+                    <p><strong>Webbsite:</strong></p>
+                    <p><strong>Contract:</strong></p>
                     </div>
                 </div>
             </div>
+
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header ">
                     <h4><strong>Task Description</strong></h4>
                     </div>
-                    <div class="card-body p-3">
+                    <div class="card-body p-3" style="min-height:130px">
                         @foreach (var project in Model.ProjectId)
                         {
                             <h6>@project.Name</h6>
@@ -80,11 +62,12 @@
                         }
                 </div>
                 </div>
+
                 <div class="card">
                     <div class="card-header ">
                     <h4><strong>Supervisor Information</strong></h4>
                     </div>
-                    <div class="card-body p-3">
+                    <div class="card-body p-3" style="min-height:130px">
                     <h6><strong>Contact:</strong></h6>
                     <h6><strong>Phone:</strong></h6>
                     <h6><strong>Email:</strong></h6>
