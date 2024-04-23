@@ -2,13 +2,15 @@
 $(document).ready(function () {
     $('#myTable').DataTable({
         "scrollY": "500px",
-        "scrollCollapse": false,
+        "scrollCollapse": true,
         "paging": true,
-        "order": [[0, "desc"]],
         "searching": true,
         "select": true
+        
+        
     });
 });
+
 
 
 (function () {
