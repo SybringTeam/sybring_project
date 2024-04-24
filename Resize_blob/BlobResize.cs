@@ -9,8 +9,7 @@ using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
-
-namespace ResizeBlob
+namespace BlobResizeFuncGr16
 {
     public class BlobResize
     {

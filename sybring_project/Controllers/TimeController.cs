@@ -50,6 +50,7 @@ namespace sybring_project.Controllers
         {
             var userId = _userManager.GetUserId(User);
             var timeHistories = await _timeService.GetTimeListAsync(userId);
+            
 
             var userList = await _userManager.Users.Select(u => new SelectListItem
             {
@@ -68,7 +69,9 @@ namespace sybring_project.Controllers
             {
                 TimeHistories = timeHistories,
                 UserList = new SelectList(userList, "Value", "Text"),
-                DateRanges = new SelectList(dateRanges, "Value", "Text")
+                DateRanges = new SelectList(dateRanges, "Value", "Text"),
+             
+                
             };
 
             return View(viewModel);
@@ -210,11 +213,19 @@ namespace sybring_project.Controllers
         {
             var timeHistories = await _timeService.GetTimeHistoriesAsync(selectedUserId, selectedDateRange);
 
-            var users = await _userManager.Users.Select(u => new SelectListItem
+            // Extract unique user names from all time histories
+            var uniqueUserNames = timeHistories
+                .SelectMany(th => th.Users)
+                .Select(u => $"{u.FirstName} {u.LastName}")
+                .Distinct()
+                .ToList();
+
+            // Construct the user list for the dropdown
+            var users = uniqueUserNames.Select(name => new SelectListItem
             {
-                Value = u.Id,
-                Text = $"{u.FirstName} {u.LastName}"
-            }).ToListAsync();
+                Text = name,
+                Value = name // Assuming the user ID is not required for the dropdown
+            }).ToList();
 
             var dateRanges = new List<SelectListItem>
     {

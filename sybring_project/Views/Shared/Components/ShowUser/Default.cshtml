@@ -67,11 +67,22 @@
                 <div id="supervisorInfoCollapse" class="accordion-collapse collapse" aria-labelledby="supervisorInfoHeader" data-bs-parent="#userInfoAccordion">
                     <div class="accordion-body">
                         
-                            <div class="card-body p-3" style="min-height:130px">
-                                <h6><strong>Contact:</strong></h6>
-                                <h6><strong>Phone:</strong></h6>
-                                <h6><strong>Email:</strong></h6>
-                            </div>
+                        @foreach (var item in Model.ProjectId )
+                        {
+                            <h6><strong>Project Name:</strong> @item.Name</h6>
+                            @foreach (var supervisor in item.Companies)
+                            {
+                               
+                                <div class="card-body p-3" style="min-height:130px">
+                                   
+                                    <h6><strong>Contact Name:  </strong> @supervisor.SupervisorName</h6>
+                                    <h6><strong>Phone:</strong> @supervisor.SupervisorName</h6>
+                                    <h6><strong>Email:</strong> @supervisor.SupervisorEmail</h6>
+
+                                </div>
+                            }
+                        }
+                          
                        
                     </div>
                 </div>
@@ -126,5 +137,5 @@
     }
 </div>
 
-}
+
 
