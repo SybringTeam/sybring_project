@@ -34,5 +34,16 @@ namespace sybring_project.Repos.Interfaces
         //Task<Dictionary<string, double>> GenerateTimeReportByDaysAsync(DateTime startDate, DateTime endDate);
 
 
+
+
+
+
+        Task<List<TimeHistory>> GetUserTimeHistoryMonthlyAsync(string userId, int year, int month);
+
+
+
+
+
+
     }
 }

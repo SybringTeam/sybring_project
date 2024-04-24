@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace sybring_project.Repos.Services
@@ -177,9 +179,7 @@ public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal sch
         }
 
 
-
-
-
+        //get time history
         public async Task<TimeHistory> GetTimeHistoryByIdAsync(int id)
         {
             var time = await _db.TimeHistories
@@ -216,35 +216,20 @@ public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal sch
         }
 
 
-        ////  // Generate time report by days of the week
-        ////  public async Task<Dictionary<string, double>> GenerateTimeReportByDaysAsync(DateTime startDate, DateTime endDate)
-        ////  {
-        ////      // Initialize dictionary to store total hours for each day of the week
-        ////      var report = new Dictionary<string, double>
-        ////{
-        ////    { "Monday", 0 },
-        ////    { "Tuesday", 0 },
-        ////    { "Wednesday", 0 },
-        ////    { "Thursday", 0 },
-        ////    { "Friday", 0 }
-        ////};
 
-        ////      // Retrieve time entries within the specified date range
-        ////      var timeEntries = await _context.TimeHistories
-        ////          .Include(th => th.ProjectId)
-        ////          .Where(th => th.DateTime >= startDate && th.DateTime <= endDate)
-        ////          .ToListAsync();
+        [HttpGet("Time/TimeHistoryMontly")]
+        public async Task<List<TimeHistory>> GetUserTimeHistoryMonthlyAsync(string userId, int year, int month)
+        {
+            // Get all time histories for  month
+            var monthlyTimeHistory = await _db.TimeHistories
+                .Include(t => t.Users)
+                .Where(t => t.Users.Any(u => u.Id == userId) && t.Date.Year == year && t.Date.Month == month)
+                .ToListAsync();
 
-        ////      // Aggregate time entries by day of the week
-        ////      foreach (var timeEntry in timeEntries)
-        ////      {
-        ////          var dayOfWeek = timeEntry.DateTime.DayOfWeek.ToString();
-        ////          report[dayOfWeek] += (timeEntry.DateTime - timeEntry.DateTime.Date).TotalHours; // Assuming time is recorded in hours
-        ////      }
+            return monthlyTimeHistory;
+        }
 
-        ////      return report;
-        ////  }
-
+        
 
     }
 }

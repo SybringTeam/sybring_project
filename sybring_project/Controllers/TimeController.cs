@@ -18,7 +18,7 @@ namespace sybring_project.Controllers
 {
     public class TimeController : Controller
     {
-        //private const decimal MaxRegularHoursPerDay = 8; // Declaration 
+       
         
         private const decimal MaxRegularHoursPerDay = 8; // Declaration 
 
@@ -152,7 +152,7 @@ namespace sybring_project.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(TimeHistory updatedTimeHistory)
         {
-            var edit = _timeService.UpdateTimeHistoryAsync(updatedTimeHistory);
+            var edit =  _timeService.UpdateTimeHistoryAsync(updatedTimeHistory);
             return View(edit);
         }
 
@@ -180,7 +180,57 @@ namespace sybring_project.Controllers
 
         }
 
+       
 
+
+
+        //gets every time history data for when user  go through login
+        public async Task<IActionResult> TimeHistoryList()
+        {
+            
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            
+            var timeHistory = await _timeService.GetTimeListAsync(userId);
+
+         
+            return View(timeHistory);
+        }
+
+
+
+        public async Task<IActionResult> UserHistory()
+        {
+            
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user != null)
+            {
+                var userId = user.Id;
+
+              
+                var currentDate = DateTime.Today;
+                var year = currentDate.Year;
+                var month = currentDate.Month;
+
+               
+                return RedirectToAction("TimeHistoryMontly", new { userId = userId, year = year, month = month });
+            }
+          
+            return RedirectToAction("UserHistory");
+        }
+
+
+
+
+        [Route("Time/TimeHistoryMonthly/{userId}/{year}/{month}")]
+        public async Task<IActionResult> TimeHistoryMontly(string userId, int year, int month)
+        {
+            //  get monthly time histories
+            var monthlyTimeHistory = await _timeService.GetUserTimeHistoryMonthlyAsync(userId, year, month);
+
+            return View(monthlyTimeHistory);
+        }
 
     }
 }
