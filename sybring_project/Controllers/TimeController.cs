@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using sybring_project.Data;
@@ -18,6 +19,8 @@ namespace sybring_project.Controllers
 {
     public class TimeController : Controller
     {
+        //private const decimal MaxRegularHoursPerDay = 8; // Declaration 
+
         private const decimal MaxRegularHoursPerDay = 8; // Declaration 
 
         private readonly ITimeService _timeService;
@@ -46,10 +49,34 @@ namespace sybring_project.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
-            var timeList = await _timeService.GetTimeListAsync(userId);
+            var timeHistories = await _timeService.GetTimeListAsync(userId);
 
-            return View(timeList);
+            var userList = await _userManager.Users.Select(u => new SelectListItem
+            {
+                Value = u.Id,
+                Text = $"{u.FirstName} {u.LastName}"
+            }).ToListAsync();
+
+            var dateRanges = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "week", Text = "Week" },
+        new SelectListItem { Value = "month", Text = "Month" },
+        new SelectListItem { Value = "day", Text = "Day" }
+    };
+
+            var viewModel = new TimeHistoryViewModel
+            {
+                TimeHistories = timeHistories,
+                UserList = new SelectList(userList, "Value", "Text"),
+                DateRanges = new SelectList(dateRanges, "Value", "Text")
+            };
+
+            return View(viewModel);
         }
+
+
+
+
 
 
 
@@ -73,11 +100,6 @@ namespace sybring_project.Controllers
 
 
 
-
-
-
-        //dowad work
-
         [Authorize(Roles = "admin, superadmin, underconsult")]
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -93,7 +115,7 @@ namespace sybring_project.Controllers
                 startDate = startDate.AddDays(-1);
             }
 
-          
+
             // Generate data for the week
             for (int i = 0; i < 7; i++)
             {
@@ -115,7 +137,7 @@ namespace sybring_project.Controllers
 
 
 
-        //dowad work
+
         //[Authorize(Roles = "Admin,underconsult")]
         [HttpPost]
         public async Task<IActionResult> Create(List<DayDataVM> weekData, decimal scheduledHoursPerWeek)
@@ -146,10 +168,10 @@ namespace sybring_project.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id) 
+        public async Task<IActionResult> Edit(int id)
         {
             var getById = _timeService.GetTimeHistoryByIdAsync(id);
-            return View(getById);  
+            return View(getById);
         }
 
         [HttpPost]
@@ -162,12 +184,10 @@ namespace sybring_project.Controllers
 
 
 
-        //fetch red days and weeknumbers of year from api
+        //fetching red days and weeknumbers of year from api
         public async Task<IActionResult> RedDays()
         {
 
-            //// Retrieve all red days for the current year
-            //var currentYear = DateTime.Now.Year;
 
             // Retrieve all red days for the year 2024
             var redDays = await _holidayService.GetRedDaysAsync();
@@ -176,7 +196,7 @@ namespace sybring_project.Controllers
             return View(redDays);
         }
 
-        
+
         public IActionResult projectVc(int Id)
         {
 
@@ -184,6 +204,38 @@ namespace sybring_project.Controllers
 
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SelectUserAndDate(string selectedUserId, string selectedDateRange)
+        {
+            var timeHistories = await _timeService.GetTimeHistoriesAsync(selectedUserId, selectedDateRange);
+
+            var users = await _userManager.Users.Select(u => new SelectListItem
+            {
+                Value = u.Id,
+                Text = $"{u.FirstName} {u.LastName}"
+            }).ToListAsync();
+
+            var dateRanges = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "week", Text = "Week" },
+        new SelectListItem { Value = "month", Text = "Month" },
+        new SelectListItem { Value = "day", Text = "Day" }
+    };
+
+            var model = new TimeHistoryViewModel
+            {
+                UserList = new SelectList(users, "Value", "Text"),
+                DateRanges = new SelectList(dateRanges, "Value", "Text"),
+                TimeHistories = timeHistories
+            };
+
+            return View("Index", model);
+        }
+
+
+
+
 
 
 

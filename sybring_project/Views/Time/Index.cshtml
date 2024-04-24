@@ -1,4 +1,6 @@
-﻿@model IEnumerable<sybring_project.Models.Db.TimeHistory>
+﻿@using sybring_project.Models.ViewModels
+
+@model TimeHistoryViewModel
 
 @{
     ViewData["Title"] = "Time History";
@@ -6,77 +8,90 @@
 
 <h1>Time History Records</h1>
 
-@if (Model.Any())
+@using (Html.BeginForm("SelectUserAndDate", "Time", FormMethod.Post))
 {
-    <table class="table">
+    <div class="mb-3">
+        @Html.Label("selectedUserId", "Select User:")
+        @Html.DropDownList("selectedUserId", Model.UserList, "Select User", new { @class = "form-select" })
+    </div>
+
+    <div class="mb-3">
+        @Html.Label("selectedDateRange", "Select Date Range:")
+        @Html.DropDownList("selectedDateRange", Model.DateRanges, "Select Date Range", new { @class = "form-select" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Show Time History</button>
+}
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+<div class="filter-section mb-4">
+   
+</div>
+
+<div class="card p-3">
+@if (Model.TimeHistories.Any())
+{
+    <div class="summary-section mb-4">
+        
+    </div>
+
+    <table id="timeHistoryTable" class="table table-striped table-bordered ">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>User Name</th>
                 <th>Date</th>
-                <th>StartWork</th>
-                <th>EndWork</th>
-                <th>StartBrea</th>
-                <th>EndBreak</th>
-                <th>TotalWorkingHours </th>
-                <th>WorkingHours</th>
-                <th>FlexiTime</th>
-                <th>MoreTime</th>
-                <th>Attendance</th>
-                <th>AnnualLea</th>
-                <th>SickLeave</th>
-                <th>Leave Of Absence </th>
-                <th>Childcare</th>
-                <th>Overtime</th>
-                <th>InconvenientHours</th>
-                    
-                
+                <th>Total Working Hours</th>
                 
             </tr>
         </thead>
         <tbody>
-            @foreach (var timeHistory in Model)
+            @foreach (var timeHistory in Model.TimeHistories)
             {
                 <tr>
-                    <td>@timeHistory.Id</td>
-                    <td>
-                        @foreach (var user in timeHistory.Users)
-                        {
-                            <span>@user.FirstName @user.LastName</span>
-
-                            <br />
-                        }
-                    </td>
-                    <td>@timeHistory.Date</td>
-                    <td>@timeHistory.StartWork</td>
-                    <td>@timeHistory.EndWork</td>
-                    <td>@timeHistory.StartBreak</td>
-                    <td>@timeHistory.EndBreak</td>
+                    <td>@timeHistory.Date.ToShortDateString()</td>
                     <td>@timeHistory.TotalWorkingHours</td>
-                    <td>@timeHistory.WorkingHours</td>
-                    <td>@timeHistory.FlexiTime</td>
-                    <td>@timeHistory.MoreTime</td>
-                    <td>@timeHistory.AttendanceTime</td>
-                    <td>@timeHistory.AnnualLeave</td>
-                    <td>@timeHistory.SickLeave</td>
-                    <td>@timeHistory.LeaveOfAbsence</td>
-                    <td>@timeHistory.Childcare</td>
-                    <td>@timeHistory.Overtime</td>
-                    <td>@timeHistory.InconvenientHours</td>
-
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@timeHistory.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@timeHistory.Id">Details</a> |
-                        <a asp-action="Delete" onclick="return confirm('Are you sure to delete this?')" asp-route-id="@timeHistory.Id">Delete</a>
-                    </td>
+                    
+                   
                 </tr>
             }
         </tbody>
+        <tfoot>
+            <tr>
+                <td><strong>Total Hours for Selected Period</strong></td>
+                <td><strong>@Model.TimeHistories.Sum(th => th.TotalWorkingHours)</strong></td>
+                
+            </tr>
+        </tfoot>
     </table>
+
+    
+    <div class="pagination-container">
+       
+    </div>
 }
 else
 {
     <p>No time history records found.</p>
 }
+</div>
 
-<a asp-action="Create">Create New</a>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#timeHistoryTable').DataTable({
+                "scrollY": "500px",
+                "scrollCollapse": false,
+                "paging": true,
+                "searching": false,
+                "select": false
+                responsive: true
+
+            });
+        });
+    </script>
+}
