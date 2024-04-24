@@ -20,7 +20,7 @@ namespace sybring_project.Controllers
     public class TimeController : Controller
     {
         //private const decimal MaxRegularHoursPerDay = 8; // Declaration 
-        
+
         private const decimal MaxRegularHoursPerDay = 8; // Declaration 
 
         private readonly ITimeService _timeService;
@@ -49,17 +49,32 @@ namespace sybring_project.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
-            var timeList = await _timeService.GetTimeListAsync(userId);
+            var timeHistories = await _timeService.GetTimeListAsync(userId);
 
-            
-            ViewBag.AllUsers = await _userManager.Users.Select(u => new SelectListItem
+            var userList = await _userManager.Users.Select(u => new SelectListItem
             {
-                Value = u.Id, 
-                Text = $"{u.FirstName} {u.LastName}" 
+                Value = u.Id,
+                Text = $"{u.FirstName} {u.LastName}"
             }).ToListAsync();
 
-            return View(timeList);
+            var dateRanges = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "week", Text = "Week" },
+        new SelectListItem { Value = "month", Text = "Month" },
+        new SelectListItem { Value = "day", Text = "Day" }
+    };
+
+            var viewModel = new TimeHistoryViewModel
+            {
+                TimeHistories = timeHistories,
+                UserList = new SelectList(userList, "Value", "Text"),
+                DateRanges = new SelectList(dateRanges, "Value", "Text")
+            };
+
+            return View(viewModel);
         }
+
+
 
 
 
@@ -122,7 +137,7 @@ namespace sybring_project.Controllers
 
 
 
-        
+
         //[Authorize(Roles = "Admin,underconsult")]
         [HttpPost]
         public async Task<IActionResult> Create(List<DayDataVM> weekData, decimal scheduledHoursPerWeek)
@@ -191,25 +206,34 @@ namespace sybring_project.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SelectUserForTimeHistory(string selectedUserId)
+        public async Task<IActionResult> SelectUserAndDate(string selectedUserId, string selectedDateRange)
         {
-            if (string.IsNullOrEmpty(selectedUserId))
+            var timeHistories = await _timeService.GetTimeHistoriesAsync(selectedUserId, selectedDateRange);
+
+            var users = await _userManager.Users.Select(u => new SelectListItem
             {
-                return RedirectToAction("Index");
-            }
+                Value = u.Id,
+                Text = $"{u.FirstName} {u.LastName}"
+            }).ToListAsync();
 
-            var timeList = await _timeService.GetTimeListAsync(selectedUserId);
+            var dateRanges = new List<SelectListItem>
+    {
+        new SelectListItem { Value = "week", Text = "Week" },
+        new SelectListItem { Value = "month", Text = "Month" },
+        new SelectListItem { Value = "day", Text = "Day" }
+    };
 
-            if (timeList == null || !timeList.Any()) 
+            var model = new TimeHistoryViewModel
             {
-                ViewBag.ErrorMessage = "No time history records found for the selected user.";
-                return View("Index", new List<TimeHistory>()); 
-            }
+                UserList = new SelectList(users, "Value", "Text"),
+                DateRanges = new SelectList(dateRanges, "Value", "Text"),
+                TimeHistories = timeHistories
+            };
 
-            ViewBag.AllUsers = await _userManager.Users.ToListAsync(); 
-
-            return View("Index", timeList); 
+            return View("Index", model);
         }
+
+
 
 
 

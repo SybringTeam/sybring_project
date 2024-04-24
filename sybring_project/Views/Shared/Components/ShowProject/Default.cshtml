@@ -1,37 +1,45 @@
 ﻿@model sybring_project.Models.Db.Project
 
-@if (Model is not null)
+@if (Model != null)
 {
     <div class="row align-items-top">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4><strong>Project Information</strong></h4>
+                    <h5 class="card-title">Project Information</h5>
                 </div>
                 <div class="card-body p-3">
                     <h2>@Model.Name</h2>
-                    <p> Description:@Model.Description</p>
+                    <p> <strong>Description: </strong> @Model.Description</p>
 
                     @if (Model.Companies.Any())
                     {
-                        @foreach (var supervisor in Model.Companies)
-                        {
-                            <div>
-                                <p>Supervisor Name: @supervisor.SupervisorName</p>
-                                <p>Supervisor Email: @supervisor.SupervisorEmail</p>
-                                <p>Supervisor Phone: @supervisor.SupervisorPhone</p>
-                                <p>Company Address: @supervisor.CompanyAddress</p>
-                                <p>Company Homepage: @supervisor.CompanyWeb</p>
-                                <p>Organization Nr: @supervisor.OrgNumber</p>
-                            </div>
-                        }
+                        <div class="row company-list">
+                            @foreach (var supervisor in Model.Companies)
+                            {
+                                <div class="col-md-6">
+                                    <div class="company-info">
+                                        <p><strong>Company Address:</strong> @supervisor.CompanyAddress</p>
+                                        <p><strong>Company Homepage:</strong> <a href="@supervisor.CompanyWeb" target="_blank">@supervisor.CompanyWeb</a></p>
+                                        <p><strong>Organization Nr:</strong> @supervisor.OrgNumber</p>
+                                        <p><strong>Supervisor Name:</strong> @supervisor.SupervisorName</p>
+                                        <p><strong>Supervisor Email:</strong> <a href="mailto:@supervisor.SupervisorEmail">@supervisor.SupervisorEmail</a></p>
+                                        <p><strong>Supervisor Phone:</strong> @supervisor.SupervisorPhone</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     }
                     else
                     {
-                        <p>Currently no company info added.</p>
+                        <p>No company information available.</p>
                     }
                 </div>
             </div>
         </div>
     </div>
+}
+else
+{
+    <p>No project information available.</p>
 }

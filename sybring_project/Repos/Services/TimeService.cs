@@ -246,5 +246,44 @@ public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal sch
         ////  }
 
 
+        public async Task<IEnumerable<TimeHistory>> GetTimeHistoriesAsync(string userId, string dateRange)
+        {
+            DateTime startDate;
+            DateTime endDate = DateTime.Now;
+
+            switch (dateRange.ToLower())
+            {
+                case "week":
+                    startDate = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek + (int)DayOfWeek.Monday);
+                    endDate = startDate.AddDays(6); // Sista dagen i veckan
+                    break;
+                case "month":
+                    startDate = new DateTime(endDate.Year, endDate.Month, 1);
+                    endDate = startDate.AddMonths(1).AddDays(-1); // Sista dagen i månaden
+                    break;
+                case "day":
+                    startDate = endDate.Date;
+                    endDate = startDate.AddDays(1).AddTicks(-1); // Sista sekunden av dagen
+                    break;
+                default:
+                    throw new ArgumentException("Invalid date range");
+            }
+
+            var currentUser = await _userManager.FindByIdAsync(userId);
+
+            IQueryable<TimeHistory> query = _db.TimeHistories
+                .Include(t => t.Users)
+                .Where(t => t.Users.Any(u => u.Id == userId) && t.Date >= startDate && t.Date <= endDate);
+
+            if (!await _userManager.IsInRoleAsync(currentUser, "Admin"))
+            {
+                query = query.Where(t => t.Users.Any(u => u.Id == userId));
+            }
+
+            return await query.ToListAsync();
+        }
+
+
+
     }
 }
