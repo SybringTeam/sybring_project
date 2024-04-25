@@ -23,7 +23,7 @@
             <table id="myTable" class="table">
                 <thead>
                     <tr>
-                        
+
                         <th> USER</th>
                         <th> PROJECTS</th>
                         <th> USER NAME</th>
@@ -36,7 +36,7 @@
                     @foreach (var user in Model)
                     {
                         <tr>
-                           
+
                             <td>
                                 <a href="#" onclick="showUser('@user.Id');" class="showDetails">@user.FirstName @user.LastName</a>
                             </td>
@@ -52,15 +52,14 @@
                             </td>
                             <td>
 
-                                <form asp-action="UpdateStatus" method="post">
+                                <form id="statusForm" asp-action="UpdateStatus" method="post">
                                     <input type="hidden" name="userId" value="@user.Id" />
-                                    <select name="statusId">
+                                    <select name="statusId" id="statusSelect">
                                         @foreach (var status in ViewBag.Statuses as IEnumerable<sybring_project.Models.Db.Status>)
                                         {
-                                            <option value="@status.Id">@status.Name</option>
+                                            <option value="@status.Id" @(status.Id == user.StatusId ? "selected" : "")>@status.Name</option>
                                         }
                                     </select>
-                                    <button type="submit">Update Status</button>
                                 </form>
                             </td>
                             <td>
@@ -101,3 +100,8 @@
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    document.getElementById('statusSelect').addEventListener('change', function () {
+        document.getElementById('statusForm').submit();
+    });
+</script>
