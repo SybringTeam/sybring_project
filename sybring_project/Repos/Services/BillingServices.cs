@@ -48,10 +48,15 @@ namespace sybring_project.Repos.Services
             billing.ProjectId = new List<Project> { project };
 
             var user = await _db.Users.FindAsync(userId);
-            billing.Users = new List<User> { user };
+            if (user != null) 
+            {
+                billing.Users = new List<User> { user };
+                await _db.AddAsync(billing);
+                await _db.SaveChangesAsync();
+            }
+         
 
-            await _db.AddAsync(billing);
-            await _db.SaveChangesAsync();
+            
         }
 
         public async Task BillingUserAsync(string userId, int billingId)

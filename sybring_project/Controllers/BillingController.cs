@@ -30,7 +30,7 @@ namespace sybring_project.Controllers
         }
 
 
-        [Authorize(Roles = "admin, superadmin")]
+        [Authorize(Roles = "admin, superadmin, underconsult")]
         public async Task<IActionResult>Index()
         {
             var userId = _userManager.GetUserId(User);
@@ -49,12 +49,12 @@ namespace sybring_project.Controllers
 
         [HttpPost]
         [Authorize(Roles = "admin, superadmin, underconsult")]
-        public async Task<IActionResult> Create(BillingVM billingVM, int projectId, string selectedUserId)
+        public async Task<IActionResult> Create(BillingVM billingVM, int projectId)
         {
-            //billingVM.ImageLink = Guid.NewGuid().ToString() + "_" + billingVM.File.FileName;
-            //await _billingServices.UploadImageFileAsync(billingVM);
+            billingVM.ImageLink = Guid.NewGuid().ToString() + "_" + billingVM.File.FileName;
+            await _billingServices.UploadImageFileAsync(billingVM);
 
-            var adminUserId = _userManager.GetUserId(User);
+            var selectedUserId = _userManager.GetUserId(User);
                         
           
             await _billingServices.AddBillingAsync(billingVM, selectedUserId, projectId);
