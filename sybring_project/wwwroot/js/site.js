@@ -1,12 +1,12 @@
 ﻿
 $(document).ready(function () {
     $('#myTable').DataTable({
-        "scrollY": "500px",
+        responsive: true,
+        "scrollY": "600px",
         "scrollCollapse": true,
         "paging": true,
         "searching": true,
         "select": true
-        
         
     });
 });

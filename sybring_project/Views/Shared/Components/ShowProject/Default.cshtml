@@ -9,8 +9,12 @@
                     <h5 class="card-title">Project Information</h5>
                 </div>
                 <div class="card-body p-3">
-                    <h2>@Model.Name</h2>
-                    <p> <strong>Description: </strong> @Model.Description</p>
+                    <h4>
+                        <b>
+                            @Model.Name
+                        </b>
+                    </h4>
+                    <h6> <strong>Description: </strong> @Model.Description</h6>
 
                     @if (Model.Companies.Any())
                     {
@@ -19,12 +23,12 @@
                             {
                                 <div class="col-md-6">
                                     <div class="company-info">
-                                        <p><strong>Company Address:</strong> @supervisor.CompanyAddress</p>
-                                        <p><strong>Company Homepage:</strong> <a href="@supervisor.CompanyWeb" target="_blank">@supervisor.CompanyWeb</a></p>
-                                        <p><strong>Organization Nr:</strong> @supervisor.OrgNumber</p>
-                                        <p><strong>Supervisor Name:</strong> @supervisor.SupervisorName</p>
-                                        <p><strong>Supervisor Email:</strong> <a href="mailto:@supervisor.SupervisorEmail">@supervisor.SupervisorEmail</a></p>
-                                        <p><strong>Supervisor Phone:</strong> @supervisor.SupervisorPhone</p>
+                                        <h6><strong>Company Address:</strong> @supervisor.CompanyAddress</h6>
+                                        <h6><strong>Company Homepage:</strong> <a href="@supervisor.CompanyWeb" target="_blank">@supervisor.CompanyWeb</a></h6>
+                                        <h6><strong>Organization Nr:</strong> @supervisor.OrgNumber</h6>
+                                        <h6><strong>Supervisor Name:</strong> @supervisor.SupervisorName</h6>
+                                        <h6><strong>Supervisor Email:</strong> <a href="mailto:@supervisor.SupervisorEmail">@supervisor.SupervisorEmail</a></h6>
+                                        <h6><strong>Supervisor Phone:</strong> @supervisor.SupervisorPhone</h6>
                                     </div>
                                 </div>
                             }

@@ -39,7 +39,10 @@
                             <p>USERS ON PROJECTS</p>
                         </th>
 
-                        <th> ACTIONS</th>
+                        <th>
+                            <p>ACTIONS </p>
+
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,17 +58,17 @@
                                 </a>
                             </td>
                             <td>
-                                <a asp-action="Details" asp-route-id="@item.Id">
+                                
                                     @Html.DisplayFor(modelItem => item.Description)
-                                </a>
+                                
                             </td>
 
                             <td>
                                 <ul>
                                     @foreach (var user in item.Users)
                                     {
-                                        <li>
-                                            <a asp-controller="User" asp-action="Details" asp-route-id="@user.Id">@user.UserName</a><br />
+                                        <li style="list-style-type:none ">
+                                           @user.UserName<br />
                                         </li>
 
 
@@ -75,6 +78,7 @@
 
                             </td>
 
+                          
 
                             <td>
                                 <div class="dropdown">
