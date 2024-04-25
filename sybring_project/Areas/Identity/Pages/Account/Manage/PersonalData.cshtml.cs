@@ -53,6 +53,7 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
             user.ICEContactName = iceContactName;
             user.UserICE = iceContactNumber;
             user.CitizenMembership = citizenMembership;
+            
 
 
 
