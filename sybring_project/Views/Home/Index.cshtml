@@ -11,7 +11,7 @@
                 <div class="row">
                     <div>
                         <div class="card info-card sales-card">
-                            <h4 class="card-title text-center">  <span><img src="~/logo/sybring_logo-black_250px.png" width="auto" height="70"/> </span></h4>
+                            <h4 class="card-title text-center">  <span><img src="~/logo/sybring_logo-black_250px.png" width="auto" height="70" /> </span></h4>
                         </div>
                     </div>
                 </div>
@@ -42,8 +42,8 @@
 
                                     <div class="ps-3">
                                         <h6></h6>
-                                        
-                                         <p class="pt-2 mb-0"><a href="#" class="btn btn-primary btn-sm">Show All Users</a></p>
+
+                                        <p class="pt-2 mb-0"><a href="#" class="btn btn-primary btn-sm">Show All Users</a></p>
 
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                                     </div>
                                     <div class="ps-3">
                                         <h6></h6>
-                                        
+
                                         <p class="pt-2 mb-0"><a href="#" class="btn btn-success btn-sm">Show Time Reports</a></p>
                                     </div>
                                 </div>
@@ -122,7 +122,7 @@
                     </div>
 
                 </div>
-                
+
 
                 <div class="col-12">
                     <div class="card recent-sales overflow-auto">
@@ -220,30 +220,23 @@ else if (User.IsInRole("underconsult"))
                 <div class="row">
                     <div>
                         <div class="card info-card sales-card">
-                            <h4 class="card-title text-center">  <span><img src="~/logo/sybring_logo-black_250px.png" width="auto" height="70" /> </span></h4>
+                            <h4 class="card-title text-center">
+                                <span>
+                                    <img src="~/logo/sybring_logo-black_250px.png" width="auto" height="70" />
+                                    
+                                        <p class="pt-3">Welcome to Sybring's Time Report</p>
+                                    
+                                </span>
+                            </h4>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="card info-card sales-card">
-
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">List</a></li>
-                                    <li><a class="dropdown-item" href="#">Add User</a></li>
-                                    <li><a class="dropdown-item" href="#">Assign Project</a></li>
-                                </ul>
-                            </div>
 
                             <div class="card-body">
                                 <h5 class="card-title">Users <span>|</span></h5>
-
                                 <div class="d-flex align-items-center">
                                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                         <i class="bi bi-people"></i>
@@ -258,21 +251,9 @@ else if (User.IsInRole("underconsult"))
 
                         </div>
                     </div>
-                    <div class=" col-md-4">
+                    <div class=" col-md-6">
                         <div class="card info-card revenue-card">
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
 
                             <div class="card-body">
                                 <h5 class="card-title">Time <span>| </span></h5>
@@ -284,7 +265,7 @@ else if (User.IsInRole("underconsult"))
                                     <div class="ps-3">
                                         <h6></h6>
 
-                                        <p class="pt-2 mb-0"><a href="#" class="btn btn-success btn-sm">Time Report </a></p>
+                                        <p class="pt-2 mb-0"><a href="@Url.Action("Create", "Time")" class="btn btn-success btn-sm">Time Report </a></p>
                                     </div>
                                 </div>
                             </div>
@@ -292,33 +273,46 @@ else if (User.IsInRole("underconsult"))
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-6">
 
                         <div class="card info-card customers-card">
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
 
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
 
                             <div class="card-body">
-                                <h5 class="card-title">Projects <span>| </span></h5>
+                                <h5 class="card-title">History <span>| </span></h5>
 
                                 <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center ">
                                         <i class="bi bi-table"></i>
                                     </div>
                                     <div class="ps-3">
                                         <h6></h6>
-                                        <p class="pt-2 mb-0"><a href="#" class="btn btn-danger btn-sm">Time History</a></p>
+                                        <p class="pt-2 mb-0"><a href="@Url.Action("Index", "Time")" class="btn btn-danger btn-sm">Time History</a></p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="card info-card sales-card  ">
+
+
+
+                            <div class="card-body">
+                                <h5 class="card-title">Files <span>| </span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center ">
+                                        <i class="bi bi-file-earmark-arrow-up text-info"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6></h6>
+                                        <p class="pt-2 mb-0"><a href="@Url.Action("Index", "Billing")" class="btn btn-info btn-sm  text-white">Expenses</a></p>
 
                                     </div>
                                 </div>
@@ -332,24 +326,13 @@ else if (User.IsInRole("underconsult"))
 
 
                 <div class="col-12">
-                    <div class="card recent-sales overflow-auto">
+                    <div class="card  recent-sales overflow-auto">
 
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
-                                </li>
 
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
-                        </div>
 
                         <div class="card-body">
                             <h5 class="card-title">Time Reports <span>|  Activitys</span></h5>
-
+                           
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
