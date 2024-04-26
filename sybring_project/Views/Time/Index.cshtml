@@ -27,6 +27,7 @@
         }
     </div>
 
+
     <div class="mb-3">
         @Html.Label("selectedDateRange", "Select Date Range:")
         @Html.DropDownList("selectedDateRange", Model.DateRanges, "Select Date Range", new { @class = "form-select", onchange = "submitForm()" })
@@ -43,14 +44,14 @@
 }
 
 <div class="filter-section mb-4">
-    <!-- Any additional filter section content can be added here -->
+  
 </div>
 
 <div class="card p-3">
     @if (Model.TimeHistories.Any())
     {
         <div class="summary-section mb-4">
-            <!-- Summary section content can be added here -->
+            
         </div>
 
         <table id="timeHistoryTable" class="table table-striped table-bordered">
@@ -78,7 +79,7 @@
         </table>
 
         <div class="pagination-container">
-            <!-- Pagination controls can be added here if needed -->
+            
         </div>
     }
     else
