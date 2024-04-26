@@ -119,7 +119,6 @@ namespace sybring_project.Repos.Services
                 var viewAll = await _db.Billings
                     .Include(b => b.Users)
                     .Include(b => b.ProjectId)
-                   
                     .ToListAsync();
 
                 foreach (var item in viewAll)
