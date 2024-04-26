@@ -50,7 +50,6 @@ namespace sybring_project.Controllers
         {
             var userId = _userManager.GetUserId(User);
             var timeHistories = await _timeService.GetTimeListAsync(userId);
-            
 
             var userList = await _userManager.Users.Select(u => new SelectListItem
             {
@@ -59,19 +58,20 @@ namespace sybring_project.Controllers
             }).ToListAsync();
 
             var dateRanges = new List<SelectListItem>
-    {
-        new SelectListItem { Value = "week", Text = "Week" },
-        new SelectListItem { Value = "month", Text = "Month" },
-        new SelectListItem { Value = "day", Text = "Day" }
-    };
+            {
+                new SelectListItem { Value = "week", Text = "Week" },
+                new SelectListItem { Value = "month", Text = "Month" },
+                new SelectListItem { Value = "day", Text = "Day" }
+            };
+
+            var currentUser = $"{User.Identity.Name}"; // Assuming user name is stored in User.Identity.Name
 
             var viewModel = new TimeHistoryViewModel
             {
                 TimeHistories = timeHistories,
                 UserList = new SelectList(userList, "Value", "Text"),
                 DateRanges = new SelectList(dateRanges, "Value", "Text"),
-             
-                
+                CurrentUser = currentUser // Pass current user to the view model
             };
 
             return View(viewModel);
@@ -213,26 +213,18 @@ namespace sybring_project.Controllers
         {
             var timeHistories = await _timeService.GetTimeHistoriesAsync(selectedUserId, selectedDateRange);
 
-            // Extract unique user names from all time histories
-            var uniqueUserNames = timeHistories
-                .SelectMany(th => th.Users)
-                .Select(u => $"{u.FirstName} {u.LastName}")
-                .Distinct()
-                .ToList();
-
-            // Construct the user list for the dropdown
-            var users = uniqueUserNames.Select(name => new SelectListItem
+            var users = await _userManager.Users.Select(u => new SelectListItem
             {
-                Text = name,
-                Value = name // Assuming the user ID is not required for the dropdown
-            }).ToList();
+                Value = u.Id,
+                Text = $"{u.FirstName} {u.LastName}"
+            }).ToListAsync();
 
             var dateRanges = new List<SelectListItem>
-    {
-        new SelectListItem { Value = "week", Text = "Week" },
-        new SelectListItem { Value = "month", Text = "Month" },
-        new SelectListItem { Value = "day", Text = "Day" }
-    };
+            {
+                new SelectListItem { Value = "week", Text = "Week" },
+                new SelectListItem { Value = "month", Text = "Month" },
+                new SelectListItem { Value = "day", Text = "Day" }
+            };
 
             var model = new TimeHistoryViewModel
             {
@@ -243,6 +235,7 @@ namespace sybring_project.Controllers
 
             return View("Index", model);
         }
+
 
 
 

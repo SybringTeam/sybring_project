@@ -8,6 +8,7 @@ namespace sybring_project.Models.ViewModels
         public SelectList UserList { get; set; }
         public virtual User? User { get; set; }
         public SelectList DateRanges { get; set; }
+        public string CurrentUser { get; set; }
         public IEnumerable<TimeHistory> TimeHistories { get; set; }
     }
 }
