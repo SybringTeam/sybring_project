@@ -32,8 +32,8 @@
         <li class="nav-item" role="presentation">
             <a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" @ManageNavPages.PersonalOverview(ViewContext)" id="Overview" asp-page="./PersonalData"> Overview </a>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @ManageNavPages.OverViewNavClass(ViewContext)" id="OverView" asp-page="./Overview">OverView</a>
         </li>
     </ul>
 </div>
