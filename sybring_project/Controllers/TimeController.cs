@@ -58,17 +58,20 @@ namespace sybring_project.Controllers
             }).ToListAsync();
 
             var dateRanges = new List<SelectListItem>
-    {
-        new SelectListItem { Value = "week", Text = "Week" },
-        new SelectListItem { Value = "month", Text = "Month" },
-        new SelectListItem { Value = "day", Text = "Day" }
-    };
+            {
+                new SelectListItem { Value = "week", Text = "Week" },
+                new SelectListItem { Value = "month", Text = "Month" },
+                new SelectListItem { Value = "day", Text = "Day" }
+            };
+
+            var currentUser = $"{User.Identity.Name}"; // Assuming user name is stored in User.Identity.Name
 
             var viewModel = new TimeHistoryViewModel
             {
                 TimeHistories = timeHistories,
                 UserList = new SelectList(userList, "Value", "Text"),
-                DateRanges = new SelectList(dateRanges, "Value", "Text")
+                DateRanges = new SelectList(dateRanges, "Value", "Text"),
+                CurrentUser = currentUser // Pass current user to the view model
             };
 
             return View(viewModel);
@@ -217,11 +220,11 @@ namespace sybring_project.Controllers
             }).ToListAsync();
 
             var dateRanges = new List<SelectListItem>
-    {
-        new SelectListItem { Value = "week", Text = "Week" },
-        new SelectListItem { Value = "month", Text = "Month" },
-        new SelectListItem { Value = "day", Text = "Day" }
-    };
+            {
+                new SelectListItem { Value = "week", Text = "Week" },
+                new SelectListItem { Value = "month", Text = "Month" },
+                new SelectListItem { Value = "day", Text = "Day" }
+            };
 
             var model = new TimeHistoryViewModel
             {
@@ -232,6 +235,7 @@ namespace sybring_project.Controllers
 
             return View("Index", model);
         }
+
 
 
 
