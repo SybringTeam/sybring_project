@@ -113,7 +113,7 @@ namespace sybring_project.Repos.Services
         {
             var currentUser = await _userManager.FindByIdAsync(userId);
 
-            if (await _userManager.IsInRoleAsync(currentUser, "Admin"))
+            if (await _userManager.IsInRoleAsync(currentUser, "Admin, superadmin"))
             {
                 // If the user is an admin, retrieve all billing data
                 var viewAll = await _db.Billings
