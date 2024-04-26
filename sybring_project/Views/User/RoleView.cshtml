@@ -2,16 +2,12 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="frame">
-    <div class="pagging1"></div>
-    <div class="pagging2"></div>
-    <table class="table">
+<div class="card p-3">
+    <table class="table" id="Mytable">
         <thead>
             <tr>
                 <th>Full Name</th>
-                <th>Projects</th>
-                <th>Task Description</th>
-                <th>User Name</th>
+                <th>Email</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -19,22 +15,21 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td><a asp-action="Details" asp-route-id="@item.Id">@item.FirstName @item.LastName</a></td>
                     <td>
-                        @* @foreach (var project in item.ProjectId)
-                        {
-                            @project.Name
-                        } *@
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            @item.FirstName @item.LastName
+                        </a>
                     </td>
-                    <td>@item.TaskDescription</td>
-                    <td>@item.UserName</td>
+                    <td>
+                        @item.UserName
+                    </td>
                     <td>
                         @if (ViewBag.RoleName == "archive")
                         {
                             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                             <a asp-action="Delete" asp-route-id="@item.Id">| Restore </a>
                             <a asp-action="TrueDelete" asp-route-id="@item.Id">| Delete </a>
-                            }
+                        }
                         else
                         {
                             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
@@ -46,7 +41,7 @@
     </table>
 </div>
 <div>
-    <a asp-action="Index"class="btn btn-primary">View Index</a>
-    <a asp-action="RoleView" asp-route-roleName="admin" class="btn btn-primary">View Admin Users</a>
-    <a asp-action="RoleView" asp-route-roleName="archive" class="btn btn-primary">View Archives Users</a>
+    <a asp-action="Index" class="btn btn-primary">Back to all Users</a>
+    <a asp-action="RoleView" asp-route-roleName="admin" class="btn btn-primary">View all Admins</a>
+    <a asp-action="RoleView" asp-route-roleName="archive" class="btn btn-primary">View all Archived Users</a>
 </div>

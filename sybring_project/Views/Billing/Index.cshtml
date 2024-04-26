@@ -10,11 +10,11 @@
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
 
-<table class="table table-striped table-responsive">
+<table class="table table-responsive" id="Mytable">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.DateStamp)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
@@ -40,13 +40,14 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
+                    @Html.DisplayFor(modelItem => item.DateStamp)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ImageLink)
+                <td style="width:100px;">
+               
+                    <img src="@item.BlobLink" class="card-img-top" alt="...">
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Cost)

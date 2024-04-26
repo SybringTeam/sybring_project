@@ -1,11 +1,15 @@
-﻿using Azure.Storage.Blobs;
+﻿using ActiveUp.Net.Security.OpenPGP.Packets;
+using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using Microsoft.Extensions.Hosting;
 using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
+using System.Security.Claims;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Project = sybring_project.Models.Db.Project;
 
@@ -37,26 +41,26 @@ namespace sybring_project.Repos.Services
                 ImageLink = billingVM.ImageLink,
                 Cost = billingVM.Cost,
                 DateStamp = billingVM.DateStamp,
-              
+
                 ProjectId = new List<Project>(),
                 Users = new List<User>()
 
 
             };
-           
+
             var project = await _db.Projects.FindAsync(projectId);
             billing.ProjectId = new List<Project> { project };
 
             var user = await _db.Users.FindAsync(userId);
-            if (user != null) 
+            if (user != null)
             {
                 billing.Users = new List<User> { user };
                 await _db.AddAsync(billing);
                 await _db.SaveChangesAsync();
             }
-         
 
-            
+
+
         }
 
         public async Task BillingUserAsync(string userId, int billingId)
@@ -73,9 +77,29 @@ namespace sybring_project.Repos.Services
 
         public async Task<Billing> DeleteBillingAsync(int id)
         {
-            var delBilling = await _db.Billings.FindAsync(id);
+            var delBilling = await _db.Billings.FirstOrDefaultAsync(b => b.Id == id);
+
+            if (delBilling != null)
+            {
+                var imageLink = delBilling.ImageLink;
+
+                if (!string.IsNullOrEmpty(imageLink))
+                {
+                    string fileName = Path.GetFileName(imageLink);
+                    BlobServiceClient blobServiceClient = new BlobServiceClient(
+                 _configuration["AzureWebJobsStorage"]);
+                    BlobContainerClient blobContainerClient = blobServiceClient
+                        .GetBlobContainerClient("sybringsstorage");
+                    BlobClient blobClient = blobContainerClient.GetBlobClient(fileName);
+
+                    await blobClient.DeleteIfExistsAsync();
+
+                }
+            }
+
 
             var associatedProject = _db.Projects.Where(p => p.BillingId == id);
+
             foreach (var item in associatedProject)
             {
                 item.BillingId = null;
@@ -89,22 +113,36 @@ namespace sybring_project.Repos.Services
         {
             var currentUser = await _userManager.FindByIdAsync(userId);
 
-            if (await _userManager.IsInRoleAsync(currentUser, "Admin"))
+            if (await _userManager.IsInRoleAsync(currentUser, "Admin, superadmin"))
             {
                 // If the user is an admin, retrieve all billing data
-                return await _db.Billings
+                var viewAll = await _db.Billings
                     .Include(b => b.Users)
                     .Include(b => b.ProjectId)
                     .ToListAsync();
+
+                foreach (var item in viewAll)
+                {
+                    item.BlobLink = await GetBlobImageAsync(item.ImageLink);
+                }
+                return viewAll;
             }
             else
             {
                 // If the user is not an admin, retrieve only their own billing data
-                return await _db.Billings
+                var userBilling = await _db.Billings
                     .Include(b => b.Users)
                     .Include(b => b.ProjectId)
+                  .OrderByDescending(b => b.DateStamp)
                     .Where(b => b.Users.Any(u => u.Id == userId))
                     .ToListAsync();
+
+                foreach (var item in userBilling)
+                {
+                    item.BlobLink = await GetBlobImageAsync(item.ImageLink);
+                }
+
+                return userBilling;
             }
         }
 
@@ -114,6 +152,12 @@ namespace sybring_project.Repos.Services
             var billing = await _db.Billings.Include(b => b.ProjectId)
                 .Include(b => b.Users)
                 .FirstOrDefaultAsync(b => b.Id == id);
+
+            if (billing != null)
+            {
+                billing.BlobLink = await GetBlobImageAsync(billing.ImageLink);
+            }
+            billing!.BlobLink = await GetBlobImageAsync(billing.ImageLink);
             return billing;
         }
 
@@ -138,15 +182,19 @@ namespace sybring_project.Repos.Services
             };
         }
 
+
+
+
         public async Task<string> UploadImageFileAsync(BillingVM billingVM)
         {
             IFormFile file = billingVM.File;
-            string uniqueFileName = billingVM.ImageLink;
+            string fileName = billingVM.ImageLink;
             BlobServiceClient blobServiceClient = new BlobServiceClient(
                 _configuration["AzureWebJobsStorage"]);
             BlobContainerClient blobContainerClient = blobServiceClient
                 .GetBlobContainerClient("sybringsstorage");
-            BlobClient blobClient = blobContainerClient.GetBlobClient(uniqueFileName);
+
+            BlobClient blobClient = blobContainerClient.GetBlobClient(fileName);
 
             using (var stream = file.OpenReadStream())
             {
@@ -156,7 +204,7 @@ namespace sybring_project.Repos.Services
         }
 
 
-        private Uri GetBlobImage(string imgLink)
+        private async Task<Uri> GetBlobImageAsync(string imgLink)
         {
             BlobServiceClient blobServiceClient = new BlobServiceClient(
                 _configuration["AzureWebJobsStorage"]);
@@ -164,7 +212,6 @@ namespace sybring_project.Repos.Services
             var address = blobClient.GetBlobClient(imgLink).Uri;
             return address;
         }
-
 
 
     }

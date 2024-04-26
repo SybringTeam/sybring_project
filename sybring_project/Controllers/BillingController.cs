@@ -40,7 +40,7 @@ namespace sybring_project.Controllers
 
         [HttpGet]
         [Authorize(Roles = "admin, superadmin, underconsult")]
-        public async Task<IActionResult> Create() 
+        public async Task<IActionResult> Create()   
         {
             var viewModel = await _billingServices.GetProjectsAndUsersAsync();
             return View(viewModel);
