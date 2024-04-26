@@ -55,6 +55,7 @@ namespace  sybring_project.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public static string PersonalData => "PersonalData";
 
+        public static string Overview => "Overview";
 
 
         /// <summary>
@@ -105,6 +106,7 @@ namespace  sybring_project.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public static string PersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, PersonalData);
 
+        public static string PersonalOverview(ViewContext viewContext) => PageNavClass(viewContext, Overview);
 
 
         /// <summary>
@@ -124,6 +126,6 @@ namespace  sybring_project.Areas.Identity.Pages.Account.Manage
             return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "active" : null;
         }
 
-        
+      
     }
 }
