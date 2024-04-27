@@ -33,21 +33,22 @@
                                     <h6><b>ICE Phone:</b>@Model.UserICE </h6>
                                 </div>
                                 <div>
+                                     <form asp-action="RemoveStatusToUser" method="post">
                                     @foreach (var status in Model.Status)
                                     {
-                                        <form asp-action="RemoveStatusToUser" method="post">
-                                            <input type="hidden" name="userId" value="@Model.Id" />
-                                            <input type="hidden" name="statusId" value="@status.Id" />
-                                            <select name="statusId">
 
-                                                <option value="@status.Id">@status.Name.ToUpper()</option>
-                                                
-                                            </select>
-                                            <button type="submit" class="btn btn-outline-danger btn-sm mb-2">Remove Selected Statuses</button>
-                                        </form>
-
+                                            <div>
+                                                <label>
+                                                    <input type="checkbox" name="statusId" value="@status.Id" />
+                                                    <p class="@GetStatusColor(status.Name)">@status.Name.ToUpper()</p>
+                                                </label>
+                                            </div>                                       
+                                                                               
+                                        
                                     }
-                                   
+                                        <input type="hidden" name="userId" value="@Model.Id" />
+                                        <button type="submit" class="btn btn-outline-danger btn-sm mb-2">Remove Selected Status</button>
+                                    </form>
 
 
                                 </div>
