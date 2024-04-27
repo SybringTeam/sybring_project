@@ -40,6 +40,8 @@ namespace sybring_project.Repos.Interfaces
 
         Task AddStatusToUserAsync(string userId, int statusId);
 
+        Task RemoveStatusFromUserAsync(string userId, int statusId);
+
 
     }
 }
