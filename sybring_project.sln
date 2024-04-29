@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "sybring_project", "sybring_
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Isolate", "Isolate\Isolate.csproj", "{AC683ACA-4573-4D49-9449-A6EFB3CDC3B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resize_blob", "Resize_blob\Resize_blob.csproj", "{AF1CD331-2352-4FBC-8E0B-3B5A646B8842}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resize_blob", "Resize_blob\Resize_blob.csproj", "{AF1CD331-2352-4FBC-8E0B-3B5A646B8842}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

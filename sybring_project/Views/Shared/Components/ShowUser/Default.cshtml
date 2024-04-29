@@ -32,6 +32,44 @@
                                     <h6><b>ICE Name:</b>@Model.ICEContactName </h6>
                                     <h6><b>ICE Phone:</b>@Model.UserICE </h6>
                                 </div>
+
+                                <div>
+                                    <h6><b>Job Status</b> </h6>
+                                     <form asp-action="RemoveStatusToUser" method="post">
+                                    @foreach (var status in Model.Status)
+                                    {
+
+                                            <div>
+                                                <label>
+                                                    <strong>
+                                                    <input type="checkbox" name="statusId" value="@status.Id" />
+                                                    <p class="@GetStatusColor(status.Name)">@status.Name.ToUpper()</p>
+                                                    </strong>
+                                                </label>
+                                            </div>                                       
+                                                                               
+                                        
+                                    }
+                                        @if (Model.Status != null && Model.Status.Any())
+                                        {
+                                            <input type="hidden" name="userId" value="@Model.Id" />
+                                            <button type="submit" class="btn btn-outline-danger btn-sm mb-2">Remove Selected Status</button>
+                                        }
+
+                                        else
+                                        {
+                                            <p>The User has not assigned any Job status.</p>
+
+                                        }
+
+                                    </form>
+
+
+                                </div>
+
+
+
+
                             </div>
                         </div>
 
