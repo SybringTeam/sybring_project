@@ -303,12 +303,16 @@ namespace sybring_project.Repos.Services
 
             if (user != null && statusToAdd != null)
             {
-                // Check if the user already has the status assigned
-                if (!user.Status.Any(s => s.Id == statusId))
+                // Remove the previous status, if any
+                if (user.Status.Any())
                 {
-                    user.Status.Add(statusToAdd);
+                    user.Status.Clear();
                     await _db.SaveChangesAsync();
                 }
+
+                user.Status.Add(statusToAdd);
+                await _db.SaveChangesAsync();
+
             }
 
                       

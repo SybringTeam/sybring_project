@@ -1,5 +1,22 @@
 ﻿@model sybring_project.Models.Db.User
 
+<style>
+    .status-default {
+        /* Define default styles for other cases */
+    }
+
+    .orange {
+        color: orange;
+    }
+
+    .blue {
+        color: blue;
+    }
+
+    .green {
+        color: green;
+    }
+</style>
 
 
 <div id="userEle" class="container-fluid">
@@ -33,14 +50,17 @@
                                     <h6><b>ICE Phone:</b>@Model.UserICE </h6>
                                 </div>
                                 <div>
+                                    <h6><b>Job Status</b> </h6>
                                      <form asp-action="RemoveStatusToUser" method="post">
                                     @foreach (var status in Model.Status)
                                     {
 
                                             <div>
                                                 <label>
+                                                    <strong>
                                                     <input type="checkbox" name="statusId" value="@status.Id" />
                                                     <p class="@GetStatusColor(status.Name)">@status.Name.ToUpper()</p>
+                                                    </strong>
                                                 </label>
                                             </div>                                       
                                                                                
@@ -202,7 +222,4 @@
         }
     }
 
-
-
-
-</script>
+ </script>
