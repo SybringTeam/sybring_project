@@ -297,4 +297,3 @@ function showUser(userId) {
 function hideAllUsers() {
     $('[id^=showUserContainer_]').hide();
 }
-
