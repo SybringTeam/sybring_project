@@ -55,7 +55,7 @@ namespace  sybring_project.Areas.Identity.Pages.Account.Manage
         /// </summary>
         public static string PersonalData => "PersonalData";
 
-        public static string OverView => "OverView";
+        public static string OverView => "Over View";
 
 
 

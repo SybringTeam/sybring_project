@@ -1,0 +1,13 @@
+﻿@page
+@model sybring_project.Areas.Identity.Pages.Account.Manage.UserOverViewModel
+
+@using sybring_project.Models.Db
+
+
+<h3>User Information</h3>
+
+<div>
+    <p><strong>ICE Name:</strong> @Model.GetUser.ICEContactName</p>
+    <p><strong>ICE Contact:</strong> @Model.GetUser.UserICE</p>
+    <p><strong>Citizen:</strong> @Model.GetUser.CitizenMembership</p>
+</div>
