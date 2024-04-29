@@ -19,18 +19,16 @@ namespace sybring_project.Repos.Services
         private readonly IProjectServices _projectServices;
         private readonly BlobServiceClient _blobServiceClient;
         private readonly IConfiguration _configuration;
-        private readonly IBillingServices _billingServices;
    
 
         public UserServices(ApplicationDbContext db,
             UserManager<User> userManager, IProjectServices projectServices, 
-            IConfiguration configuration, IBillingServices billingServices)
+            IConfiguration configuration)
         {
             _db = db;
             _userManager = userManager;
             _projectServices = projectServices;
             _configuration = configuration;
-            _billingServices = billingServices;
             _blobServiceClient = new BlobServiceClient(_configuration["AzureWebJobsStorage"]);
          
         }
@@ -74,8 +72,7 @@ namespace sybring_project.Repos.Services
 
         public async Task<User> DeleteUserAsync(string id)
         {
-            var user = await _db.Users.Include(u => u.ReceiptId).Include(u => u.Status)
-                .FirstOrDefaultAsync(u => u.Id == id);
+            var user = await _db.Users.FindAsync(id);
 
             if (user == null)
             {
@@ -173,22 +170,6 @@ namespace sybring_project.Repos.Services
     
 
 
-        public async Task RemoveStatusFromUserAsync(string userId, int statusId)
-        {
-            var user = await _db.Users.Include(u => u.Status).FirstOrDefaultAsync(u => u.Id == userId);
-
-            if (user != null)
-            {
-                var statusToRemove = user.Status.FirstOrDefault(s => s.Id == statusId);
-
-                if (statusToRemove != null)
-                {
-                    user.Status.Remove(statusToRemove);
-                    await _db.SaveChangesAsync();
-                }
-            }
-        }
-
 
 
         public Task<string> UploadImageFileAsync(User user)
@@ -280,17 +261,14 @@ namespace sybring_project.Repos.Services
 
             if (user != null && statusToAdd != null)
             {
-                // Remove the previous status, if any
-                if (user.Status.Any())
+                // Check if the user already has the status assigned
+                if (!user.Status.Any(s => s.Id == statusId))
                 {
-                    user.Status.Clear();
+                    user.Status.Add(statusToAdd);
                     await _db.SaveChangesAsync();
                 }
-
-                user.Status.Add(statusToAdd);
-                await _db.SaveChangesAsync();
-
             }
+
 
                       
         }
@@ -321,6 +299,8 @@ namespace sybring_project.Repos.Services
             return false;
         }
 
+
+        }
 
     }
 }
