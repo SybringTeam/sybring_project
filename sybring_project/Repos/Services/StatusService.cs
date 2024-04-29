@@ -1,10 +1,8 @@
 ﻿
-using ActiveUp.Net.Security.OpenPGP.Packets;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Build.Evaluation;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
