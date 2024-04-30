@@ -24,8 +24,8 @@ namespace sybring_project.Models.Db.Email
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
           
-            string smtpHost = _configuration["SmtpSettings:Host"];
-            int smtpPort = _configuration.GetValue<int>("SmtpSettings:Port");
+            string smtpHost =  _configuration["SmtpSettings:Host"];
+            int smtpPort =  _configuration.GetValue<int>("SmtpSettings:Port");
             string smtpUsername = _configuration["SmtpSettings:Username"];
             string smtpPassword = _configuration["SmtpSettings:Password"];
             bool enableSsl = _configuration.GetValue<bool>("SmtpSettings:EnableSsl");
@@ -49,7 +49,8 @@ namespace sybring_project.Models.Db.Email
 
                 try
                 {
-                    smtpClient.Send(mailMessage);
+                    
+                    smtpClient.SendMailAsync(mailMessage);
                     Console.WriteLine("Email sent successfully!");
                 }
                 catch (Exception ex)
