@@ -8,9 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\davidshimjs-qrcodejs-04f46c6\**" />
     <Compile Remove="wwwroot\logo\Icons\**" />
+    <Content Remove="wwwroot\davidshimjs-qrcodejs-04f46c6\**" />
     <Content Remove="wwwroot\logo\Icons\**" />
+    <EmbeddedResource Remove="wwwroot\davidshimjs-qrcodejs-04f46c6\**" />
     <EmbeddedResource Remove="wwwroot\logo\Icons\**" />
+    <None Remove="wwwroot\davidshimjs-qrcodejs-04f46c6\**" />
     <None Remove="wwwroot\logo\Icons\**" />
   </ItemGroup>
 
@@ -28,14 +32,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-
-    <Folder Include="wwwroot\davidshimjs-qrcodejs-04f46c6\davidshimjs-qrcodejs-04f46c6\" />
-
-    <Folder Include="wwwroot\logo\Icons\" />
-
   </ItemGroup>
 
 </Project>

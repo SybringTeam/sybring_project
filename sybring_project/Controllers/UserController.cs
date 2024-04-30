@@ -367,6 +367,27 @@ namespace sybring_project.Controllers
 
 
 
+        public async Task<IActionResult> ConfirmEmail(string userId) 
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) 
+            {
+                return NotFound();
+            }
+
+            user.EmailConfirmed = true;
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("EmailConfirmed");
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
     }
 
 

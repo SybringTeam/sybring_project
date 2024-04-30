@@ -39,6 +39,8 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredLength = 6;
     options.Password.RequiredUniqueChars = 1;
 
+  
+
     // Lockout settings.
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     options.Lockout.MaxFailedAccessAttempts = 5;
@@ -75,6 +77,7 @@ builder.Services.AddScoped<IBillingServices, BillingServices>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 
 
 
