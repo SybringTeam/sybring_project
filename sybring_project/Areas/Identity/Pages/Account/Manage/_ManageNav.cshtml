@@ -9,11 +9,16 @@
     
     <ul class="nav nav-tabs nav-tabs-bordered" role="tablist">
     
-
+@* 
         <li class="nav-item" role="presentation">
             <a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a>
+        </li> *@
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @ManageNavPages.OverViewNavClass(ViewContext)" id="OverView" asp-page="./UserOverView">OverView</a>
         </li>
-
+        <li class="nav-item" role="presentation">
+            <a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Profile</a>
+        </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a>
         </li>
@@ -29,11 +34,7 @@
             <a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a>
         </li>
 
-        <li class="nav-item" role="presentation">
-            <a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a>
-        </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link @ManageNavPages.OverViewNavClass(ViewContext)" id="OverView" asp-page="./UserOverView">OverView</a>
-        </li>
+       
+       
     </ul>
 </div>

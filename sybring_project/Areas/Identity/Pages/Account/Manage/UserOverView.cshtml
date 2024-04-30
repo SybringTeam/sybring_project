@@ -5,9 +5,8 @@
 
 
 <div class="tab-pane fade show active profile-overview" id="profile-overview" role="tabpanel">
-    
-    <h5 class="card-title">Profile Details</h5>
-
+    <h5 class="card-title text-center pb-0 fs-4">Profile Details</h5>
+   
     <div class="row">
         <div class="col-lg-3 col-md-4 label ">Full Name</div>
         <div class="col-lg-9 col-md-8">
@@ -15,15 +14,9 @@
             @Model.GetUser.LastName
         </div>
     </div>
-
     <div class="row">
-        <div class="col-lg-3 col-md-4 label">Company</div>
-        <div class="col-lg-9 col-md-8">@Model.GetUser.</div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-3 col-md-4 label">Job</div>
-        <div class="col-lg-9 col-md-8">Web Designer</div>
+        <div class="col-lg-3 col-md-4 label">Project</div>
+        <div class="col-lg-9 col-md-8">@Model.GetUser.ProjectId</div>
     </div>
 
     <div class="row">
