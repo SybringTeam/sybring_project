@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.DateStamp)
+                @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
@@ -40,14 +40,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DateStamp)
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td style="width:100px;">
-               
-                    <img src="@item.BlobLink" class="card-img-top" alt="...">
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageLink)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Cost)

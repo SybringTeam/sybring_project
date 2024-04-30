@@ -80,7 +80,7 @@ namespace sybring_project.Controllers
         {
             if (!User.IsInRole("superadmin"))
             {
-                return Forbid();
+                return Forbid(); 
             }
             if (newRole != "underconsult" && newRole != "admin" && newRole != "archive")
             {
@@ -106,6 +106,25 @@ namespace sybring_project.Controllers
 
 
 
+
+        //public async Task<IActionResult> UpdateStatus()
+        //{
+        //    UserVM addStatus = new UserVM();
+
+        //    var allStatuses = await _userServices.GetStatusListAsync(); 
+
+        //    foreach (var status in allStatuses)
+        //    {
+        //        addStatus.Statuses.Add(new SelectListItem
+        //        {
+        //            Value = status.Id.ToString(),
+        //            Text = status.Name
+        //        });
+        //    }
+
+        //    return View(addStatus);
+        //}
+
         [Authorize(Roles = "admin, superadmin")]
         [HttpPost]
         public async Task<IActionResult> UpdateStatus(string userId, int statusId)
@@ -116,14 +135,10 @@ namespace sybring_project.Controllers
 
         }
 
-        [HttpPost]
-        public async Task<IActionResult> RemoveStatusToUser(string userId, int statusId)
-        {
-            await _userServices.RemoveStatusFromUserAsync(userId, statusId);
-            return RedirectToAction("Index");
-        }
 
         [Authorize(Roles = "admin, superadmin")]
+
+
         public async Task<IActionResult> RoleView(string roleName)
         {
             ViewBag.RoleName = roleName; // Pass the roleName to the view
