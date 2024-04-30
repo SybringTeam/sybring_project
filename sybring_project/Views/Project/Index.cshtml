@@ -31,10 +31,10 @@
                             <p>NAME</p>
 
                         </th>
-                        <th>
-                            <p>DESCRIPTION</p>
+                  @*      <th>
                             
-                        </th>
+                       
+                       </th> *@ 
                         <th>
                             <p>USERS ON PROJECTS</p>
                         </th>
@@ -57,11 +57,11 @@
                                  
                                 </a>
                             </td>
-                            <td>
-                                
-                                    @Html.DisplayFor(modelItem => item.Description)
-                                
-                            </td>
+
+                        @*     <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                                <br />
+                            </td> *@
 
                             <td>
                                 <ul>
@@ -113,8 +113,4 @@
     </div>
  </section>
 
- <div>
 
-    <a asp-action="Create" class="btn btn-primary"> Create New</a>
- 
- </div>

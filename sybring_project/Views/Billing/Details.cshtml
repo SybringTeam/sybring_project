@@ -18,18 +18,12 @@
             <dt class="col-sm-4">Cost:</dt>
             <dd class="col-sm-8">@Model.Cost</dd>
 
-            <dt class="col-sm-4">Image:</dt>
-            <dd class="col-sm-8">
-                <a href="@Model.BlobLink" target="_self">
-                    <img src="@Model.BlobLink" class="card-img-top" alt="Image" style="width: 100px; height: auto;">
-                </a>
-            </dd>
-        
-
+            <dt class="col-sm-4">Image Link:</dt>
+            <dd class="col-sm-8">@Model.ImageLink</dd>
 
             <dt class="col-sm-4">Project ID:</dt>
             <dd class="col-sm-8">
-                @foreach (var item in Model.ProjectId)
+                @foreach (var item in @Model.ProjectId)
                 {
                     @item.Name
                 }

@@ -7,93 +7,62 @@
 
 
 
-<div class="container ">
-    <div class="row ">
+<div class="container">
+    <h5 class="card-title text-center pb-0 fs-4">Add your personal information</h5>
+    <p class="text-center small"></p>
+    <div class="row">
         <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    @*   <div class="container d-flex justify-content-center">
-                    <img src="~/logo/sybring_logo-black_1000px.png" height="50" width="auto" />
-                    </div> *@
 
-                    <h5 class="card-title text-center pb-0 fs-4">Personal Data</h5>
-                    <p class="text-center small">Add your ICE contact (In case of emergency)</p>
-                    <form method="post">
-                        <div class="form-group mb-3">
-                            <label for="iceContactName">ICE Contact Name</label>
-                            <input type="text" class="form-control" id="iceContactName" name="iceContactName" value="@Model.UserData?.ICEContactName" />
-                           
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="iceContactNumber">ICE Contact Number</label>
-                            <input type="text" class="form-control" id="iceContactNumber" name="iceContactNumber"  />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="Address">Address</label>
-                            <input type="text" class="form-control" id="userAddress" name="userAddress" value="@Model.UserData?.Address" />
-                        </div>
-
-                      
-
-                        <div class="form-group">
-                            <label for="citizenMembership">Citizen Membership</label>
-                            <select class="form-control" id="citizenMembership" name="citizenMembership" multiple style=" height: 400px">
-                                <option value="">Select Country</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary mt-3 ">Save</button>
-                    </form>
-
+            <form method="post">
+                <div class="form-group mb-3">
+                    <label for="Email">Email</label>
+                    <input type="text" class="form-control" id="Email" name="Email" value="@Model.UserData?.Email" />
                 </div>
-            </div>
+                <div class="form-group mb-3">
+                    <label for="PhoneNumber">PhoneNumber</label>
+                    <input type="text" class="form-control" id="PhoneNumber" name="Phone" value="@Model.UserData?.PhoneNumber" />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="userAddress">Address</label>
+                    <input type="text" class="form-control" id="userAddress" name="userAddress" value="@Model.UserData?.Address" />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="iceContactName" placeholder="(Name & Relative)">ICE Contact Name </label>
+                    <span data-bs-toggle="tooltip" data-bs-placement="top" title="(In case of emergency ">
+                        <i class="bi bi-question-circle"></i>
+                    </span>
+                    <input type="text" class="form-control" id="iceContactName" name="iceContactName" value="@Model.UserData?.ICEContactName" />
+     
+                </div>
+                <div class="form-group mb-3">
+                    <label for="iceContactNumber">ICE Contact Number</label>
+                    <input type="text" class="form-control" id="iceContactNumber" name="iceContactNumber" />
+                </div>
+            </form>
+
+
         </div>
-    </div>
-</div>
+        <div class="col-md-6">
 
-@* <div class="row">
-    <div class="col-md-6">
-
-        <form method="post">
-            <div class="form-group">
-                <label for="iceContactName">ICE Name</label>
-                <input type="text" class="form-control" id="iceContactName" name="iceContactName" style="width: 300px" value="@Model.UserData?.ICEContactName" />
-                <span>@Model.UserData?.ICEContactName</span>
-            </div>
-            <div class="form-group">
-                <label for="iceContactNumber">ICE Contact Number</label>
-                <input type="text" class="form-control" id="iceContactNumber" name="iceContactNumber" style="width: 300px" />
-            </div>
             <div class="form-group">
                 <label for="citizenMembership">Citizen Membership</label>
-                <select class="form-control" id="citizenMembership" name="citizenMembership" multiple style="width: 300px; height: 400px">
-                    <option value="">Select Country</option>
+                <select class="form-control" id="citizenMembership" name="citizenMembership">
+
+                    <option value="sweden">Select Country</option>
                 </select>
             </div>
+            
+        </div>
 
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
 
     </div>
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
 </div>
- *@
+
+
+
 <div id="displayInfo">
 </div>
-
-@* <div class="row">
-    <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-        </p>
-        <form id="download-data" asp-page="DownloadPersonalData" method="post">
-            <button class="btn btn-primary" type="submit">Download</button>
-        </form>
-        <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Delete</a>
-        </p>
-    </div>
-</div> *@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

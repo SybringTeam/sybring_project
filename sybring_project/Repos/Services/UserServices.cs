@@ -167,30 +167,7 @@ namespace sybring_project.Repos.Services
             return await _db.Projects.FindAsync(id);
         }
 
-        public async Task<bool> RemoveUserFromProjectAsync(int projectId, string userId)
-        {
-
-            var existingProject = await _db.Projects
-                 .Include(p => p.Users)
-                 .FirstOrDefaultAsync(p => p.Id == projectId);
-
-            if (existingProject != null)
-            {
-
-                var userToRemove = existingProject.Users
-                    .FirstOrDefault(u => u.Id == userId);
-
-                if (userToRemove != null)
-                {
-
-                    existingProject.Users.Remove(userToRemove);
-                    await _db.SaveChangesAsync();
-                    return true;
-                }
-            }
-
-            return false;
-        }
+    
 
 
 
@@ -293,8 +270,38 @@ namespace sybring_project.Repos.Services
             }
 
 
+                      
+        }
+
+
+        public async Task<bool> RemoveUserFromProjectAsync(int projectId, string userId)
+        {
+
+            var existingProject = await _db.Projects
+                 .Include(p => p.Users)
+                 .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            if (existingProject != null)
+            {
+
+                var userToRemove = existingProject.Users
+                    .FirstOrDefault(u => u.Id == userId);
+
+                if (userToRemove != null)
+                {
+
+                    existingProject.Users.Remove(userToRemove);
+                    await _db.SaveChangesAsync();
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
         }
 
     }
-}
+
 

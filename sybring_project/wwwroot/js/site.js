@@ -1,7 +1,6 @@
 ﻿
 $(document).ready(function () {
     $('#myTable').DataTable({
-        responsive: true,
         "scrollY": "600px",
         "scrollCollapse": true,
         "paging": true,
