@@ -143,8 +143,9 @@ namespace sybring_project.Repos.Services
                 userInDb.Seller = user.Seller;
                 userInDb.ImageLink = user.ImageLink;
                 userInDb.Email = user.Email;
-                        
-              
+             
+               
+               
 
                 await _db.SaveChangesAsync();
                 return true;
