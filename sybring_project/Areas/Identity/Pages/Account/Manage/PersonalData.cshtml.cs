@@ -14,7 +14,6 @@ using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
 using System.Net.Http;
 using sybring_project.Models;
-using static sybring_project.Models.CountryAPI;
 using static sybring_project.Models.Db.CountriesSowAPI;
 
 namespace sybring_project.Areas.Identity.Pages.Account.Manage
