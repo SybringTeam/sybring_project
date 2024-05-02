@@ -4,15 +4,45 @@
 @using sybring_project.Models.Db
 
 
-<div class="tab-pane fade show active profile-overview" id="profile-overview" role="tabpanel">
-    <h5 class="card-title text-center pb-0 fs-4">Profile Details</h5>
-   
-    <div class="row">
-        <div class="col-lg-3 col-md-4 label ">Full Name</div>
-        <div class="col-lg-9 col-md-8">
-            @Model.GetUser.FirstName
-            @Model.GetUser.LastName
+<div class="tab-pane fade show active profile-overview p-4" id="profile-overview" role="tabpanel">
+    <h5 class="card-title pb-2 fs-4">Profile Details</h5>
+
+    <div class="row mb-3">
+        <div class="col-md-9">
+            <div class="row mb-2">
+                <div class="col-6 label">Full Name:@Model.GetUser.FirstName @Model.GetUser.LastName</div>
+               
+            </div>
+            <div class="row mb-2">
+                <div class="col-6 label">Project:@Model.GetUser.ProjectId</div>
+               
+            </div>
+            <div class="row mb-2">
+                <div class="col-6 label">Country:@Model.GetUser.CitizenMembership</div>
+                
+            </div>
+            <div class="row mb-2">
+                <div class="col-6 label">Address:@Model.GetUser.Address</div>
+               
+            </div>
+            <div class="row mb-2">
+                <div class="col-6 label">Phone:@Model.GetUser.PhoneNumber</div>
+
+            </div>
+            <div class="row mb-2">
+                <div class="col-6 label">Email:@Model.GetUser.Email</div>
+
+            </div>
+            <div class="row mb-2">
+                <div class="col-6 label">ICE Name:@Model.GetUser.ICEContactName</div>
+
+            </div>
+            <div class="row mb-2">
+                <div class="col-6 label">ICE Phone:@Model.GetUser.UserICE</div>
+
+            </div>
         </div>
+
     </div>
 
     <div class="row">
@@ -65,7 +95,7 @@
     <div class="row">
         <div class="col-lg-3 col-md-4 label">ICE Phone</div>
         <div class="col-lg-9 col-md-8"> @Model.GetUser.UserICE</div>
+
     </div>
 </div>
-
 
