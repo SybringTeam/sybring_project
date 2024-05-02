@@ -65,14 +65,15 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
 
 
         public async Task<IActionResult> OnPost(string iceContactName, string iceContactNumber,
-            string selectedCountry, string address)
+            string selectedCountry, string address, string phone)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserAsync(User)}'.");
             }
-
+         
+            user.PhoneNumber = phone;
             user.Address = address;
             user.ICEContactName = iceContactName;
             user.UserICE = iceContactNumber;

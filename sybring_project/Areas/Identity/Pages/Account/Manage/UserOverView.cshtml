@@ -14,9 +14,28 @@
             @Model.GetUser.LastName
         </div>
     </div>
+
     <div class="row">
         <div class="col-lg-3 col-md-4 label">Project</div>
-        <div class="col-lg-9 col-md-8">@Model.GetUser.ProjectId</div>
+        <div class="col-lg-9 col-md-8">
+            <ul>
+                @foreach (var project in Model.AssignedProjects)
+                {
+
+                    <div class="row">
+                    <li>
+                        <div class="col">@project.Name </div>
+                    </li>
+            </div>
+
+
+                }
+
+               </ul>  
+          
+
+        </div>
+       
     </div>
 
     <div class="row">
