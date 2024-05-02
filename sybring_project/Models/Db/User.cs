@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace sybring_project.Models.Db
@@ -14,17 +13,15 @@ namespace sybring_project.Models.Db
         public int? Age { get; set; }
 
         public DateTime? DOB { get; set; }
-     
+
         public string? Address { get; set; } = string.Empty;
 
         public string? TaskDescription { get; set; } = string.Empty;
-      
+
         public double UserIncome { get; set; }
-       
+
         public double UserPersonalNumber { get; set; }
-     
         public string? ICEContactName { get; set; }
-     
         public string? UserICE { get; set; }
 
         public string? Seller { get; set; }
