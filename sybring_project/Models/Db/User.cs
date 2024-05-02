@@ -14,7 +14,7 @@ namespace sybring_project.Models.Db
 
         public DateTime? DOB { get; set; }
 
-        public string? Address { get; set; } = string.Empty;
+        public string? Address { get; set; }
 
         public string? TaskDescription { get; set; } = string.Empty;
 
