@@ -53,40 +53,40 @@ namespace sybring_project.Repos.Services
         //Spurti
 
 
-public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal scheduledHoursPerWeek)
-        {                               
-                decimal totalWorkingHours = CalculateWorkingHoursAsync(dayDataVM, scheduledHoursPerWeek);
+        public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal scheduledHoursPerWeek)
+        {
+            decimal totalWorkingHours = CalculateWorkingHoursAsync(dayDataVM, scheduledHoursPerWeek);
 
-                var timeReport = new TimeHistory
-                {
-                    Date = dayDataVM.Date,
-                    StartWork = dayDataVM.StartWork,
-                    EndWork = dayDataVM.EndWork,
-                    StartBreak = dayDataVM.StartBreak,
-                    EndBreak = dayDataVM.EndBreak,
-                    TotalWorkingHours = totalWorkingHours,
-                    WorkingHours = totalWorkingHours, 
-                    FlexiTime = dayDataVM.FlexiTime,
-                    MoreTime = dayDataVM.MoreTime,
-                    AttendanceTime = dayDataVM.AttendanceTime,
-                    AnnualLeave = dayDataVM.AnnualLeave,
-                    SickLeave = dayDataVM.SickLeave,
-                    LeaveOfAbsence = dayDataVM.LeaveOfAbsence,
-                    Childcare = dayDataVM.Childcare,
-                    Overtime = dayDataVM.Overtime,
-                    InconvenientHours = dayDataVM.InconvenientHours,
-                };
+            var timeReport = new TimeHistory
+            {
+                Date = dayDataVM.Date,
+                StartWork = dayDataVM.StartWork,
+                EndWork = dayDataVM.EndWork,
+                StartBreak = dayDataVM.StartBreak,
+                EndBreak = dayDataVM.EndBreak,
+                TotalWorkingHours = totalWorkingHours,
+                WorkingHours = totalWorkingHours,
+                FlexiTime = dayDataVM.FlexiTime,
+                MoreTime = dayDataVM.MoreTime,
+                AttendanceTime = dayDataVM.AttendanceTime,
+                AnnualLeave = dayDataVM.AnnualLeave,
+                SickLeave = dayDataVM.SickLeave,
+                LeaveOfAbsence = dayDataVM.LeaveOfAbsence,
+                Childcare = dayDataVM.Childcare,
+                Overtime = dayDataVM.Overtime,
+                InconvenientHours = dayDataVM.InconvenientHours,
+            };
 
-                var user = await _db.Users.FindAsync(userId);
-                if (user != null)
-                {
-                    timeReport.Users = new List<User> { user }; 
+            var user = await _db.Users.FindAsync(userId);
+            if (user != null)
+            {
+                timeReport.Users = new List<User> { user };
 
-                    _db.TimeHistories.Add(timeReport);
-                    await _db.SaveChangesAsync();
-                }
-           }
-	
+                _db.TimeHistories.Add(timeReport);
+                await _db.SaveChangesAsync();
+            }
+        }
+
 
         //Spurti
 
@@ -149,7 +149,7 @@ public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal sch
                 }
 
                 dayDataVM.Overtime = overtime;
-                
+
 
                 return workingHours;
             }
@@ -157,8 +157,8 @@ public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal sch
             {
                 // Calculate working hours 
                 TimeSpan workDuration = dayDataVM.EndWork - dayDataVM.StartWork;
-                TimeSpan lunchBreak = TimeSpan.FromHours(1); 
-                TimeSpan totalWorkDuration = workDuration - lunchBreak; 
+                TimeSpan lunchBreak = TimeSpan.FromHours(1);
+                TimeSpan totalWorkDuration = workDuration - lunchBreak;
                 decimal totalWorkHours = (decimal)totalWorkDuration.TotalHours;
 
                 const decimal standardWorkingHoursPerDay = 8;
@@ -282,6 +282,46 @@ public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal sch
 
             return await query.ToListAsync();
         }
+
+        public async Task<IEnumerable<TimeHistory>> GetHistoryByWeekNUser(string userId, string dateRange)
+        {
+            DateTime startDate;
+            DateTime endDate = DateTime.Now;
+
+            switch (dateRange.ToLower())
+            {
+                case "week":
+                    startDate = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek + (int)DayOfWeek.Monday);
+                    endDate = startDate.AddDays(6); // Last day of the week
+                    break;
+                default:
+                    throw new ArgumentException("Invalid date range for weekly history retrieval");
+            }
+
+            var currentUser = await _userManager.FindByIdAsync(userId);
+            IQueryable<TimeHistory> query;
+
+            if (await _userManager.IsInRoleAsync(currentUser, "Admin"))
+            {
+                // If the user is an admin, retrieve time histories for any user within the specified week
+                query = _db.TimeHistories
+                    .Include(t => t.Users)
+                    .Where(t => t.Date >= startDate && t.Date <= endDate);
+            }
+            else
+            {
+                // If the user is not an admin, retrieve time histories only for the current user within the specified week
+                query = _db.TimeHistories
+                    .Include(t => t.Users)
+                    .Where(t => t.Users.Any(u => u.Id == userId) && t.Date >= startDate && t.Date <= endDate);
+            }
+
+            var timeHistories = await query.ToListAsync();
+
+            return timeHistories;
+        }
+
+
 
 
 

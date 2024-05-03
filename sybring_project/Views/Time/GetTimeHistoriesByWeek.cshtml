@@ -1,0 +1,76 @@
+﻿@model List<sybring_project.Models.ViewModels.DayDataVM>
+
+@{
+    ViewData["Title"] = "Time Details";
+}
+
+<style>
+    .table-container {
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    .data-column {
+        flex-grow: 1;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+
+    .header-row th {
+        background-color: #f0f0f0;
+    }
+
+    .date-cell {
+        min-width: 100px;
+    }
+</style>
+
+<h1>Time Details</h1>
+
+<h4>Select Week</h4>
+<select id="weekNumber"></select>
+
+<div class="table-container">
+    <div class="data-column">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Date</th>
+                    <th>Start Work</th>
+                    <th>End Work</th>
+                    <th>Total Working Hours</th>
+                </tr>
+            </thead>
+            <tbody id="weekDaysBody">
+                @foreach (var dayData in Model)
+                {
+                    <tr>
+                        <td>@dayData.Date.DayOfWeek</td>
+                        <td>@dayData.Date.ToShortDateString()</td>
+                        <td>@dayData.StartWork.ToString("hh\\:mm")</td>
+                        <td>@dayData.EndWork.ToString("hh\\:mm")</td>
+                        <td>@dayData.TotalWorkingHours</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // JavaScript code for fetching week data and other functionalities
+    // ...
+
+    // Omitted JavaScript code for brevity
+</script>
