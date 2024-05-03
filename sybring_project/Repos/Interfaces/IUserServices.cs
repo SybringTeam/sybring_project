@@ -20,25 +20,27 @@ namespace sybring_project.Repos.Interfaces
 
         Task<string> UploadImageFileAsync(User user);
 
-       
+
         Task<Project> GetProjectByIdAsync(int id);
 
         Task<bool> RemoveUserFromProjectAsync(int projectId, string userId);
 
-       
+
         Task AssignProjectToUserAsync(string userId, int projectId);
 
         Task TaskManager(string userId, int projectId);
 
         Task<List<User>> GetAllUsersInRoleAsync(string roleName);
 
-        //Task<User> GetUserWithProjectsAsync(string id);
+       
         User GetUserById(string userId);
-            
+
 
         Task<List<Status>> GetStatusListAsync();
 
         Task AddStatusToUserAsync(string userId, int statusId);
+
+        Task RemoveStatusFromUserAsync(string userId, int statusId);
 
 
     }

@@ -19,10 +19,10 @@ namespace sybring_project.Repos.Services
         private readonly IProjectServices _projectServices;
         private readonly BlobServiceClient _blobServiceClient;
         private readonly IConfiguration _configuration;
-   
+
 
         public UserServices(ApplicationDbContext db,
-            UserManager<User> userManager, IProjectServices projectServices, 
+            UserManager<User> userManager, IProjectServices projectServices,
             IConfiguration configuration)
         {
             _db = db;
@@ -30,7 +30,7 @@ namespace sybring_project.Repos.Services
             _projectServices = projectServices;
             _configuration = configuration;
             _blobServiceClient = new BlobServiceClient(_configuration["AzureWebJobsStorage"]);
-         
+
         }
 
         private BlobContainerClient InitBlobService(string blobContainer)
@@ -143,9 +143,6 @@ namespace sybring_project.Repos.Services
                 userInDb.Seller = user.Seller;
                 userInDb.ImageLink = user.ImageLink;
                 userInDb.Email = user.Email;
-             
-               
-               
 
                 await _db.SaveChangesAsync();
                 return true;
@@ -157,18 +154,10 @@ namespace sybring_project.Repos.Services
             }
         }
 
-                
-                
-
-
-
         public async Task<Project> GetProjectByIdAsync(int id)
         {
             return await _db.Projects.FindAsync(id);
         }
-
-    
-
 
 
 
@@ -188,8 +177,8 @@ namespace sybring_project.Repos.Services
             if (existingProject != null)
             {
                 var userToAdd = _db.Users.FirstOrDefault(u => u.Id == userId);
-                             existingProject.Users.Add(userToAdd);
-                                existingProject.Users.Add(userToAdd);
+                existingProject.Users.Add(userToAdd);
+                existingProject.Users.Add(userToAdd);
                 await _db.SaveChangesAsync();
 
             }
@@ -228,14 +217,6 @@ namespace sybring_project.Repos.Services
             }
 
 
-
-            //var project = await _projectServices.GetProjectByIdAsync(projectId);
-            //if (project != null)
-            //{
-            //    // Assign project to user
-            //    user.ProjectId.Add(project);
-            //    await _db.SaveChangesAsync();
-            //}
         }
 
 
@@ -255,22 +236,25 @@ namespace sybring_project.Repos.Services
 
         public async Task AddStatusToUserAsync(string userId, int statusId)
         {
-            var user = await _db.Users.Include(u => u.Status).FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _db.Users.Include(u => u.Status)
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
             var statusToAdd = await _db.Status.FindAsync(statusId);
 
             if (user != null && statusToAdd != null)
             {
-                // Check if the user already has the status assigned
-                if (!user.Status.Any(s => s.Id == statusId))
+                // Remove the previous status, if any
+                if (user.Status.Any())
                 {
-                    user.Status.Add(statusToAdd);
+                    user.Status.Clear();
                     await _db.SaveChangesAsync();
                 }
+
+                user.Status.Add(statusToAdd);
+                await _db.SaveChangesAsync();
+
             }
 
-
-                      
         }
 
 
@@ -300,8 +284,26 @@ namespace sybring_project.Repos.Services
         }
 
 
+        public async Task RemoveStatusFromUserAsync(string userId, int statusId)
+        {
+            var user = await _db.Users.Include(u => u.Status)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user != null)
+            {
+                var statusToRemove = user.Status.FirstOrDefault(s => s.Id == statusId);
+
+                if (statusToRemove != null)
+                {
+                    user.Status.Remove(statusToRemove);
+                    await _db.SaveChangesAsync();
+                }
+            }
         }
 
+
     }
+
+}
 
 

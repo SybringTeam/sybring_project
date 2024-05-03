@@ -60,7 +60,7 @@
                                     <select name="statusId">
                                         @foreach (var status in ViewBag.Statuses as IEnumerable<sybring_project.Models.Db.Status>)
                                         {
-                                            <option value="@status.Id">@status.Name</option>
+                                            <option value="@status.Id">@status.Name.ToUpper()</option>
                                         }
                                     </select>
                                     <button type="submit">Update Status</button>

@@ -136,10 +136,16 @@ namespace sybring_project.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> RemoveStatusToUser(string userId, int statusId)
+        {
+            await _userServices.RemoveStatusFromUserAsync(userId, statusId);
+            return RedirectToAction("Index");
+        }
+
+
         [Authorize(Roles = "admin, superadmin")]
-
-
-        public async Task<IActionResult> RoleView(string roleName)
+         public async Task<IActionResult> RoleView(string roleName)
         {
             ViewBag.RoleName = roleName; // Pass the roleName to the view
 
@@ -248,6 +254,7 @@ namespace sybring_project.Controllers
 
             return RedirectToAction("Index", new { id = userId });
         }
+
         public async Task<IActionResult> Delete(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
