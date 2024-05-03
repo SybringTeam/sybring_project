@@ -5,10 +5,14 @@ $(document).ready(function () {
         "scrollCollapse": true,
         "paging": true,
         "searching": true,
-        "select": true
-        
+        "select": true,
+        "buttons": [
+            { extend: 'copy', className: 'copyButton' },
+            { extend: 'excel', className: 'excelButton' }
+        ]
     });
 });
+
 
 
 

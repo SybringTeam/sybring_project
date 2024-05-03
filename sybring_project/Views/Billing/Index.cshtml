@@ -3,18 +3,24 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="card-title p-3">
+    <h2><strong> Expense List </strong></h2>
+</div>
 
-<h2>Expense List</h2>
 
 <section class="container-fluid">
     <div class="card p-3">
         <div class="col-lg-12 bg-white">
-            <table id="myTable" class="table">
+            <table id="myTable" class="table hover">
 
                 <thead>
                     <tr>
                         <th>
                             Date
+                        </th>
+
+                        <th>
+                            User Name
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Description)
@@ -29,9 +35,6 @@
                             Project Name
                         </th>
 
-                        <th>
-                            User Name
-                        </th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -40,7 +43,24 @@
                     {
                         <tr>
                             <td>
-                                @item.DateStamp
+                                @item.DateStamp.ToShortDateString()
+                            </td>
+                            <td>
+                                @if (item.Users != null && item.Users.Any())
+                                {
+                                    <ul style="list-style-type: none;">
+                                        @foreach (var user in item.Users)
+                                        {
+                                            <li>@user.FirstName @user.LastName</li>
+                                            <li>@user.UserName</li>
+
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <span>No users associated</span>
+                                }
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Description)
@@ -56,7 +76,7 @@
 
                                 @if (item.ProjectId != null && item.ProjectId.Any())
                                 {
-                                    <ul>
+                                    <ul  >
                                         @foreach (var user in item.ProjectId)
                                         {
                                             <li>@user.Name</li>
@@ -69,23 +89,7 @@
                                 }
                             </td>
 
-                            <td>
-                                @if (item.Users != null && item.Users.Any())
-                                {
-                                    <ul>
-                                        @foreach (var user in item.Users)
-                                        {
-                                            <li>@user.FirstName @user.LastName</li>
-                                            <li>@user.UserName</li>
-
-                                        }
-                                    </ul>
-                                }
-                                else
-                                {
-                                    <span>No users associated</span>
-                                }
-                            </td>
+                           
                             <td>
                                 <div class="dropdown">
                                     <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true">
@@ -118,3 +122,7 @@
         </div>
     </div>
 </section>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
