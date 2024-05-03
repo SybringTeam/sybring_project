@@ -51,6 +51,10 @@ namespace sybring_project.Controllers
             var userId = _userManager.GetUserId(User);
             var timeHistories = await _timeService.GetTimeListAsync(userId);
 
+            // Group time histories by month
+            var timeHistoriesByMonth = timeHistories.GroupBy(th => th.Date.ToString("yyyy-MM"))
+                                                     .ToDictionary(g => g.Key, g => g.ToList());
+
             var userList = await _userManager.Users.Select(u => new SelectListItem
             {
                 Value = u.Id,
@@ -58,20 +62,20 @@ namespace sybring_project.Controllers
             }).ToListAsync();
 
             var dateRanges = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "week", Text = "Week" },
-                new SelectListItem { Value = "month", Text = "Month" },
-                new SelectListItem { Value = "day", Text = "Day" }
-            };
+    {
+        new SelectListItem { Value = "week", Text = "Week" },
+        new SelectListItem { Value = "month", Text = "Month" },
+        new SelectListItem { Value = "day", Text = "Day" }
+    };
 
-            var currentUser = $"{User.Identity.Name}"; // Assuming user name is stored in User.Identity.Name
+            var currentUser = $"{User.Identity.Name}";
 
             var viewModel = new TimeHistoryViewModel
             {
-                TimeHistories = timeHistories,
+                TimeHistoriesByMonth = timeHistoriesByMonth, // Pass grouped data to the view model
                 UserList = new SelectList(userList, "Value", "Text"),
                 DateRanges = new SelectList(dateRanges, "Value", "Text"),
-                CurrentUser = currentUser // Pass current user to the view model
+                CurrentUser = currentUser
             };
 
             return View(viewModel);
