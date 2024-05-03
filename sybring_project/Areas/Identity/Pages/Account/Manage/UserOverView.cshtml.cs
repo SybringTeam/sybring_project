@@ -24,6 +24,7 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
         }
 
         public User GetUser { get; set; }
+        public List<Project> AssignedProjects { get; set; }
 
 
         public async Task<IActionResult> OnGetAsync()
@@ -35,7 +36,10 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
                 return NotFound("User not found");
             }
 
-          
+            AssignedProjects = await _db.Projects
+                .Include(p => p.Users)
+                .Where(p => p.Users.Any(p => p.Id == GetUser.Id))
+                .ToListAsync();
 
             return Page();
         }
@@ -43,4 +47,3 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
     }
 
 }
-
