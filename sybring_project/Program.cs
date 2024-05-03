@@ -61,6 +61,10 @@ builder.Services.AddHttpClient("hoilday", config =>
     config.BaseAddress = new Uri(builder.Configuration["MyHoildayAPIAddress"]);
 });
 
+builder.Services.AddHttpClient("countries", config =>
+{
+    config.BaseAddress = new Uri(builder.Configuration["MyCountryAPIAddress"]);
+});
 
 
 
