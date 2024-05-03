@@ -1,8 +1,0 @@
-﻿@model sybring_project.Models.Db.User
-
-@{
-    var userId = Model.Id;
-}
-
-
-<a href="@Url.Action("ConfirmEmail", new { userId = userId })">Confirm Email</a>
