@@ -8,7 +8,7 @@
     <div class="row justify-content-center ">
         <div class="card  col-md-6">
             <div class="card-header">
-                <h4><strong>Edit Expense Details </strong></h4>
+                <h4 class="card-title">Edit Expense Details</h4>
             </div>
             <div >
                 <form asp-action="Edit">
@@ -17,23 +17,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="Description"></label>
-                        <input asp-for="Description" class="form-control" />
+                        <label class="mb-2 mt-2" asp-for="Description">Description</label>
+                        <textarea asp-for="Description" class="form-control mb-2" id="floatingDescription" style="height: 70px;"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="Cost"></label>
+                        <label class="mb-2 mt-2" asp-for="Cost">Cost</label>
                         <input asp-for="Cost" class="form-control" />
                         <span asp-validation-for="Cost" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="ImageLink"></label>
+                        <label class="mb-2 mt-2" asp-for="ImageLink">Image</label>
                         <input asp-for="ImageLink" class="form-control" />
                         <span asp-validation-for="ImageLink" class="text-danger"></span>
                     </div>
-
+@* 
                     <div class="form-group">
                         <label asp-for="ProjectId" class="control-label">Project</label>
                         <select asp-for="ProjectId" class="form-control">
@@ -44,13 +44,17 @@
                             }
                         </select>
                         <span asp-validation-for="ProjectId" class="text-danger"></span>
-                    </div>
+                    </div> *@
                     <div class="text-center">
-                    <button type="submit" class="btn btn-primary mt-2 mb-3 ">Save</button>
+                    <button type="submit" class="btn btn-primary mt-3 mb-3 ">Save</button>
                     </div>
                 </form>
             </div>
             </>
         </div>
     </div>
+
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
 </div>

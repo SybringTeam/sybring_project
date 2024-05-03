@@ -16,7 +16,8 @@
                         <select asp-for="SelectedUserIds" class="form-control" multiple>
                             @foreach (var user in Model.Users)
                             {
-                                <option value="@user.Id">@user.UserName</option>
+                                <option value="@user.Id">@user.FirstName @user.LastName -
+                                    @user.UserName</option>
                             }
                         </select>
                     </div>
@@ -42,3 +43,6 @@
     </div>
 </section>
 
+<div>
+    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+</div>

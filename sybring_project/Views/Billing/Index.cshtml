@@ -18,6 +18,10 @@
                         <th>
                             Date
                         </th>
+
+                        <th>
+                            User Name
+                        </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Description)
                         </th>
@@ -31,9 +35,6 @@
                             Project Name
                         </th>
 
-                        <th>
-                            User Name
-                        </th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -43,6 +44,23 @@
                         <tr>
                             <td>
                                 @item.DateStamp.ToShortDateString()
+                            </td>
+                            <td>
+                                @if (item.Users != null && item.Users.Any())
+                                {
+                                    <ul style="list-style-type: none;">
+                                        @foreach (var user in item.Users)
+                                        {
+                                            <li>@user.FirstName @user.LastName</li>
+                                            <li>@user.UserName</li>
+
+                                        }
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <span>No users associated</span>
+                                }
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Description)
@@ -71,23 +89,7 @@
                                 }
                             </td>
 
-                            <td >
-                                @if (item.Users != null && item.Users.Any())
-                                {
-                                    <ul style ="list-style-type: none;">
-                                        @foreach (var user in item.Users)
-                                        {
-                                            <li>@user.FirstName @user.LastName</li>
-                                            <li>@user.UserName</li>
-
-                                        }
-                                    </ul>
-                                }
-                                else
-                                {
-                                    <span>No users associated</span>
-                                }
-                            </td>
+                           
                             <td>
                                 <div class="dropdown">
                                     <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true">

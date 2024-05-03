@@ -8,8 +8,9 @@
             <section>
                 <div class="card">
                     <div class="card-header">
-                        <h4><strong>Edit User Details </strong></h4>
+                        <h4 class="card-title">Edit User Details</h4>
                     </div>
+                   
                     <div class="card-body">
                         <form asp-action="Edit" method="post" enctype="multipart/form-data">
                             <input type="hidden" asp-for="Id" />
@@ -19,25 +20,25 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label asp-for="FirstName">First Name</label>
+                                        <label asp-for="FirstName" class="mb-2 mt-2">First Name</label>
                                         <input asp-for="FirstName" class="form-control" />
                                         <span asp-validation-for="FirstName" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label asp-for="LastName">Last Name</label>
+                                        <label asp-for="LastName" class="mb-2 mt-2">Last Name</label>
                                         <input asp-for="LastName" class="form-control" />
                                         <span asp-validation-for="LastName" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label asp-for="Age">Age:</label>
+                                        <label asp-for="Age" class="mb-2 mt-2">Age:</label>
                                         <input asp-for="Age" class="form-control" />
                                         <span asp-validation-for="Age" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label asp-for="Address">Address:</label>
+                                        <label asp-for="Address" class="mb-2 mt-2">Address:</label>
                                         <input asp-for="Address" class="form-control" />
                                         <span asp-validation-for="Address" class="text-danger"></span>
                                     </div>
@@ -45,13 +46,13 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label asp-for="TaskDescription">Task Description:</label>
-                                         <textarea asp-for="TaskDescription" class="form-control" id="floatingDescription"  style="height: 70px;"></textarea>
+                                        <label asp-for="TaskDescription" class="mb-2 mt-2">Task Description:</label>
+                                        <textarea asp-for="TaskDescription" class="form-control" id="floatingDescription" style="height: 195px;"></textarea>
                                         <span asp-validation-for="TaskDescription" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group">
-                                        <label asp-for="UserIncome">Income</label>
+                                        <label asp-for="UserIncome" class="mb-2 mt-2">Income</label>
                                         <input asp-for="UserIncome" class="form-control" />
                                         <span asp-validation-for="UserIncome" class="text-danger"></span>
                                     </div>
@@ -74,8 +75,10 @@
                                
                                 </div>
                             </div>
-
-                            <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                            <div class="form-group text-center mb-3 mt-3">
+                                <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+                            </div>
+                            
                         </form>
                     </div>
                 </div>
@@ -84,9 +87,9 @@
     </div>
 </div>
 
-
-<a asp-action="Index">Back to List</a>
-
+<div>
+    <a asp-action="Index" class="btn btn-outline-primary" >Back to List</a>
+</div>
 
 
 
