@@ -41,10 +41,6 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
                 .Where(p => p.Users.Any(p=> p.Id == GetUser.Id))
                 .ToListAsync();
                
-
-
-
-
             return Page();
         }
 

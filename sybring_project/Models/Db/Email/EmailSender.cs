@@ -63,23 +63,23 @@ namespace sybring_project.Models.Db.Email
         }
 
 
-        public async Task SendWelcomeEmailAsync(string email)
-        {
-            var subject = "Welcome to Our Website!";
-            var message = "Thank you for registering with us!"; // Customize your welcome message here
-            await SendEmailAsync(email, subject, message);
+        //public async Task SendWelcomeEmailAsync(string email)
+        //{
+        //    var subject = "Welcome to Our Website!";
+        //    var message = "Thank you for registering with us!"; // Customize your welcome message here
+        //    await SendEmailAsync(email, subject, message);
 
-            // Set email confirmed to true in the database
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user != null)
-            {
-                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var confirmationLink = $"https://yourwebsite.com/Account/ConfirmEmail?userId={user.Id}&token={token}";
-                var verificationSubject = "Verify your email address";
-                var verificationMessage = $"Please click the following link to verify your email address: <a href='{confirmationLink}'>Verify Email</a>";
-                await SendEmailAsync(email, verificationSubject, verificationMessage);
-            }
-        }
+        //    // Set email confirmed to true in the database
+        //    var user = await _userManager.FindByEmailAsync(email);
+        //    if (user != null)
+        //    {
+        //        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        //        var confirmationLink = $"https://yourwebsite.com/Account/ConfirmEmail?userId={user.Id}&token={token}";
+        //        var verificationSubject = "Verify your email address";
+        //        var verificationMessage = $"Please click the following link to verify your email address: <a href='{confirmationLink}'>Verify Email</a>";
+        //        await SendEmailAsync(email, verificationSubject, verificationMessage);
+        //    }
+        //}
     }
 }
 

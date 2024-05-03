@@ -54,9 +54,7 @@ namespace sybring_project.Repos.Services
                 await _db.AddAsync(billing);
                 await _db.SaveChangesAsync();
             }
-         
-
-            
+                     
         }
 
         public async Task BillingUserAsync(string userId, int billingId)
@@ -92,10 +90,18 @@ namespace sybring_project.Repos.Services
             if (await _userManager.IsInRoleAsync(currentUser, "Admin"))
             {
                 // If the user is an admin, retrieve all billing data
-                return await _db.Billings
+                var viewAll = await _db.Billings
                     .Include(b => b.Users)
                     .Include(b => b.ProjectId)
                     .ToListAsync();
+
+                foreach (var item in viewAll)
+                {
+                    item.BlobLink =  GetBlobImageAsync(item.ImageLink);
+                }
+                return viewAll;
+
+
             }
             else
             {
@@ -156,7 +162,7 @@ namespace sybring_project.Repos.Services
         }
 
 
-        private Uri GetBlobImage(string imgLink)
+        private Uri GetBlobImageAsync(string imgLink)
         {
             BlobServiceClient blobServiceClient = new BlobServiceClient(
                 _configuration["AzureWebJobsStorage"]);
