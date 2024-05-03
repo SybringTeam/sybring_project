@@ -61,10 +61,10 @@ builder.Services.AddHttpClient("hoilday", config =>
     config.BaseAddress = new Uri(builder.Configuration["MyHoildayAPIAddress"]);
 });
 
-
-
-
-
+builder.Services.AddHttpClient("countries", config =>
+{
+    config.BaseAddress = new Uri(builder.Configuration["MyCountryAPIAddress"]);
+});
 
 
 //Add Services:
@@ -75,6 +75,8 @@ builder.Services.AddScoped<IHolidayService, HolidayService>();
 builder.Services.AddScoped<ICompanyServices, CompanyServices>();
 builder.Services.AddScoped<IBillingServices, BillingServices>();
 builder.Services.AddScoped<IStatusService, StatusService>();
+builder.Services.AddScoped<ICountryServices, CountryServices>();
+
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 

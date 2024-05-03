@@ -19,8 +19,8 @@
 
 <section class="container-fluid">
     <div class="card p-3">
-        <div class="col-lg-12 bg-white">
-            <table id="myTable" class="table">
+        <div class="col-lg-12 bg-white p-3">
+            <table id="myTable" class="table hover">
                 <thead>
                     <tr>
 
@@ -57,7 +57,7 @@
                                     <select name="statusId">
                                         @foreach (var status in ViewBag.Statuses as IEnumerable<sybring_project.Models.Db.Status>)
                                         {
-                                            <option value="@status.Id">@status.Name</option>
+                                            <option value="@status.Id">@status.Name.ToUpper()</option>
                                         }
                                     </select>
                                     <button type="submit">Update Status</button>

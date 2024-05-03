@@ -21,96 +21,98 @@
 
 <section class="section">
     <div class="row">
-        <div class="col-lg-12 bg-white">
-            <table class="table" id="myTable">
+        <div class="card p-3">
+            <div class="col-lg-12 bg-white p-3">
+                <table class="table hover" id="myTable">
 
-                <thead>
-                    <tr>
-
-                        <th>
-                            <p>NAME</p>
-
-                        </th>
-                  @*      <th>
-                            
-                       
-                       </th> *@ 
-                        <th>
-                            <p>USERS ON PROJECTS</p>
-                        </th>
-
-                        <th>
-                            <p>ACTIONS </p>
-
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    @foreach (var item in Model)
-                    {
+                    <thead>
                         <tr>
 
-                            <td>
-                                <a href="#" onclick="showProjectDetails('@item.Id');">
-                                    @item.Name
-                                 
-                                </a>
-                            </td>
+                            <th>
+                                <p>NAME</p>
 
-                        @*     <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                                <br />
+                            </th>
+                            @*      <th>
+
+
+                            </th> *@
+                            <th>
+                                <p>USERS ON PROJECTS</p>
+                            </th>
+
+                            <th>
+                                <p>ACTIONS </p>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <a href="#" onclick="showProjectDetails('@item.Id');">
+                                        @item.Name
+
+                                    </a>
+                                </td>
+
+                                @*     <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                            <br />
                             </td> *@
 
-                            <td>
-                                <ul>
-                                    @foreach (var user in item.Users)
-                                    {
-                                        <li style="list-style-type:none ">
-                                           @user.UserName<br />
-                                        </li>
+                                <td>
+                                    <ul>
+                                        @foreach (var user in item.Users)
+                                        {
+                                            <li style="list-style-type:none ">
+                                                @user.UserName<br />
+                                            </li>
 
 
 
-                                    }
-                                </ul>
-
-                            </td>
-
-                          
-
-                            <td>
-                                <div class="dropdown">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true">
-                                        <i class="bi bi-three-dots"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-center">
-                                            Actions
-                                        </li>
-                                        <li>
-                                            <div class="d-flex">
-                                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">
-                                                    <i class="bi bi-pencil"></i>
-                                                    <span>Edit</span>
-                                                </a>
-                                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">
-                                                    <i class="bi bi-trash"></i>
-                                                    <span>Delete</span>
-                                                </a>
-                                            </div>
-                                        </li>
+                                        }
                                     </ul>
-                                </div>
-                            </td>
 
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                </td>
+
+
+
+                                <td>
+                                    <div class="dropdown">
+                                        <a class="icon" href="#" data-bs-toggle="dropdown" aria-expanded="true">
+                                            <i class="bi bi-three-dots"></i>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                            <li class="dropdown-header text-center">
+                                                Actions
+                                            </li>
+                                            <li>
+                                                <div class="d-flex">
+                                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">
+                                                        <i class="bi bi-pencil"></i>
+                                                        <span>Edit</span>
+                                                    </a>
+                                                    <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">
+                                                        <i class="bi bi-trash"></i>
+                                                        <span>Delete</span>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
- </section>
+</section>
 
 

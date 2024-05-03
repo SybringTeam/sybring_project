@@ -39,11 +39,7 @@
                 <img src="/logo/Sybring_Logo-Black_1000px.png" alt="Sybring" height="48" style="max-height: 48px;" asp-area="" asp-controller="Home" asp-action="Index" />
 
             </a>
-
-
             <i class="bi bi-list toggle-sidebar-btn"></i>
-
-
 
         </div>
 
@@ -437,10 +433,7 @@
                         <i class="bi bi-question-circle"></i>
                         <span>F.A.Q</span>
                     </a>
-
                 </li>
-
-
 
             </ul>
 
@@ -451,17 +444,17 @@
 
     }
 
-    <main id="main" class="main @(User.Identity?.IsAuthenticated is true ?"" :"signedOut")">
+    @*<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+    <li class="breadcrumb-item active">Dashboard</li>
+    </ol>
+    </nav>
+    </div>*@
 
-        @*   <div class="pagetitle">
-        <h1>Dashboard</h1>
-        <nav>
-        <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-        </nav>
-        </div> *@
+    <main id="main" class="main @(User.Identity?.IsAuthenticated is true ?"" :"signedOut")">
 
         <section class="section dashboard">
             @RenderBody()
