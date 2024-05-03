@@ -40,7 +40,7 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
         }
         [BindProperty]
         public User UserData { get; set; }
-        public List<CountriesSowAPI.Datum> ApiCountryNames { get; set; }
+        public List<Datum> ApiCountryNames { get; set; }
 
 
 
@@ -55,7 +55,7 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
 
             // Fetch list of countries from API
             var apiCountries = await _countryServices.GetAllCountriesAsync();
-            ApiCountryNames = new List<CountriesSowAPI.Datum>(apiCountries.data);
+            ApiCountryNames = new List<Datum>(apiCountries.data);
 
             return Page();
         }
