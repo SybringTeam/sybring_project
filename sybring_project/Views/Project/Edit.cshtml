@@ -7,34 +7,30 @@
             <section>
                 <div class="card">
                     <div class="card-header">
-                        <h4><strong>Edit Project Details </strong></h4>
+                        <h5 class="card-title">Edit Project Details</h5>
                     </div>
                     <div class="card-body">
                         <form asp-action="Edit" method="post" enctype="multipart/form-data">
                             <input type="hidden" asp-for="Id" />
 
                             <div asp-validation-summary="All" class="text-danger"></div>
-@* 
-                            <div class="form-group">
-                                <label asp-for="Id"></label>
-                                <input asp-for="Id" class="form-control" />
-                                <span asp-validation-for="Id" class="text-danger"></span>
-                            </div> *@
 
                             <div class="form-group">
-                                <label asp-for="Name"></label>
-                                <input asp-for="Name" class="form-control" />
+                                <label asp-for="Name" class="mb-2 mt-2">Name</label>
+                                <input asp-for="Name" class="form-control mb-2" />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Description"></label>
-                                <textarea asp-for="Description" class="form-control" id="floatingDescription" style="height: 70px;"></textarea>
+                                <label asp-for="Description" class="mb-2 mt-2"> Description </label>
+                                <textarea asp-for="Description" class="form-control mb-2" id="floatingDescription" style="height: 70px;"></textarea>
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
 
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-outline-primary mb-3 mt-3">Save Changes</button>
+                            </div>
 
-
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                           
                         </form>
                     </div>
                 </div>

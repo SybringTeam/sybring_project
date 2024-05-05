@@ -9,19 +9,20 @@
     <div class="container col-md-6">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Assign Projects</h5>
+                <h5 class="card-title ">Assign Projects</h5>
                 <form asp-action="AssignProjects" method="post">
                     <div class="form-group">
-                        <label asp-for="SelectedUserIds">Select Users:</label>
+                        <label asp-for="SelectedUserIds" class="mb-2">Select Users:</label>
                         <select asp-for="SelectedUserIds" class="form-control" multiple>
                             @foreach (var user in Model.Users)
                             {
-                                <option value="@user.Id">@user.UserName</option>
+                                <option value="@user.Id">@user.FirstName @user.LastName -
+                                    @user.UserName</option>
                             }
                         </select>
                     </div>
-                    <div class="form-group mt-2">
-                        <label asp-for="SelectedProjectIds">Select Projects:</label>
+                    <div class="form-group mt-2 ">
+                        <label asp-for="SelectedProjectIds" class="mb-2 mt-3">Select Projects:</label>
                         <select asp-for="SelectedProjectIds" class="form-control" multiple>
                             @foreach (var project in Model.Projects)
                             {
@@ -29,7 +30,7 @@
                             }
                         </select>
                     </div>
-                    <div class="text-center mt-2">
+                    <div class="text-center mt-3">
                         <button type="submit" class="btn btn-primary">Assign Projects</button>
                     </div>
                 </form>
@@ -42,3 +43,6 @@
     </div>
 </section>
 
+<div>
+    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+</div>
