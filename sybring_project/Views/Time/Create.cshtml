@@ -299,9 +299,12 @@ function enableFields() {
 
 
 // Button click event listener
+
 const button = document.getElementById('set-working-hours-btn');
 button.addEventListener('click', function () {
+
     // Toggle disabled state of StartWork, EndWork, StartBreak, and EndBreak input fields
+
     const workInputs = document.querySelectorAll('.work-time');
     workInputs.forEach(input => {
         input.disabled = !input.disabled;
@@ -310,7 +313,9 @@ button.addEventListener('click', function () {
     // Reset or set WorkingHours and TotalWorkingHours based on the current state
     const workingHoursCells = document.querySelectorAll('.data-cell#workingHours');
     const totalWorkingHoursInputs = document.querySelectorAll('.data-cell#totalWorkingHours input');
+
     if (workInputs[0].disabled) {
+
         // If inputs are disabled, set WorkingHours to 8 and TotalWorkingHours to 0
         workingHoursCells.forEach(cell => {
             cell.textContent = '8';
@@ -322,6 +327,7 @@ button.addEventListener('click', function () {
             input.value = '0';
         });
     } else {
+
         // If inputs are enabled, set WorkingHours to 0 and TotalWorkingHours to 0
         workingHoursCells.forEach(cell => {
             cell.textContent = '0';
@@ -338,14 +344,7 @@ button.addEventListener('click', function () {
 
 
 
-
-
-
-
-
-
-
-
+      
 
 
 

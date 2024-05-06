@@ -93,14 +93,14 @@ namespace sybring_project.Repos.Services
             }
         }
 
-        
+
         public decimal CalculateWorkingHoursAsync(DayDataVM dayDataVM, decimal scheduledHoursPerWeek)
         {
-            // Checking if StartWork, EndWork, StartBreak, and EndBreak are null or have default values
-            if (dayDataVM.StartWork == TimeSpan.Zero &&
-                dayDataVM.EndWork == TimeSpan.Zero &&
-                dayDataVM.StartBreak == TimeSpan.Zero &&
-                dayDataVM.EndBreak == TimeSpan.Zero)
+            //Checking if StartWork, EndWork, StartBreak, and EndBreak are null or have default values
+                if (dayDataVM.StartWork == TimeSpan.Zero &&
+                    dayDataVM.EndWork == TimeSpan.Zero &&
+                    dayDataVM.StartBreak == TimeSpan.Zero &&
+                    dayDataVM.EndBreak == TimeSpan.Zero)
             {
                 // Calculate working hours based on TotalWorkingHours input by user
                 decimal totalWorkHours = dayDataVM.TotalWorkingHours;
@@ -136,11 +136,100 @@ namespace sybring_project.Repos.Services
                     overtime = totalWorkHours - standardWorkingHoursPerDay;
                 }
 
-                dayDataVM.Overtime = overtime;
+                // Calculate Total Working Hours (TWH)
+                decimal totalWorkingHours = workingHours + overtime;
 
-                return workingHours;
+                // Calculate Inconvenient Time (Summary)
+                decimal inconvenientTime = workingHours + overtime;
+
+                dayDataVM.Overtime = overtime;
+                dayDataVM.TotalWorkingHours = totalWorkingHours;
+                dayDataVM.InconvenientHours = inconvenientTime;
+
+                return totalWorkingHours;
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //good one
+        //public decimal CalculateWorkingHoursAsync(DayDataVM dayDataVM, decimal scheduledHoursPerWeek)
+        //{
+        //    // Checking if StartWork, EndWork, StartBreak, and EndBreak are null or have default values
+        //    if (dayDataVM.StartWork == TimeSpan.Zero &&
+        //        dayDataVM.EndWork == TimeSpan.Zero &&
+        //        dayDataVM.StartBreak == TimeSpan.Zero &&
+        //        dayDataVM.EndBreak == TimeSpan.Zero)
+        //    {
+        //        // Calculate working hours based on TotalWorkingHours input by user
+        //        decimal totalWorkHours = dayDataVM.TotalWorkingHours;
+        //        const decimal standardWorkingHoursPerDay = 8;
+        //        decimal workingHours = Math.Min(totalWorkHours, standardWorkingHoursPerDay);
+
+        //        decimal overtime = 0;
+        //        if (totalWorkHours > standardWorkingHoursPerDay)
+        //        {
+        //            overtime = totalWorkHours - standardWorkingHoursPerDay;
+
+        //        }
+
+        //        dayDataVM.Overtime = overtime;
+
+
+        //        return workingHours;
+        //    }
+        //    else
+        //    {
+        //        // Calculate working hours 
+        //        TimeSpan workDuration = dayDataVM.EndWork - dayDataVM.StartWork;
+        //        TimeSpan lunchBreak = TimeSpan.FromHours(1);
+        //        TimeSpan totalWorkDuration = workDuration - lunchBreak;
+        //        decimal totalWorkHours = (decimal)totalWorkDuration.TotalHours;
+
+        //        const decimal standardWorkingHoursPerDay = 8;
+        //        decimal workingHours = Math.Min(totalWorkHours, standardWorkingHoursPerDay);
+
+        //        decimal overtime = 0;
+        //        if (totalWorkHours > standardWorkingHoursPerDay)
+        //        {
+        //            overtime = totalWorkHours - standardWorkingHoursPerDay;
+        //        }
+
+        //        dayDataVM.Overtime = overtime;
+
+        //        return workingHours;
+        //    }
+        //}
+
+
+
+
+
 
         public async Task<TimeHistory> GetTimeHistoryByIdAsync(int id)
         {
