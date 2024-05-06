@@ -146,7 +146,7 @@ namespace sybring_project.Repos.Services
                 dayDataVM.TotalWorkingHours = totalWorkingHours;
                 dayDataVM.InconvenientHours = inconvenientTime;
 
-                return totalWorkingHours;
+                return workingHours;
             }
         }
 
