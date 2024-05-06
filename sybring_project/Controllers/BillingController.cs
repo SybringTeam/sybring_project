@@ -43,6 +43,12 @@ namespace sybring_project.Controllers
         public async Task<IActionResult> Create() 
         {
             var viewModel = await _billingServices.GetProjectsAndUsersAsync();
+            // Retrieve the full name of the current user
+            var user = await _userManager.GetUserAsync(User);
+            var fullName = $"{user.FirstName} {user.LastName}";
+            // Set the FullName property of the view model
+            viewModel.FullName = fullName;
+
             return View(viewModel);
                         
         }
