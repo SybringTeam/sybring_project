@@ -10,6 +10,20 @@
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
 
+@if (User.IsInRole("admin") || User.IsInRole("superadmin"))
+{
+    <div class="mb-3">
+        <label>Select User:</label>
+        <select id="selectedUserId" class="form-select" onchange="submitForm()">
+            <option value=""></option>
+            @foreach (var user in ViewBag.UserList)
+            {
+                <option value="@user.Value">@user.Text</option>
+            }
+        </select>
+    </div>
+}
+
 <table class="table table-responsive" id="Mytable">
     <thead>
         <tr>
@@ -28,7 +42,7 @@
             <th>
                 Project Name
             </th>
-           
+
             <th>
                 User Name
             </th>
@@ -46,7 +60,7 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td style="width:100px;">
-               
+
                     <img src="@item.BlobLink" class="card-img-top" alt="...">
                 </td>
                 <td>
@@ -54,20 +68,20 @@
                 </td>
                 <td>
 
-                
-                @if (item.ProjectId != null && item.ProjectId.Any())
-                {
-                    <ul>
-                        @foreach (var user in item.ProjectId)
-                        {
+
+                    @if (item.ProjectId != null && item.ProjectId.Any())
+                    {
+                        <ul>
+                            @foreach (var user in item.ProjectId)
+                            {
                                 <li>@user.Name</li>
-                        }
-                    </ul>
-                }
-                else
-                {
-                    <span>No Project associated</span>
-                }
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No Project associated</span>
+                    }
                 </td>
 
                 <td>
@@ -78,7 +92,7 @@
                             {
                                 <li>@user.FirstName @user.LastName</li>
                                 <li>@user.UserName</li>
-                                
+
                             }
                         </ul>
                     }
