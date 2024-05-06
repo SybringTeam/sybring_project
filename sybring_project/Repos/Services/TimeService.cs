@@ -50,84 +50,50 @@ namespace sybring_project.Repos.Services
             await _db.SaveChangesAsync();
         }
 
-        //Spurti
-
-
-public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal scheduledHoursPerWeek)
-        {                               
-                decimal totalWorkingHours = CalculateWorkingHoursAsync(dayDataVM, scheduledHoursPerWeek);
-
-                var timeReport = new TimeHistory
-                {
-                    Date = dayDataVM.Date,
-                    StartWork = dayDataVM.StartWork,
-                    EndWork = dayDataVM.EndWork,
-                    StartBreak = dayDataVM.StartBreak,
-                    EndBreak = dayDataVM.EndBreak,
-                    TotalWorkingHours = totalWorkingHours,
-                    WorkingHours = totalWorkingHours, 
-                    FlexiTime = dayDataVM.FlexiTime,
-                    MoreTime = dayDataVM.MoreTime,
-                    AttendanceTime = dayDataVM.AttendanceTime,
-                    AnnualLeave = dayDataVM.AnnualLeave,
-                    SickLeave = dayDataVM.SickLeave,
-                    LeaveOfAbsence = dayDataVM.LeaveOfAbsence,
-                    Childcare = dayDataVM.Childcare,
-                    Overtime = dayDataVM.Overtime,
-                    InconvenientHours = dayDataVM.InconvenientHours,
-                };
-
-                var user = await _db.Users.FindAsync(userId);
-                if (user != null)
-                {
-                    timeReport.Users = new List<User> { user }; 
-
-                    _db.TimeHistories.Add(timeReport);
-                    await _db.SaveChangesAsync();
-                }
-           }
-	
-
-        //Spurti
-
-        //public decimal CalculateWorkingHoursAsync(DayDataVM dayDataVM, decimal scheduledHoursPerWeek)
-        //{
-
-        //    TimeSpan workDuration = dayDataVM.EndWork - dayDataVM.StartWork;          
-        //    TimeSpan breakDuration = dayDataVM.EndBreak - dayDataVM.StartBreak;
-        //    decimal totalBreakHours = (decimal)breakDuration.TotalHours;
-
-
-        //    decimal totalWorkHours = (decimal)workDuration.TotalHours;
-
-
-        //    decimal workingHours = totalWorkHours - totalBreakHours;
-
-
-        //    const decimal standardWorkingHoursPerDay = 8;
-
-
-        //    decimal WorkingHours = Math.Min(workingHours, standardWorkingHoursPerDay);
-
-
-        //    decimal overtime = 0;
-        //    if (workingHours > standardWorkingHoursPerDay)
-        //    {
-        //        overtime = workingHours - standardWorkingHoursPerDay;
-        //    }
-
-
-        //    dayDataVM.Overtime = overtime;
-
-        //    return WorkingHours;
-        //}
-
-
-
 
 
 
         //Spurti
+
+        public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal scheduledHoursPerWeek)
+        {
+           decimal totalWorkingHours = CalculateWorkingHoursAsync(dayDataVM, scheduledHoursPerWeek);
+           const decimal standardWorkingHoursPerDay = 8;
+
+            var timeReport = new TimeHistory
+            {
+                Date = dayDataVM.Date,
+                StartWork = dayDataVM.StartWork,
+                EndWork = dayDataVM.EndWork,
+                StartBreak = dayDataVM.StartBreak,
+                EndBreak = dayDataVM.EndBreak,
+                //TotalWorkingHours = totalWorkingHours,
+                TotalWorkingHours = dayDataVM.TotalWorkingHours,
+                //WorkingHours = dayDataVM.WorkingHours,
+                //WorkingHours = standardWorkingHoursPerDay,
+                WorkingHours = totalWorkingHours,
+                FlexiTime = dayDataVM.FlexiTime,
+                MoreTime = dayDataVM.MoreTime,
+                AttendanceTime = dayDataVM.AttendanceTime,
+                AnnualLeave = dayDataVM.AnnualLeave,
+                SickLeave = dayDataVM.SickLeave,
+                LeaveOfAbsence = dayDataVM.LeaveOfAbsence,
+                Childcare = dayDataVM.Childcare,
+                Overtime = dayDataVM.Overtime,
+                InconvenientHours = dayDataVM.InconvenientHours,
+            };
+
+            var user = await _db.Users.FindAsync(userId);
+            if (user != null)
+            {
+                timeReport.Users = new List<User> { user };
+
+                _db.TimeHistories.Add(timeReport);
+                await _db.SaveChangesAsync();
+            }
+        }
+
+        
         public decimal CalculateWorkingHoursAsync(DayDataVM dayDataVM, decimal scheduledHoursPerWeek)
         {
             // Checking if StartWork, EndWork, StartBreak, and EndBreak are null or have default values
@@ -149,7 +115,7 @@ public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal sch
                 }
 
                 dayDataVM.Overtime = overtime;
-                
+
 
                 return workingHours;
             }
@@ -157,8 +123,8 @@ public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal sch
             {
                 // Calculate working hours 
                 TimeSpan workDuration = dayDataVM.EndWork - dayDataVM.StartWork;
-                TimeSpan lunchBreak = TimeSpan.FromHours(1); 
-                TimeSpan totalWorkDuration = workDuration - lunchBreak; 
+                TimeSpan lunchBreak = TimeSpan.FromHours(1);
+                TimeSpan totalWorkDuration = workDuration - lunchBreak;
                 decimal totalWorkHours = (decimal)totalWorkDuration.TotalHours;
 
                 const decimal standardWorkingHoursPerDay = 8;
@@ -175,10 +141,6 @@ public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal sch
                 return workingHours;
             }
         }
-
-
-
-
 
         public async Task<TimeHistory> GetTimeHistoryByIdAsync(int id)
         {
@@ -215,35 +177,6 @@ public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal sch
             await _db.SaveChangesAsync();
         }
 
-
-        ////  // Generate time report by days of the week
-        ////  public async Task<Dictionary<string, double>> GenerateTimeReportByDaysAsync(DateTime startDate, DateTime endDate)
-        ////  {
-        ////      // Initialize dictionary to store total hours for each day of the week
-        ////      var report = new Dictionary<string, double>
-        ////{
-        ////    { "Monday", 0 },
-        ////    { "Tuesday", 0 },
-        ////    { "Wednesday", 0 },
-        ////    { "Thursday", 0 },
-        ////    { "Friday", 0 }
-        ////};
-
-        ////      // Retrieve time entries within the specified date range
-        ////      var timeEntries = await _context.TimeHistories
-        ////          .Include(th => th.ProjectId)
-        ////          .Where(th => th.DateTime >= startDate && th.DateTime <= endDate)
-        ////          .ToListAsync();
-
-        ////      // Aggregate time entries by day of the week
-        ////      foreach (var timeEntry in timeEntries)
-        ////      {
-        ////          var dayOfWeek = timeEntry.DateTime.DayOfWeek.ToString();
-        ////          report[dayOfWeek] += (timeEntry.DateTime - timeEntry.DateTime.Date).TotalHours; // Assuming time is recorded in hours
-        ////      }
-
-        ////      return report;
-        ////  }
 
 
         public async Task<IEnumerable<TimeHistory>> GetTimeHistoriesAsync(string userId, string dateRange)
@@ -282,6 +215,41 @@ public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal sch
 
             return await query.ToListAsync();
         }
+
+
+
+
+
+        //Spurti
+        //TimeTrigger method
+
+        public void DeleteOldData()
+        {
+            try
+            {
+                // current date
+                DateTime fiveYearsAgo = DateTime.UtcNow.AddYears(-5);
+
+                // Query 
+                var oldData = _db.TimeHistories.Where(item => item.Date <= fiveYearsAgo);
+
+
+                // Remove
+                _db.TimeHistories.RemoveRange(oldData);
+
+                // Save changes 
+                _db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                //  exception
+                Console.WriteLine($"An error occurred while deleting old data: {ex.Message}");
+            }
+        }
+
+
+
+
 
 
 
