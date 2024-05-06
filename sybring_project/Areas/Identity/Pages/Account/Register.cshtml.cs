@@ -15,6 +15,9 @@ using Microsoft.AspNetCore.WebUtilities;
 using sybring_project.Data;
 using sybring_project.Models.Db;
 using sybring_project.Repos.Interfaces;
+using System.Net.Mail;
+using System.Net;
+using sybring_project.Models.Db.Email;
 
 namespace sybring_project.Areas.Identity.Pages.Account
 {
@@ -29,6 +32,8 @@ namespace sybring_project.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly ApplicationDbContext _db;
         private readonly IStatusService _statusService;
+
+
 
         public RegisterModel(
             UserManager<User> userManager,
@@ -46,6 +51,8 @@ namespace sybring_project.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             _db = db;
             _statusService = statusService;
+            _emailSender = emailSender;
+
         }
 
         /// <summary>
@@ -137,15 +144,15 @@ namespace sybring_project.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-
-
                     //Assigning user a role
                     await _userManager.AddToRoleAsync(user, "underconsult");
-                   
+
+                    // Confirming user's email
+                    await _userManager.ConfirmEmailAsync(user, await _userManager.GenerateEmailConfirmationTokenAsync(user));
 
                     // Redirect to admin index page
                     return Redirect("/User");
-                    
+
                 }
                 foreach (var error in result.Errors)
                 {
@@ -179,4 +186,8 @@ namespace sybring_project.Areas.Identity.Pages.Account
             return (IUserEmailStore<User>)_userStore;
         }
     }
+
+
 }
+
+

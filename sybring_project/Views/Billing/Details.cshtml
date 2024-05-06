@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Billing Details";
+    var image = Model.BlobLink;
 }
 
 <h1>Billing Details</h1>
@@ -9,24 +10,30 @@
 <div class="row">
     <div class="col-md-6">
         <dl class="row">
-            <dt class="col-sm-4">ID:</dt>
+            <dt class="col-sm-4 text-right">ID:</dt>
             <dd class="col-sm-8">@Model.Id</dd>
 
-            <dt class="col-sm-4">Description:</dt>
+            <dt class="col-sm-4 text-right">Description:</dt>
             <dd class="col-sm-8">@Model.Description</dd>
 
-            <dt class="col-sm-4">Cost:</dt>
+            <dt class="col-sm-4 text-right">Cost:</dt>
             <dd class="col-sm-8">@Model.Cost</dd>
 
-            <dt class="col-sm-4">Image Link:</dt>
-            <dd class="col-sm-8">@Model.ImageLink</dd>
-
-            <dt class="col-sm-4">Project ID:</dt>
+            <dt class="col-sm-4 text-right">Image Link:</dt>
             <dd class="col-sm-8">
-                @foreach (var item in @Model.ProjectId)
-                {
-                    @item.Name
-                }
+                <img src="@Model.BlobLink" class="card-img-top" alt="..." width="100px;">
+            </dd>
+
+            <dt class="col-sm-4 text-right">Project:</dt>
+            <dd class="col-sm-8">
+                <ul>
+                    @foreach (var item in @Model.ProjectId)
+                    {
+                        <li>
+                            @item.Name
+                        </li>
+                    }
+                </ul>
             </dd>
         </dl>
     </div>
