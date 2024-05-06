@@ -14,7 +14,7 @@
             <option value="">-- Select User --</option>
             @foreach (var user in Model)
             {
-                    <option value="@user.Id">@user.FirstName  </option>
+                    <option value="@user.Id">@user.FirstName @user.Email </option>
             }
         </select>
     </div>

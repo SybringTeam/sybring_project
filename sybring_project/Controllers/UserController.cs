@@ -337,7 +337,9 @@ namespace sybring_project.Controllers
 
                     await _emailSender.SendEmailAsync(userEmail, "You've been assigned to a project",
                     $"Hello {user.FirstName},\n\nYou've been assigned to the project: " +
-                    $"{projectName}.\n\nRegards,\n\n Sybring AB");
+                    $"{projectName}.\n\n" +
+                    $"Regards,\n\n " +
+                    $"Sybring AB");
 
 
                 }

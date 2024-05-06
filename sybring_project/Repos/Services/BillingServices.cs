@@ -78,6 +78,7 @@ namespace sybring_project.Repos.Services
             {
                 item.BillingId = null;
             }
+
             _db.Billings.Remove(delBilling);
             await _db.SaveChangesAsync();
             return delBilling;
@@ -123,9 +124,13 @@ namespace sybring_project.Repos.Services
 
         public async Task<Billing> GetBillingByIdAsync(int id)
         {
-            var billing = await _db.Billings.Include(b => b.ProjectId)
+            var billing = await _db.Billings
+                .Include(b => b.ProjectId)
                 .Include(b => b.Users)
                 .FirstOrDefaultAsync(b => b.Id == id);
+
+            billing.BlobLink = await GetBlobImageAsync(billing.ImageLink);
+
             return billing;
         }
 
