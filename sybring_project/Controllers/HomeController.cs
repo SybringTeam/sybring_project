@@ -42,5 +42,9 @@ namespace sybring_project.Controllers
             return View();
         }
 
+        public IActionResult FAQ()
+        {
+            return View();
+        }
     }
 }
