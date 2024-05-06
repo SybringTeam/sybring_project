@@ -11,33 +11,32 @@
         <div class="col-md-9">
             <div class="row mb-2">
                 <div class="col-6 label">Full Name: @Model.GetUser.FirstName @Model.GetUser.LastName</div>
-               
+
             </div>
-                     
-
-    </div>
-
-    <div class="row">
-        <div class="col-lg-3 col-md-4 label">Project</div>
-        <div class="col-lg-9 col-md-8">
-            <ul>
-                @foreach (var project in Model.AssignedProjects)
-                {
-
-                    <div class="row">
-                    <li>
-                        <div class="col">@project.Name </div>
-                    </li>
-            </div>
-
-
-                }
-
-               </ul>  
-          
 
         </div>
-       
+
+        <div class="row">
+            <div class="col-lg-3 col-md-4 label">Project</div>
+            <div class="col-lg-9 col-md-8">
+                <ul>
+                    @foreach (var project in Model.AssignedProjects)
+                    {
+
+                        <div class="row">
+                        <li>
+                            <div class="col">@project.Name </div>
+                        </li>
+                </div>
+
+
+                    }
+
+            </ul>
+
+
+        </div>
+
     </div>
 
     <div class="row">

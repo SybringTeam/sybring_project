@@ -18,7 +18,7 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class=" mb-2">
                         <div class="form-floating">
-                            <input asp-for="DateStamp" class="form-control" id="floatingDateStamp" placeholder="Date Stamp">
+                            <input asp-for="DateStamp" class="form-control" id="floatingDateStamp" placeholder="Date Stamp" type="date">
                             <label for="floatingDateStamp">Date Stamp</label>
                             <span asp-validation-for="DateStamp" class="text-danger"></span>
                         </div>
@@ -51,7 +51,7 @@
                         <div class="form-floating">
                             <input asp-for="Cost" class="form-control" id="floatingCost" placeholder="Cost">
                             <label for="floatingCost">Cost</label>
-                            <span asp-validation-for="Cost" class="text-danger">Enter The Cost Without VAT</span>
+                            <span asp-validation-for="Cost" class="text-danger">Enter The Cost Without VAT.</span>
                         </div>
                     </div>
                    
@@ -80,6 +80,6 @@
     }
 
 
-                                                    }
+ }
 
 </script>

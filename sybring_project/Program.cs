@@ -7,6 +7,7 @@ using sybring_project.Models.Db.Email;
 using sybring_project.Models.Seeding;
 using sybring_project.Repos.Interfaces;
 using sybring_project.Repos.Services;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,10 +20,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<User>(options => 
+
+builder.Services.AddDefaultIdentity<User>(options =>
 options.SignIn.RequireConfirmedAccount = false)
      .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdminRole", policy =>
@@ -79,6 +82,8 @@ builder.Services.AddScoped<ICountryServices, CountryServices>();
 
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+
 
 
 

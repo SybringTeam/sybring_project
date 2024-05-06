@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    var sortedUser = Model.OrderBy(u => u.FirstName);
 }
 
 <div class="section">
@@ -33,7 +34,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var user in Model)
+                    @foreach (var user in sortedUser)
                     {
                         <tr>
 
