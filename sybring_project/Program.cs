@@ -72,8 +72,6 @@ builder.Services.AddHttpClient("countries", config =>
 
 
 
-
-
 //Add Services:
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IProjectServices, ProjectServices>();
@@ -82,6 +80,7 @@ builder.Services.AddScoped<IHolidayService, HolidayService>();
 builder.Services.AddScoped<ICompanyServices, CompanyServices>();
 builder.Services.AddScoped<IBillingServices, BillingServices>();
 builder.Services.AddScoped<IStatusService, StatusService>();
+builder.Services.AddScoped<ICountryServices, CountryServices>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 

@@ -25,7 +25,7 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
         private readonly ApplicationDbContext _db;
         private readonly ICountryServices _countryServices;
 
-
+         
         public PersonalDataModel(UserManager<User> userManager,
             ILogger<PersonalDataModel> logger, IUserServices userServices, ApplicationDbContext db,
             ICountryServices countryServices)
@@ -40,8 +40,6 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
         [BindProperty]
         public User UserData { get; set; }
         public List<Datum> ApiCountryNames { get; set; }
-
-
 
 
         public async Task<IActionResult> OnGet()
