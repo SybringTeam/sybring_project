@@ -38,13 +38,12 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
 
             AssignedProjects = await _db.Projects
                 .Include(p => p.Users)
-                .Where(p => p.Users.Any(p=> p.Id == GetUser.Id))
+                .Where(p => p.Users.Any(p => p.Id == GetUser.Id))
                 .ToListAsync();
-               
+
             return Page();
         }
 
     }
 
 }
-
