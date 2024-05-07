@@ -222,8 +222,6 @@ namespace sybring_project.Controllers
 
 
 
-
-
         public async Task<IActionResult> Delete(int id)
         {
             await _timeService.DeleteTimeHistoryAsync(id);
