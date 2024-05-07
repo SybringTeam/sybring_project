@@ -50,9 +50,6 @@ namespace sybring_project.Repos.Services
             await _db.SaveChangesAsync();
         }
 
-
-
-
         //Spurti
 
         public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal scheduledHoursPerWeek)
@@ -153,84 +150,6 @@ namespace sybring_project.Repos.Services
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //good one
-        //public decimal CalculateWorkingHoursAsync(DayDataVM dayDataVM, decimal scheduledHoursPerWeek)
-        //{
-        //    // Checking if StartWork, EndWork, StartBreak, and EndBreak are null or have default values
-        //    if (dayDataVM.StartWork == TimeSpan.Zero &&
-        //        dayDataVM.EndWork == TimeSpan.Zero &&
-        //        dayDataVM.StartBreak == TimeSpan.Zero &&
-        //        dayDataVM.EndBreak == TimeSpan.Zero)
-        //    {
-        //        // Calculate working hours based on TotalWorkingHours input by user
-        //        decimal totalWorkHours = dayDataVM.TotalWorkingHours;
-        //        const decimal standardWorkingHoursPerDay = 8;
-        //        decimal workingHours = Math.Min(totalWorkHours, standardWorkingHoursPerDay);
-
-        //        decimal overtime = 0;
-        //        if (totalWorkHours > standardWorkingHoursPerDay)
-        //        {
-        //            overtime = totalWorkHours - standardWorkingHoursPerDay;
-
-        //        }
-
-        //        dayDataVM.Overtime = overtime;
-
-
-        //        return workingHours;
-        //    }
-        //    else
-        //    {
-        //        // Calculate working hours 
-        //        TimeSpan workDuration = dayDataVM.EndWork - dayDataVM.StartWork;
-        //        TimeSpan lunchBreak = TimeSpan.FromHours(1);
-        //        TimeSpan totalWorkDuration = workDuration - lunchBreak;
-        //        decimal totalWorkHours = (decimal)totalWorkDuration.TotalHours;
-
-        //        const decimal standardWorkingHoursPerDay = 8;
-        //        decimal workingHours = Math.Min(totalWorkHours, standardWorkingHoursPerDay);
-
-        //        decimal overtime = 0;
-        //        if (totalWorkHours > standardWorkingHoursPerDay)
-        //        {
-        //            overtime = totalWorkHours - standardWorkingHoursPerDay;
-        //        }
-
-        //        dayDataVM.Overtime = overtime;
-
-        //        return workingHours;
-        //    }
-        //}
-
-
-
-
-
-
         public async Task<TimeHistory> GetTimeHistoryByIdAsync(int id)
         {
             var time = await _db.TimeHistories
@@ -304,6 +223,46 @@ namespace sybring_project.Repos.Services
 
             return await query.ToListAsync();
         }
+
+        public async Task<IEnumerable<TimeHistory>> GetHistoryByWeekNUser(string userId, string dateRange)
+        {
+            DateTime startDate;
+            DateTime endDate = DateTime.Now;
+
+            switch (dateRange.ToLower())
+            {
+                case "week":
+                    startDate = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek + (int)DayOfWeek.Monday);
+                    endDate = startDate.AddDays(6); // Last day of the week
+                    break;
+                default:
+                    throw new ArgumentException("Invalid date range for weekly history retrieval");
+            }
+
+            var currentUser = await _userManager.FindByIdAsync(userId);
+            IQueryable<TimeHistory> query;
+
+            if (await _userManager.IsInRoleAsync(currentUser, "Admin"))
+            {
+                // If the user is an admin, retrieve time histories for any user within the specified week
+                query = _db.TimeHistories
+                    .Include(t => t.Users)
+                    .Where(t => t.Date >= startDate && t.Date <= endDate);
+            }
+            else
+            {
+                // If the user is not an admin, retrieve time histories only for the current user within the specified week
+                query = _db.TimeHistories
+                    .Include(t => t.Users)
+                    .Where(t => t.Users.Any(u => u.Id == userId) && t.Date >= startDate && t.Date <= endDate);
+            }
+
+            var timeHistories = await query.ToListAsync();
+
+            return timeHistories;
+        }
+
+
 
 
 
