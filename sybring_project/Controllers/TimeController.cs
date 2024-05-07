@@ -52,6 +52,10 @@ namespace sybring_project.Controllers
             var userId = _userManager.GetUserId(User);
             var timeHistories = await _timeService.GetTimeListAsync(userId);
 
+            // Group time histories by month
+            var timeHistoriesByMonth = timeHistories.GroupBy(th => th.Date.ToString("yyyy-MM"))
+                                                     .ToDictionary(g => g.Key, g => g.ToList());
+
             var userList = await _userManager.Users.Select(u => new SelectListItem
             {
                 Value = u.Id,
@@ -59,20 +63,20 @@ namespace sybring_project.Controllers
             }).ToListAsync();
 
             var dateRanges = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "week", Text = "Week" },
-                new SelectListItem { Value = "month", Text = "Month" },
-                new SelectListItem { Value = "day", Text = "Day" }
-            };
+    {
+        new SelectListItem { Value = "week", Text = "Week" },
+        new SelectListItem { Value = "month", Text = "Month" },
+        new SelectListItem { Value = "day", Text = "Day" }
+    };
 
-            var currentUser = $"{User.Identity.Name}"; // Assuming user name is stored in User.Identity.Name
+            var currentUser = $"{User.Identity.Name}";
 
             var viewModel = new TimeHistoryViewModel
             {
-                TimeHistories = timeHistories,
+                TimeHistoriesByMonth = timeHistoriesByMonth, // Pass grouped data to the view model
                 UserList = new SelectList(userList, "Value", "Text"),
                 DateRanges = new SelectList(dateRanges, "Value", "Text"),
-                CurrentUser = currentUser // Pass current user to the view model
+                CurrentUser = currentUser
             };
 
             return View(viewModel);
@@ -84,23 +88,30 @@ namespace sybring_project.Controllers
 
 
 
-        [HttpGet]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, string month)
         {
-            if (id == null)
+            if (id != null)
             {
-                return NotFound();
+                // Retrieve details for a specific time history based on id
+                var timeHistory = await _timeService.GetTimeHistoryByIdAsync(id.Value);
+                if (timeHistory == null)
+                {
+                    return NotFound();
+                }
+                return View(timeHistory);
             }
-
-            var timeHistory = await _context.TimeHistories.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (timeHistory == null)
+            else if (!string.IsNullOrEmpty(month))
             {
-                return NotFound();
+                // Retrieve a list of time histories for the specified month
+                var timeHistories = await _timeService.GetTimeHistoriesForMonthAsync(month);
+                return View(timeHistories); // Render the "Details" view with the list of time histories
             }
-
-            return View(timeHistory);
+            else
+            {
+                return BadRequest("Invalid parameters provided.");
+            }
         }
+
 
 
 
