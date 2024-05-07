@@ -37,24 +37,24 @@ namespace sybring_project.Repos.Services
                 ImageLink = billingVM.ImageLink,
                 Cost = billingVM.Cost,
                 DateStamp = billingVM.DateStamp,
-              
+
                 ProjectId = new List<Project>(),
                 Users = new List<User>()
 
 
             };
-           
+
             var project = await _db.Projects.FindAsync(projectId);
             billing.ProjectId = new List<Project> { project };
 
             var user = await _db.Users.FindAsync(userId);
-            if (user != null) 
+            if (user != null)
             {
                 billing.Users = new List<User> { user };
                 await _db.AddAsync(billing);
                 await _db.SaveChangesAsync();
             }
-                     
+
         }
 
         public async Task BillingUserAsync(string userId, int billingId)
@@ -88,12 +88,14 @@ namespace sybring_project.Repos.Services
         {
             var currentUser = await _userManager.FindByIdAsync(userId);
 
-            if (await _userManager.IsInRoleAsync(currentUser, "Admin, superadmin"))
+            if (await _userManager.IsInRoleAsync(currentUser, "admin") ||
+                await _userManager.IsInRoleAsync(currentUser, "superadmin"))
             {
-                // If the user is an admin, retrieve all billing data
+                // If the user is an admin , retrieve all billing data
                 var viewAll = await _db.Billings
                     .Include(b => b.Users)
                     .Include(b => b.ProjectId)
+                    .OrderByDescending(b => b.DateStamp)
                     .ToListAsync();
 
                 foreach (var item in viewAll)
@@ -102,13 +104,13 @@ namespace sybring_project.Repos.Services
                 }
                 return viewAll;
             }
-            else
+            else if (await _userManager.IsInRoleAsync(currentUser, "underconsult"))
             {
-                // If the user is not an admin, retrieve only their own billing data
+                // If the user is underconsult, retrieve only their own billing data
                 var userBilling = await _db.Billings
                     .Include(b => b.Users)
                     .Include(b => b.ProjectId)
-                  .OrderByDescending(b => b.DateStamp)
+                    .OrderByDescending(b => b.DateStamp)
                     .Where(b => b.Users.Any(u => u.Id == userId))
                     .ToListAsync();
 
@@ -119,7 +121,13 @@ namespace sybring_project.Repos.Services
 
                 return userBilling;
             }
+            else
+            {
+                // If the user is not in any of the specified roles, return an empty list
+                return new List<Billing>();
+            }
         }
+
 
 
         public async Task<Billing> GetBillingByIdAsync(int id)

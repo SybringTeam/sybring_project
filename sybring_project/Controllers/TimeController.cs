@@ -126,16 +126,25 @@ namespace sybring_project.Controllers
                 var dayData = new DayDataVM
                 {
                     Date = currentDateInLoop,
-                    StartWork = TimeSpan.FromHours(8), // Set default values for StartWork, EndWork, etc.
-                    EndWork = TimeSpan.FromHours(17),
-                    StartBreak = TimeSpan.FromHours(12),
-                    EndBreak = TimeSpan.FromHours(13),
+                  
+                    // Set default values for StartWork, EndWork, StartBreak, and EndBreak
+                    StartWork = IsWeekend(currentDateInLoop) ? TimeSpan.Zero : TimeSpan.FromHours(8),
+                    EndWork = IsWeekend(currentDateInLoop) ? TimeSpan.Zero : TimeSpan.FromHours(17),
+                    StartBreak = IsWeekend(currentDateInLoop) ? TimeSpan.Zero : TimeSpan.FromHours(12),
+                    EndBreak = IsWeekend(currentDateInLoop) ? TimeSpan.Zero : TimeSpan.FromHours(13),
 
                 };
                 model.Add(dayData);
             }
 
+          
             return View(model);
+        }
+
+        // Function to check if the given date is a weekend (Saturday or Sunday)
+        public bool IsWeekend(DateTime date)
+        {
+            return date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
         }
 
 

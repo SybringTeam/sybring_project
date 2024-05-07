@@ -23,7 +23,8 @@ namespace sybring_project.Repos.Interfaces
 
         Task<string> UploadImageFileAsync(BillingVM billingVM);
 
-        
+     
+
 
     }
 }
