@@ -10,5 +10,7 @@ namespace sybring_project.Models.ViewModels
         public SelectList DateRanges { get; set; }
         public string CurrentUser { get; set; }
         public IEnumerable<TimeHistory> TimeHistories { get; set; }
+
+        public Dictionary<string, List<TimeHistory>> TimeHistoriesByMonth { get; set; }
     }
 }
