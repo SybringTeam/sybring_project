@@ -303,7 +303,12 @@ namespace sybring_project.Controllers
 
 
 
-
+        [HttpGet]
+        public async Task<IActionResult> GetTimeHistoriesByWeek(string userId)
+        {
+            var timeHistories = await _timeService.GetHistoryByWeekNUser(userId, "week");
+            return Ok(timeHistories);
+        }
 
 
 
