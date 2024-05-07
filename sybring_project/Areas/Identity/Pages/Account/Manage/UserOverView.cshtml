@@ -10,57 +10,57 @@
     <div class="row mb-3">
         <div class="col-md-9">
             <div class="row mb-2">
-                <div class="col-6 label">Full Name: @Model.GetUser.FirstName @Model.GetUser.LastName</div>
+                <div class=" label">Full Name: @Model.GetUser.FirstName @Model.GetUser.LastName</div>
 
             </div>
 
-        </div>
 
-        <div class="row">
-            <div class="col-lg-3 col-md-4 label">Project</div>
-            <div class="col-lg-9 col-md-8">
-                <ul>
-                    @foreach (var project in Model.AssignedProjects)
-                    {
+
+            <div class="row">
+                <div>Project</div>
+                <div class="col-6 label">
+                    <ul>
+                        @foreach (var project in Model.AssignedProjects)
                         {
-                            <div class="row">
-                            <li>
-                                <div class="col">@project.Name </div>
-                            </li>
-                    </div>
+                            {
 
+                                <li>
+                                    <div class="col">@project.Name </div>
+                                </li>
+
+
+                            }
                         }
-                    }
-            </ul>
+                    </ul>
 
 
+
+                </div>
+            </div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-6 label">Address:@Model.GetUser.Address</div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-6 label">Phone:@Model.GetUser.PhoneNumber</div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-6 label">Email:@Model.GetUser.Email</div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-6 label">ICE Name:@Model.GetUser.ICEContactName</div>
+
+        </div>
+        <div class="row mb-2">
+            <div class="col-6 label">ICE Phone:@Model.GetUser.UserICE</div>
 
         </div>
     </div>
-
 </div>
-<div class="row mb-2">
-    <div class="col-6 label">Address:@Model.GetUser.Address</div>
-
-</div>
-<div class="row mb-2">
-    <div class="col-6 label">Phone:@Model.GetUser.PhoneNumber</div>
-
-</div>
-<div class="row mb-2">
-    <div class="col-6 label">Email:@Model.GetUser.Email</div>
-
-</div>
-<div class="row mb-2">
-    <div class="col-6 label">ICE Name:@Model.GetUser.ICEContactName</div>
-
-</div>
-<div class="row mb-2">
-    <div class="col-6 label">ICE Phone:@Model.GetUser.UserICE</div>
-
-</div>
-    </div>
-
 
 </div>
 
