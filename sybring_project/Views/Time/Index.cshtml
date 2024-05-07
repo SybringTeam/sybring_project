@@ -69,6 +69,13 @@
                                     <td>@userFullName</td>
                                     <td>@DateTime.ParseExact(monthGroup.Key, "yyyy-MM", CultureInfo.InvariantCulture).ToString("MMMM yyyy")</td>
                                     <td>@monthGroup.Value.Sum(th => th.TotalWorkingHours)</td>
+                                    <!-- Add a link/button to view details -->
+                                    <td>
+                                        <form asp-controller="Time" asp-action="Details" method="get">
+                                            <input type="hidden" name="month" value="@monthGroup.Key" />
+                                            <button type="submit" class="btn btn-link">View Details</button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 displayedUsers.Add(userFullName); // Add the user to the displayed list
                             }

@@ -87,23 +87,30 @@ namespace sybring_project.Controllers
 
 
 
-        [HttpGet]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, string month)
         {
-            if (id == null)
+            if (id != null)
             {
-                return NotFound();
+                // Retrieve details for a specific time history based on id
+                var timeHistory = await _timeService.GetTimeHistoryByIdAsync(id.Value);
+                if (timeHistory == null)
+                {
+                    return NotFound();
+                }
+                return View(timeHistory);
             }
-
-            var timeHistory = await _context.TimeHistories.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (timeHistory == null)
+            else if (!string.IsNullOrEmpty(month))
             {
-                return NotFound();
+                // Retrieve a list of time histories for the specified month
+                var timeHistories = await _timeService.GetTimeHistoriesForMonthAsync(month);
+                return View(timeHistories); // Render the "Details" view with the list of time histories
             }
-
-            return View(timeHistory);
+            else
+            {
+                return BadRequest("Invalid parameters provided.");
+            }
         }
+
 
 
 
