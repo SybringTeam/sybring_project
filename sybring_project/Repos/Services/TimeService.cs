@@ -5,6 +5,8 @@ using sybring_project.Models.Db;
 using sybring_project.Models.ViewModels;
 using sybring_project.Repos.Interfaces;
 using System.Threading.Tasks;
+using System.Globalization;
+
 
 namespace sybring_project.Repos.Services
 {
@@ -262,8 +264,26 @@ namespace sybring_project.Repos.Services
             return timeHistories;
         }
 
+        //Edan Details by month
+        public async Task<IEnumerable<TimeHistory>> GetTimeHistoriesForMonthAsync(string month)
+        {
+            // Parse the month string to get the year and month components
+            if (!DateTime.TryParseExact(month, "yyyy-MM", CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedMonth))
+            {
+                throw new ArgumentException("Invalid month format.");
+            }
 
+            var startDate = new DateTime(parsedMonth.Year, parsedMonth.Month, 1);
+            var endDate = startDate.AddMonths(1).AddDays(-1); // Last day of the month
 
+            // Retrieve time histories for the specified month from the database
+            var timeHistories = await _db.TimeHistories
+                .Include(t => t.Users)
+                .Where(t => t.Date >= startDate && t.Date <= endDate)
+                .ToListAsync();
+
+            return timeHistories;
+        }
 
 
 

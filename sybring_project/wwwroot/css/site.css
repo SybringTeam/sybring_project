@@ -1230,3 +1230,8 @@ h6 {
     padding: 0px 0px;
 }
 
+
+div.dt-container select.dt-input {
+    padding: 4px;
+    margin-right: 10px;
+}

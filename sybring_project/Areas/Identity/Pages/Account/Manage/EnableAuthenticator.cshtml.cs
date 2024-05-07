@@ -181,9 +181,16 @@ namespace sybring_project.Areas.Identity.Pages.Account.Manage
             return string.Format(
                 CultureInfo.InvariantCulture,
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("Microsoft.AspNetCore.Identity.UI"),
+                _urlEncoder.Encode("Sybring_TimeReport"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
+
+       //     return string.Format(
+       //AuthenticatorUriFormat,
+       //_urlEncoder.Encode("Razor Pages"),
+       //_urlEncoder.Encode(email),
+       //unformattedKey);
+
         }
     }
 }

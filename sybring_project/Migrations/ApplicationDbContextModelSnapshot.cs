@@ -17,7 +17,7 @@ namespace sybring_project.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -201,7 +201,7 @@ namespace sybring_project.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("StatusUser");
+                    b.ToTable("StatusUser", (string)null);
                 });
 
             modelBuilder.Entity("TimeHistoryUser", b =>

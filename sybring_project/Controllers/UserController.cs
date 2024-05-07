@@ -136,10 +136,16 @@ namespace sybring_project.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> RemoveStatusToUser(string userId, int statusId)
+        {
+            await _userServices.RemoveStatusFromUserAsync(userId, statusId);
+            return RedirectToAction("Index");
+        }
+
+
         [Authorize(Roles = "admin, superadmin")]
-
-
-        public async Task<IActionResult> RoleView(string roleName)
+         public async Task<IActionResult> RoleView(string roleName)
         {
             ViewBag.RoleName = roleName; // Pass the roleName to the view
 
@@ -248,6 +254,7 @@ namespace sybring_project.Controllers
 
             return RedirectToAction("Index", new { id = userId });
         }
+
         public async Task<IActionResult> Delete(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -330,7 +337,9 @@ namespace sybring_project.Controllers
 
                     await _emailSender.SendEmailAsync(userEmail, "You've been assigned to a project",
                     $"Hello {user.FirstName},\n\nYou've been assigned to the project: " +
-                    $"{projectName}.\n\nRegards,\n\n Sybring AB");
+                    $"{projectName}.\n\n" +
+                    $"Regards,\n\n " +
+                    $"Sybring AB");
 
 
                 }
@@ -366,6 +375,27 @@ namespace sybring_project.Controllers
 
 
 
+
+        public async Task<IActionResult> ConfirmEmail(string userId) 
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) 
+            {
+                return NotFound();
+            }
+
+            user.EmailConfirmed = true;
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("EmailConfirmed");
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
 
     }
 
