@@ -1,4 +1,4 @@
-﻿@model IEnumerable<sybring_project.Models.Db.Billing>
+@model IEnumerable<sybring_project.Models.Db.Billing>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,6 +9,20 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
+
+<div>
+
+    @if (User.IsInRole("admin") || User.IsInRole("superadmin"))
+{
+        <div class="mb-3">
+            <label for="searchUser">Search User:</label>
+            <input type="text" id="searchUser" class="form-control" placeholder="Enter user name" onkeyup="filterUsers()">
+        </div>
+}
+
+    <div id="billingInfo">
+
+
 
 <table class="table table-responsive" id="Mytable">
     <thead>
@@ -28,7 +42,7 @@
             <th>
                 Project Name
             </th>
-           
+
             <th>
                 User Name
             </th>
@@ -46,7 +60,7 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td style="width:100px;">
-               
+                        <a href="@item.BlobLink" download>
                     <img src="@item.BlobLink" class="card-img-top" alt="...">
                 </td>
                 <td>
@@ -54,20 +68,20 @@
                 </td>
                 <td>
 
-                
-                @if (item.ProjectId != null && item.ProjectId.Any())
-                {
-                    <ul>
-                        @foreach (var user in item.ProjectId)
-                        {
+
+                    @if (item.ProjectId != null && item.ProjectId.Any())
+                    {
+                        <ul>
+                            @foreach (var user in item.ProjectId)
+                            {
                                 <li>@user.Name</li>
-                        }
-                    </ul>
-                }
-                else
-                {
-                    <span>No Project associated</span>
-                }
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No Project associated</span>
+                    }
                 </td>
 
                 <td>
@@ -78,7 +92,7 @@
                             {
                                 <li>@user.FirstName @user.LastName</li>
                                 <li>@user.UserName</li>
-                                
+
                             }
                         </ul>
                     }
@@ -97,3 +111,26 @@
         }
     </tbody>
 </table>
+</div>
+</div>
+
+<script>
+    function filterUsers() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchUser");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("Mytable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[5]; // Assuming the User Name column is the 6th column (index 5)
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>

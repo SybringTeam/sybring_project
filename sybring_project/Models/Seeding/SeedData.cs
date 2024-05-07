@@ -53,7 +53,6 @@ namespace sybring_project.Models.Seeding
             var useradmin6 = await userManager.FindByEmailAsync("posh@mail.com");
             var userarchive = await userManager.FindByEmailAsync("archive@mail.com");
             var realuser = await userManager.FindByEmailAsync("dawood.rizwan@outlook.com");
-            var realuser2 = await userManager.FindByEmailAsync("fidel@mail.com");
             if (useradmin is null)
             {
                 useradmin = new User
@@ -167,25 +166,10 @@ namespace sybring_project.Models.Seeding
                     EmailConfirmed = true,
                     FirstName = "Real",
                     LastName = "User",
-
+                    
 
                 };
                 await userManager.CreateAsync(realuser, "Admin_2024");
-            }
-            if (realuser2 is null)
-            {
-
-                realuser = new User
-                {
-                    UserName = "fidel@mail.com",
-                    Email = "fidel@mail.com",
-                    EmailConfirmed = true,
-                    FirstName = "Fidel",
-                    LastName = "Posh",
-
-
-                };
-                await userManager.CreateAsync(realuser2, "Admin_2024");
             }
             await userManager.AddToRoleAsync(useradmin, "admin");
             await userManager.AddToRoleAsync(useradmin2, "admin");
@@ -196,7 +180,6 @@ namespace sybring_project.Models.Seeding
             await userManager.AddToRoleAsync(user, "superadmin");
             await userManager.AddToRoleAsync(userarchive, "archive");
             await userManager.AddToRoleAsync(realuser, "underconsult");
-            await userManager.AddToRoleAsync(realuser2, "underconsult");
 
         }
         private async  static Task SeedProject(ApplicationDbContext project)

@@ -1,15 +1,18 @@
 ﻿
 $(document).ready(function () {
     $('#myTable').DataTable({
-        responsive: true,
         "scrollY": "600px",
         "scrollCollapse": true,
         "paging": true,
         "searching": true,
-        "select": true
-        
+        "select": true,
+        "buttons": [
+            { extend: 'copy', className: 'copyButton' },
+            { extend: 'excel', className: 'excelButton' }
+        ]
     });
 });
+
 
 
 

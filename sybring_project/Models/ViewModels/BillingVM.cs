@@ -7,6 +7,8 @@ namespace sybring_project.Models.ViewModels
     {
         public int Id { get; set; }
 
+        public string FullName { get; set; }
+
         public DateTime DateStamp { get; set; } = DateTime.Now;
         public string? ImageLink { get; set; }
 

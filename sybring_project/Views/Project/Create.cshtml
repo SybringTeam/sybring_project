@@ -8,7 +8,7 @@
     <div class="container col-md-6">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Add Project</h5>
+                <h5 class="card-title">Create a new project</h5>
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -20,7 +20,7 @@
 
                     <div class="mb-3">
                         <label asp-for="Description" class="control-label">Task Description</label>
-                        <input asp-for="Description" class="form-control" />
+                        <textarea asp-for="Description" class="form-control" id="floatingDescription" style="height: 70px;"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
 
@@ -35,7 +35,7 @@
 
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class=" btn btn-outline-primary">Back to List</a>
 </div>
 
 @section Scripts {

@@ -1,6 +1,19 @@
 ﻿@model IEnumerable<sybring_project.Models.Db.User>
 
 <h1>@ViewData["Title"]</h1>
+@if (ViewBag.RoleName == "archive")
+{
+    <div class="card-title p-3">
+        <h2><strong> Archived List </strong></h2>
+    </div>
+}
+else
+{
+    <div class="card-title p-3">
+        <h2><strong> Admin List </strong></h2>
+    </div>
+}
+
 
 <div class="card p-3">
     <table class="table" id="Mytable">
@@ -8,7 +21,14 @@
             <tr>
                 <th>Full Name</th>
                 <th>Email</th>
-                <th>Actions</th>
+                @if (ViewBag.RoleName == "archive")
+                {
+                    <th>Actions</th>
+                }
+                else
+                {
+                    
+                }
             </tr>
         </thead>
         <tbody>
@@ -26,13 +46,13 @@
                     <td>
                         @if (ViewBag.RoleName == "archive")
                         {
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                           
                             <a asp-action="Delete" asp-route-id="@item.Id">| Restore </a>
                             <a asp-action="TrueDelete" asp-route-id="@item.Id">| Delete </a>
                         }
                         else
                         {
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            
                         }
                     </td>
                 </tr>
@@ -41,7 +61,7 @@
     </table>
 </div>
 <div>
-    <a asp-action="Index" class="btn btn-primary">Back to all Users</a>
+    <a asp-action="Index" class="btn btn-primary">Back to user List</a>
     <a asp-action="RoleView" asp-route-roleName="admin" class="btn btn-primary">View all Admins</a>
     <a asp-action="RoleView" asp-route-roleName="archive" class="btn btn-primary">View all Archived Users</a>
 </div>

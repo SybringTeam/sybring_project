@@ -28,12 +28,12 @@ namespace sybring_project.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IUserServices _userServices;
         private readonly IHolidayService _holidayService;
-
+        private readonly ApplicationDbContext _db;
 
 
         public TimeController(ApplicationDbContext context,
             ITimeService timeService, UserManager<User> userManager,
-            IUserServices userServices, IHolidayService holidayService)
+            IUserServices userServices, IHolidayService holidayService, ApplicationDbContext db)
         {
 
             _timeService = timeService;
@@ -41,6 +41,7 @@ namespace sybring_project.Controllers
             _userManager = userManager;
             _userServices = userServices;
             _holidayService = holidayService;
+            _db = db;
 
 
 
@@ -160,9 +161,37 @@ namespace sybring_project.Controllers
 
 
 
+        //good work without validation
 
         //[Authorize(Roles = "Admin,underconsult")]
+        //[HttpPost]
+        //public async Task<IActionResult> Create(List<DayDataVM> weekData, decimal scheduledHoursPerWeek)
+        //{
+        //    if (weekData == null || weekData.Count == 0)
+        //    {
+        //        return BadRequest("No data provided.");
+        //    }
+
+        //    var userId = _userManager.GetUserId(User);
+
+        //    foreach (var dayData in weekData)
+        //    {
+
+        //        // Add the report
+        //        await _timeService.AddReportAsync(dayData, userId, scheduledHoursPerWeek);
+
+        //    }
+
+        //    return RedirectToAction("Index");
+        //}
+
+
+
+
+        //recent work for validation
+
         [HttpPost]
+        [Authorize(Roles = "Admin, underconsult")]
         public async Task<IActionResult> Create(List<DayDataVM> weekData, decimal scheduledHoursPerWeek)
         {
             if (weekData == null || weekData.Count == 0)
@@ -172,16 +201,37 @@ namespace sybring_project.Controllers
 
             var userId = _userManager.GetUserId(User);
 
+            // Fetching existing time reports for the user
+            var existingTimeReportsForUser = await _db.TimeHistories
+                .Include(t => t.Users)
+                .Where(t => t.Users.Any(u => u.Id == userId))
+                .ToListAsync();
+
+            // Checking if any time reports already exist
+            var existingTimeReports = existingTimeReportsForUser
+                .Where(t => weekData.Any(d => d.Date.Date == t.Date.Date))
+                .ToList();
+
+            if (existingTimeReports.Count > 0)
+            {
+                ModelState.AddModelError("", "A time report already exists. You cannot submit a new report for the selected week.");
+                return View("Create", weekData); // Return the view with validation errors
+            }
+
             foreach (var dayData in weekData)
             {
-
-                // Add the report
+                // Adding the report to database
                 await _timeService.AddReportAsync(dayData, userId, scheduledHoursPerWeek);
-
             }
 
             return RedirectToAction("Index");
         }
+
+
+
+
+
+
 
         public async Task<IActionResult> Delete(int id)
         {
@@ -189,6 +239,12 @@ namespace sybring_project.Controllers
             return RedirectToAction("Index");
 
         }
+
+
+
+
+
+
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)

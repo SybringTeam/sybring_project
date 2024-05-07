@@ -7,6 +7,7 @@ using sybring_project.Models.Db.Email;
 using sybring_project.Models.Seeding;
 using sybring_project.Repos.Interfaces;
 using sybring_project.Repos.Services;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,10 +20,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<User>(options => 
+
+builder.Services.AddDefaultIdentity<User>(options =>
 options.SignIn.RequireConfirmedAccount = false)
      .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdminRole", policy =>
@@ -38,6 +41,8 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequireUppercase = false;
     options.Password.RequiredLength = 6;
     options.Password.RequiredUniqueChars = 1;
+
+  
 
     // Lockout settings.
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -59,8 +64,10 @@ builder.Services.AddHttpClient("hoilday", config =>
     config.BaseAddress = new Uri(builder.Configuration["MyHoildayAPIAddress"]);
 });
 
-
-
+builder.Services.AddHttpClient("countries", config =>
+{
+    config.BaseAddress = new Uri(builder.Configuration["MyCountryAPIAddress"]);
+});
 
 
 
@@ -73,8 +80,12 @@ builder.Services.AddScoped<IHolidayService, HolidayService>();
 builder.Services.AddScoped<ICompanyServices, CompanyServices>();
 builder.Services.AddScoped<IBillingServices, BillingServices>();
 builder.Services.AddScoped<IStatusService, StatusService>();
+builder.Services.AddScoped<ICountryServices, CountryServices>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+
+
 
 
 
