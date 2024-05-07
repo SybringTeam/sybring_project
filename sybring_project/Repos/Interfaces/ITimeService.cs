@@ -32,11 +32,12 @@ namespace sybring_project.Repos.Interfaces
         //Task<ProjectTimeReport> ProjectWorkingHoursAsync();
 
         //Task<Dictionary<string, double>> GenerateTimeReportByDaysAsync(DateTime startDate, DateTime endDate);
-        
-        
-            // ... (andra metoder)
 
-            Task<IEnumerable<TimeHistory>> GetTimeHistoriesAsync(string userId, string dateRange);
+        Task<IEnumerable<TimeHistory>> GetTimeHistoriesAsync(string userId, string dateRange);
+        Task<IEnumerable<TimeHistory>> GetHistoryByWeekNUser(string userId, string dateRange);
+        Task<IEnumerable<TimeHistory>> GetTimeHistoriesForMonthAsync(string month);
+
+
 
 
         void DeleteOldData();  //TimeTrigger method

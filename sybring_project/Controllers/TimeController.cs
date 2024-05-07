@@ -28,12 +28,12 @@ namespace sybring_project.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IUserServices _userServices;
         private readonly IHolidayService _holidayService;
-
+        private readonly ApplicationDbContext _db;
 
 
         public TimeController(ApplicationDbContext context,
             ITimeService timeService, UserManager<User> userManager,
-            IUserServices userServices, IHolidayService holidayService)
+            IUserServices userServices, IHolidayService holidayService, ApplicationDbContext db)
         {
 
             _timeService = timeService;
@@ -41,6 +41,7 @@ namespace sybring_project.Controllers
             _userManager = userManager;
             _userServices = userServices;
             _holidayService = holidayService;
+            _db = db;
 
 
 
@@ -51,6 +52,10 @@ namespace sybring_project.Controllers
             var userId = _userManager.GetUserId(User);
             var timeHistories = await _timeService.GetTimeListAsync(userId);
 
+            // Group time histories by month
+            var timeHistoriesByMonth = timeHistories.GroupBy(th => th.Date.ToString("yyyy-MM"))
+                                                     .ToDictionary(g => g.Key, g => g.ToList());
+
             var userList = await _userManager.Users.Select(u => new SelectListItem
             {
                 Value = u.Id,
@@ -58,20 +63,20 @@ namespace sybring_project.Controllers
             }).ToListAsync();
 
             var dateRanges = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "week", Text = "Week" },
-                new SelectListItem { Value = "month", Text = "Month" },
-                new SelectListItem { Value = "day", Text = "Day" }
-            };
+    {
+        new SelectListItem { Value = "week", Text = "Week" },
+        new SelectListItem { Value = "month", Text = "Month" },
+        new SelectListItem { Value = "day", Text = "Day" }
+    };
 
-            var currentUser = $"{User.Identity.Name}"; // Assuming user name is stored in User.Identity.Name
+            var currentUser = $"{User.Identity.Name}";
 
             var viewModel = new TimeHistoryViewModel
             {
-                TimeHistories = timeHistories,
+                TimeHistoriesByMonth = timeHistoriesByMonth, // Pass grouped data to the view model
                 UserList = new SelectList(userList, "Value", "Text"),
                 DateRanges = new SelectList(dateRanges, "Value", "Text"),
-                CurrentUser = currentUser // Pass current user to the view model
+                CurrentUser = currentUser
             };
 
             return View(viewModel);
@@ -83,23 +88,30 @@ namespace sybring_project.Controllers
 
 
 
-        [HttpGet]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, string month)
         {
-            if (id == null)
+            if (id != null)
             {
-                return NotFound();
+                // Retrieve details for a specific time history based on id
+                var timeHistory = await _timeService.GetTimeHistoryByIdAsync(id.Value);
+                if (timeHistory == null)
+                {
+                    return NotFound();
+                }
+                return View(timeHistory);
             }
-
-            var timeHistory = await _context.TimeHistories.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (timeHistory == null)
+            else if (!string.IsNullOrEmpty(month))
             {
-                return NotFound();
+                // Retrieve a list of time histories for the specified month
+                var timeHistories = await _timeService.GetTimeHistoriesForMonthAsync(month);
+                return View(timeHistories); // Render the "Details" view with the list of time histories
             }
-
-            return View(timeHistory);
+            else
+            {
+                return BadRequest("Invalid parameters provided.");
+            }
         }
+
 
 
 
@@ -149,9 +161,37 @@ namespace sybring_project.Controllers
 
 
 
+        //good work without validation
 
         //[Authorize(Roles = "Admin,underconsult")]
+        //[HttpPost]
+        //public async Task<IActionResult> Create(List<DayDataVM> weekData, decimal scheduledHoursPerWeek)
+        //{
+        //    if (weekData == null || weekData.Count == 0)
+        //    {
+        //        return BadRequest("No data provided.");
+        //    }
+
+        //    var userId = _userManager.GetUserId(User);
+
+        //    foreach (var dayData in weekData)
+        //    {
+
+        //        // Add the report
+        //        await _timeService.AddReportAsync(dayData, userId, scheduledHoursPerWeek);
+
+        //    }
+
+        //    return RedirectToAction("Index");
+        //}
+
+
+
+
+        //recent work for validation
+
         [HttpPost]
+        [Authorize(Roles = "Admin, underconsult")]
         public async Task<IActionResult> Create(List<DayDataVM> weekData, decimal scheduledHoursPerWeek)
         {
             if (weekData == null || weekData.Count == 0)
@@ -161,16 +201,37 @@ namespace sybring_project.Controllers
 
             var userId = _userManager.GetUserId(User);
 
+            // Fetching existing time reports for the user
+            var existingTimeReportsForUser = await _db.TimeHistories
+                .Include(t => t.Users)
+                .Where(t => t.Users.Any(u => u.Id == userId))
+                .ToListAsync();
+
+            // Checking if any time reports already exist
+            var existingTimeReports = existingTimeReportsForUser
+                .Where(t => weekData.Any(d => d.Date.Date == t.Date.Date))
+                .ToList();
+
+            if (existingTimeReports.Count > 0)
+            {
+                ModelState.AddModelError("", "A time report already exists. You cannot submit a new report for the selected week.");
+                return View("Create", weekData); // Return the view with validation errors
+            }
+
             foreach (var dayData in weekData)
             {
-
-                // Add the report
+                // Adding the report to database
                 await _timeService.AddReportAsync(dayData, userId, scheduledHoursPerWeek);
-
             }
 
             return RedirectToAction("Index");
         }
+
+
+
+
+
+
 
         public async Task<IActionResult> Delete(int id)
         {
@@ -178,6 +239,12 @@ namespace sybring_project.Controllers
             return RedirectToAction("Index");
 
         }
+
+
+
+
+
+
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
@@ -247,7 +314,12 @@ namespace sybring_project.Controllers
 
 
 
-
+        [HttpGet]
+        public async Task<IActionResult> GetTimeHistoriesByWeek(string userId)
+        {
+            var timeHistories = await _timeService.GetHistoryByWeekNUser(userId, "week");
+            return Ok(timeHistories);
+        }
 
 
 
