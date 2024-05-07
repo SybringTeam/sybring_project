@@ -37,9 +37,6 @@ namespace sybring_project.Repos.Interfaces
             // ... (andra metoder)
 
             Task<IEnumerable<TimeHistory>> GetTimeHistoriesAsync(string userId, string dateRange);
-
-
-        void DeleteOldData();  //TimeTrigger method
-
+        void DeleteOldData();
     }
 }
