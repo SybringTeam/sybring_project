@@ -14,17 +14,15 @@
 
     @if (User.IsInRole("admin") || User.IsInRole("superadmin"))
 {
-    <div class="mb-3">
-        <label>Select User:</label>
-        <select id="selectedUserId" class="form-select" onchange="submitForm()">
-            <option value=""></option>
-            @foreach (var user in ViewBag.UserList)
-            {
-                <option value="@user.Value">@user.Text</option>
-            }
-        </select>
-    </div>
+        <div class="mb-3">
+            <label for="searchUser">Search User:</label>
+            <input type="text" id="searchUser" class="form-control" placeholder="Enter user name" onkeyup="filterUsers()">
+        </div>
 }
+
+    <div id="billingInfo">
+
+
 
 <table class="table table-responsive" id="Mytable">
     <thead>
@@ -114,3 +112,25 @@
     </tbody>
 </table>
 </div>
+</div>
+
+<script>
+    function filterUsers() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchUser");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("Mytable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[5]; // Assuming the User Name column is the 6th column (index 5)
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
