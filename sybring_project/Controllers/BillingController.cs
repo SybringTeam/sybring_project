@@ -39,7 +39,8 @@ namespace sybring_project.Controllers
             var userId = _userManager.GetUserId(User);
             var billingList = await _billingServices.GetBillingAsync(userId);
 
-            var users = await _userManager.Users.OrderBy(u => u.FirstName).ThenBy(u => u.LastName)
+            var users = await _userManager.Users.OrderBy(u => u.FirstName)
+                .ThenBy(u => u.LastName)
                 .Select(u => new SelectListItem
             {
                 Value = u.Id,
@@ -47,6 +48,8 @@ namespace sybring_project.Controllers
             }).ToListAsync();
 
             ViewBag.UserList = users;
+
+
 
             return View(billingList);
         }

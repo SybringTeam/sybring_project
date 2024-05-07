@@ -10,7 +10,9 @@
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
 
-@if (User.IsInRole("admin") || User.IsInRole("superadmin"))
+<div>
+
+    @if (User.IsInRole("admin") || User.IsInRole("superadmin"))
 {
     <div class="mb-3">
         <label>Select User:</label>
@@ -60,7 +62,7 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td style="width:100px;">
-
+                        <a href="@item.BlobLink" download>
                     <img src="@item.BlobLink" class="card-img-top" alt="...">
                 </td>
                 <td>
@@ -111,3 +113,4 @@
         }
     </tbody>
 </table>
+</div>
