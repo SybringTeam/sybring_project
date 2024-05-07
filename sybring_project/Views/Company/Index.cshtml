@@ -13,9 +13,9 @@
             <table id="myTable" class="table">
                 <thead>
                     <tr>
-                        @*  <th>
-                        @Html.DisplayNameFor(model => model.Id)
-                        </th> *@
+                        <th>
+                            @Html.DisplayNameFor(model => model.Project)
+                        </th>
                         <th>
                             @Html.DisplayNameFor(model => model.SupervisorName)
                         </th>
@@ -34,12 +34,8 @@
                         <th>
                             @Html.DisplayNameFor(model => model.CompanyAddress)
                         </th>
-                        @*  <th>
-                        @Html.DisplayNameFor(model => model.ProjectId)
-                        </th> *@
-                        <th>
-                            @Html.DisplayNameFor(model => model.Project)
-                        </th>
+                       
+                      
                         <th></th>
                     </tr>
                 </thead>
@@ -47,30 +43,6 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            @*  <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                        </td> *@
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SupervisorName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CompanyWeb)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SupervisorPhone)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SupervisorEmail)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OrgNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CompanyAddress)
-                            </td>
-                            @* <td>
-                        @Html.DisplayFor(modelItem => item.ProjectId)
-                        </td>  *@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Project.Name)
                             </td>
@@ -98,6 +70,26 @@
                                     </ul>
                                 </div>
                             </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SupervisorName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CompanyWeb)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SupervisorPhone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SupervisorEmail)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OrgNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CompanyAddress)
+                            </td>
+                           
+                          
                         </tr>
                     }
                 </tbody>
