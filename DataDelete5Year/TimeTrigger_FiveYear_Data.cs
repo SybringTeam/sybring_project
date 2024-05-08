@@ -22,7 +22,7 @@ namespace DataDelete5Year
 
 
         [Function("TimeTrigger_FiveYear_Data")]
-        public void Run([TimerTrigger("0 0 12 * * 1", RunOnStartup = false)] TimerInfo myTimer)
+        public void Run([TimerTrigger("0 0 12 * * 1", RunOnStartup = true)] TimerInfo myTimer)
         {
             // This triggers every Monday at 12:00 PM
 
