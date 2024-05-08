@@ -6,32 +6,6 @@
 }
 
 <h1>Time History Records</h1>
-
-@* @using (Html.BeginForm("SelectUserAndDate", "Time", FormMethod.Post, new { id = "timeHistoryForm" }))
-{
-    <div class="mb-3">
-        @if (User.IsInRole("admin") || User.IsInRole("superadmin"))
-        {
-            <div class="mb-3">
-                @Html.Label("selectedUserId", "Select User:")
-                @Html.DropDownList("selectedUserId", Model.UserList, "Select User", new { @class = "form-select", onchange = "submitForm()" })
-            </div>
-        }
-        @if (User.IsInRole("underconsult"))
-        {
-            <label>User:</label>
-            <span>@Model.CurrentUser</span>
-        }
-    </div>
-
-    <div class="mb-3">
-        @Html.Label("selectedDateRange", "Select Date Range:")
-        @Html.DropDownList("selectedDateRange", Model.DateRanges, "Select Date Range", new { @class = "form-select", onchange = "submitForm()" })
-    </div>
-
-    <button type="submit" class="btn btn-primary">Show Time History</button>
-} *@
-
 @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
 {
     <div class="alert alert-danger">
@@ -49,7 +23,11 @@
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>User</th>
+
+                        @if (User.Identity.IsAuthenticated && (User.IsInRole("superadmin") || User.IsInRole("admin")))
+                        {
+                            <th>User</th>
+                        }
                         <th>Month</th>
                         <th>Total Working Hours</th>
                     </tr>
@@ -66,7 +44,10 @@
                             if (!displayedUsers.Contains(userFullName))
                             {
                                 <tr>
-                                    <td>@userFullName</td>
+                                    @if (User.Identity.IsAuthenticated && (User.IsInRole("superadmin") || User.IsInRole("admin")))
+                                    {
+                                        <td>@userFullName</td>
+                                    }
                                     <td>@DateTime.ParseExact(monthGroup.Key, "yyyy-MM", CultureInfo.InvariantCulture).ToString("MMMM yyyy")</td>
                                     <td>@monthGroup.Value.Sum(th => th.TotalWorkingHours)</td>
                                     <!-- Add a link/button to view details -->
