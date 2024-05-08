@@ -59,10 +59,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
+
                 <td style="width:100px;">
                         <a href="@item.BlobLink" download>
                     <img src="@item.BlobLink" class="card-img-top" alt="...">
                 </td>
+                
                 <td>
                     @Html.DisplayFor(modelItem => item.Cost)
                 </td>

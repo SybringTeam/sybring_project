@@ -80,7 +80,7 @@ namespace sybring_project.Controllers
         {
             if (!User.IsInRole("superadmin"))
             {
-                return Forbid(); 
+                return Forbid();
             }
             if (newRole != "underconsult" && newRole != "admin" && newRole != "archive")
             {
@@ -104,32 +104,10 @@ namespace sybring_project.Controllers
         }
 
 
-
-
-
-        //public async Task<IActionResult> UpdateStatus()
-        //{
-        //    UserVM addStatus = new UserVM();
-
-        //    var allStatuses = await _userServices.GetStatusListAsync(); 
-
-        //    foreach (var status in allStatuses)
-        //    {
-        //        addStatus.Statuses.Add(new SelectListItem
-        //        {
-        //            Value = status.Id.ToString(),
-        //            Text = status.Name
-        //        });
-        //    }
-
-        //    return View(addStatus);
-        //}
-
         [Authorize(Roles = "admin, superadmin")]
         [HttpPost]
         public async Task<IActionResult> UpdateStatus(string userId, int statusId)
         {
-
             await _userServices.AddStatusToUserAsync(userId, statusId);
             return RedirectToAction("Index");
 
@@ -145,7 +123,7 @@ namespace sybring_project.Controllers
 
 
         [Authorize(Roles = "admin, superadmin")]
-         public async Task<IActionResult> RoleView(string roleName)
+        public async Task<IActionResult> RoleView(string roleName)
         {
             ViewBag.RoleName = roleName; // Pass the roleName to the view
 
@@ -352,7 +330,6 @@ namespace sybring_project.Controllers
         [HttpGet]
         public async Task<IActionResult> SendEmail()
         {
-
             var users = await _userServices.GetAllUserAsync();
             return View(users);
 
@@ -376,10 +353,10 @@ namespace sybring_project.Controllers
 
 
 
-        public async Task<IActionResult> ConfirmEmail(string userId) 
+        public async Task<IActionResult> ConfirmEmail(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) 
+            if (user == null)
             {
                 return NotFound();
             }
