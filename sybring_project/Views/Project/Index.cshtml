@@ -5,9 +5,8 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="card-title p-3">
-    <h2><strong> Project List </strong></h2>
-</div>
+<h1 class="card-title fs-3">Project List</h1>
+
 <div class="section">
     <div class="row">
         <div id="ProjectContainer">
@@ -56,8 +55,9 @@
 
                                 <td>
                                     <a href="#" onclick="showProjectDetails('@item.Id');">
+                                        <div class="card-title">
                                         @item.Name
-
+                                        </div>
                                     </a>
                                 </td>
 

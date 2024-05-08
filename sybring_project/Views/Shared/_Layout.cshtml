@@ -133,7 +133,7 @@
                             </li>
 
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" asp-area="Identity" asp-page="/Account/Manage/Index">
+                                <a class="dropdown-item d-flex align-items-center" asp-area="Identity" asp-page="/Account/Manage/UserOverView">
                                     <i class="bi bi-person"></i>
                                     <span>My Profile</span>
                                 </a>
@@ -209,12 +209,12 @@
                     <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
                             <a href="@Url.Action("Index", "User")">
-                                <i class="bi bi-circle"></i><span>User</span>
+                                <i class="bi bi-circle"></i><span>User List</span>
                             </a>
                         </li>
                         <li>
                             <a href="@Url.Action("Index", "Project")">
-                                <i class="bi bi-circle"></i><span>Project</span>
+                                <i class="bi bi-circle"></i><span>Project List</span>
                             </a>
                         </li>
                         @if (User.Identity.IsAuthenticated && User.IsInRole("superadmin"))
@@ -227,12 +227,12 @@
                         }
                         <li>
                             <a href="@Url.Action("Index","Time")">
-                                <i class="bi bi-circle"></i><span>Time Reports</span>
+                                <i class="bi bi-circle"></i><span>Time Report List</span>
                             </a>
                         </li>
                         <li>
                             <a href="@Url.Action("Index","Company")">
-                                <i class="bi bi-circle"></i><span>Company list</span>
+                                <i class="bi bi-circle"></i><span>Company List</span>
                             </a>
                         </li>
                         <li>
@@ -424,7 +424,7 @@
                 <li class="nav-heading">Pages</li>
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" asp-area="Identity" asp-page="/Account/Manage/Index">
+                    <a class="nav-link collapsed" asp-area="Identity" asp-page="/Account/Manage/UserOverView">
                         <i class="bi bi-person"></i>
                         <span>Profile</span>
                     </a>
