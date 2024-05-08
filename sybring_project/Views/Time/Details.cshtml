@@ -1,88 +1,140 @@
-﻿@model sybring_project.Models.Db.TimeHistory
+﻿@model IEnumerable<sybring_project.Models.Db.TimeHistory>
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Time History Details</h1>
-
 <div>
+    <h1>Time History for @ViewBag.MonthYear - Week <span id="selectedWeekNumber">1</span></h1> <!-- Display selected week number here -->
+    <h4>Select Week</h4>
+    <select id="weekNumber"></select>
+
     <table class="table">
-        <tr>
-            <th>ID</th>
-            <td>@Model.Id</td>
-        </tr>
-        <tr>
-            <th>Date</th>
-            <td>@Model.Date</td>
-        </tr>
-        <tr>
-            <th>Schedule</th>
-            <td>@Model.Schedule</td>
-        </tr>
-        <tr>
-            <th>Start Work</th>
-            <td>@Model.StartWork</td>
-        </tr>
-        <tr>
-            <th>End Work</th>
-            <td>@Model.EndWork</td>
-        </tr>
-        <tr>
-            <th>Start Break</th>
-            <td>@Model.StartBreak</td>
-        </tr>
-        <tr>
-            <th>End Break</th>
-            <td>@Model.EndBreak</td>
-        </tr>
-        <tr>
-            <th>Total Working Hours</th>
-            <td>@Model.TotalWorkingHours</td>
-        </tr>
-        <tr>
-            <th>Working Hours</th>
-            <td>@Model.WorkingHours</td>
-        </tr>
-        <tr>
-            <th>Flexi Time</th>
-            <td>@Model.FlexiTime</td>
-        </tr>
-        <tr>
-            <th>More Time</th>
-            <td>@Model.MoreTime</td>
-        </tr>
-        <tr>
-            <th>Attendance Time</th>
-            <td>@Model.AttendanceTime</td>
-        </tr>
-        <tr>
-            <th>Annual Leave</th>
-            <td>@Model.AnnualLeave</td>
-        </tr>
-        <tr>
-            <th>Sick Leave</th>
-            <td>@Model.SickLeave</td>
-        </tr>
-        <tr>
-            <th>Leave of Absence</th>
-            <td>@Model.LeaveOfAbsence</td>
-        </tr>
-        <tr>
-            <th>Childcare</th>
-            <td>@Model.Childcare</td>
-        </tr>
-        <tr>
-            <th>Overtime</th>
-            <td>@Model.Overtime</td>
-        </tr>
-        <tr>
-            <th>Inconvenient Hours</th>
-            <td>@Model.InconvenientHours</td>
-        </tr>
+        <thead>
+            <tr>
+                <th></th> <!-- Placeholder for empty cell in the top-left corner -->
+                @foreach (var timeEntry in Model)                {
+                   
+                    <th>@timeEntry.Date.ToShortDateString()</th>
+                }
+            </tr>
+        </thead>
+        <tbody id="weekDaysBody">
+            <tr>
+                <th>Start Time</th>
+                @foreach (var timeEntry in Model)
+                {
+                    <td>@timeEntry.StartWork</td>
+                }
+            </tr>
+            <tr>
+                <th>End Time</th>
+                @foreach (var timeEntry in Model)
+                {
+                    <td>@timeEntry.EndWork</td>
+                }
+            </tr>
+            <!-- Additional details rows -->
+            <tr>
+                <th>Lunch Start</th>
+                @foreach (var timeEntry in Model)
+                {
+                    <td>@timeEntry.StartBreak</td>
+                }
+            </tr>
+            <tr>
+                <th>Lunch End</th>
+                @foreach (var timeEntry in Model)
+                {
+                    <td>@timeEntry.EndBreak</td>
+                }
+            </tr>
+            <tr>
+                <th>Working hour</th>
+                @foreach (var timeEntry in Model)
+                {
+                    <td>@timeEntry.WorkingHours</td>
+                }
+            </tr>
+            <tr>
+                <th>Overtime</th>
+                @foreach (var timeEntry in Model)
+                {
+                    <td>@timeEntry.Overtime</td>
+                }
+            </tr>
+            <tr>
+                <th>Summary</th>
+                @foreach (var timeEntry in Model)
+                {
+                    <td>@timeEntry.TotalWorkingHours</td>
+                }
+            </tr>
+            <!-- Add more details rows here -->
+        </tbody>
     </table>
 </div>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+<script>
+    // Fetch red days data from the API
+    fetch('https://sholiday.faboul.se/dagar/v2.1/2024')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('API Response:', data);
+
+            const allDays = data.dagar;
+
+            const weekNumbers = new Set(allDays.map(day => parseInt(day.vecka)).filter(weekNumber => !isNaN(weekNumber)));
+            const selectElement = document.getElementById('weekNumber');
+            weekNumbers.forEach(weekNumber => {
+                const option = document.createElement('option');
+                option.textContent = 'Week ' + weekNumber;
+                option.value = weekNumber;
+                selectElement.appendChild(option);
+            });
+
+            // dropdown
+
+            selectElement.addEventListener('change', function () {
+                const selectedWeek = parseInt(this.value);
+                const selectedWeekDays = allDays.filter(day => parseInt(day.vecka) === selectedWeek);
+
+                // Update selected week number display
+                document.getElementById('selectedWeekNumber').textContent = selectedWeek; // Display selected week number
+
+                // Update table body
+                const tbody = document.getElementById('weekDaysBody');
+                tbody.innerHTML = ''; // Clear existing tbody content
+
+                // Loop through each day of the selected week
+                selectedWeekDays.forEach(day => {
+                    const tr = document.createElement('tr');
+                    const startDate = new Date(day.datum);
+                    const isSunday = startDate.getDay() === 0; // Check if it's Sunday
+                    const isRedDay = day['röd dag'] === 'Ja' || isSunday; // Check if it's a holiday or Sunday
+
+                    // Create and append cells for each day
+                    for (let i = 0; i < Model.length; i++) {
+                        const td = document.createElement('td');
+                        td.textContent = Model[i].toLocaleTimeString(); // You can adjust the time format here
+                        td.style.color = isRedDay ? 'red' : 'black'; // Apply color based on holiday or Sunday
+                        tr.appendChild(td);
+                    }
+
+                    tbody.appendChild(tr);
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+</script>
