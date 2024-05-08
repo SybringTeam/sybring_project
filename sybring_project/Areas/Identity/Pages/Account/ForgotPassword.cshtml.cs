@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using NuGet.Common;
 using sybring_project.Controllers;
 using sybring_project.Models.Db;
 
@@ -22,7 +24,7 @@ namespace sybring_project.Areas.Identity.Pages.Account
     {
         private readonly UserManager<User> _userManager;
         private readonly IEmailSender _emailSender;
-      
+
 
         public ForgotPasswordModel(UserManager<User> userManager, IEmailSender emailSender)
         {
@@ -69,11 +71,13 @@ namespace sybring_project.Areas.Identity.Pages.Account
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Page(
-                    "/Account/ResetPassword",
-                    pageHandler: null,
-                    values: new { area = "Identity", code },
-                    protocol: Request.Scheme);
+                
+                var callbackUrl = Url.Page(nameof(ResetPassword), "Account", 
+                    new { code, email = user.Email }, Request.Scheme);
+                //"/Account/ResetPassword",
+                    //pageHandler: null,
+                    //values: new { area = "Identity", code },
+                    //protocol: Request.Scheme);
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
