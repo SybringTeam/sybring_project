@@ -5,68 +5,33 @@
 }
 
 <div>
-    <table class="table">
+    <table class="table hover" id="Mytable">
         <thead>
             <tr>
-                <th></th> <!-- Placeholder for empty cell in the top-left corner -->
-                @foreach (var timeEntry in Model)                {
-                   
-                    <th>@timeEntry.Date.ToShortDateString()</th>
-                }
+                <th>Datum</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Lunch Start</th>
+                <th>Lunch End</th>
+                <th>Working hour</th>
+                <th>Overtime</th>
+                <th>Summary</th>
             </tr>
         </thead>
         <tbody id="weekDaysBody">
-            <tr>
-                <th>Start Time</th>
-                @foreach (var timeEntry in Model)
-                {
+            @foreach (var timeEntry in Model)
+            {
+                <tr>
+                    <td>@timeEntry.Date.ToShortDateString()</td>
                     <td>@timeEntry.StartWork</td>
-                }
-            </tr>
-            <tr>
-                <th>End Time</th>
-                @foreach (var timeEntry in Model)
-                {
                     <td>@timeEntry.EndWork</td>
-                }
-            </tr>
-            <!-- Additional details rows -->
-            <tr>
-                <th>Lunch Start</th>
-                @foreach (var timeEntry in Model)
-                {
                     <td>@timeEntry.StartBreak</td>
-                }
-            </tr>
-            <tr>
-                <th>Lunch End</th>
-                @foreach (var timeEntry in Model)
-                {
                     <td>@timeEntry.EndBreak</td>
-                }
-            </tr>
-            <tr>
-                <th>Working hour</th>
-                @foreach (var timeEntry in Model)
-                {
                     <td>@timeEntry.WorkingHours</td>
-                }
-            </tr>
-            <tr>
-                <th>Overtime</th>
-                @foreach (var timeEntry in Model)
-                {
                     <td>@timeEntry.Overtime</td>
-                }
-            </tr>
-            <tr>
-                <th>Summary</th>
-                @foreach (var timeEntry in Model)
-                {
                     <td>@timeEntry.TotalWorkingHours</td>
-                }
-            </tr>
-            <!-- Add more details rows here -->
+                </tr>
+            }
         </tbody>
     </table>
 </div>
