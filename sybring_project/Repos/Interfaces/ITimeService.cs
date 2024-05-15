@@ -33,9 +33,12 @@ namespace sybring_project.Repos.Interfaces
 
         //Task<Dictionary<string, double>> GenerateTimeReportByDaysAsync(DateTime startDate, DateTime endDate);
 
+
         Task<IEnumerable<TimeHistory>> GetTimeHistoriesAsync(string userId, string dateRange);
         Task<IEnumerable<TimeHistory>> GetHistoryByWeekNUser(string userId, string dateRange);
         Task<IEnumerable<TimeHistory>> GetTimeHistoriesForMonthAsync(string month);
+
+        void DeleteOldData();  //TimeTrigger method
 
 
 
@@ -47,6 +50,7 @@ namespace sybring_project.Repos.Interfaces
 
 
         Task<IEnumerable<User>> GetUsersWithoutTimeReportForPreviousWeek();
+
 
     }
 }

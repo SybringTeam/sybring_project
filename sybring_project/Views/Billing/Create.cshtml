@@ -12,7 +12,7 @@
     <div class="container col-md-6">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Add Billing:-&nbsp &nbsp <span style="color: green;">@Model.FullName || @User.Identity.Name</span></h5>
+                <h5 class="card-title">Add Billing: - &nbsp &nbsp <span style="color: green;"> || @User.Identity.Name</span></h5>
 
                 <form asp-action="Create" enctype="multipart/form-data" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -25,7 +25,7 @@
                     </div>
                     <div class="mb-2">
                         <div class="form-floating">
-                            <textarea asp-for="Description" class="form-control" id="floatingDescription" placeholder="Description" style="height: 70px;"></textarea>
+                            <textarea asp-for="Description" class="form-control" id="floatingDescription" placeholder="Description" style="height: 70px;" required></textarea>
                             <label for="floatingDescription">Description</label>
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
@@ -34,7 +34,7 @@
                     <div class="mb-2">
                         <label for="floatingProjectId">Project:</label>
                         <div class="form-label">
-                            <select asp-for="ProjectId" id="floatingProjectId" aria-label="Project" class="form-select" multiple>
+                            <select asp-for="ProjectId" id="floatingProjectId" aria-label="Project" class="form-select" multiple required>
                                 @foreach (var project in Model.ProjectId)
                                 {
                                     <option value="@project.Id">@project.Name</option>
@@ -48,22 +48,23 @@
                 
 
                     <div class="mb-2">
+                        <span asp-validation-for="Cost" class="text-danger">Enter The Cost Without VAT.</span>
                         <div class="form-floating">
-                            <input asp-for="Cost" class="form-control" id="floatingCost" placeholder="Cost">
+                            <input asp-for="Cost" class="form-control" id="floatingCost" placeholder="Cost" required>
                             <label for="floatingCost">Cost</label>
-                            <span asp-validation-for="Cost" class="text-danger">Enter The Cost Without VAT.</span>
+                            
                         </div>
                     </div>
                    
 
                     <div class="form-group mb-2">
                         <label asp-for="File">Upload File</label>
-                        <input asp-for="File" type="file" class="form-control" />
+                        <input asp-for="File" type="file" class="form-control" required />
                         <span asp-validation-for="File" class="text-danger"></span>
                     </div>
 
                     <div class="text-center">
-                        <input type="hidden" name="projectId" value="@Model.ProjectId" />
+                        <input type="hidden" name="projectId" value="@Model.ProjectId" required />
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>

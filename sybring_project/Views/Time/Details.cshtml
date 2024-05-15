@@ -6,6 +6,7 @@
     ViewData["Title"] = "Details";
 }
 
+
 <style>
     /* Style for the table */
     .table {
@@ -64,11 +65,13 @@
             </tbody>
         </table>
     </div>
+
 </div>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
 
 <script>
     // Fetch red days data from the API
@@ -121,6 +124,7 @@
 
                     tbody.appendChild(tr);
                 });
+                $('.datatable').DataTable();
             });
         })
         .catch(error => {

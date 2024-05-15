@@ -49,8 +49,7 @@ namespace sybring_project.Models.Db.Email
 
                 try
                 {
-
-                    smtpClient.SendMailAsync(mailMessage);
+                    smtpClient.Send(mailMessage);
                     Console.WriteLine("Email sent successfully!");
                 }
                 catch (Exception ex)
@@ -61,7 +60,5 @@ namespace sybring_project.Models.Db.Email
 
             return Task.CompletedTask;
         }
-
-               
     }
 }

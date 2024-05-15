@@ -2,43 +2,61 @@
 
 @{
     ViewData["Title"] = "Billing Details";
- 
 }
 
-<h1>Billing Details</h1>
+<h1 class="card-title fs-3">Expense Details</h1>
 
-<div class="row">
-    <div class="col-md-6">
-        <dl class="row">
-            <dt class="col-sm-4 text-right">ID:</dt>
-            <dd class="col-sm-8">@Model.Id</dd>
+<div class="card col-md-12 p-3">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3 text-right"><strong>Name:</strong></div>
+                    <div class="col-md-3 ">
+                        @foreach (var user in Model.Users)
+                        {
+                            @user.FirstName @user.LastName
+                        }
+                    </div>
+                </div>
 
-            <dt class="col-sm-4 text-right">Description:</dt>
-            <dd class="col-sm-8">@Model.Description</dd>
+                <div class="row">
+                    <div class="col-md-3 text-right"><strong>Description:</strong></div>
+                    <div class="col-md-3">@Model.Description</div>
+                </div>
 
-            <dt class="col-sm-4 text-right">Cost:</dt>
-            <dd class="col-sm-8">@Model.Cost</dd>
+                <div class="row">
+                    <div class="col-md-3 text-right"><strong>Cost:</strong></div>
+                    <div class="col-md-3">@Model.Cost</div>
+                </div>
 
-            <dt class="col-sm-4 text-right">Image Link:</dt>
-            <dd class="col-sm-8">
-                <a href="@Model.BlobLink" download>
-                <img src="@Model.BlobLink" class="card-img-top" alt="..." width="100px;">
-            </dd>
+                <div class="row">
+                    <div class="col-md-3 text-right"><strong>Project:</strong></div>
+                    <div class="col-md-3">
+                        <ul>
+                            @foreach (var project in Model.ProjectId)
+                            {
+                                <li>@project.Name</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-            <dt class="col-sm-4 text-right">Project:</dt>
-            <dd class="col-sm-8">
-                <ul>
-                    @foreach (var item in @Model.ProjectId)
-                    {
-                        <li>
-                            @item.Name
-                        </li>
-                    }
-                </ul>
-            </dd>
-        </dl>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <strong>Image:</strong><br>
+                        <a href="@Model.BlobLink" download>
+                            <img src="@Model.BlobLink" class="card-img-top" alt="Image" style="max-width: 300px;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
 </div>
