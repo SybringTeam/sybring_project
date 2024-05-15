@@ -4,8 +4,8 @@
     ViewData["Title"] = "Details";
 }
 
-<div>
-    <table class="table hover" id="Mytable">
+<div class="container bg-white">
+    <table class="datatable hover" >
         <thead>
             <tr>
                 <th>Datum</th>
@@ -39,6 +39,7 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
 
 <script>
     // Fetch red days data from the API
@@ -93,6 +94,7 @@
 
                     tbody.appendChild(tr);
                 });
+                $('.datatable').DataTable();
             });
         })
         .catch(error => {
