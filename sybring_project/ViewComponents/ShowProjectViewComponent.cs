@@ -31,6 +31,7 @@ namespace sybring_project.ViewComponents
                     ViewBag.Project = project;
 
                     ViewBag.AssignedUsers = assignedUsers;
+
                     if (assignedUsers != null)
                     {
                         ViewBag.AssignedUsers = assignedUsers;
