@@ -8,17 +8,26 @@ using System.Threading.Tasks;
 using System.Globalization;
 
 
+
+
 namespace sybring_project.Repos.Services
 {
     public class TimeService : ITimeService
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<User> _userManager;
+        private readonly ILogger<TimeService> _logger;
+        private readonly IUserServices _userServices;
 
-        public TimeService(ApplicationDbContext db, UserManager<User> userManager)
+
+
+
+        public TimeService(ApplicationDbContext db, UserManager<User> userManager, ILogger<TimeService> logger, IUserServices userServices)
         {
             _db = db;
             _userManager = userManager;
+            _logger = logger;
+            _userServices = userServices;
         }
 
         public async Task<List<TimeHistory>> GetTimeListAsync(string userId)
@@ -56,8 +65,8 @@ namespace sybring_project.Repos.Services
 
         public async Task AddReportAsync(DayDataVM dayDataVM, string userId, decimal scheduledHoursPerWeek)
         {
-           decimal totalWorkingHours = CalculateWorkingHoursAsync(dayDataVM, scheduledHoursPerWeek);
-           const decimal standardWorkingHoursPerDay = 8;
+            decimal totalWorkingHours = CalculateWorkingHoursAsync(dayDataVM, scheduledHoursPerWeek);
+            const decimal standardWorkingHoursPerDay = 8;
 
             var timeReport = new TimeHistory
             {
@@ -96,10 +105,10 @@ namespace sybring_project.Repos.Services
         public decimal CalculateWorkingHoursAsync(DayDataVM dayDataVM, decimal scheduledHoursPerWeek)
         {
             //Checking if StartWork, EndWork, StartBreak, and EndBreak are null or have default values
-                if (dayDataVM.StartWork == TimeSpan.Zero &&
-                    dayDataVM.EndWork == TimeSpan.Zero &&
-                    dayDataVM.StartBreak == TimeSpan.Zero &&
-                    dayDataVM.EndBreak == TimeSpan.Zero)
+            if (dayDataVM.StartWork == TimeSpan.Zero &&
+                dayDataVM.EndWork == TimeSpan.Zero &&
+                dayDataVM.StartBreak == TimeSpan.Zero &&
+                dayDataVM.EndBreak == TimeSpan.Zero)
             {
                 // Calculate working hours based on TotalWorkingHours input by user
                 decimal totalWorkHours = dayDataVM.TotalWorkingHours;
@@ -151,7 +160,7 @@ namespace sybring_project.Repos.Services
 
 
 
-
+        //Retrieves a time history record by its ID from the database 
         public async Task<TimeHistory> GetTimeHistoryByIdAsync(int id)
         {
             var time = await _db.TimeHistories
@@ -285,11 +294,8 @@ namespace sybring_project.Repos.Services
             return timeHistories;
         }
 
-
-
-
         //Spurti
-        //TimeTrigger method
+        //TimeTrigger method for Delete five years data
 
         public void DeleteOldData()
         {
@@ -319,6 +325,65 @@ namespace sybring_project.Repos.Services
 
 
 
+
+        //spurti
+
+
+        public async Task<IEnumerable<User>> GetUsersWithoutTimeReportForPreviousWeek()
+        {
+            // Calculate the date range for the previous week
+            DateTime startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday).AddDays(-7);
+            DateTime endDate = startDate.AddDays(6);
+
+            // Query for users who don't have time history records for the previous week
+            var usersWithoutTimeReport = await _userManager.Users
+                .Where(user => !_db.TimeHistories.Any(time => time.Users.Any(u => u.Id == user.Id) && time.Date >= startDate && time.Date <= endDate))
+                .ToListAsync();
+
+            return usersWithoutTimeReport;
+        }
+
+
+
+
+
+
+
+
+
+        // Method to check if time reports exist for the previous week
+        private async Task<bool> HasFilledTimeReportForPreviousWeek(string userId)
+        {
+            DateTime startDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + (int)DayOfWeek.Monday).AddDays(-7);
+            DateTime endDate = startDate.AddDays(6);
+
+            return await _db.TimeHistories
+                .AnyAsync(t => t.Users.Any(u => u.Id == userId) && t.Date >= startDate && t.Date <= endDate);
+        }
+
+        // TimeTrigger method for missing time report
+        public async Task ForgetTimeReport(Func<string, string, string, Task> sendEmailAsync)
+        {
+            // Get all users
+            var users = await _userServices.GetAllUserAsync();
+
+            foreach (var user in users)
+            {
+                // Check if the user has filled their time report for the previous week
+                if (!await HasFilledTimeReportForPreviousWeek(user.Id))
+                {
+                    // Send email reminders to users who haven't filled their time reports
+                    string userEmail = user.Email;
+                    string subject = "Reminder: Fill out your time report";
+                    string body = $"Dear {user.FirstName},\n\nThis is a friendly reminder to fill out your time report for the previous week. Please make sure to complete it at your earliest convenience.\n\nBest regards,\nThe Sybring Team";
+
+                    // Call method to send the email
+                    await sendEmailAsync(userEmail, subject, body);
+
+                    Console.WriteLine($"Email reminder sent to {userEmail}");
+                }
+            }
+        }
 
 
     }

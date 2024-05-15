@@ -115,7 +115,7 @@
                     }
 
                 <tr></tr>
-                <td class="header-cell" colspan="2">WorkingHours</td>
+                <td class="header-cell" colspan="2">WorkingHours(EveryDay)</td>
                     @for (int i = 0; i < Model.Count; i++)
                     {
                         <!-- Working Hours column -->
@@ -126,7 +126,7 @@
 
 
                 <tr></tr>
-                <td class="header-cell" colspan="2">Total Working Hours</td>
+                <td class="header-cell" colspan="2">Total Working Hours(alternate Option) </td>
                     @for (int i = 0; i < Model.Count; i++)
                     {
                         <!-- Total Working Hours column -->
@@ -238,8 +238,7 @@ It displays date based on select week *@
                     }
                     console.log(daysOfWeek)
 
-                  
-
+                    
                 });
 
                 // Update weekday cells
@@ -249,15 +248,37 @@ It displays date based on select week *@
                     cell.textContent = currentWeekday;
                     cell.style.color = isRedDay ? 'red' : 'black';
                 });
+
+
+
+        @*  // Disable columns corresponding to red days
+                    const redDaysIndices = selectedWeekDays
+                    .map((day, index) => (day['röd dag'] === 'Ja' ? index : -1))
+                    .filter(index => index !== -1);
+
+                    const columnCount = selectedWeekDays.length;
+                    const workInputs = document.querySelectorAll('.work-time');
+                    workInputs.forEach((input, inputIndex) => {
+                    const columnIndex = inputIndex % columnCount;
+                    if (redDaysIndices.includes(columnIndex)) {
+                    input.disabled = true;
+                    } else {
+                    input.disabled = false;
+                    }
+                    });
+ *@
+
+
+
+
+
+
+
             });
         })
         .catch(error => {
             console.error('Error fetching data:', error);
         });
-
-
-
-     
 
 
     // Function to reset TotalWorkingHours to 0 and WorkingHours to 0 and disable the respective textboxes
@@ -343,17 +364,6 @@ button.addEventListener('click', function () {
         });
     }
 });
-
-
-
-      
-
-
-
-
-
-
-
 
 
 
