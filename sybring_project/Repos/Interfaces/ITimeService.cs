@@ -42,5 +42,11 @@ namespace sybring_project.Repos.Interfaces
 
         void DeleteOldData();  //TimeTrigger method
 
+
+        Task ForgetTimeReport(Func<string, string, string, Task> sendEmailAsync); //TimeTrigger method
+
+
+        Task<IEnumerable<User>> GetUsersWithoutTimeReportForPreviousWeek();
+
     }
 }

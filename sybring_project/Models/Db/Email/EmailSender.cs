@@ -21,7 +21,7 @@ namespace sybring_project.Models.Db.Email
             _userManager = userManager;
         }
 
-        public Task SendEmailAsync(string email, string subject, string htmlMessage)
+        public  Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
 
             string smtpHost = _configuration["SmtpSettings:Host"];

@@ -19,26 +19,46 @@ namespace DataDelete5Year
            
         }
 
+      //*/5 * * * * *
 
 
         [Function("TimeTrigger_FiveYear_Data")]
-        public void Run([TimerTrigger("0 0 12 * * 1", RunOnStartup = false)] TimerInfo myTimer)
+        public void Run([TimerTrigger("0 0 12 * * 1", RunOnStartup = true)] TimerInfo myTimer)
         {
-            // This triggers every Monday at 12:00 PM
-
-            _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
-
-            if (myTimer.ScheduleStatus is not null)
+            try
             {
-                _logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
-            }
+                // This triggers every Monday at 12:00 PM
+                _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 
-            // Call the delete method  via the service
-            _timeService.DeleteOldData();
+                if (myTimer.ScheduleStatus is not null)
+                {
+                    _logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
+                }
+
+                // Call the delete method via the service
+                _timeService.DeleteOldData();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An error occurred during execution: {ex}");
+                throw; // Rethrow the exception to ensure proper error handling by Azure Functions runtime
+            }
         }
 
 
-        //*/5 * * * * *
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
