@@ -52,5 +52,6 @@ namespace sybring_project.Repos.Interfaces
         Task<IEnumerable<User>> GetUsersWithoutTimeReportForPreviousWeek();
 
 
+
     }
 }

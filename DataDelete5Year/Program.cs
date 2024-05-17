@@ -14,13 +14,12 @@ var host = new HostBuilder()
         var connectionString = ctx.Configuration["DefaultConnection"];
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.UseSqlServer(connectionString);
+            options.UseSqlServer(connectionString); 
         });
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
-        services.AddScoped<ITimeService, TimeService>();
+        services.AddScoped<ITimeService,TimeService>();
     })
     .Build();
 
 host.Run();
-

@@ -126,7 +126,7 @@
         table = document.getElementById("Mytable");
         tr = table.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[5]; // Assuming the User Name column is the 6th column (index 5)
+            td = tr[i].getElementsByTagName("td")[1]; // Användarnamn är nu i den andra kolumnen (index 1)
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
