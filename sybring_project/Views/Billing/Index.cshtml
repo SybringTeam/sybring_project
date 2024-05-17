@@ -4,115 +4,119 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Billing List</h2>
+<h1 class="card-title fs-3">Billing List</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
-</p>
+
 
 <div>
 
     @if (User.IsInRole("admin") || User.IsInRole("superadmin"))
-{
+    {
         <div class="mb-3">
-            <label for="searchUser">Search User:</label>
+            <label  class="mb-2"for="searchUser">Search User:</label>
             <input type="text" id="searchUser" class="form-control" placeholder="Enter user name" onkeyup="filterUsers()">
         </div>
-}
+    }
 
     <div id="billingInfo">
 
 
 
-<table class="table table-responsive" id="Mytable">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DateStamp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageLink)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cost)
-            </th>
-            <th>
-                Project Name
-            </th>
-
-            <th>
-                User Name
-            </th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateStamp)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td style="width:100px;">
-                        <a href="@item.BlobLink" download>
-                    <img src="@item.BlobLink" class="card-img-top" alt="...">
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cost)
-                </td>
-                <td>
-
-
-                    @if (item.ProjectId != null && item.ProjectId.Any())
-                    {
-                        <ul>
-                            @foreach (var user in item.ProjectId)
+        <table class="table table-responsive" id="Mytable">
+            <thead>
+                <tr>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Image
+                    </th>
+                    <th>
+                        Cost
+                    </th>
+                    <th>
+                        Project
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateStamp)
+                        </td>
+                        <td>
+                            @if (item.Users != null && item.Users.Any())
                             {
-                                <li>@user.Name</li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        <span>No Project associated</span>
-                    }
-                </td>
+                                <ul style="list-style-type:none;">
+                                    @foreach (var user in item.Users)
+                                    {
+                                        <li>@user.FirstName @user.LastName</li>
+                                        <li>@user.UserName</li>
 
-                <td>
-                    @if (item.Users != null && item.Users.Any())
-                    {
-                        <ul>
-                            @foreach (var user in item.Users)
+                                    }
+                                </ul>
+                            }
+                            else
                             {
-                                <li>@user.FirstName @user.LastName</li>
-                                <li>@user.UserName</li>
-
+                                <span>No users associated</span>
                             }
-                        </ul>
-                    }
-                    else
-                    {
-                        <span>No users associated</span>
-                    }
-                </td>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
 
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                        <td style="width:100px;">
+                            <a href="@item.BlobLink" download>
+                                <img src="@item.BlobLink" class="card-img-top" alt="...">
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cost)
+                        </td>
+                        <td>
+
+
+                            @if (item.ProjectId != null && item.ProjectId.Any())
+                            {
+                                <ul>
+                                    @foreach (var user in item.ProjectId)
+                                    {
+                                        <li>@user.Name</li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <span>No Project associated</span>
+                            }
+                        </td>
+
+
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
-</div>
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
 
 <script>
     function filterUsers() {
