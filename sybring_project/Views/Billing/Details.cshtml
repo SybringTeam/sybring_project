@@ -3,16 +3,15 @@
 @{
     ViewData["Title"] = "Billing Details";
 }
-
-<h1 class="card-title fs-3">Expense Details</h1>
+<h1 class="card-title fs-3">Expense Information</h1>
 
 <div class="card col-md-12 p-3">
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-3 text-right"><strong>Name:</strong></div>
-                    <div class="col-md-3 ">
+                    <div class="col-md-4 text-right"><strong>Name:</strong></div>
+                    <div class="col-md-8">
                         @foreach (var user in Model.Users)
                         {
                             @user.FirstName @user.LastName
@@ -21,18 +20,18 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-3 text-right"><strong>Description:</strong></div>
-                    <div class="col-md-3">@Model.Description</div>
+                    <div class="col-md-4 text-right"><strong>Description:</strong></div>
+                    <div class="col-md-8">@Model.Description</div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-3 text-right"><strong>Cost:</strong></div>
-                    <div class="col-md-3">@Model.Cost</div>
+                    <div class="col-md-4 text-right"><strong>Cost:</strong></div>
+                    <div class="col-md-8">@Model.Cost</div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-3 text-right"><strong>Project:</strong></div>
-                    <div class="col-md-3">
+                    <div class="col-md-4 text-right"><strong>Project:</strong></div>
+                    <div class="col-md-8">
                         <ul>
                             @foreach (var project in Model.ProjectId)
                             {
@@ -43,12 +42,12 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="row">
                     <div class="col-sm-12">
-                        <strong>Image:</strong><br>
+                        <strong>Expense Image</strong><br>
                         <a href="@Model.BlobLink" download>
-                            <img src="@Model.BlobLink" class="card-img-top" alt="Image" style="max-width: 300px;">
+                            <img src="@Model.BlobLink" class="card-img-top" alt="Image" style="max-width: 100%;">
                         </a>
                     </div>
                 </div>

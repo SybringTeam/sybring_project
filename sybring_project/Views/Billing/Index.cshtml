@@ -22,7 +22,7 @@
 
 
 
-        <table class="table table-responsive" id="Mytable">
+        <table class="table hover" id="Mytable">
             <thead>
                 <tr>
                     <th>
@@ -51,10 +51,8 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateStamp)
-                        </td>
+                    <tr onclick="window.location.href = '@Url.Action("Details", new { id = item.Id })';">
+                        <td>@Html.DisplayFor(modelItem => item.DateStamp)</td>
                         <td>
                             @if (item.Users != null && item.Users.Any())
                             {
@@ -63,7 +61,6 @@
                                     {
                                         <li>@user.FirstName @user.LastName</li>
                                         <li>@user.UserName</li>
-
                                     }
                                 </ul>
                             }
@@ -72,21 +69,14 @@
                                 <span>No users associated</span>
                             }
                         </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-
+                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
                         <td style="width:100px;">
                             <a href="@item.BlobLink" download>
                                 <img src="@item.BlobLink" class="card-img-top" alt="...">
+                            </a>
                         </td>
-
+                        <td>@Html.DisplayFor(modelItem => item.Cost)</td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Cost)
-                        </td>
-                        <td>
-
-
                             @if (item.ProjectId != null && item.ProjectId.Any())
                             {
                                 <ul>
@@ -101,11 +91,8 @@
                                 <span>No Project associated</span>
                             }
                         </td>
-
-
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>

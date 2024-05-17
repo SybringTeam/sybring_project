@@ -4,6 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
+
 <style>
     /* Style for the table */
     .table {
@@ -27,26 +28,42 @@
 <div>
     <h1>Time History Details</h1>
     @* <h4>Select Week</h4> *@
-  @*   <select id="weekNumber"></select> *@
+    @*   <select id="weekNumber"></select> *@
 
     <div style="overflow-x: auto;">
         <!-- Allow horizontal scrolling for the table -->
         <table class="table">
             <thead>
-
                 <tr>
-                    <td>@timeEntry.Date.ToShortDateString()</td>
-                    <td>@timeEntry.StartWork</td>
-                    <td>@timeEntry.EndWork</td>
-                    <td>@timeEntry.StartBreak</td>
-                    <td>@timeEntry.EndBreak</td>
-                    <td>@timeEntry.WorkingHours</td>
-                    <td>@timeEntry.Overtime</td>
-                    <td>@timeEntry.TotalWorkingHours</td>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Lunch Start</th>
+                    <th>Lunch End</th>
+                    <th>Working Hours</th>
+                    <th>Overtime</th>
+                    <th>Total Working Hours</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody id="weekDaysBody">
+                <!-- Data rows -->
+                @foreach (var timeEntry in Model)
+                {
+                    <tr>
+                        <td>@timeEntry.Date.ToShortDateString()</td>
+                        <td>@timeEntry.StartWork</td>
+                        <td>@timeEntry.EndWork</td>
+                        <td>@timeEntry.StartBreak</td>
+                        <td>@timeEntry.EndBreak</td>
+                        <td>@timeEntry.WorkingHours</td>
+                        <td>@timeEntry.Overtime</td>
+                        <td>@timeEntry.TotalWorkingHours</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <div>
@@ -77,14 +94,10 @@
                 selectElement.appendChild(option);
             });
 
-            // dropdown
-
+            // Dropdown change event listener
             selectElement.addEventListener('change', function () {
                 const selectedWeek = parseInt(this.value);
                 const selectedWeekDays = allDays.filter(day => parseInt(day.vecka) === selectedWeek);
-
-                // Update selected week number display
-                document.getElementById('selectedWeekNumber').textContent = selectedWeek; // Display selected week number
 
                 // Update table body
                 const tbody = document.getElementById('weekDaysBody');
@@ -93,17 +106,19 @@
                 // Loop through each day of the selected week
                 selectedWeekDays.forEach(day => {
                     const tr = document.createElement('tr');
-                    const startDate = new Date(day.datum);
-                    const isSunday = startDate.getDay() === 0; // Check if it's Sunday
-                    const isRedDay = day['röd dag'] === 'Ja' || isSunday; // Check if it's a holiday or Sunday
 
-                    // Create and append cells for each day
-                    for (let i = 0; i < Model.length; i++) {
-                        const td = document.createElement('td');
-                        td.textContent = Model[i].toLocaleTimeString(); // You can adjust the time format here
-                        td.style.color = isRedDay ? 'red' : 'black'; // Apply color based on holiday or Sunday
-                        tr.appendChild(td);
-                    }
+                    // Create and append cells for each detail
+                    const date = new Date(day.datum);
+                    const dateCell = document.createElement('td');
+                    dateCell.textContent = date.toLocaleDateString();
+                    tr.appendChild(dateCell);
+
+                    // Append other details cells similarly...
+
+                    // Apply color based on holiday or Sunday
+                    const isSunday = date.getDay() === 0;
+                    const isRedDay = day['röd dag'] === 'Ja' || isSunday;
+                    tr.style.color = isRedDay ? 'red' : 'black';
 
                     tbody.appendChild(tr);
                 });
@@ -115,9 +130,7 @@
         });
 
 
-
 </script>
-
 
 
 

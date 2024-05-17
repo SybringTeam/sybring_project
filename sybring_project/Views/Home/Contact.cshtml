@@ -75,8 +75,10 @@
 
         <div class="col-xl-6">
             <div class="card p-4">
-                <form action="forms/contact" method="post" class="">
+                <form action ="https://api.web3forms.com/submit" method="post" class="">
                     <div class="row gy-4">
+
+                        <input type="hidden" name="access_key" value="c021cf1f-2aa2-4169-a455-6e87ae7fd009">
 
                         <div class="col-md-6">
                             <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
@@ -95,8 +97,7 @@
                         </div>
 
                         <div class="col-md-12 text-center">
-                            <div class="loading">Loading</div>
-                            <div class="error-message"></div>
+                            
                             <div class="sent-message">Your message has been sent. Thank you!</div>
 
                             <button type="submit">Send Message</button>
@@ -112,6 +113,5 @@
 
 </section>
 
-@*  https://web3forms.com/platforms/html-contact-form
-https://www.youtube.com/watch?v=-HeadgoqJ7A&ab_channel=GreatStack
-*@
+
+
