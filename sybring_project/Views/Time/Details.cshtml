@@ -4,23 +4,36 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="container bg-white">
-    <table class="datatable hover" >
-        <thead>
-            <tr>
-                <th>Datum</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Lunch Start</th>
-                <th>Lunch End</th>
-                <th>Working hour</th>
-                <th>Overtime</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody id="weekDaysBody">
-            @foreach (var timeEntry in Model)
-            {
+<style>
+    /* Style for the table */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table th,
+        .table td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Style for the table header */
+        .table th {
+            background-color: #f2f2f2;
+        }
+</style>
+
+<div>
+    <h1>Time History Details</h1>
+    @* <h4>Select Week</h4> *@
+  @*   <select id="weekNumber"></select> *@
+
+    <div style="overflow-x: auto;">
+        <!-- Allow horizontal scrolling for the table -->
+        <table class="table">
+            <thead>
+
                 <tr>
                     <td>@timeEntry.Date.ToShortDateString()</td>
                     <td>@timeEntry.StartWork</td>
@@ -100,4 +113,14 @@
         .catch(error => {
             console.error('Error fetching data:', error);
         });
+
+
+
 </script>
+
+
+
+
+
+
+

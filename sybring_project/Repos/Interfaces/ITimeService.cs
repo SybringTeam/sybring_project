@@ -42,5 +42,16 @@ namespace sybring_project.Repos.Interfaces
 
 
 
+
+       
+
+
+        Task ForgetTimeReport(Func<string, string, string, Task> sendEmailAsync); //TimeTrigger method
+
+
+        Task<IEnumerable<User>> GetUsersWithoutTimeReportForPreviousWeek();
+
+
+
     }
 }
