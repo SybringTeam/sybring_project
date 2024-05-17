@@ -2,13 +2,13 @@
 
 
 
-<div class="container ">
+<div class="container">
     <div class="row  justify-content-center">
         <div class="col-md-12">
             <section>
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Edit User Details</h4>
+                        <h4 class="card-title">User Details - Edit</h4>
                     </div>
                    
                     <div class="card-body">
@@ -30,18 +30,18 @@
                                         <input asp-for="LastName" class="form-control" />
                                         <span asp-validation-for="LastName" class="text-danger"></span>
                                     </div>
-
+@* 
                                     <div class="form-group">
                                         <label asp-for="Age" class="mb-2 mt-2">Age:</label>
                                         <input asp-for="Age" class="form-control" />
                                         <span asp-validation-for="Age" class="text-danger"></span>
                                     </div>
-
+                                    *@
                                     <div class="form-group">
-                                        <label asp-for="Address" class="mb-2 mt-2">Address:</label>
+                                        <label asp-for="Address" class="mb-2 mt-2">Addres:</label>
                                         <input asp-for="Address" class="form-control" />
                                         <span asp-validation-for="Address" class="text-danger"></span>
-                                    </div>
+                                    </div> 
                                 </div>
 
                                 <div class="col-md-6">
@@ -51,11 +51,11 @@
                                         <span asp-validation-for="TaskDescription" class="text-danger"></span>
                                     </div>
 
-                                    <div class="form-group">
+                            @*         <div class="form-group">
                                         <label asp-for="UserIncome" class="mb-2 mt-2">Income</label>
                                         <input asp-for="UserIncome" class="form-control" />
                                         <span asp-validation-for="UserIncome" class="text-danger"></span>
-                                    </div>
+                                    </div> *@
 
                                   @*   <div class="form-group">
                                         <label asp-for="ProjectId">Project</label>

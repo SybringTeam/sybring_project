@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Isolate", "Isolate\Isolate.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resize_blob", "Resize_blob\Resize_blob.csproj", "{AF1CD331-2352-4FBC-8E0B-3B5A646B8842}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataDelete5Year", "DataDelete5Year\DataDelete5Year.csproj", "{5D39BCEA-3A0A-4AD3-9E6F-562329A172EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataDelete5Year", "DataDelete5Year\DataDelete5Year.csproj", "{5D39BCEA-3A0A-4AD3-9E6F-562329A172EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendEmailForMissedTimeReport", "SendEmailForMissedTimeReport\SendEmailForMissedTimeReport.csproj", "{5C3F8520-053A-41BB-B903-0780F13CEAA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{5D39BCEA-3A0A-4AD3-9E6F-562329A172EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D39BCEA-3A0A-4AD3-9E6F-562329A172EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D39BCEA-3A0A-4AD3-9E6F-562329A172EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C3F8520-053A-41BB-B903-0780F13CEAA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C3F8520-053A-41BB-B903-0780F13CEAA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C3F8520-053A-41BB-B903-0780F13CEAA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C3F8520-053A-41BB-B903-0780F13CEAA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
