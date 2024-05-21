@@ -1235,3 +1235,45 @@ div.dt-container select.dt-input {
     padding: 4px;
     margin-right: 10px;
 }
+
+.custom-card {
+    position: relative;
+}
+
+    .custom-card .card-img-top {
+        width: 100%;
+        height: auto;
+        position: relative; /* Ensure relative positioning for absolute positioning of child elements */
+        top: -50px; /* Adjust this value to move the background image higher */
+    }
+
+.custom-card-body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.0); /* Optional: to improve readability */
+    padding: 20px; /* Optional: to give some padding to the text */
+}
+
+    .custom-card-body .custom-logo {
+        width: 100px;
+        height: auto;
+        margin-bottom:10px;
+    }
+
+@media (max-width: 768px) {
+    .custom-card-body {
+        width: 90%; /* Ensure the text container does not overflow on smaller screens */
+        padding: 10px; /* Optional: adjust padding for smaller screens */
+    }
+
+        .custom-card-body h2 {
+            font-size: 1rem; /* Adjust heading size for smaller screens */
+        }
+
+        .custom-card-body p {
+            font-size: 1rem; /* Adjust paragraph size for smaller screens */
+        }
+}
