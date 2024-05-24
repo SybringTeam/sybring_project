@@ -249,15 +249,15 @@ namespace sybring_project.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var getById = _timeService.GetTimeHistoryByIdAsync(id);
+            var getById = await _timeService.GetTimeHistoryByIdAsync(id);
             return View(getById);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(TimeHistory updatedTimeHistory)
         {
-            var edit = _timeService.UpdateTimeHistoryAsync(updatedTimeHistory);
-            return View(edit);
+            await _timeService.UpdateTimeHistoryAsync(updatedTimeHistory);
+            return RedirectToAction("Index");
         }
 
 

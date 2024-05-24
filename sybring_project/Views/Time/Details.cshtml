@@ -1,82 +1,91 @@
 ﻿@model IEnumerable<sybring_project.Models.Db.TimeHistory>
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Time History Details";
+
+    
 }
 
-<div>
-    <h1>Time History for @ViewBag.MonthYear - Week <span id="selectedWeekNumber">1</span></h1> <!-- Display selected week number here -->
-    <h4>Select Week</h4>
-    <select id="weekNumber"></select>
+<div class="container">
+    <h1 class="display-4">Time History for @ViewBag.MonthYear - Week <span id="selectedWeekNumber">1</span></h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th></th> <!-- Placeholder for empty cell in the top-left corner -->
-                @foreach (var timeEntry in Model)                {
-                   
-                    <th>@timeEntry.Date.ToShortDateString()</th>
-                }
-            </tr>
-        </thead>
-        <tbody id="weekDaysBody">
-            <tr>
-                <th>Start Time</th>
-                @foreach (var timeEntry in Model)
-                {
-                    <td>@timeEntry.StartWork</td>
-                }
-            </tr>
-            <tr>
-                <th>End Time</th>
-                @foreach (var timeEntry in Model)
-                {
-                    <td>@timeEntry.EndWork</td>
-                }
-            </tr>
-            <!-- Additional details rows -->
-            <tr>
-                <th>Lunch Start</th>
-                @foreach (var timeEntry in Model)
-                {
-                    <td>@timeEntry.StartBreak</td>
-                }
-            </tr>
-            <tr>
-                <th>Lunch End</th>
-                @foreach (var timeEntry in Model)
-                {
-                    <td>@timeEntry.EndBreak</td>
-                }
-            </tr>
-            <tr>
-                <th>Working hour</th>
-                @foreach (var timeEntry in Model)
-                {
-                    <td>@timeEntry.WorkingHours</td>
-                }
-            </tr>
-            <tr>
-                <th>Overtime</th>
-                @foreach (var timeEntry in Model)
-                {
-                    <td>@timeEntry.Overtime</td>
-                }
-            </tr>
-            <tr>
-                <th>Summary</th>
-                @foreach (var timeEntry in Model)
-                {
-                    <td>@timeEntry.TotalWorkingHours</td>
-                }
-            </tr>
-            <!-- Add more details rows here -->
-        </tbody>
-    </table>
-</div>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <h4 class="mb-3">Select Week</h4>
+            <select id="weekNumber" class="form-select"></select>
+        </div>
+    </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+    <div class="table-responsive mt-4">
+        <table class="table table-bordered">
+            <thead class="bg-primary text-light">
+                <tr>
+                    <th></th> <!-- Placeholder for empty cell in the top-left corner -->
+                    @foreach (var timeEntry in Model)
+                    {
+                        <th>@timeEntry.Date.ToShortDateString()</th>
+                    }
+                </tr>
+            </thead>
+            <tbody id="weekDaysBody">
+                <tr>
+                    <th>Start Time</th>
+                    @foreach (var timeEntry in Model)
+                    {
+                        <td>@timeEntry.StartWork</td>
+                    }
+                </tr>
+                <tr>
+                    <th>End Time</th>
+                    @foreach (var timeEntry in Model)
+                    {
+                        <td>@timeEntry.EndWork</td>
+                    }
+                </tr>
+                <!-- Additional details rows -->
+                <tr>
+                    <th>Lunch Start</th>
+                    @foreach (var timeEntry in Model)
+                    {
+                        <td>@timeEntry.StartBreak</td>
+                    }
+                </tr>
+                <tr>
+                    <th>Lunch End</th>
+                    @foreach (var timeEntry in Model)
+                    {
+                        <td>@timeEntry.EndBreak</td>
+                    }
+                </tr>
+                <tr>
+                    <th>Working hour</th>
+                    @foreach (var timeEntry in Model)
+                    {
+                        <td>@timeEntry.WorkingHours</td>
+                    }
+                </tr>
+                <tr>
+                    <th>Overtime</th>
+                    @foreach (var timeEntry in Model)
+                    {
+                        <td>@timeEntry.Overtime</td>
+                    }
+                </tr>
+                <tr>
+                    <th>Summary</th>
+                    @foreach (var timeEntry in Model)
+                    {
+                        <td>@timeEntry.TotalWorkingHours</td>
+                    }
+                </tr>
+                <!-- Add more details rows here -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
 </div>
 
 <script>
@@ -93,9 +102,18 @@
 
             const allDays = data.dagar;
 
-            const weekNumbers = new Set(allDays.map(day => parseInt(day.vecka)).filter(weekNumber => !isNaN(weekNumber)));
+            // Retrieve week numbers from the API
+            const apiWeekNumbers = new Set(allDays.map(day => parseInt(day.vecka)).filter(weekNumber => !isNaN(weekNumber)));
+
+            // Retrieve week numbers from the Model
+            const dbWeekNumbers = new Set(@Json.Serialize(Model.Select(timeEntry => timeEntry.Date.ToShortDateString()).ToList()));
+
+            // Combine week numbers from both sources
+            const combinedWeekNumbers = new Set([...apiWeekNumbers, ...dbWeekNumbers]);
+
+            // Populate the select element with unique week numbers
             const selectElement = document.getElementById('weekNumber');
-            weekNumbers.forEach(weekNumber => {
+            combinedWeekNumbers.forEach(weekNumber => {
                 const option = document.createElement('option');
                 option.textContent = 'Week ' + weekNumber;
                 option.value = weekNumber;

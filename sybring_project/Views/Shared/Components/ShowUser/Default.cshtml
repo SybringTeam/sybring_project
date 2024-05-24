@@ -16,45 +16,66 @@
     .green {
         color: green;
     }
+
+    .accordion-button {
+        background-color: #f8f9fa;
+        color: #000;
+        font-weight: bold;
+    }
+
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+    .accordion-item {
+        border: none;
+    }
+
+    .accordion-body {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-top: none;
+    }
+
+    .card-body {
+        background-color: #fff;
+    }
+
+    .btn-outline-danger {
+        margin-top: 10px;
+    }
 </style>
 
-
-<div id="userEle" class="container-fluid">
-    @if (Model is not null)
+<div id="userEle_@Model.Id" class="container my-4">
+    @if (Model != null)
     {
-        <div class="accordion" id="userInfoAccordion">
-
+        <div class="accordion" id="userInfoAccordion_@Model.Id">
             <div class="accordion-item">
-                <h2 class="accordion-header" id="userInfoHeader">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#userInfoCollapse" aria-expanded="true" aria-controls="userInfoCollapse">
+                <h2 class="accordion-header" id="userInfoHeader_@Model.Id">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#userInfoCollapse_@Model.Id" aria-expanded="false" aria-controls="userInfoCollapse_@Model.Id">
                         User Information/ICE
                     </button>
                 </h2>
-                <div id="userInfoCollapse" class="accordion-collapse collapse show" aria-labelledby="userInfoHeader" data-bs-parent="#userInfoAccordion">
+                <div id="userInfoCollapse_@Model.Id" class="accordion-collapse collapse" aria-labelledby="userInfoHeader_@Model.Id" data-bs-parent="#userInfoAccordion_@Model.Id">
                     <div class="accordion-body">
-
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col">
-
                                     <h6><b>Name:</b> @Model.FirstName @Model.LastName</h6>
                                     <h6><b>Email:</b> @Model.Email</h6>
                                     <h6><b>Phone:</b> @Model.PhoneNumber</h6>
-                                    <h6><b>Adress:</b> @Model.Address</h6>
-                                    <h6><b>Citenzenship:</b> @Model.CitizenMembership</h6>
-
+                                    <h6><b>Address:</b> @Model.Address</h6>
+                                    <h6><b>Citizenship:</b> @Model.CitizenMembership</h6>
                                 </div>
                                 <div class="col">
-
-                                    <h6><b>ICE Name:</b>@Model.ICEContactName </h6>
-                                    <h6><b>ICE Phone:</b>@Model.UserICE </h6>
+                                    <h6><b>ICE Name:</b> @Model.ICEContactName </h6>
+                                    <h6><b>ICE Phone:</b> @Model.UserICE </h6>
                                 </div>
                                 <div>
-                                    <h6><b>Job Status</b> </h6>
+                                    <h6><b>Job Status</b></h6>
                                     <form asp-action="RemoveStatusToUser" method="post">
                                         @foreach (var status in Model.Status)
                                         {
-
                                             <div>
                                                 <label>
                                                     <strong>
@@ -63,146 +84,114 @@
                                                     </strong>
                                                 </label>
                                             </div>
-
-
                                         }
                                         @if (Model.Status != null && Model.Status.Any())
                                         {
                                             <input type="hidden" name="userId" value="@Model.Id" />
-                                            <button type="submit" class="btn btn-outline-danger btn-sm mb-2">Remove Selected Status</button>
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">Remove Selected Status</button>
                                         }
-
                                         else
                                         {
                                             <p>The User has not assigned any Job status.</p>
-
                                         }
-
                                     </form>
-
-
                                 </div>
-
-
-
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
 
-
             <div class="accordion-item">
-                <h2 class="accordion-header" id="taskDescriptionHeader">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#taskDescriptionCollapse" aria-expanded="false" aria-controls="taskDescriptionCollapse">
+                <h2 class="accordion-header" id="taskDescriptionHeader_@Model.Id">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#taskDescriptionCollapse_@Model.Id" aria-expanded="false" aria-controls="taskDescriptionCollapse_@Model.Id">
                         Task Description
                     </button>
                 </h2>
-                <div id="taskDescriptionCollapse" class="accordion-collapse collapse" aria-labelledby="taskDescriptionHeader" data-bs-parent="#userInfoAccordion">
+                <div id="taskDescriptionCollapse_@Model.Id" class="accordion-collapse collapse" aria-labelledby="taskDescriptionHeader_@Model.Id" data-bs-parent="#userInfoAccordion_@Model.Id">
                     <div class="accordion-body">
-
-
                         <div class="card-body p-3">
                             <div class="d-flex row justify-content-start">
                                 @foreach (var project in Model.ProjectId)
                                 {
-
-                                    <div class="col">
+                                    <div class="col-md-6 mb-3">
                                         <h6><b>@project.Name</b></h6>
                                         <p>@project.Description</p>
                                     </div>
-
                                 }
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
 
-
             <div class="accordion-item">
-                <h2 class="accordion-header" id="supervisorInfoHeader">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#supervisorInfoCollapse" aria-expanded="false" aria-controls="supervisorInfoCollapse">
+                <h2 class="accordion-header" id="supervisorInfoHeader_@Model.Id">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#supervisorInfoCollapse_@Model.Id" aria-expanded="false" aria-controls="supervisorInfoCollapse_@Model.Id">
                         Supervisor Information
                     </button>
                 </h2>
-                <div id="supervisorInfoCollapse" class="accordion-collapse collapse" aria-labelledby="supervisorInfoHeader" data-bs-parent="#userInfoAccordion">
+                <div id="supervisorInfoCollapse_@Model.Id" class="accordion-collapse collapse" aria-labelledby="supervisorInfoHeader_@Model.Id" data-bs-parent="#userInfoAccordion_@Model.Id">
                     <div class="accordion-body">
                         <div class="d-flex row justify-content-start">
                             @foreach (var item in Model.ProjectId)
                             {
-                                <div class="col">
-                                    <h6><strong> @item.Name</strong></h6>
+                                <div class="col-md-6 mb-3">
+                                    <h6><strong>@item.Name</strong></h6>
                                     @foreach (var supervisor in item.Companies)
                                     {
-
-                                        <div class="card-body  p-3">
-
-                                            <h6><strong>Contact Name:  </strong> @supervisor.SupervisorName</h6>
+                                        <div class="card-body p-3">
+                                            <h6><strong>Contact Name:</strong> @supervisor.SupervisorName</h6>
                                             <h6><strong>Phone:</strong> @supervisor.SupervisorName</h6>
                                             <h6><strong>Email:</strong> @supervisor.SupervisorEmail</h6>
-
                                         </div>
                                     }
                                 </div>
                             }
                         </div>
-
-
                     </div>
                 </div>
             </div>
 
-
             <div class="accordion-item">
-                <h2 class="accordion-header" id="companyInfoHeader">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#companyInfoCollapse" aria-expanded="false" aria-controls="companyInfoCollapse">
+                <h2 class="accordion-header" id="companyInfoHeader_@Model.Id">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#companyInfoCollapse_@Model.Id" aria-expanded="false" aria-controls="companyInfoCollapse_@Model.Id">
                         Company Information
                     </button>
                 </h2>
-                <div id="companyInfoCollapse" class="accordion-collapse collapse" aria-labelledby="companyInfoHeader" data-bs-parent="#userInfoAccordion">
+                <div id="companyInfoCollapse_@Model.Id" class="accordion-collapse collapse" aria-labelledby="companyInfoHeader_@Model.Id" data-bs-parent="#userInfoAccordion_@Model.Id">
                     <div class="accordion-body">
-
                         <div class="card-body p-3">
-
                             <form asp-action="RemoveProjects" method="post">
-                                <div class="d-flex row ">
-
+                                <div class="d-flex row">
                                     @foreach (var project in Model.ProjectId)
                                     {
-                                        <div class="col">
-                                            <div class="form-check  mb-2">
-                                                <div class="col">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-check mb-2">
+                                                <div>
                                                     <input type="checkbox" class="form-check-input mr-2" id="project-@project.Id" name="projectIds" value="@project.Id.ToString()" />
-                                                    <label class="form-check-label" for="project-@project.Id">
-                                                        @project.Name
-                                                    </label>
+                                                    <label class="form-check-label" for="project-@project.Id">@project.Name</label>
                                                 </div>
                                             </div>
                                             @foreach (var company in project.Companies)
                                             {
-                                                <div class="card-body col">
-                                                    <p><strong>Address: </strong>@company.CompanyAddress</p>
-                                                    <p><strong>OrgNr: </strong>@company.OrgNumber</p>
-                                                    <p><strong>Website: </strong>@company.CompanyWeb</p>
-                                                    <p><strong>Contract: </strong></p>
+                                                <div class="card-body">
+                                                    <p><strong>Address:</strong> @company.CompanyAddress</p>
+                                                    <p><strong>OrgNr:</strong> @company.OrgNumber</p>
+                                                    <p><strong>Website:</strong> @company.CompanyWeb</p>
+                                                    <p><strong>Contract:</strong></p>
                                                 </div>
                                             }
                                         </div>
                                     }
-
                                 </div>
                                 <input type="hidden" name="userId" value="@Model.Id" />
                                 @if (Model.ProjectId != null && Model.ProjectId.Any())
                                 {
-                                    <button type="submit" class="btn btn-outline-danger btn-sm mb-2" onclick="alertFunction()">Remove Selected</button>
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Remove Selected</button>
                                 }
                             </form>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -210,26 +199,21 @@
     }
 </div>
 
-
-
 <script>
-    @functions
-    {
-        string GetStatusColor(string statusName)
-        {
-            switch (statusName)
-            {
-                case "inactive":
-                    return "orange";
-                case "inprogress":
-                    return "blue";
-                case "active":
-                    return "green";
-                default:
-                    return "status-default";
-
-            }
-        }
+    function alertFunction() {
+        alert("Remove Selected");
     }
-
 </script>
+
+@functions {
+    string GetStatusColor(string statusName)
+    {
+        return statusName switch
+        {
+            "inactive" => "orange",
+            "inprogress" => "blue",
+            "active" => "green",
+            _ => "status-default",
+        };
+    }
+}
